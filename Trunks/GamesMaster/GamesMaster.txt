@@ -1,0 +1,79 @@
+1 Galaxy Size
+The size is only approximately right.
+You probably want to experiment with different sizes to get
+a galaxy that looks right. It should not be too crowded nor
+too sparse. The size should be a multiple of ten.
+@
+2 Race Spacing 
+The engine will make sure that distance between the
+primary homeworlds are at least these light years apart.
+@
+3 Core Sizes 
+The sizes of the homeworlds for each race.
+The following would give each race 3 homeworlds of sizes
+1000 250 350. The first one is the primary homeworld.
+You have to define these before any of the player definitions.
+@
+4 Empty Planets
+Within a radius [2,r] from the primary homeworld the engine
+allocates a this number of empty planets, size 200 - 1,000 for the
+race to colonize. 
+@
+5 Empty Radius
+Within a radius [2,r] from the primary homeworld the engine
+allocates a this number of empty planets, size 200 - 1,000 for the
+race to colonize. Empty_Planets and Empty_Radius define how
+many there are per race and within what radius. A number
+between 4 and 10 and a radius of  race_spacing/2.0 is a
+good guess.
+@
+6 Stuff Planets
+It is possible to add a number of 'stuff' planets. These are
+useless planets, all of size 200 or less, that are use to
+fill up the empty space between the home worlds. They make it
+possible for a players to approach (attack) other players by
+different routes. The following parameter specifies how many
+there are per race.
+@
+7 Initial tech levels
+Initial tech levels can't be lower than 1. By default any Initial 
+tech level less than 1 will be changed to 1.
+Drive - Propulsion
+Weapons - Fire power
+Shields - Defense
+Cargo - Transports
+@
+8 Full bombing
+Bombed planets are completely bombed and all population,
+industry, capital, colonists, and materials are gone.
+Normally the population and industry is reduced to 25% of
+its original value. Uncomment the next line if you want
+this option.
+@
+9 Pax Galactica
+You can enforce global peace just by putting in the number
+of turns you want to disallow players to declare war
+on each other. For example, Peace 20 means players cannot
+declare war until turn 21. (Note that players can load cargo
+at other players planets. If you do not wish to allow this
+you must make it a house rule. It cannot be prevented by the
+GalaxyNG server program.) Uncomment the next line if you
+want this option.
+@
+10 Keep Production
+If keep production is set, the production points spent
+on the previous product are preserved, otherwise all points
+are lost. Uncomment the next line if you want this option.
+@
+11 Don't kill off players
+Don't remove idle races from a game. Normally if players do
+not send in orders for a couple of turns their race self
+destructs. Uncomment the next line if you want this option.
+@
+12 Make the Galaxy a Sphere
+The galaxy can be (roughly) mapped on a sphere
+This way, the gap between x (or y) coordinates of two
+planets is computed with border lines crossing and
+reappearing on the other side. Uncomment the next line
+if you want this option.
+@
