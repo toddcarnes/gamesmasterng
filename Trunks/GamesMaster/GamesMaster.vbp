@@ -1,6 +1,5 @@
 Type=Exe
 Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\WINDOWS\system32\STDOLE2.TLB#OLE Automation
-Reference=*\G{3EDF980B-B918-4E25-81B3-7CA1BCF57C50}#1.0#0#GTimers.dll#GTimers - Timer for Games Mster using APIs
 Object={0ECD9B60-23AA-11D0-B351-00A0C9055D8E}#6.0#0; mshflxgd.ocx
 Class=GalaxyNG; GalaxyNG.cls
 Class=Games; Games.cls
@@ -30,6 +29,7 @@ Class=GetMail; GetMail.cls
 Form=frmGetMail.frm
 Module=mSysTray; SYSTRAY.BAS
 UserControl=SYSTRAY.CTL
+Object={831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0; MSCOMCTL.OCX
 Startup="Sub Main"
 HelpFile=""
 Command32=""

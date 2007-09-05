@@ -1,4 +1,5 @@
 VERSION 5.00
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
 Begin VB.MDIForm frmMain 
    BackColor       =   &H8000000C&
    Caption         =   "GalaxyNG Games Master"
@@ -8,14 +9,67 @@ Begin VB.MDIForm frmMain
    ClientWidth     =   8340
    LinkTopic       =   "MDIForm1"
    StartUpPosition =   3  'Windows Default
+   Begin MSComctlLib.StatusBar StatusBar 
+      Align           =   2  'Align Bottom
+      Height          =   315
+      Left            =   0
+      TabIndex        =   0
+      Top             =   4335
+      Width           =   8340
+      _ExtentX        =   14711
+      _ExtentY        =   556
+      _Version        =   393216
+      BeginProperty Panels {8E3867A5-8586-11D1-B16A-00C0F0283628} 
+         NumPanels       =   4
+         BeginProperty Panel1 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
+            AutoSize        =   1
+            Object.Width           =   7064
+            Text            =   "Status Messages"
+            TextSave        =   "Status Messages"
+            Key             =   "Status"
+         EndProperty
+         BeginProperty Panel2 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
+            AutoSize        =   2
+            Object.Width           =   3519
+            MinWidth        =   3528
+            Key             =   "Progress"
+         EndProperty
+         BeginProperty Panel3 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
+            Style           =   6
+            Alignment       =   1
+            AutoSize        =   2
+            Object.Width           =   2117
+            MinWidth        =   2117
+            TextSave        =   "6/09/2007"
+            Key             =   "Date"
+         EndProperty
+         BeginProperty Panel4 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
+            Style           =   5
+            Alignment       =   1
+            AutoSize        =   2
+            Object.Width           =   1402
+            MinWidth        =   1411
+            TextSave        =   "6:34"
+            Key             =   "Time"
+         EndProperty
+      EndProperty
+   End
+   Begin VB.Timer tmrGalaxyNG 
+      Left            =   960
+      Top             =   0
+   End
+   Begin VB.Timer tmrMail 
+      Left            =   540
+      Top             =   0
+   End
    Begin GamesMaster.cSysTray SysTray 
-      Left            =   60
-      Top             =   120
+      Left            =   0
+      Top             =   0
       _ExtentX        =   900
       _ExtentY        =   900
       InTray          =   0   'False
       TrayIcon        =   "frmMain.frx":0000
-      TrayTip         =   "VB 5 - SysTray Control."
+      TrayTip         =   "GalaxyNG Games Master"
    End
    Begin VB.Menu mnuFile 
       Caption         =   "&File"
@@ -45,10 +99,6 @@ Option Explicit
 
 Private mobjGetMail As GetMail
 Attribute mobjGetMail.VB_VarHelpID = -1
-Private WithEvents GetMailTimer As GTimer
-Attribute GetMailTimer.VB_VarHelpID = -1
-Private WithEvents GalaxyNGTimer As GTimer
-Attribute GalaxyNGTimer.VB_VarHelpID = -1
 
 Public Function GetMail() As GetMail
     If mobjGetMail Is Nothing Then
@@ -62,6 +112,26 @@ Private Sub MDIForm_Load()
         .Width = 800 * Screen.TwipsPerPixelX
         .Height = 600 * Screen.TwipsPerPixelY
     End With
+End Sub
+
+Private Sub MDIForm_QueryUnload(Cancel As Integer, UnloadMode As Integer)
+    If UnloadMode = vbFormControlMenu Then
+        SysTray.InTray = True
+        Me.Hide
+        Cancel = -1
+        Exit Sub
+    End If
+    
+End Sub
+
+Private Sub MDIForm_Resize()
+    If Me.WindowState = vbMinimized Then
+        SysTray.InTray = True
+    End If
+End Sub
+
+Private Sub MDIForm_Unload(Cancel As Integer)
+    SysTray.InTray = False
 End Sub
 
 Private Sub mnuExit_Click()
@@ -124,10 +194,9 @@ Private Sub mnuMailShow_Click()
     Set fGetMail = Nothing
 End Sub
 
-Private Sub SysTray_MouseDown(Button As Integer, Id As Long)
-
+Private Sub SysTray_MouseDblClick(Button As Integer, Id As Long)
+    Me.Show
+    Me.WindowState = vbNormal
+    SysTray.InTray = False
 End Sub
 
-Private Sub SysTray_MouseMove(Id As Long)
-
-End Sub
