@@ -266,7 +266,7 @@ Private Sub GetTemplate(Optional ByVal blnReadOnly As Boolean = True)
     End With
     
     For Each fForm In Forms
-        If fForm.Name = "frmTemplate" Then
+        If fForm.name = "frmTemplate" Then
             Set fTemplate = fForm
             If fTemplate.Template.TemplateName = strTemplate Then
                 Exit For
@@ -290,11 +290,3 @@ Private Sub GetTemplate(Optional ByVal blnReadOnly As Boolean = True)
     Set fTemplate = Nothing
 End Sub
 
-Private Sub mnuTest_Click()
-    Dim fGetMail As frmGetMail
-    
-    Set fGetMail = New frmGetMail
-    Load fGetMail
-    fGetMail.Show
-    fGetMail.GetMail
-End Sub

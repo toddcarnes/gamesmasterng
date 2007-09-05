@@ -17,12 +17,12 @@ Begin VB.MDIForm frmMain
    Begin VB.Menu mnuGames 
       Caption         =   "&Games"
    End
-   Begin VB.Menu mnuGetMail 
-      Caption         =   "GetMail"
-      Begin VB.Menu mnuCheckMail 
-         Caption         =   "Check Mail"
+   Begin VB.Menu mnMail 
+      Caption         =   "Mail"
+      Begin VB.Menu mnuMailRetreive 
+         Caption         =   "Retreive"
       End
-      Begin VB.Menu mnuShowMail 
+      Begin VB.Menu mnuMailShow 
          Caption         =   "Show"
       End
    End
@@ -34,18 +34,21 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 
-Private WithEvents mobjGetMail As frmGetMail
+Private mobjGetMail As GetMail
 Attribute mobjGetMail.VB_VarHelpID = -1
+
+Public Function GetMail() As GetMail
+    If mobjGetMail Is Nothing Then
+        Set mobjGetMail = New GetMail
+    End If
+    Set GetMail = mobjGetMail
+End Function
 
 Private Sub MDIForm_Load()
     With Me
         .Width = 800 * Screen.TwipsPerPixelX
         .Height = 600 * Screen.TwipsPerPixelY
     End With
-End Sub
-
-Private Sub mnuCheckMail_Click()
-    GetMail.GetMail
 End Sub
 
 Private Sub mnuExit_Click()
@@ -57,7 +60,7 @@ Private Sub mnuGames_Click()
     Dim fGames As frmGames
     
     For Each fForm In Forms
-        If fForm.Name = "frmGames" Then
+        If fForm.name = "frmGames" Then
             Set fGames = fForm
             Exit For
         End If
@@ -77,20 +80,33 @@ Private Sub mnuGames_Click()
     Set fGames = Nothing
 End Sub
 
-Public Property Get GetMail() As frmGetMail
-    If mobjGetMail Is Nothing Then
-        Set mobjGetMail = New frmGetMail
-        Load mobjGetMail
-    End If
-    Set GetMail = mobjGetMail
-End Property
+Private Sub mnuMailRetreive_Click()
+    GetMail.GetMail
+End Sub
 
-Private Sub mnuShowMail_Click()
-    If mnuShowMail.Checked Then
-        GetMail.Hide
-        mnuShowMail.Checked = False
-    Else
-        GetMail.Show
-        mnuShowMail.Checked = True
+Private Sub mnuMailShow_Click()
+    Dim fForm As Form
+    Dim fGetMail As frmGetMail
+    
+    For Each fForm In Forms
+        If fForm.name = "frmGetMail" Then
+            Set fGetMail = fForm
+            Exit For
+        End If
+    Next fForm
+    
+    If fGetMail Is Nothing Then
+        Set fGetMail = New frmGetMail
+        Load fGetMail
     End If
+    If mnuMailShow.Checked Then
+        mnuMailShow.Checked = False
+        Unload fGetMail
+    Else
+        mnuMailShow.Checked = True
+        fGetMail.Show
+    End If
+    
+    Set fForm = Nothing
+    Set fGetMail = Nothing
 End Sub

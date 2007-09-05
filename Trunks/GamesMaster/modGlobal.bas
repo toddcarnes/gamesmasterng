@@ -16,8 +16,6 @@ Public GalaxyNGStatistics As String
 Public GalaxyNGLog As String
 Public GalaxyNGexe As String
 Public GalaxyNG As GalaxyNG
-Public MainForm As frmMain
-Public INIFile As INIFile
 
 Public Inbox As String
 Public ServerName As String
@@ -28,6 +26,9 @@ Public POPPassword  As String
 Public SMTPServer  As String
 Public SMTPServerPort  As Long
 Public SMTPFromAddress As String
+
+Public MainForm As frmMain
+Public INIFile As INIFile
 
 Public Sub Main()
     Call LoadSettings
