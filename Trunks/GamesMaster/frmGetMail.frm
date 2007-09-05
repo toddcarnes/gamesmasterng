@@ -93,6 +93,14 @@ Private Sub Connect()
     muStatus = SM_OPEN
 End Sub
 
+Private Sub Disconnect()
+    txtLog = txtLog & "> closed "
+    With WinSock
+        .Close
+    End With
+    muStatus = SM_CLOSE
+End Sub
+
 Private Sub ProcessData(ByVal strData As String)
     Dim blnOK As Boolean
     Dim blnError As Boolean
@@ -153,20 +161,16 @@ Private Sub ProcessData(ByVal strData As String)
     Case SM_Command.SM_LIST
     
     Case SM_Command.SM_RETR
-        If strData = "." Then
-            blnEMailOK = False
-            RaiseEvent Received(mstrEMail, blnEMailOK)
-            If blnEMailOK Then
-                SendData c_DETE & " " & CStr(mlngCurrentMessage)
-                muStatus = SM_DELE
-            Else
-                mlngCurrentMessage = mlngCurrentMessage + 1
-                If mlngCurrentMessage <= mlngMessages Then
-                    mstrEMail = ""
-                    SendData c_RETR & " " & CStr(mlngCurrentMessage)
-                    muStatus = SM_RETR
-                End If
-            End If
+        If blnOK Then
+            'ignore this line and receive the message
+        ElseIf blnError Then
+            SendData c_QUIT
+            muStatus = SM_QUIT
+        ElseIf Right(strData, 5) = vbCrLf & "." & vbCrLf Then
+            mstrEMail = mstrEMail & Left(strData, Len(strData) - 5)
+            Call SaveEMail(mstrEMail)
+            SendData c_DETE & " " & CStr(mlngCurrentMessage)
+            muStatus = SM_DELE
         Else
             mstrEMail = mstrEMail & strData
         End If
@@ -178,6 +182,9 @@ Private Sub ProcessData(ByVal strData As String)
                 mstrEMail = ""
                 SendData c_RETR & " " & CStr(mlngCurrentMessage)
                 muStatus = SM_RETR
+            Else
+                SendData c_QUIT
+                muStatus = SM_QUIT
             End If
         Else
             SendData c_QUIT
@@ -185,8 +192,7 @@ Private Sub ProcessData(ByVal strData As String)
         End If
     
     Case SM_Command.SM_QUIT
-        WinSock.Close
-    
+        Call Disconnect
     Case SM_Command.SM_RSET
     
     Case SM_Command.SM_NOOP
@@ -218,4 +224,21 @@ Private Sub WinSock_DataArrival(ByVal bytesTotal As Long)
     Call ProcessData(strData)
 End Sub
 
+Private Sub SaveEMail(ByVal strEMail As String)
+    Dim intFN As Integer
+    Dim i As Long
+    Dim strFileName As String
+    
+    Do
+        strFileName = Inbox & Format(Now, "yyyymmddhhnnss") & " " & Format(i, "00000") & ".txt"
+        If Dir(strFileName) = "" Then Exit Do
+        i = i + 1
+    Loop
+        
+    intFN = FreeFile
+    Open strFileName For Output As #intFN
+    Print #intFN, strEMail;
+    Close #intFN
+
+End Sub
 

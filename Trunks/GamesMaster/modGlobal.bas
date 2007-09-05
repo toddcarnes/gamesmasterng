@@ -19,6 +19,7 @@ Public GalaxyNG As GalaxyNG
 Public MainForm As frmMain
 Public INIFile As INIFile
 
+Public Inbox As String
 Public ServerName As String
 Public POPServer As String
 Public POPServerPort As Long
@@ -79,6 +80,7 @@ Private Sub LoadSettings()
         GalaxyNGStatistics = GalaxyNGHome & "statistics\"
         GalaxyNGLog = GalaxyNGHome & "log\"
     
+        Inbox = .GetSetting("EMail", "Inbox", App.Path & "\Inbox\")
         ServerName = .GetSetting("EMail", "ServerName", "")
         POPServer = .GetSetting("EMail", "POPServer", "")
         POPServerPort = .GetSetting("EMail", "POPServerPort", "110")
@@ -93,6 +95,9 @@ Private Sub LoadSettings()
         RaceReportFile = .GetSetting("FileNames", "RaceReport", mcRace & "_" & mcTurn & ".txt")
         GalaxyNGexe = .GetSetting("FileNames", "Executable", GalaxyNGHome & "GalaxyNG.exe")
     End With
+    If Dir(Inbox, vbDirectory) = "" Then
+        MkDir Inbox
+    End If
 End Sub
 
 Private Sub SaveSettings()
