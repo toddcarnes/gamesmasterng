@@ -8,6 +8,15 @@ Begin VB.MDIForm frmMain
    ClientWidth     =   8340
    LinkTopic       =   "MDIForm1"
    StartUpPosition =   3  'Windows Default
+   Begin GamesMaster.cSysTray SysTray 
+      Left            =   60
+      Top             =   120
+      _ExtentX        =   900
+      _ExtentY        =   900
+      InTray          =   0   'False
+      TrayIcon        =   "frmMain.frx":0000
+      TrayTip         =   "VB 5 - SysTray Control."
+   End
    Begin VB.Menu mnuFile 
       Caption         =   "&File"
       Begin VB.Menu mnuExit 
@@ -36,6 +45,10 @@ Option Explicit
 
 Private mobjGetMail As GetMail
 Attribute mobjGetMail.VB_VarHelpID = -1
+Private WithEvents GetMailTimer As GTimer
+Attribute GetMailTimer.VB_VarHelpID = -1
+Private WithEvents GalaxyNGTimer As GTimer
+Attribute GalaxyNGTimer.VB_VarHelpID = -1
 
 Public Function GetMail() As GetMail
     If mobjGetMail Is Nothing Then
@@ -109,4 +122,12 @@ Private Sub mnuMailShow_Click()
     
     Set fForm = Nothing
     Set fGetMail = Nothing
+End Sub
+
+Private Sub SysTray_MouseDown(Button As Integer, Id As Long)
+
+End Sub
+
+Private Sub SysTray_MouseMove(Id As Long)
+
 End Sub
