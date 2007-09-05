@@ -16,13 +16,23 @@ Public GalaxyNGStatistics As String
 Public GalaxyNGLog As String
 Public GalaxyNGexe As String
 Public GalaxyNG As GalaxyNG
+Public MainForm As frmMain
+Public INIFile As INIFile
+
+Public ServerName As String
+Public POPServer As String
+Public POPServerPort As Long
+Public POPUserID  As String
+Public POPPassword  As String
+Public SMTPServer  As String
+Public SMTPServerPort  As Long
+Public SMTPFromAddress As String
 
 Public Sub Main()
-    Dim fMain As frmMain
     Call LoadSettings
     Set GalaxyNG = New GalaxyNG
-    Set fMain = New frmMain
-    fMain.Show
+    Set MainForm = New frmMain
+    MainForm.Show
 End Sub
 
 Public Function GalaxyNGNextTurn(ByVal Game As String) As String
@@ -55,21 +65,28 @@ Public Function GetFileName(ByVal FilePath As String) As String
 End Function
 
 Private Sub LoadSettings()
-    Dim objINI As INIFile
-    
-    Set objINI = New INIFile
-    With objINI
+    Set INIFile = New INIFile
+    With INIFile
         .File = App.Path & "\" & App.EXEName & ".ini"
         mcTurn = .GetSetting("Constants", "Turn", "[turn]")
         mcRace = .GetSetting("Constants", "Race", "[race]")
         
         GalaxyNGHome = .GetSetting("Folders", "GalaxyNGHome", App.Path & "\")
-        GalaxyNGData = .GetSetting("Folders", "GalaxyNGData", GalaxyNGHome & "data\")
-        GalaxyNGReports = .GetSetting("Folders", "GalaxyNGReports", GalaxyNGHome & "reports\")
-        GalaxyNGOrders = .GetSetting("Folders", "GalaxyNGOrders", GalaxyNGHome & "orders\")
-        GalaxyNGNotices = .GetSetting("Folders", "GalaxyNGNotices", GalaxyNGHome & "notices\")
-        GalaxyNGStatistics = .GetSetting("Folders", "GalaxyNGStatistics", GalaxyNGHome & "statistics\")
-        GalaxyNGLog = .GetSetting("Folders", "GalaxyNGLog", GalaxyNGHome & "log\")
+        GalaxyNGData = GalaxyNGHome & "data\"
+        GalaxyNGReports = GalaxyNGHome & "reports\"
+        GalaxyNGOrders = GalaxyNGHome & "orders\"
+        GalaxyNGNotices = GalaxyNGHome & "notices\"
+        GalaxyNGStatistics = GalaxyNGHome & "statistics\"
+        GalaxyNGLog = GalaxyNGHome & "log\"
+    
+        ServerName = .GetSetting("EMail", "ServerName", "")
+        POPServer = .GetSetting("EMail", "POPServer", "")
+        POPServerPort = .GetSetting("EMail", "POPServerPort", "110")
+        POPUserID = .GetSetting("EMail", "POPUserID", "")
+        POPPassword = .GetSetting("EMail", "POPPassword", "")
+        SMTPServer = .GetSetting("EMail", "SMTPServer", "")
+        SMTPServerPort = .GetSetting("EMail", "SMTPServerPort", "25")
+        SMTPFromAddress = .GetSetting("EMail", "SMTPFromAddress", "")
     
         NextTurnFile = .GetSetting("FileNames", "NextTurn", "next_turn")
         GamesMasterReportFile = .GetSetting("FileNames", "GamesMasterReport", "NG_GameMaster_" & mcTurn & ".txt")
@@ -79,21 +96,12 @@ Private Sub LoadSettings()
 End Sub
 
 Private Sub SaveSettings()
-    Dim objINI As INIFile
-    
-    Set objINI = New INIFile
-    With objINI
+    With INIFile
         .File = App.Path & "\" & App.EXEName & ".ini"
         Call .SaveSetting("Constants", "Turn", mcTurn)
         Call .SaveSetting("Constants", "Race", mcRace)
         
         Call .SaveSetting("Folders", "GalaxyNGHome", GalaxyNGHome)
-        Call .SaveSetting("Folders", "GalaxyNGData", GalaxyNGData)
-        Call .SaveSetting("Folders", "GalaxyNGReports", GalaxyNGReports)
-        Call .SaveSetting("Folders", "GalaxyNGOrders", GalaxyNGOrders)
-        Call .SaveSetting("Folders", "GalaxyNGNotices", GalaxyNGNotices)
-        Call .SaveSetting("Folders", "GalaxyNGStatistics", GalaxyNGStatistics)
-        Call .SaveSetting("Folders", "GalaxyNGLog", GalaxyNGLog)
     
         Call .SaveSetting("FileNames", "NextTurn", NextTurnFile)
         Call .SaveSetting("FileNames", "GamesMasterReport", GamesMasterReportFile)

@@ -100,6 +100,9 @@ Begin VB.Form frmGames
          Caption         =   "Run Turn"
       End
    End
+   Begin VB.Menu mnuTest 
+      Caption         =   "Test"
+   End
 End
 Attribute VB_Name = "frmGames"
 Attribute VB_GlobalNameSpace = False
@@ -287,3 +290,11 @@ Private Sub GetTemplate(Optional ByVal blnReadOnly As Boolean = True)
     Set fTemplate = Nothing
 End Sub
 
+Private Sub mnuTest_Click()
+    Dim fGetMail As frmGetMail
+    
+    Set fGetMail = New frmGetMail
+    Load fGetMail
+    fGetMail.Show
+    fGetMail.GetMail
+End Sub

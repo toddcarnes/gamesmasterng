@@ -1,5 +1,4 @@
 VERSION 5.00
-Object = "{248DD890-BB45-11CF-9ABC-0080C7E7B78D}#1.0#0"; "mswinsck.ocx"
 Begin VB.MDIForm frmMain 
    BackColor       =   &H8000000C&
    Caption         =   "GalaxyNG Games Master"
@@ -9,14 +8,6 @@ Begin VB.MDIForm frmMain
    ClientWidth     =   8340
    LinkTopic       =   "MDIForm1"
    StartUpPosition =   3  'Windows Default
-   Begin MSWinsockLib.Winsock winsock 
-      Index           =   0
-      Left            =   0
-      Top             =   0
-      _ExtentX        =   741
-      _ExtentY        =   741
-      _Version        =   393216
-   End
    Begin VB.Menu mnuFile 
       Caption         =   "&File"
       Begin VB.Menu mnuExit 
