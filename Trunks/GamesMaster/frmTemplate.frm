@@ -678,8 +678,6 @@ End Sub
 
 Private Sub LoadTemplate()
     Dim i As Long
-    Dim C As Long
-    Dim objRegistration As Registration
     
     If mobjTemplate Is Nothing Then
         txtName = ""
@@ -741,45 +739,8 @@ Private Sub LoadTemplate()
             dtStartDate.TimeStamp = .StartDate
             txtScheduleDays = .ScheduleDays
             chkFinalOrders = IIf(.FinalOrders, vbChecked, vbUnchecked)
-            
-            With grdRegistrations
-                .Clear
-                .FixedRows = 1
-                .FixedCols = 1
-                .AllowUserResizing = flexResizeColumns
-                .SelectionMode = flexSelectionByRow
-                .FocusRect = flexFocusNone
-                .Rows = mobjTemplate.Registrations.Count + 1
-                .Cols = 6
-                .ColSel = 5
-                .ColWidth(0) = 16 * Screen.TwipsPerPixelX
-                .TextMatrix(0, 1) = "E-Mail Address"
-                .ColWidth(1) = 4000
-                .TextMatrix(0, 2) = "Size 1"
-                .ColWidth(2) = 600
-                .TextMatrix(0, 3) = "Size 2"
-                .ColWidth(3) = 600
-                .TextMatrix(0, 4) = "Size 3"
-                .ColWidth(4) = 600
-                .TextMatrix(0, 5) = "Size 4"
-                .ColWidth(5) = 600
-                i = 0
-                For Each objRegistration In mobjTemplate.Registrations
-                    i = i + 1
-                    .TextMatrix(i, 1) = objRegistration.EMail
-                    For C = 1 To objRegistration.HomeWorlds.Count
-                        If C > 4 Then Exit For
-                        If objRegistration.HomeWorlds(C).x = 0 Then
-                            .TextMatrix(i, C + 1) = objRegistration.HomeWorlds(C).Size
-                        Else
-                            .TextMatrix(i, C + 1) = objRegistration.HomeWorlds(C).Size _
-                                                & "/" & objRegistration.HomeWorlds(C).x _
-                                                & "/" & objRegistration.HomeWorlds(C).y
-                        End If
-                    Next C
-                Next objRegistration
-            End With
         End With
+        Call LoadRegistrations
     End If
 End Sub
 
@@ -809,6 +770,59 @@ Private Sub Form_Load()
     dtRunTime.TimeStamp = "00:00"
     dtStartDate.DateFormat = "Short Date"
     dtStartDate.TimeFormat = ""
+End Sub
+
+Private Sub grdRegistrations_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
+    If Button = vbRightButton Then
+        PopupMenu mnuAction
+    End If
+End Sub
+
+Private Sub mnuAdd_Click()
+    Dim objRegistration As Registration
+    Dim fRegistration As frmRegistration
+    
+    Set objRegistration = New Registration
+    
+    Set fRegistration = New frmRegistration
+    Set fRegistration.Registration = objRegistration
+    fRegistration.Show vbModal
+    If objRegistration.EMail <> "" Then
+        mobjTemplate.Registrations.Add objRegistration
+    End If
+    Set fRegistration = Nothing
+    Set objRegistration = Nothing
+    Call LoadRegistrations
+    
+End Sub
+
+Private Sub mnuDelete_Click()
+    Dim i As Long
+    
+    i = grdRegistrations.Row
+    If i = 0 Then Exit Sub
+    
+    mobjTemplate.Registrations.Remove i
+    
+    Call LoadRegistrations
+End Sub
+
+Private Sub mnuEdit_Click()
+    Dim objRegistration As Registration
+    Dim fRegistration As frmRegistration
+    Dim i As Long
+    
+    i = grdRegistrations.Row
+    If i = 0 Then Exit Sub
+    
+    Set objRegistration = mobjTemplate.Registrations(i)
+    
+    Set fRegistration = New frmRegistration
+    Set fRegistration.Registration = objRegistration
+    fRegistration.Show vbModal
+    Set fRegistration = Nothing
+    Set objRegistration = Nothing
+    Call LoadRegistrations
 End Sub
 
 Private Sub txtCoreSizes_Change(Index As Integer)
@@ -853,4 +867,47 @@ End Sub
 
 Private Sub txtStuffPlanets_Change()
     Template.stuff_planets = Val(txtStuffPlanets.Text)
+End Sub
+
+Private Sub LoadRegistrations()
+    Dim objRegistration As Registration
+    Dim i As Long
+    Dim c As Long
+    
+    With grdRegistrations
+        .Clear
+        .Rows = mobjTemplate.Registrations.Count + 1
+        .Cols = 6
+        .AllowUserResizing = flexResizeColumns
+        .SelectionMode = flexSelectionByRow
+        .FocusRect = flexFocusNone
+        .ColSel = 5
+        .ColWidth(0) = 16 * Screen.TwipsPerPixelX
+        .TextMatrix(0, 1) = "E-Mail Address"
+        .ColWidth(1) = 4000
+        .TextMatrix(0, 2) = "Size 1"
+        .ColWidth(2) = 600
+        .TextMatrix(0, 3) = "Size 2"
+        .ColWidth(3) = 600
+        .TextMatrix(0, 4) = "Size 3"
+        .ColWidth(4) = 600
+        .TextMatrix(0, 5) = "Size 4"
+        .ColWidth(5) = 600
+        i = 0
+        For Each objRegistration In mobjTemplate.Registrations
+            i = i + 1
+            .TextMatrix(i, 1) = objRegistration.EMail
+            For c = 1 To objRegistration.HomeWorlds.Count
+                If c > 4 Then Exit For
+                If objRegistration.HomeWorlds(c).x = 0 Then
+                    .TextMatrix(i, c + 1) = objRegistration.HomeWorlds(c).Size
+                Else
+                    .TextMatrix(i, c + 1) = objRegistration.HomeWorlds(c).Size _
+                                        & "/" & objRegistration.HomeWorlds(c).x _
+                                        & "/" & objRegistration.HomeWorlds(c).y
+                End If
+            Next c
+        Next objRegistration
+    End With
+
 End Sub

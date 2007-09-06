@@ -19,13 +19,15 @@ Option Explicit
 
 Private mCol As Collection
 
-Public Sub Add(ByVal objHomeWorld As HomeWorld)
-    mCol.Add objHomeWorld
+Public Sub Add(ByVal objHomeworld As HomeWorld)
+    mCol.Add objHomeworld
 End Sub
 
 Public Property Get Item(vntIndexKey As Variant) As HomeWorld
 Attribute Item.VB_UserMemId = 0
-  Set Item = mCol(vntIndexKey)
+    On Error Resume Next
+    Set Item = mCol(vntIndexKey)
+    
 End Property
 
 Public Property Get Count() As Long

@@ -261,10 +261,58 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 
-Private Sub Form_Load()
+Private mobjRegistration As Registration
 
+Public Property Set Registration(ByVal objRegistration As Registration)
+    Dim objHomeworld As HomeWorld
+    Dim i As Long
+    
+    Set mobjRegistration = objRegistration
+    txtEMailAddress = mobjRegistration.EMail
+    
+    i = -1
+    For Each objHomeworld In mobjRegistration.HomeWorlds
+        i = i + 1
+        With objHomeworld
+            txtSize(i) = .Size
+            txtX(i) = Format(.x, "#.###")
+            txtY(i) = Format(.y, "#.###")
+        End With
+    Next objHomeworld
+    
+End Property
+
+Private Sub cmdCancel_Click()
+    Unload Me
 End Sub
 
-Private Sub Label_Click(Index As Integer)
-
+Private Sub cmdSave_Click()
+    Dim i As Long
+    Dim objHomeworld As HomeWorld
+    
+    With mobjRegistration
+        .EMail = txtEMailAddress
+        
+        'Update the Homeworlds
+        For i = 0 To txtSize.Count - 1
+            Set objHomeworld = .HomeWorlds(i + 1)
+            If objHomeworld Is Nothing Then
+                Set objHomeworld = New HomeWorld
+                .HomeWorlds.Add objHomeworld
+            End If
+            Set objHomeworld = .HomeWorlds(i + 1)
+            objHomeworld.Size = Val(txtSize(i))
+            objHomeworld.x = Val(txtX(i))
+            objHomeworld.y = Val(txtY(i))
+        Next i
+        
+        'Remove empty worlds
+        For i = .HomeWorlds.Count To 1 Step -1
+            Set objHomeworld = .HomeWorlds(i)
+            If objHomeworld.Size = 0 Then
+                .HomeWorlds.Remove i
+            End If
+        Next i
+    End With
+    Unload Me
 End Sub
