@@ -63,7 +63,9 @@ Public Property Get Status() As SM_Command
 End Property
 
 Public Sub GetMail()
-    Call Connect
+    If Status = SM_CLOSE Then
+        Call Connect
+    End If
 End Sub
 
 Private Sub Connect()
@@ -191,7 +193,7 @@ Private Sub ProcessData(ByVal strData As String)
     End Select
 End Sub
 
-Public Sub SendData(ByVal strData As String)
+Private Sub SendData(ByVal strData As String)
     RaiseEvent LogData("> " & strData & vbCrLf)
     mobjSocket.SendData strData & vbCrLf
 End Sub
@@ -201,6 +203,9 @@ Private Sub Class_Initialize()
 End Sub
 
 Private Sub Class_Terminate()
+    If Status <> SM_CLOSE Then
+        mobjSocket.CloseSck
+    End If
     Set mobjSocket = Nothing
 End Sub
 

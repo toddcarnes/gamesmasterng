@@ -13,6 +13,7 @@ Begin VB.UserControl cSysTray
    ScaleHeight     =   34
    ScaleMode       =   3  'Pixel
    ScaleWidth      =   34
+   ToolboxBitmap   =   "SYSTRAY.ctx":0FD4
 End
 Attribute VB_Name = "cSysTray"
 Attribute VB_GlobalNameSpace = False

@@ -26,6 +26,7 @@ Public POPPassword  As String
 Public SMTPServer  As String
 Public SMTPServerPort  As Long
 Public SMTPFromAddress As String
+Public CheckMailInterval As Long
 
 Public MainForm As frmMain
 Public INIFile As INIFile
@@ -81,6 +82,8 @@ Private Sub LoadSettings()
         GalaxyNGStatistics = GalaxyNGHome & "statistics\"
         GalaxyNGLog = GalaxyNGHome & "log\"
     
+    
+        CheckMailInterval = .GetSetting("EMail", "Interval", "5")
         Inbox = .GetSetting("EMail", "Inbox", App.Path & "\Inbox\")
         ServerName = .GetSetting("EMail", "ServerName", "")
         POPServer = .GetSetting("EMail", "POPServer", "")
@@ -109,6 +112,17 @@ Private Sub SaveSettings()
         
         Call .SaveSetting("Folders", "GalaxyNGHome", GalaxyNGHome)
     
+        Call .SaveSetting("EMail", "Interval", CheckMailInterval)
+        Call .SaveSetting("EMail", "Inbox", Inbox)
+        Call .SaveSetting("EMail", "ServerName", ServerName)
+        Call .SaveSetting("EMail", "POPServer", POPServer)
+        Call .SaveSetting("EMail", "POPServerPort", POPServerPort)
+        Call .SaveSetting("EMail", "POPUserID", POPUserID)
+        Call .SaveSetting("EMail", "POPPassword", POPPassword)
+        Call .SaveSetting("EMail", "SMTPServer", SMTPServer)
+        Call .SaveSetting("EMail", "SMTPServerPort", SMTPServerPort)
+        Call .SaveSetting("EMail", "SMTPFromAddress", SMTPFromAddress)
+        
         Call .SaveSetting("FileNames", "NextTurn", NextTurnFile)
         Call .SaveSetting("FileNames", "GamesMasterReport", GamesMasterReportFile)
         Call .SaveSetting("FileNames", "RaceReport", RaceReportFile)

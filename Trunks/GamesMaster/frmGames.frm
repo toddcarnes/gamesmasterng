@@ -22,6 +22,12 @@ Begin VB.Form frmGames
       _NumberOfBands  =   1
       _Band(0).Cols   =   2
    End
+   Begin VB.Menu mnuFile 
+      Caption         =   "&File"
+      Begin VB.Menu mnuFileExit 
+         Caption         =   "E&xit"
+      End
+   End
    Begin VB.Menu mnuTemplates 
       Caption         =   "&Templates"
       Begin VB.Menu mnuTemplateCreate 
@@ -194,6 +200,10 @@ Private Sub grdGames_MouseDown(Button As Integer, Shift As Integer, x As Single,
         
         PopupMenu mnuActions
     End If
+End Sub
+
+Private Sub mnuFileExit_Click()
+    Unload MainForm
 End Sub
 
 Private Sub mnuTemplateCreate_Click()

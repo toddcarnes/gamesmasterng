@@ -9,6 +9,15 @@ Begin VB.MDIForm frmMain
    ClientWidth     =   8340
    LinkTopic       =   "MDIForm1"
    StartUpPosition =   3  'Windows Default
+   Begin GamesMaster.cSysTray Systray 
+      Left            =   0
+      Top             =   0
+      _ExtentX        =   900
+      _ExtentY        =   900
+      InTray          =   0   'False
+      TrayIcon        =   "frmMain.frx":0000
+      TrayTip         =   "GalaxyNG - Games Master"
+   End
    Begin MSComctlLib.StatusBar StatusBar 
       Align           =   2  'Align Bottom
       Height          =   315
@@ -49,27 +58,22 @@ Begin VB.MDIForm frmMain
             AutoSize        =   2
             Object.Width           =   1402
             MinWidth        =   1411
-            TextSave        =   "6:34"
+            TextSave        =   "13:56"
             Key             =   "Time"
          EndProperty
       EndProperty
    End
    Begin VB.Timer tmrGalaxyNG 
+      Enabled         =   0   'False
+      Interval        =   60000
       Left            =   960
       Top             =   0
    End
    Begin VB.Timer tmrMail 
+      Enabled         =   0   'False
+      Interval        =   10000
       Left            =   540
       Top             =   0
-   End
-   Begin GamesMaster.cSysTray SysTray 
-      Left            =   0
-      Top             =   0
-      _ExtentX        =   900
-      _ExtentY        =   900
-      InTray          =   0   'False
-      TrayIcon        =   "frmMain.frx":0000
-      TrayTip         =   "GalaxyNG Games Master"
    End
    Begin VB.Menu mnuFile 
       Caption         =   "&File"
@@ -99,6 +103,7 @@ Option Explicit
 
 Private mobjGetMail As GetMail
 Attribute mobjGetMail.VB_VarHelpID = -1
+Private mdtNextMailCheck As Date
 
 Public Function GetMail() As GetMail
     If mobjGetMail Is Nothing Then
@@ -112,26 +117,31 @@ Private Sub MDIForm_Load()
         .Width = 800 * Screen.TwipsPerPixelX
         .Height = 600 * Screen.TwipsPerPixelY
     End With
+    With tmrMail
+        .Interval = 10000
+        .Enabled = True
+    End With
 End Sub
 
 Private Sub MDIForm_QueryUnload(Cancel As Integer, UnloadMode As Integer)
     If UnloadMode = vbFormControlMenu Then
-        SysTray.InTray = True
+        Systray.InTray = True
         Me.Hide
         Cancel = -1
         Exit Sub
     End If
-    
 End Sub
 
 Private Sub MDIForm_Resize()
     If Me.WindowState = vbMinimized Then
-        SysTray.InTray = True
+        Systray.InTray = True
     End If
 End Sub
 
 Private Sub MDIForm_Unload(Cancel As Integer)
-    SysTray.InTray = False
+    Systray.InTray = False
+    tmrMail.Interval = 0
+    tmrGalaxyNG.Interval = 0
 End Sub
 
 Private Sub mnuExit_Click()
@@ -197,6 +207,12 @@ End Sub
 Private Sub SysTray_MouseDblClick(Button As Integer, Id As Long)
     Me.Show
     Me.WindowState = vbNormal
-    SysTray.InTray = False
+    Systray.InTray = False
 End Sub
 
+Private Sub tmrMail_Timer()
+    If mdtNextMailCheck < Now Then
+        mdtNextMailCheck = DateAdd("n", 5, Now)
+        GetMail.GetMail
+    End If
+End Sub
