@@ -778,6 +778,15 @@ Private Sub grdRegistrations_MouseDown(Button As Integer, Shift As Integer, x As
     End If
 End Sub
 
+Private Sub mnuAction_Click()
+    Dim blnEnable As Boolean
+    With grdRegistrations
+        blnEnable = (.Row > 1)
+        mnuEdit.Enabled = blnEnable
+        mnuDelete.Enabled = blnEnable
+    End With
+End Sub
+
 Private Sub mnuAdd_Click()
     Dim objRegistration As Registration
     Dim fRegistration As frmRegistration
@@ -872,12 +881,15 @@ End Sub
 Private Sub LoadRegistrations()
     Dim objRegistration As Registration
     Dim i As Long
-    Dim c As Long
+    Dim C As Long
     
     With grdRegistrations
         .Clear
-        .Rows = mobjTemplate.Registrations.Count + 1
+        .Rows = mobjTemplate.Registrations.Count + 2
         .Cols = 6
+        .FixedRows = 1
+        .FixedCols = 1
+        .RowHeight(1) = 0
         .AllowUserResizing = flexResizeColumns
         .SelectionMode = flexSelectionByRow
         .FocusRect = flexFocusNone
@@ -893,20 +905,20 @@ Private Sub LoadRegistrations()
         .ColWidth(4) = 600
         .TextMatrix(0, 5) = "Size 4"
         .ColWidth(5) = 600
-        i = 0
+        i = 1
         For Each objRegistration In mobjTemplate.Registrations
             i = i + 1
             .TextMatrix(i, 1) = objRegistration.EMail
-            For c = 1 To objRegistration.HomeWorlds.Count
-                If c > 4 Then Exit For
-                If objRegistration.HomeWorlds(c).x = 0 Then
-                    .TextMatrix(i, c + 1) = objRegistration.HomeWorlds(c).Size
+            For C = 1 To objRegistration.HomeWorlds.Count
+                If C > 4 Then Exit For
+                If objRegistration.HomeWorlds(C).x = 0 Then
+                    .TextMatrix(i, C + 1) = objRegistration.HomeWorlds(C).Size
                 Else
-                    .TextMatrix(i, c + 1) = objRegistration.HomeWorlds(c).Size _
-                                        & "/" & objRegistration.HomeWorlds(c).x _
-                                        & "/" & objRegistration.HomeWorlds(c).y
+                    .TextMatrix(i, C + 1) = objRegistration.HomeWorlds(C).Size _
+                                        & "/" & objRegistration.HomeWorlds(C).x _
+                                        & "/" & objRegistration.HomeWorlds(C).y
                 End If
-            Next c
+            Next C
         Next objRegistration
     End With
 

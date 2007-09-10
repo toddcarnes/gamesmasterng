@@ -42,6 +42,9 @@ Begin VB.Form frmGames
       Begin VB.Menu mnuTemplateDelete 
          Caption         =   "&Delete"
       End
+      Begin VB.Menu mnuTemplateRefresh 
+         Caption         =   "&Refresh"
+      End
    End
    Begin VB.Menu mnuGame 
       Caption         =   "&Game"
@@ -80,6 +83,9 @@ Begin VB.Form frmGames
       End
       Begin VB.Menu mnuDeleteTemplate 
          Caption         =   "Delete Template"
+      End
+      Begin VB.Menu mnuRefreshTemplate 
+         Caption         =   "Refresh Template"
       End
       Begin VB.Menu mnuActionSeperator1 
          Caption         =   "-"
@@ -138,10 +144,11 @@ Private Sub LoadGames()
         .AllowUserResizing = flexResizeColumns
         .FocusRect = flexFocusNone
         .SelectionMode = flexSelectionByRow
+        .Rows = 2
+        .RowHeight(1) = 0
+        .Cols = 4
         .FixedCols = 1
         .FixedRows = 1
-        .Rows = 2
-        .Cols = 4
         .ColSel = 3
         .ColWidth(0) = 16 * Screen.TwipsPerPixelX
         .ColWidth(1) = 2000
@@ -153,7 +160,7 @@ Private Sub LoadGames()
         .TextMatrix(0, 2) = "Turn"
         .TextMatrix(0, 3) = "Players"
         
-        lngRow = 0
+        lngRow = 1
         For Each objGame In Games
             objGame.Refresh
             lngRow = lngRow + 1
@@ -190,20 +197,45 @@ Private Sub grdGames_MouseDown(Button As Integer, Shift As Integer, x As Single,
     If Button = vbRightButton Then
         strGame = grdGames.TextMatrix(grdGames.Row, 1)
         Set objGame = GalaxyNG.Games(strGame)
-        mnuCreateGame.Visible = Not objGame.Created
-        mnuViewGame.Visible = objGame.Created
-        mnuEditGame.Visible = objGame.Created
-        mnuDeleteGame.Visible = objGame.Created
-        mnuActionSeperator2.Visible = objGame.Created
-        mnuStartGame.Visible = objGame.Created And (objGame.NextTurn < 0)
-        mnuRunTurn.Visible = objGame.Created And (objGame.NextTurn >= 0)
-        
+        If objGame Is Nothing Then
+            mnuCreateGame.Visible = False
+            mnuViewGame.Visible = False
+            mnuEditGame.Visible = False
+            mnuDeleteGame.Visible = False
+            mnuActionSeperator2.Visible = False
+            mnuStartGame.Visible = False
+            mnuRunTurn.Visible = False
+        Else
+            mnuCreateGame.Visible = Not objGame.Created
+            mnuViewGame.Visible = objGame.Created
+            mnuEditGame.Visible = objGame.Created
+            mnuDeleteGame.Visible = objGame.Created
+            mnuActionSeperator2.Visible = objGame.Created
+            mnuStartGame.Visible = objGame.Created And (objGame.NextTurn < 0)
+            mnuRunTurn.Visible = objGame.Created And (objGame.NextTurn >= 0)
+        End If
         PopupMenu mnuActions
     End If
 End Sub
 
+Private Sub mnuCreateTemplate_Click()
+    Call mnuTemplateCreate_Click
+End Sub
+
+Private Sub mnuDeleteTemplate_Click()
+    Call mnuTemplateDelete_Click
+End Sub
+
+Private Sub mnuEditTemplate_Click()
+    Call mnuTemplateEdit_Click
+End Sub
+
 Private Sub mnuFileExit_Click()
     Unload MainForm
+End Sub
+
+Private Sub mnuRefreshTemplate_Click()
+    Call mnuTemplateRefresh_Click
 End Sub
 
 Private Sub mnuTemplateCreate_Click()
@@ -262,6 +294,10 @@ Private Sub mnuTemplateEdit_Click()
     Call GetTemplate(False)
 End Sub
 
+Private Sub mnuTemplateRefresh_Click()
+    Call LoadGames
+End Sub
+
 Private Sub mnuTemplateView_Click()
     Call GetTemplate(True)
 End Sub
@@ -300,3 +336,6 @@ Private Sub GetTemplate(Optional ByVal blnReadOnly As Boolean = True)
     Set fTemplate = Nothing
 End Sub
 
+Private Sub mnuViewTemplate_Click()
+    Call mnuTemplateView_Click
+End Sub

@@ -67,7 +67,7 @@ Public Sub Load(Optional ByVal strFileName As String)
     Dim strFields() As String
     Dim i As Long
     Dim objRegistration As Registration
-    Dim objHomeWorld As HomeWorld
+    Dim objHomeworld As HomeWorld
     Dim blnPlayersFound As Boolean
     
     If strFileName <> "" Then
@@ -140,9 +140,9 @@ Public Sub Load(Optional ByVal strFileName As String)
                 objRegistration.EMail = Mid(strLine, 7)
             Case "homeworld"
                 If Not objRegistration Is Nothing Then
-                    Set objHomeWorld = New HomeWorld
-                    objRegistration.HomeWorlds.Add objHomeWorld
-                    With objHomeWorld
+                    Set objHomeworld = New HomeWorld
+                    objRegistration.HomeWorlds.Add objHomeworld
+                    With objHomeworld
                         .Size = strFields(1)
                         If UBound(strFields) = 3 Then
                             .x = strFields(2)
@@ -153,7 +153,7 @@ Public Sub Load(Optional ByVal strFileName As String)
             Case "end_player"
                 If InStr(1, objRegistration.EMail, "@their.address.tld") = 0 Then
                     Registrations.Add objRegistration
-                    Set objHomeWorld = Nothing
+                    Set objHomeworld = Nothing
                 End If
             End Select
         End If
@@ -193,7 +193,7 @@ Public Sub Save(Optional ByVal strFileName As String)
     Dim intFN As Integer
     Dim i As Long
     Dim objRegistration As Registration
-    Dim objHomeWorld As HomeWorld
+    Dim objHomeworld As HomeWorld
     
     If strFileName = vbNullString Then
         strFileName = Filename
@@ -247,14 +247,15 @@ Public Sub Save(Optional ByVal strFileName As String)
     For Each objRegistration In Registrations
         Print #intFN, "start_player"
         Print #intFN, "email "; objRegistration.EMail
-        For Each objHomeWorld In objRegistration.HomeWorlds
-            Print #intFN, "homeworld "; CStr(objHomeWorld.Size);
-            If objHomeWorld.x <> 0 Or objHomeWorld.y <> 0 Then
-                Print #intFN, " "; CStr(objHomeWorld.x);
-                Print #intFN, " "; CStr(objHomeWorld.y);
-                Print #intFN, ""
+        For Each objHomeworld In objRegistration.HomeWorlds
+            Print #intFN, "homeworld "; CStr(objHomeworld.Size);
+            If objHomeworld.x <> 0 Or objHomeworld.y <> 0 Then
+                Print #intFN, " "; CStr(objHomeworld.x);
+                Print #intFN, " "; CStr(objHomeworld.y);
             End If
-        Next objHomeWorld
+            Print #intFN, ""
+        Next objHomeworld
+        Print #intFN, "end_player"
     Next objRegistration
     Close #intFN
 

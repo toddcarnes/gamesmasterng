@@ -16,7 +16,7 @@ Begin VB.Form frmRegistration
       Height          =   315
       Index           =   6
       Left            =   2700
-      TabIndex        =   27
+      TabIndex        =   21
       Top             =   3060
       Width           =   555
    End
@@ -24,7 +24,7 @@ Begin VB.Form frmRegistration
       Height          =   315
       Index           =   5
       Left            =   2700
-      TabIndex        =   26
+      TabIndex        =   18
       Top             =   2700
       Width           =   555
    End
@@ -32,7 +32,7 @@ Begin VB.Form frmRegistration
       Height          =   315
       Index           =   4
       Left            =   2700
-      TabIndex        =   25
+      TabIndex        =   15
       Top             =   2340
       Width           =   555
    End
@@ -40,7 +40,7 @@ Begin VB.Form frmRegistration
       Height          =   315
       Index           =   3
       Left            =   2700
-      TabIndex        =   24
+      TabIndex        =   12
       Top             =   1980
       Width           =   555
    End
@@ -48,7 +48,7 @@ Begin VB.Form frmRegistration
       Height          =   315
       Index           =   2
       Left            =   2700
-      TabIndex        =   23
+      TabIndex        =   9
       Top             =   1620
       Width           =   555
    End
@@ -56,7 +56,7 @@ Begin VB.Form frmRegistration
       Height          =   315
       Index           =   1
       Left            =   2700
-      TabIndex        =   22
+      TabIndex        =   6
       Top             =   1260
       Width           =   555
    End
@@ -64,7 +64,7 @@ Begin VB.Form frmRegistration
       Height          =   315
       Index           =   0
       Left            =   2700
-      TabIndex        =   21
+      TabIndex        =   3
       Top             =   900
       Width           =   555
    End
@@ -80,7 +80,7 @@ Begin VB.Form frmRegistration
       Height          =   315
       Index           =   5
       Left            =   2040
-      TabIndex        =   19
+      TabIndex        =   17
       Top             =   2700
       Width           =   555
    End
@@ -88,7 +88,7 @@ Begin VB.Form frmRegistration
       Height          =   315
       Index           =   4
       Left            =   2040
-      TabIndex        =   18
+      TabIndex        =   14
       Top             =   2340
       Width           =   555
    End
@@ -96,7 +96,7 @@ Begin VB.Form frmRegistration
       Height          =   315
       Index           =   3
       Left            =   2040
-      TabIndex        =   17
+      TabIndex        =   11
       Top             =   1980
       Width           =   555
    End
@@ -104,7 +104,7 @@ Begin VB.Form frmRegistration
       Height          =   315
       Index           =   2
       Left            =   2040
-      TabIndex        =   16
+      TabIndex        =   8
       Top             =   1620
       Width           =   555
    End
@@ -112,7 +112,7 @@ Begin VB.Form frmRegistration
       Height          =   315
       Index           =   1
       Left            =   2040
-      TabIndex        =   15
+      TabIndex        =   5
       Top             =   1260
       Width           =   555
    End
@@ -120,7 +120,7 @@ Begin VB.Form frmRegistration
       Height          =   315
       Index           =   0
       Left            =   2040
-      TabIndex        =   14
+      TabIndex        =   2
       Top             =   900
       Width           =   555
    End
@@ -128,7 +128,7 @@ Begin VB.Form frmRegistration
       Caption         =   "&Save"
       Height          =   375
       Left            =   3690
-      TabIndex        =   11
+      TabIndex        =   25
       Top             =   3600
       Width           =   855
    End
@@ -136,7 +136,7 @@ Begin VB.Form frmRegistration
       Caption         =   "&Cancel"
       Height          =   375
       Left            =   2010
-      TabIndex        =   10
+      TabIndex        =   24
       Top             =   3600
       Width           =   855
    End
@@ -144,7 +144,7 @@ Begin VB.Form frmRegistration
       Height          =   315
       Index           =   6
       Left            =   1380
-      TabIndex        =   9
+      TabIndex        =   19
       Top             =   3060
       Width           =   555
    End
@@ -152,7 +152,7 @@ Begin VB.Form frmRegistration
       Height          =   315
       Index           =   5
       Left            =   1380
-      TabIndex        =   8
+      TabIndex        =   16
       Top             =   2700
       Width           =   555
    End
@@ -160,7 +160,7 @@ Begin VB.Form frmRegistration
       Height          =   315
       Index           =   4
       Left            =   1380
-      TabIndex        =   7
+      TabIndex        =   13
       Top             =   2340
       Width           =   555
    End
@@ -168,7 +168,7 @@ Begin VB.Form frmRegistration
       Height          =   315
       Index           =   3
       Left            =   1380
-      TabIndex        =   6
+      TabIndex        =   10
       Top             =   1980
       Width           =   555
    End
@@ -176,7 +176,7 @@ Begin VB.Form frmRegistration
       Height          =   315
       Index           =   2
       Left            =   1380
-      TabIndex        =   5
+      TabIndex        =   7
       Top             =   1620
       Width           =   555
    End
@@ -192,14 +192,14 @@ Begin VB.Form frmRegistration
       Height          =   315
       Index           =   0
       Left            =   1380
-      TabIndex        =   3
+      TabIndex        =   1
       Top             =   900
       Width           =   555
    End
    Begin VB.TextBox txtEMailAddress 
       Height          =   315
       Left            =   1380
-      TabIndex        =   2
+      TabIndex        =   0
       Top             =   180
       Width           =   4575
    End
@@ -219,7 +219,7 @@ Begin VB.Form frmRegistration
       Height          =   255
       Index           =   3
       Left            =   2760
-      TabIndex        =   13
+      TabIndex        =   27
       Top             =   600
       Width           =   495
    End
@@ -229,7 +229,7 @@ Begin VB.Form frmRegistration
       Height          =   255
       Index           =   2
       Left            =   2100
-      TabIndex        =   12
+      TabIndex        =   26
       Top             =   600
       Width           =   495
    End
@@ -239,7 +239,7 @@ Begin VB.Form frmRegistration
       Height          =   255
       Index           =   1
       Left            =   1440
-      TabIndex        =   1
+      TabIndex        =   23
       Top             =   600
       Width           =   495
    End
@@ -249,7 +249,7 @@ Begin VB.Form frmRegistration
       Height          =   255
       Index           =   0
       Left            =   60
-      TabIndex        =   0
+      TabIndex        =   22
       Top             =   180
       Width           =   1215
    End
