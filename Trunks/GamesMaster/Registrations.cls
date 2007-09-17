@@ -20,7 +20,7 @@ Option Explicit
 Private mCol As Collection
 
 Public Function Add(objRegistration As Registration) As Registration
-    mCol.Add objRegistration, objRegistration.EMail
+    mCol.Add objRegistration, GetAddress(objRegistration.EMail)
 End Function
 
 Public Property Get Item(vntIndexKey As Variant) As Registration

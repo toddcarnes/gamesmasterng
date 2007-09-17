@@ -17,6 +17,7 @@ Attribute VB_Ext_KEY = "Member0" ,"HomeWorlds"
 Option Explicit
 
 Public EMail As String
+Public RaceName As String
 Private mvarHomeWorlds As HomeWorlds
 
 Public Property Get HomeWorlds() As HomeWorlds

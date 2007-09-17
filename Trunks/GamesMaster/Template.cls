@@ -50,6 +50,25 @@ Public Enum Tech
     Count = 3
 End Enum
 
+Public Function OpenForRegistrations() As Boolean
+    ' Not Open
+    If RegistrationOpen = 0 _
+    Or RegistrationOpen > Now Then
+        OpenForRegistrations = False
+    
+    ' Closed
+    ElseIf RegistrationClose <> 0 _
+    And RegistrationClose <= Now Then
+        OpenForRegistrations = False
+    
+    ' Open and not closed
+    Else
+        OpenForRegistrations = True
+    End If
+    
+End Function
+
+
 Public Property Get Registrations() As Registrations
     If mobjRegistrations Is Nothing Then
         Set mobjRegistrations = New Registrations

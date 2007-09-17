@@ -45,31 +45,70 @@ End Sub
 
 Private Sub JoinGame(ByVal strGame As String, ByVal strFrom As String, ByVal varBody As Variant)
     Dim objGame As Game
+    Dim objRegistration As Registration
     Dim blnValid As Boolean
     Dim strMessage As String
     
     Set objGame = GalaxyNG.Games(strGame)
     If objGame Is Nothing Then
-        strMessage = ""
+        strMessage = "No Game"
     ElseIf objGame.Created Then
-        strMessage = ""
+        strMessage = "Game Started"
+    ElseIf Not objGame.Template.OpenForRegistrations Then
+        strMessage = "Not Open For Registrations"
     Else
-        'if an existing registration then
-            'Change the registration
+        strFrom = GetAddress(strFrom)
+        Set objRegistration = objGame.Template.Registrations(strFrom)
+        If Not objRegistration Is Nothing Then
             blnValid = True
-        'elseif closed
-        'elseif full
-        'else
+            objGame.Template.Save
+        ElseIf objGame.Template.Registrations.Count > objGame.Template.MaxPlayers Then
+            strMessage = "Game Full"
+        Else
+            Set objRegistration = New Registration
             'Process registration
             blnValid = True
             objGame.Template.Save
-        'endif
+        End If
     End If
     
     strMessage = Replace(strMessage, "[game]", strGame)
     ' Send Message
     Set objGame = Nothing
 End Sub
+
+Public Function RegisterPlayer(ByVal varBody As Variant) As Registration
+    Dim i As Long
+    Dim j As Long
+    Dim strLine As String
+    Dim varFields As Variant
+    Dim objHomeWorld As HomeWorld
+    Dim objRegistration As Registration
+    
+    For i = LBound(varBody) To UBound(varBody)
+        strLine = Trim(varBody(i))
+        If strLine = "" Then
+            ' ignore
+        Else
+            While InStr(1, strLine, "  ") > 0
+                strLine = Replace(strLine, "  ", " ")
+            Wend
+            varFields = Split(strLine, " ")
+            If varFields(0) = "#planets" Then
+                Set objRegistration.HomeWorlds = New HomeWorlds
+                For j = 1 To UBound(varFields)
+                    Set objHomeWorld = New HomeWorld
+                    objHomeWorld.Size = varFields(j)
+                Next j
+            ElseIf varFields(0) = "#racename" Then
+                objRegistration.RaceName = varFields(1)
+            End If
+        End If
+    Next i
+    
+
+End Function
+
 
 Private Sub CheckOrders(ByVal strFrom As String, ByVal varBody As Variant)
 
@@ -95,14 +134,14 @@ Private Sub AnalyseEMail(ByVal strEMail As String, _
     
     Dim i As Long
     Dim j As Long
-    Dim b As Long
+    Dim B As Long
     
     varLines = Split(strEMail, vbCrLf)
     For i = LBound(varLines) To UBound(varLines)
         strLine = varLines(i)
         If blnBody Then
-            b = b + 1
-            varBody(b) = strLine
+            B = B + 1
+            varBody(B) = strLine
         Else
             j = InStr(1, strLine, " ")
             If j > 0 Then
@@ -116,7 +155,7 @@ Private Sub AnalyseEMail(ByVal strEMail As String, _
                 End Select
             ElseIf strLine = "" Then
                 blnBody = True
-                b = -1
+                B = -1
             End If
         End If
     Next i
@@ -161,3 +200,4 @@ Private Function GetEMails() As Variant
     End If
     
 End Function
+

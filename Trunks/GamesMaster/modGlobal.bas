@@ -150,3 +150,18 @@ Public Function RunGalaxyNG(Optional ByVal strParameters As String) As Boolean
     'Delete the command file
     Kill strCommandFile
 End Function
+
+Public Function GetAddress(ByVal strEMail As String) As String
+    Dim i1 As Long
+    Dim i2 As Long
+    
+    i1 = InStr(1, strEMail, "<")
+    If i1 = 0 Then
+        GetAddress = Trim(strEMail)
+    Else
+        i2 = InStr(i1, strEMail, ">")
+        GetAddress = Trim(Mid(strEMail, i1 + 1, i2 - i1 - 1))
+    End If
+    
+End Function
+
