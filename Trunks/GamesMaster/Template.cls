@@ -40,6 +40,11 @@ Public StartDate As Date
 Public ScheduleDays As Long
 Public FinalOrders As Boolean
 
+Public MaxPlanets As Long
+Public MaxPlanetSize As Long
+Public TotalPlanetSize As Long
+
+
 Private mobjRegistrations As Registrations
 
 Public Enum Tech
@@ -86,7 +91,7 @@ Public Sub Load(Optional ByVal strFileName As String)
     Dim strFields() As String
     Dim i As Long
     Dim objRegistration As Registration
-    Dim objHomeworld As HomeWorld
+    Dim objHomeWorld As HomeWorld
     Dim blnPlayersFound As Boolean
     
     If strFileName <> "" Then
@@ -101,6 +106,12 @@ Public Sub Load(Optional ByVal strFileName As String)
         If strLine <> "" Then
             strFields = Split(strLine, " ")
             Select Case LCase(strFields(0))
+            Case ";maxplanets"
+                MaxPlanets = strFields(1)
+            Case ";maxplanetsize"
+                MaxPlanetSize = strFields(1)
+            Case ";totalplanetsize"
+                TotalPlanetSize = strFields(1)
             Case ";maxplayers" 'First comment line
                 MaxPlayers = strFields(1)
                 blnPlayersFound = True
@@ -159,9 +170,9 @@ Public Sub Load(Optional ByVal strFileName As String)
                 objRegistration.EMail = Mid(strLine, 7)
             Case "homeworld"
                 If Not objRegistration Is Nothing Then
-                    Set objHomeworld = New HomeWorld
-                    objRegistration.HomeWorlds.Add objHomeworld
-                    With objHomeworld
+                    Set objHomeWorld = New HomeWorld
+                    objRegistration.HomeWorlds.Add objHomeWorld
+                    With objHomeWorld
                         .Size = strFields(1)
                         If UBound(strFields) = 3 Then
                             .x = strFields(2)
@@ -172,7 +183,7 @@ Public Sub Load(Optional ByVal strFileName As String)
             Case "end_player"
                 If InStr(1, objRegistration.EMail, "@their.address.tld") = 0 Then
                     Registrations.Add objRegistration
-                    Set objHomeworld = Nothing
+                    Set objHomeWorld = Nothing
                 End If
             End Select
         End If
@@ -185,6 +196,9 @@ Public Function Clone(ByVal strTemplateName As String) As Template
     Set Clone = New Template
     With Clone
         .Filename = GalaxyNGHome & strTemplateName & ".glx"
+        .MaxPlanets = MaxPlanets
+        .MaxPlanetSize = MaxPlanetSize
+        .TotalPlanetSize = TotalPlanetSize
         .MaxPlayers = MaxPlayers
         .MinPlayers = MinPlayers
         .RegistrationOpen = RegistrationOpen
@@ -212,7 +226,7 @@ Public Sub Save(Optional ByVal strFileName As String)
     Dim intFN As Integer
     Dim i As Long
     Dim objRegistration As Registration
-    Dim objHomeworld As HomeWorld
+    Dim objHomeWorld As HomeWorld
     
     If strFileName = vbNullString Then
         strFileName = Filename
@@ -229,6 +243,9 @@ Public Sub Save(Optional ByVal strFileName As String)
     Open strFileName For Output As intFN
     Print #intFN, ";MaxPlayers "; CStr(MaxPlayers)
     Print #intFN, ";MinPlayers "; CStr(MinPlayers)
+    Print #intFN, ";MaxPlanets "; CStr(MaxPlanets)
+    Print #intFN, ";MaxPlanetSize "; CStr(MaxPlanetSize)
+    Print #intFN, ";TotalPlanetSize "; CStr(TotalPlanetSize)
     Print #intFN, ";RegistrationOpen "; Format(RegistrationOpen, "dd-mmm-yyyy hh:nn:ss")
     Print #intFN, ";RegistrationClose "; Format(RegistrationClose, "dd-mmm-yyyy hh:nn:ss")
     Print #intFN, ";RunTime "; Format(RunTime, "dd-mmm-yyyy hh:nn:ss")
@@ -266,14 +283,14 @@ Public Sub Save(Optional ByVal strFileName As String)
     For Each objRegistration In Registrations
         Print #intFN, "start_player"
         Print #intFN, "email "; objRegistration.EMail
-        For Each objHomeworld In objRegistration.HomeWorlds
-            Print #intFN, "homeworld "; CStr(objHomeworld.Size);
-            If objHomeworld.x <> 0 Or objHomeworld.y <> 0 Then
-                Print #intFN, " "; CStr(objHomeworld.x);
-                Print #intFN, " "; CStr(objHomeworld.y);
+        For Each objHomeWorld In objRegistration.HomeWorlds
+            Print #intFN, "homeworld "; CStr(objHomeWorld.Size);
+            If objHomeWorld.x <> 0 Or objHomeWorld.y <> 0 Then
+                Print #intFN, " "; CStr(objHomeWorld.x);
+                Print #intFN, " "; CStr(objHomeWorld.y);
             End If
             Print #intFN, ""
-        Next objHomeworld
+        Next objHomeWorld
         Print #intFN, "end_player"
     Next objRegistration
     Close #intFN

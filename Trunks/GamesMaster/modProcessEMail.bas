@@ -20,7 +20,7 @@ Private Sub ProcessEMail(ByVal strPath As String)
     Dim varBody As String
     Dim varSubject As Variant
 
-    strEMail = GetEMail(strPath)
+    strEMail = GetFile(strPath)
     Call AnalyseEMail(strEMail, strFrom, strSubject, varBody)
     
     While InStr(1, strSubject, "  ") > 0
@@ -45,35 +45,68 @@ End Sub
 
 Private Sub JoinGame(ByVal strGame As String, ByVal strFrom As String, ByVal varBody As Variant)
     Dim objGame As Game
+    Dim objExisting As Registration
     Dim objRegistration As Registration
     Dim blnValid As Boolean
     Dim strMessage As String
     
     Set objGame = GalaxyNG.Games(strGame)
     If objGame Is Nothing Then
-        strMessage = "No Game"
+        strMessage = "No such Game Exists"
+        blnValid = False
     ElseIf objGame.Created Then
-        strMessage = "Game Started"
+        strMessage = "Game has already started"
+        blnValid = False
     ElseIf Not objGame.Template.OpenForRegistrations Then
-        strMessage = "Not Open For Registrations"
+        strMessage = "Not is not open for registrations"
+        blnValid = False
     Else
         strFrom = GetAddress(strFrom)
-        Set objRegistration = objGame.Template.Registrations(strFrom)
-        If Not objRegistration Is Nothing Then
+        Set objExisting = objGame.Template.Registrations(strFrom)
+        If Not objExisting Is Nothing Then
+            Set objRegistration = RegisterPlayer(varBody)
             blnValid = True
-            objGame.Template.Save
         ElseIf objGame.Template.Registrations.Count > objGame.Template.MaxPlayers Then
-            strMessage = "Game Full"
+            strMessage = "Game is full"
+            blnValid = False
         Else
-            Set objRegistration = New Registration
-            'Process registration
+            Set objRegistration = RegisterPlayer(varBody)
+            objRegistration.EMail = strFrom
             blnValid = True
-            objGame.Template.Save
         End If
     End If
     
-    strMessage = Replace(strMessage, "[game]", strGame)
+    If blnValid Then
+        If objRegistration.HomeWorlds.Count > objGame.Template.MaxPlanets Then
+            strMessage = "Too many Planets"
+            blnValid = False
+        ElseIf objRegistration.HomeWorlds.MaxSize > objGame.Template.MaxPlanetSize Then
+            strMessage = "Planet too Large"
+            blnValid = False
+        ElseIf objRegistration.HomeWorlds.TotalSize > objGame.Template.TotalPlanetSize Then
+            strMessage = "Total planet size invalid"
+            blnValid = False
+        End If
+    End If
+    If blnValid Then
+        If objExisting Is Nothing Then
+            objGame.Template.Registrations.Add objRegistration
+            strMessage = "Registration accepted"
+        Else
+            Set objExisting.HomeWorlds = objRegistration.HomeWorlds
+            strMessage = "Registration updated"
+        End If
+    End If
+    
     ' Send Message
+    
+    If blnValid Then
+        objGame.Template.Save
+    End If
+
+    ' Clean up
+    Set objExisting = Nothing
+    Set objRegistration = Nothing
     Set objGame = Nothing
 End Sub
 
@@ -160,21 +193,6 @@ Private Sub AnalyseEMail(ByVal strEMail As String, _
         End If
     Next i
 End Sub
-
-Private Function GetEMail(ByVal strPath As String) As String
-    Dim intFN As Integer
-    Dim strBuffer As String
-    Dim lngLength As Long
-    
-    lngLength = FileLen(strPath)
-    strBuffer = String(lngLength, " ")
-    
-    intFN = FreeFile
-    Open strPath For Binary As #intFN
-    Get intFN, , strBuffer
-    Close intFN
-    GetEMail = strBuffer
-End Function
 
 Private Function GetEMails() As Variant
     Dim varFiles As Variant

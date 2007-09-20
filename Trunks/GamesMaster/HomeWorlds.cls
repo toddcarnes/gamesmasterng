@@ -19,8 +19,8 @@ Option Explicit
 
 Private mCol As Collection
 
-Public Sub Add(ByVal objHomeworld As HomeWorld)
-    mCol.Add objHomeworld
+Public Sub Add(ByVal objHomeWorld As HomeWorld)
+    mCol.Add objHomeWorld
 End Sub
 
 Public Property Get Item(vntIndexKey As Variant) As HomeWorld
@@ -51,4 +51,28 @@ End Sub
 Private Sub Class_Terminate()
     Set mCol = Nothing
 End Sub
+
+Public Function MaxSize() As Long
+    Dim objHomeWorld As HomeWorld
+    Dim lngMax As Long
+    
+    For Each objHomeWorld In mCol
+        If objHomeWorld.Size > lngMax Then
+            lngMax = objHomeWorld.Size
+        End If
+    Next objHomeWorld
+    
+    MaxSize = lngMax
+End Function
+
+Public Function TotalSize() As Long
+    Dim objHomeWorld As HomeWorld
+    Dim lngTotal As Long
+    
+    For Each objHomeWorld In mCol
+        lngTotal = lngTotal + objHomeWorld.Size
+    Next objHomeWorld
+    
+    TotalSize = lngTotal
+End Function
 

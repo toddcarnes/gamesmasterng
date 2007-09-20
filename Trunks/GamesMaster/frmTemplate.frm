@@ -3,7 +3,7 @@ Object = "{0ECD9B60-23AA-11D0-B351-00A0C9055D8E}#6.0#0"; "mshflxgd.ocx"
 Begin VB.Form frmTemplate 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Template"
-   ClientHeight    =   7020
+   ClientHeight    =   8205
    ClientLeft      =   45
    ClientTop       =   735
    ClientWidth     =   7215
@@ -11,118 +11,66 @@ Begin VB.Form frmTemplate
    MaxButton       =   0   'False
    MDIChild        =   -1  'True
    MinButton       =   0   'False
-   ScaleHeight     =   7020
+   ScaleHeight     =   8205
    ScaleWidth      =   7215
    Begin VB.CommandButton cmdCancel 
       Caption         =   "&Cancel"
       Height          =   435
       Left            =   2160
-      TabIndex        =   59
-      Top             =   6540
+      TabIndex        =   62
+      Top             =   7620
       Width           =   1155
    End
    Begin VB.Frame frRunOptions 
       Caption         =   "Run Options"
-      Height          =   3135
+      Height          =   4215
       Left            =   4200
-      TabIndex        =   50
+      TabIndex        =   53
       Top             =   1560
       Width           =   2955
+      Begin VB.TextBox txtTotalPlanetSize 
+         Height          =   315
+         Left            =   1560
+         TabIndex        =   24
+         Tag             =   "1"
+         Top             =   1680
+         Width           =   495
+      End
+      Begin VB.TextBox txtMaxPlanetSize 
+         Height          =   315
+         Left            =   1560
+         TabIndex        =   23
+         Tag             =   "1"
+         Top             =   1320
+         Width           =   495
+      End
+      Begin VB.TextBox txtMaxPlanets 
+         Height          =   315
+         Left            =   1560
+         TabIndex        =   22
+         Tag             =   "1"
+         Top             =   960
+         Width           =   495
+      End
       Begin VB.CheckBox chkFinalOrders 
          Height          =   315
-         Left            =   1380
-         TabIndex        =   27
+         Left            =   1560
+         TabIndex        =   30
          Tag             =   "12"
-         Top             =   2700
+         Top             =   3780
          Width           =   255
       End
       Begin VB.TextBox txtScheduleDays 
          Height          =   315
-         Left            =   1380
-         TabIndex        =   26
+         Left            =   1560
+         TabIndex        =   29
          Tag             =   "1"
-         Top             =   2400
+         Top             =   3480
          Width           =   555
       End
       Begin GamesMaster.DateBox dtRegOpen 
          Height          =   315
-         Left            =   1380
-         TabIndex        =   22
-         Top             =   960
-         Width           =   1035
-         _ExtentX        =   1826
-         _ExtentY        =   556
-         BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-            Name            =   "MS Sans Serif"
-            Size            =   8.25
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         DateFormat      =   "dd/mm/yyyy"
-         TimeFormat      =   ""
-      End
-      Begin VB.TextBox txtMinPlayers 
-         Height          =   315
-         Left            =   1380
-         TabIndex        =   21
-         Tag             =   "1"
-         Top             =   600
-         Width           =   495
-      End
-      Begin VB.TextBox txtMaxPlayers 
-         Height          =   315
-         Left            =   1380
-         TabIndex        =   20
-         Tag             =   "1"
-         Top             =   240
-         Width           =   495
-      End
-      Begin GamesMaster.DateBox dtRegClose 
-         Height          =   315
-         Left            =   1380
-         TabIndex        =   23
-         Top             =   1320
-         Width           =   1035
-         _ExtentX        =   1826
-         _ExtentY        =   556
-         BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-            Name            =   "MS Sans Serif"
-            Size            =   8.25
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         DateFormat      =   "dd/mm/yyyy"
-         TimeFormat      =   ""
-      End
-      Begin GamesMaster.DateBox dtRunTime 
-         Height          =   315
-         Left            =   1380
-         TabIndex        =   24
-         Top             =   1680
-         Width           =   555
-         _ExtentX        =   979
-         _ExtentY        =   556
-         BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-            Name            =   "MS Sans Serif"
-            Size            =   8.25
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         DateFormat      =   ""
-         TimeFormat      =   "hh:nn"
-      End
-      Begin GamesMaster.DateBox dtStartDate 
-         Height          =   315
-         Left            =   1380
+         Left            =   1560
          TabIndex        =   25
          Top             =   2040
          Width           =   1035
@@ -140,14 +88,120 @@ Begin VB.Form frmTemplate
          DateFormat      =   "dd/mm/yyyy"
          TimeFormat      =   ""
       End
+      Begin VB.TextBox txtMinPlayers 
+         Height          =   315
+         Left            =   1560
+         TabIndex        =   21
+         Tag             =   "1"
+         Top             =   600
+         Width           =   495
+      End
+      Begin VB.TextBox txtMaxPlayers 
+         Height          =   315
+         Left            =   1560
+         TabIndex        =   20
+         Tag             =   "1"
+         Top             =   240
+         Width           =   495
+      End
+      Begin GamesMaster.DateBox dtRegClose 
+         Height          =   315
+         Left            =   1560
+         TabIndex        =   26
+         Top             =   2400
+         Width           =   1035
+         _ExtentX        =   1826
+         _ExtentY        =   556
+         BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         DateFormat      =   "dd/mm/yyyy"
+         TimeFormat      =   ""
+      End
+      Begin GamesMaster.DateBox dtRunTime 
+         Height          =   315
+         Left            =   1560
+         TabIndex        =   27
+         Top             =   2760
+         Width           =   555
+         _ExtentX        =   979
+         _ExtentY        =   556
+         BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         DateFormat      =   ""
+         TimeFormat      =   "hh:nn"
+      End
+      Begin GamesMaster.DateBox dtStartDate 
+         Height          =   315
+         Left            =   1560
+         TabIndex        =   28
+         Top             =   3120
+         Width           =   1035
+         _ExtentX        =   1826
+         _ExtentY        =   556
+         BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         DateFormat      =   "dd/mm/yyyy"
+         TimeFormat      =   ""
+      End
+      Begin VB.Label Label 
+         Alignment       =   1  'Right Justify
+         Caption         =   "Total Planet Size:"
+         Height          =   255
+         Index           =   25
+         Left            =   60
+         TabIndex        =   65
+         Top             =   1740
+         Width           =   1395
+      End
+      Begin VB.Label Label 
+         Alignment       =   1  'Right Justify
+         Caption         =   "Max Planet Size:"
+         Height          =   255
+         Index           =   24
+         Left            =   240
+         TabIndex        =   64
+         Top             =   1380
+         Width           =   1215
+      End
+      Begin VB.Label Label 
+         Alignment       =   1  'Right Justify
+         Caption         =   "Max Planets:"
+         Height          =   255
+         Index           =   23
+         Left            =   300
+         TabIndex        =   63
+         Top             =   1020
+         Width           =   1155
+      End
       Begin VB.Label Label 
          Alignment       =   1  'Right Justify
          Caption         =   "Final Orders:"
          Height          =   255
          Index           =   22
-         Left            =   120
-         TabIndex        =   58
-         Top             =   2760
+         Left            =   300
+         TabIndex        =   61
+         Top             =   3840
          Width           =   1155
       End
       Begin VB.Label Label 
@@ -155,9 +209,9 @@ Begin VB.Form frmTemplate
          Caption         =   "Schedule Days:"
          Height          =   255
          Index           =   21
-         Left            =   120
-         TabIndex        =   57
-         Top             =   2460
+         Left            =   300
+         TabIndex        =   60
+         Top             =   3540
          Width           =   1155
       End
       Begin VB.Label Label 
@@ -165,9 +219,9 @@ Begin VB.Form frmTemplate
          Caption         =   "Start Date:"
          Height          =   255
          Index           =   20
-         Left            =   120
-         TabIndex        =   56
-         Top             =   2100
+         Left            =   300
+         TabIndex        =   59
+         Top             =   3180
          Width           =   1155
       End
       Begin VB.Label Label 
@@ -175,9 +229,9 @@ Begin VB.Form frmTemplate
          Caption         =   "Run Time:"
          Height          =   255
          Index           =   19
-         Left            =   120
-         TabIndex        =   55
-         Top             =   1740
+         Left            =   300
+         TabIndex        =   58
+         Top             =   2820
          Width           =   1155
       End
       Begin VB.Label Label 
@@ -185,9 +239,9 @@ Begin VB.Form frmTemplate
          Caption         =   "Reg Close:"
          Height          =   255
          Index           =   18
-         Left            =   120
-         TabIndex        =   54
-         Top             =   1380
+         Left            =   300
+         TabIndex        =   57
+         Top             =   2460
          Width           =   1155
       End
       Begin VB.Label Label 
@@ -195,9 +249,9 @@ Begin VB.Form frmTemplate
          Caption         =   "Reg Open:"
          Height          =   255
          Index           =   17
-         Left            =   120
-         TabIndex        =   53
-         Top             =   1020
+         Left            =   300
+         TabIndex        =   56
+         Top             =   2100
          Width           =   1155
       End
       Begin VB.Label Label 
@@ -205,8 +259,8 @@ Begin VB.Form frmTemplate
          Caption         =   "Min Players:"
          Height          =   255
          Index           =   16
-         Left            =   120
-         TabIndex        =   52
+         Left            =   300
+         TabIndex        =   55
          Top             =   660
          Width           =   1155
       End
@@ -215,8 +269,8 @@ Begin VB.Form frmTemplate
          Caption         =   "Max Players:"
          Height          =   255
          Index           =   3
-         Left            =   120
-         TabIndex        =   51
+         Left            =   300
+         TabIndex        =   54
          Top             =   300
          Width           =   1155
       End
@@ -225,13 +279,13 @@ Begin VB.Form frmTemplate
       Caption         =   "Registrations"
       Height          =   1755
       Left            =   0
-      TabIndex        =   44
-      Top             =   4740
+      TabIndex        =   47
+      Top             =   5820
       Width           =   7155
       Begin MSHierarchicalFlexGridLib.MSHFlexGrid grdRegistrations 
          Height          =   1395
          Left            =   120
-         TabIndex        =   28
+         TabIndex        =   31
          Top             =   240
          Width           =   6915
          _ExtentX        =   12197
@@ -245,7 +299,7 @@ Begin VB.Form frmTemplate
       Caption         =   "Galaxy Options"
       Height          =   1035
       Left            =   60
-      TabIndex        =   40
+      TabIndex        =   43
       Top             =   480
       Width           =   7095
       Begin VB.CheckBox chkFullBombing 
@@ -310,7 +364,7 @@ Begin VB.Form frmTemplate
          Height          =   255
          Index           =   6
          Left            =   300
-         TabIndex        =   49
+         TabIndex        =   52
          Top             =   660
          Width           =   1035
       End
@@ -320,7 +374,7 @@ Begin VB.Form frmTemplate
          Height          =   255
          Index           =   7
          Left            =   1740
-         TabIndex        =   48
+         TabIndex        =   51
          Top             =   660
          Width           =   1275
       End
@@ -330,7 +384,7 @@ Begin VB.Form frmTemplate
          Height          =   255
          Index           =   8
          Left            =   3360
-         TabIndex        =   47
+         TabIndex        =   50
          Top             =   660
          Width           =   1275
       End
@@ -340,7 +394,7 @@ Begin VB.Form frmTemplate
          Height          =   255
          Index           =   9
          Left            =   4980
-         TabIndex        =   46
+         TabIndex        =   49
          Top             =   660
          Width           =   1275
       End
@@ -350,7 +404,7 @@ Begin VB.Form frmTemplate
          Height          =   255
          Index           =   12
          Left            =   4260
-         TabIndex        =   45
+         TabIndex        =   48
          Top             =   300
          Width           =   555
       End
@@ -360,7 +414,7 @@ Begin VB.Form frmTemplate
          Height          =   255
          Index           =   2
          Left            =   2040
-         TabIndex        =   42
+         TabIndex        =   45
          Top             =   300
          Width           =   1155
       End
@@ -370,7 +424,7 @@ Begin VB.Form frmTemplate
          Height          =   255
          Index           =   1
          Left            =   420
-         TabIndex        =   41
+         TabIndex        =   44
          Top             =   300
          Width           =   915
       End
@@ -386,14 +440,14 @@ Begin VB.Form frmTemplate
       Caption         =   "Player Options"
       Height          =   3135
       Left            =   60
-      TabIndex        =   30
+      TabIndex        =   33
       Top             =   1560
       Width           =   4095
       Begin VB.Frame frCoreSizes 
          Caption         =   "Planet Core Sizes"
          Height          =   675
          Left            =   120
-         TabIndex        =   36
+         TabIndex        =   39
          Top             =   1380
          Width           =   3855
          Begin VB.TextBox txtCoreSizes 
@@ -446,7 +500,7 @@ Begin VB.Form frmTemplate
          Caption         =   "Initial Tech Levels"
          Height          =   915
          Left            =   120
-         TabIndex        =   31
+         TabIndex        =   34
          Top             =   2100
          Width           =   3495
          Begin VB.TextBox txtInitialTechLevel 
@@ -490,7 +544,7 @@ Begin VB.Form frmTemplate
             Height          =   255
             Index           =   11
             Left            =   120
-            TabIndex        =   35
+            TabIndex        =   38
             Top             =   240
             Width           =   675
          End
@@ -499,7 +553,7 @@ Begin VB.Form frmTemplate
             Height          =   255
             Index           =   13
             Left            =   960
-            TabIndex        =   34
+            TabIndex        =   37
             Top             =   240
             Width           =   855
          End
@@ -508,7 +562,7 @@ Begin VB.Form frmTemplate
             Height          =   255
             Index           =   14
             Left            =   1800
-            TabIndex        =   33
+            TabIndex        =   36
             Top             =   240
             Width           =   675
          End
@@ -517,7 +571,7 @@ Begin VB.Form frmTemplate
             Height          =   255
             Index           =   15
             Left            =   2640
-            TabIndex        =   32
+            TabIndex        =   35
             Top             =   240
             Width           =   675
          End
@@ -552,7 +606,7 @@ Begin VB.Form frmTemplate
          Height          =   255
          Index           =   10
          Left            =   120
-         TabIndex        =   39
+         TabIndex        =   42
          Top             =   1020
          Width           =   975
       End
@@ -562,7 +616,7 @@ Begin VB.Form frmTemplate
          Height          =   255
          Index           =   5
          Left            =   120
-         TabIndex        =   38
+         TabIndex        =   41
          Top             =   660
          Width           =   1035
       End
@@ -572,7 +626,7 @@ Begin VB.Form frmTemplate
          Height          =   255
          Index           =   4
          Left            =   120
-         TabIndex        =   37
+         TabIndex        =   40
          Top             =   300
          Width           =   1035
       End
@@ -581,8 +635,8 @@ Begin VB.Form frmTemplate
       Caption         =   "Close"
       Height          =   435
       Left            =   3660
-      TabIndex        =   29
-      Top             =   6540
+      TabIndex        =   32
+      Top             =   7620
       Width           =   1155
    End
    Begin VB.Label Label 
@@ -591,7 +645,7 @@ Begin VB.Form frmTemplate
       Height          =   255
       Index           =   0
       Left            =   180
-      TabIndex        =   43
+      TabIndex        =   46
       Top             =   120
       Width           =   1395
    End
@@ -846,6 +900,14 @@ Private Sub txtEmptyRadius_Change()
     Template.empty_radius = Val(txtEmptyRadius.Text)
 End Sub
 
+Private Sub txtMaxPlanets_Change()
+    Template.MaxPlanets = Val(txtMaxPlanets.Text)
+End Sub
+
+Private Sub txtMaxPlanetSize_Change()
+    Template.MaxPlanetSize = Val(txtMaxPlanetSize.Text)
+End Sub
+
 Private Sub txtMaxPlayers_Change()
     Template.MaxPlayers = Val(txtMaxPlayers.Text)
 End Sub
@@ -922,4 +984,8 @@ Private Sub LoadRegistrations()
         Next objRegistration
     End With
 
+End Sub
+
+Private Sub txtTotalPlanetSize_Change()
+    Template.TotalPlanetSize = Val(txtTotalPlanetSize.Text)
 End Sub

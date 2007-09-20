@@ -165,3 +165,19 @@ Public Function GetAddress(ByVal strEMail As String) As String
     
 End Function
 
+Private Function GetFile(ByVal strPath As String) As String
+    Dim intFN As Integer
+    Dim strBuffer As String
+    Dim lngLength As Long
+    
+    lngLength = FileLen(strPath)
+    strBuffer = String(lngLength, " ")
+    
+    intFN = FreeFile
+    Open strPath For Binary As #intFN
+    Get intFN, , strBuffer
+    Close intFN
+    GetFile = strBuffer
+End Function
+
+
