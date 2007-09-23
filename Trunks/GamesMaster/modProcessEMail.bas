@@ -9,7 +9,7 @@ Public Sub ProcessEMails()
     varEMails = GetEMails
     If IsEmpty(varEMails) Then Exit Sub
     For i = 0 To UBound(varEMails)
-        Call ProcessEMail(Inbox & "\" & varEMails(i))
+        Call ProcessEMail(Inbox & varEMails(i))
     Next i
 End Sub
 
@@ -17,7 +17,7 @@ Private Sub ProcessEMail(ByVal strPath As String)
     Dim strEMail As String
     Dim strFrom As String
     Dim strSubject As String
-    Dim varBody As String
+    Dim varBody As Variant
     Dim varSubject As Variant
 
     strEMail = GetFile(strPath)
@@ -115,9 +115,10 @@ Public Function RegisterPlayer(ByVal varBody As Variant) As Registration
     Dim j As Long
     Dim strLine As String
     Dim varFields As Variant
-    Dim objHomeWorld As HomeWorld
+    Dim objHomeworld As HomeWorld
     Dim objRegistration As Registration
     
+    Set objRegistration = New Registration
     For i = LBound(varBody) To UBound(varBody)
         strLine = Trim(varBody(i))
         If strLine = "" Then
@@ -130,15 +131,15 @@ Public Function RegisterPlayer(ByVal varBody As Variant) As Registration
             If varFields(0) = "#planets" Then
                 Set objRegistration.HomeWorlds = New HomeWorlds
                 For j = 1 To UBound(varFields)
-                    Set objHomeWorld = New HomeWorld
-                    objHomeWorld.Size = varFields(j)
+                    Set objHomeworld = New HomeWorld
+                    objHomeworld.Size = varFields(j)
                 Next j
             ElseIf varFields(0) = "#racename" Then
                 objRegistration.RaceName = varFields(1)
             End If
         End If
     Next i
-    
+    Set RegisterPlayer = objRegistration
 
 End Function
 
@@ -157,8 +158,8 @@ End Sub
 
 Private Sub AnalyseEMail(ByVal strEMail As String, _
                         ByRef strFrom As String, _
-                        ByVal strSubject As String, _
-                        ByVal varBody As Variant)
+                        ByRef strSubject As String, _
+                        ByRef varBody As Variant)
     Dim varLines As Variant
     Dim strLine As String
     Dim strWord As String
@@ -169,11 +170,15 @@ Private Sub AnalyseEMail(ByVal strEMail As String, _
     Dim j As Long
     Dim B As Long
     
+    B = -1
     varLines = Split(strEMail, vbCrLf)
     For i = LBound(varLines) To UBound(varLines)
         strLine = varLines(i)
         If blnBody Then
             B = B + 1
+            If B > UBound(varBody) Then
+                ReDim Preserve varBody(B + 100)
+            End If
             varBody(B) = strLine
         Else
             j = InStr(1, strLine, " ")
@@ -188,10 +193,14 @@ Private Sub AnalyseEMail(ByVal strEMail As String, _
                 End Select
             ElseIf strLine = "" Then
                 blnBody = True
-                B = -1
+                ReDim varBody(99)
             End If
         End If
     Next i
+    
+    If B >= 0 Then
+        ReDim Preserve varBody(B)
+    End If
 End Sub
 
 Private Function GetEMails() As Variant

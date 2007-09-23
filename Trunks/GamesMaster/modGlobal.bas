@@ -18,6 +18,7 @@ Public GalaxyNGexe As String
 Public GalaxyNG As GalaxyNG
 
 Public Inbox As String
+Public Outbox As String
 Public ServerName As String
 Public POPServer As String
 Public POPServerPort As Long
@@ -85,6 +86,7 @@ Private Sub LoadSettings()
     
         CheckMailInterval = .GetSetting("EMail", "Interval", "5")
         Inbox = .GetSetting("EMail", "Inbox", App.Path & "\Inbox\")
+        Outbox = .GetSetting("EMail", "Outbox", App.Path & "\Outbox\")
         ServerName = .GetSetting("EMail", "ServerName", "")
         POPServer = .GetSetting("EMail", "POPServer", "")
         POPServerPort = .GetSetting("EMail", "POPServerPort", "110")
@@ -114,6 +116,7 @@ Private Sub SaveSettings()
     
         Call .SaveSetting("EMail", "Interval", CheckMailInterval)
         Call .SaveSetting("EMail", "Inbox", Inbox)
+        Call .SaveSetting("EMail", "Outbox", Outbox)
         Call .SaveSetting("EMail", "ServerName", ServerName)
         Call .SaveSetting("EMail", "POPServer", POPServer)
         Call .SaveSetting("EMail", "POPServerPort", POPServerPort)
@@ -165,7 +168,7 @@ Public Function GetAddress(ByVal strEMail As String) As String
     
 End Function
 
-Private Function GetFile(ByVal strPath As String) As String
+Public Function GetFile(ByVal strPath As String) As String
     Dim intFN As Integer
     Dim strBuffer As String
     Dim lngLength As Long

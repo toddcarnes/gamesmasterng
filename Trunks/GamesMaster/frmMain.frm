@@ -49,7 +49,7 @@ Begin VB.MDIForm frmMain
             AutoSize        =   2
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "12/09/2007"
+            TextSave        =   "24/09/2007"
             Key             =   "Date"
          EndProperty
          BeginProperty Panel4 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
@@ -58,7 +58,7 @@ Begin VB.MDIForm frmMain
             AutoSize        =   2
             Object.Width           =   1402
             MinWidth        =   1411
-            TextSave        =   "21:18"
+            TextSave        =   "6:49"
             Key             =   "Time"
          EndProperty
       EndProperty
@@ -88,6 +88,9 @@ Begin VB.MDIForm frmMain
       Caption         =   "Mail"
       Begin VB.Menu mnuMailRetreive 
          Caption         =   "Retreive"
+      End
+      Begin VB.Menu mnuMailProcess 
+         Caption         =   "Process"
       End
       Begin VB.Menu mnuMailShow 
          Caption         =   "Show"
@@ -119,16 +122,22 @@ Private Sub MDIForm_Load()
     End With
     With tmrMail
         .Interval = 10000
-        .Enabled = True
+        .Enabled = False
+    End With
+    With tmrGalaxyNG
+        .Interval = 10000
+        .Enabled = False
     End With
 End Sub
 
 Private Sub MDIForm_QueryUnload(Cancel As Integer, UnloadMode As Integer)
     If UnloadMode = vbFormControlMenu Then
-        Systray.InTray = True
-        Me.Hide
-        Cancel = -1
-        Exit Sub
+        If tmrMail.Enabled Or tmrGalaxyNG.Enabled Then
+            Systray.InTray = True
+            Me.Hide
+            Cancel = -1
+            Exit Sub
+        End If
     End If
 End Sub
 
@@ -171,6 +180,10 @@ Private Sub mnuGames_Click()
     End If
     Set fForm = Nothing
     Set fGames = Nothing
+End Sub
+
+Private Sub mnuMailProcess_Click()
+    Call ProcessEMails
 End Sub
 
 Private Sub mnuMailRetreive_Click()
