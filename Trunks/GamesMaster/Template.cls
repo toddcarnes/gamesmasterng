@@ -73,7 +73,6 @@ Public Function OpenForRegistrations() As Boolean
     
 End Function
 
-
 Public Property Get Registrations() As Registrations
     If mobjRegistrations Is Nothing Then
         Set mobjRegistrations = New Registrations
@@ -83,6 +82,20 @@ End Property
 
 Public Property Set Registrations(ByVal objRegistrations As Registrations)
     Set mobjRegistrations = objRegistrations
+End Property
+
+Public Property Get DefaultHomeWorlds() As HomeWorlds
+    Dim objHomeWorlds As HomeWorlds
+    Dim objHomeWorld As HomeWorld
+    Dim i As Long
+    
+    Set objHomeWorlds = New HomeWorlds
+    For i = 0 To UBound(core_sizes)
+        Set objHomeWorld = New HomeWorld
+        objHomeWorld.Size = core_sizes(i)
+        objHomeWorlds.Add objHomeWorld
+    Next i
+    Set DefaultHomeWorlds = objHomeWorlds
 End Property
 
 Public Sub Load(Optional ByVal strFileName As String)

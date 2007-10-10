@@ -76,3 +76,16 @@ Public Function TotalSize() As Long
     TotalSize = lngTotal
 End Function
 
+Public Function Text() As String
+    Dim objHomeWorld As HomeWorld
+    Dim strText As String
+    Dim i As Long
+    
+    For Each objHomeWorld In mCol
+        i = i + 1
+        strText = strText & _
+                "    Homeworld " & CStr(i) & " size: " & CStr(objHomeWorld.Size) & vbNewLine
+    Next objHomeWorld
+    Text = strText
+End Function
+

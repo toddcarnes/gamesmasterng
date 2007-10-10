@@ -6,6 +6,7 @@ Private mcRace As String
 Private NextTurnFile As String
 Private GamesMasterReportFile As String
 Private RaceReportFile As String
+Private mcolMessages As Collection
 
 Public GalaxyNGHome As String
 Public GalaxyNGData As String
@@ -183,4 +184,55 @@ Public Function GetFile(ByVal strPath As String) As String
     GetFile = strBuffer
 End Function
 
+Public Function GetMessage(ByVal strKey As String, ParamArray Parm() As Variant) As String
+    Dim strMessage As String
+    Dim i As Long
+    If mcolMessages Is Nothing Then
+        Call LoadMessages
+    End If
+    On Error Resume Next
+    strMessage = mcolMessages(strKey)
+    On Error GoTo 0
+    
+    If Not IsEmpty(Parm) Then
+        For i = LBound(Parm) To UBound(Parm)
+            strMessage = Replace(strMessage, "[" & CStr(i + 1) & "]", Parm(i))
+        Next i
+    End If
+    GetMessage = strMessage
+End Function
 
+Private Sub LoadMessages()
+    Dim varMessage As Variant
+    Dim lngNo As Long
+    Dim strKey As String
+    Dim intFN As Integer
+    Dim i As Long
+    Dim strLine As String
+    Dim blnText As Boolean
+    
+    Set mcolMessages = New Collection
+    intFN = FreeFile
+    Open App.Path & "\" & App.EXEName & ".txt" For Input As intFN
+    blnText = False
+    
+    While Not EOF(intFN)
+        Line Input #intFN, strLine
+        strLine = Trim(strLine)
+        If blnText Then
+            If strLine = "@" Then
+                blnText = False
+                mcolMessages.Add varMessage, strKey
+            Else
+                varMessage = varMessage & strLine & vbNewLine
+            End If
+        Else
+            i = InStr(1, strLine, " ")
+            lngNo = Val(Left(strLine, i - 1))
+            strKey = Trim(Mid(strLine, i + 1))
+            varMessage = ""
+            blnText = True
+        End If
+    Wend
+    Close #intFN
+End Sub

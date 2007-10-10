@@ -52,13 +52,13 @@ Private Sub JoinGame(ByVal strGame As String, ByVal strFrom As String, ByVal var
     
     Set objGame = GalaxyNG.Games(strGame)
     If objGame Is Nothing Then
-        strMessage = "No such Game Exists"
+        strMessage = GetMessage("NoGame", strGame)
         blnValid = False
     ElseIf objGame.Created Then
-        strMessage = "Game has already started"
+        strMessage = GetMessage("GameStarted", strGame)
         blnValid = False
     ElseIf Not objGame.Template.OpenForRegistrations Then
-        strMessage = "Not is not open for registrations"
+        strMessage = GetMessage("NotOpen", strGame)
         blnValid = False
     Else
         strFrom = GetAddress(strFrom)
@@ -67,7 +67,7 @@ Private Sub JoinGame(ByVal strGame As String, ByVal strFrom As String, ByVal var
             Set objRegistration = RegisterPlayer(varBody)
             blnValid = True
         ElseIf objGame.Template.Registrations.Count > objGame.Template.MaxPlayers Then
-            strMessage = "Game is full"
+            strMessage = GetMessage("GameFull", strGame, objGame.Template.MaxPlayers)
             blnValid = False
         Else
             Set objRegistration = RegisterPlayer(varBody)
@@ -77,31 +77,45 @@ Private Sub JoinGame(ByVal strGame As String, ByVal strFrom As String, ByVal var
     End If
     
     If blnValid Then
-        If objRegistration.HomeWorlds.Count > objGame.Template.MaxPlanets Then
-            strMessage = "Too many Planets"
-            Set objRegistration.HomeWorlds = New HomeWorlds
+        If objRegistration.HomeWorlds.Count = 0 Then
+            Set objRegistration.HomeWorlds = objGame.Template.DefaultHomeWorlds
+        ElseIf objRegistration.HomeWorlds.Count > objGame.Template.MaxPlanets Then
+            strMessage = GetMessage("TooManyPlanets", strGame, _
+                        objRegistration.HomeWorlds.Count, _
+                        objGame.Template.MaxPlanets)
+            Set objRegistration.HomeWorlds = objGame.Template.DefaultHomeWorlds
             blnValid = True
         ElseIf objRegistration.HomeWorlds.MaxSize > objGame.Template.MaxPlanetSize Then
-            strMessage = "Planet too Large"
-            Set objRegistration.HomeWorlds = New HomeWorlds
+            strMessage = GetMessage("PlanetTooLarge", strGame, _
+            objRegistration.HomeWorlds.MaxSize, objGame.Template.MaxPlanetSize)
+            Set objRegistration.HomeWorlds = objGame.Template.DefaultHomeWorlds
             blnValid = True
         ElseIf objRegistration.HomeWorlds.TotalSize > objGame.Template.TotalPlanetSize Then
-            strMessage = "Total planet size invalid"
-            Set objRegistration.HomeWorlds = New HomeWorlds
+            strMessage = GetMessage("TotalPlanets", strGame, _
+            objRegistration.HomeWorlds.TotalSize, _
+            objGame.Template.TotalPlanetSize)
+            Set objRegistration.HomeWorlds = objGame.Template.DefaultHomeWorlds
             blnValid = True
         End If
     End If
+    
     If blnValid Then
         If objExisting Is Nothing Then
             objGame.Template.Registrations.Add objRegistration
-            strMessage = strMessage & vbNewLine & "Registration accepted"
+            strMessage = strMessage & vbNewLine & _
+                            GetMessage("RegistrationAccepted", strGame, objRegistration.HomeWorlds.Text)
         Else
             Set objExisting.HomeWorlds = objRegistration.HomeWorlds
-            strMessage = strMessage & vbNewLine & "Registration updated"
+            strMessage = strMessage & vbNewLine & _
+                            GetMessage("RegistrationUpdated", strGame, objRegistration.HomeWorlds.Text)
         End If
     End If
     
     ' Send Message
+    strMessage = GetMessage("Header") & _
+                strMessage & _
+                GetMessage("Footer", ServerName)
+    Call SendEMail(strFrom, "re: Join " & strGame, strMessage)
     
     If blnValid Then
         objGame.Template.Save
@@ -118,7 +132,7 @@ Public Function RegisterPlayer(ByVal varBody As Variant) As Registration
     Dim j As Long
     Dim strLine As String
     Dim varFields As Variant
-    Dim objHomeworld As HomeWorld
+    Dim objHomeWorld As HomeWorld
     Dim objRegistration As Registration
     
     Set objRegistration = New Registration
@@ -134,8 +148,8 @@ Public Function RegisterPlayer(ByVal varBody As Variant) As Registration
             If varFields(0) = "#planets" Then
                 Set objRegistration.HomeWorlds = New HomeWorlds
                 For j = 1 To UBound(varFields)
-                    Set objHomeworld = New HomeWorld
-                    objHomeworld.Size = varFields(j)
+                    Set objHomeWorld = New HomeWorld
+                    objHomeWorld.Size = varFields(j)
                 Next j
             ElseIf varFields(0) = "#racename" Then
                 objRegistration.RaceName = varFields(1)
@@ -228,6 +242,28 @@ Private Function GetEMails() As Variant
         ReDim Preserve varFiles(i)
         GetEMails = varFiles
     End If
+    
+End Function
+
+Public Function SendEMail(ByVal strTo As String, ByVal strSubject As String, ByVal strBody As String)
+    Dim intFN As Integer
+    Dim lngName As Long
+    Dim strFilename As String
+    Do
+        lngName = lngName + 1
+        strFilename = Outbox & Format(lngName, "000000") & ".txt"
+        If Dir(strFilename) = "" Then Exit Do
+    Loop
+    intFN = FreeFile
+    Open strFilename For Output As #intFN
+    Print #intFN, "To: " & strTo
+    Print #intFN, "From: " & SMTPFromAddress
+    Print #intFN, "Subject: " & strSubject
+    Print #intFN, "Date: " & Format(Now, "ddd, d mmm yyyy hh:nn:ss ")
+    Print #intFN, "Reply-To: " & SMTPFromAddress
+    Print #intFN, ""
+    Print #intFN, strBody
+    Close #intFN
     
 End Function
 
