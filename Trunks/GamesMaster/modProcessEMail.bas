@@ -79,22 +79,25 @@ Private Sub JoinGame(ByVal strGame As String, ByVal strFrom As String, ByVal var
     If blnValid Then
         If objRegistration.HomeWorlds.Count > objGame.Template.MaxPlanets Then
             strMessage = "Too many Planets"
-            blnValid = False
+            Set objRegistration.HomeWorlds = New HomeWorlds
+            blnValid = True
         ElseIf objRegistration.HomeWorlds.MaxSize > objGame.Template.MaxPlanetSize Then
             strMessage = "Planet too Large"
-            blnValid = False
+            Set objRegistration.HomeWorlds = New HomeWorlds
+            blnValid = True
         ElseIf objRegistration.HomeWorlds.TotalSize > objGame.Template.TotalPlanetSize Then
             strMessage = "Total planet size invalid"
-            blnValid = False
+            Set objRegistration.HomeWorlds = New HomeWorlds
+            blnValid = True
         End If
     End If
     If blnValid Then
         If objExisting Is Nothing Then
             objGame.Template.Registrations.Add objRegistration
-            strMessage = "Registration accepted"
+            strMessage = strMessage & vbNewLine & "Registration accepted"
         Else
             Set objExisting.HomeWorlds = objRegistration.HomeWorlds
-            strMessage = "Registration updated"
+            strMessage = strMessage & vbNewLine & "Registration updated"
         End If
     End If
     
