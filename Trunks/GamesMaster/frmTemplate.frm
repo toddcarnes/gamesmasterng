@@ -787,6 +787,9 @@ Private Sub LoadTemplate()
             txtInitialTechLevel(Tech.Cargo) = .InitialTechLevels(Tech.Cargo)
             txtMaxPlayers = .MaxPlayers
             txtMinPlayers = .MinPlayers
+            txtMaxPlanets = .MaxPlanets
+            txtMaxPlanetSize = .MaxPlanetSize
+            txtTotalPlanetSize = .TotalPlanetSize
             dtRegOpen.TimeStamp = .RegistrationOpen
             dtRegClose.TimeStamp = .RegistrationClose
             dtRunTime.TimeStamp = .RunTime
@@ -863,9 +866,9 @@ Private Sub mnuDelete_Click()
     Dim i As Long
     
     i = grdRegistrations.Row
-    If i = 0 Then Exit Sub
+    If i <= 1 Then Exit Sub
     
-    mobjTemplate.Registrations.Remove i
+    mobjTemplate.Registrations.Remove i - 1
     
     Call LoadRegistrations
 End Sub
@@ -876,9 +879,9 @@ Private Sub mnuEdit_Click()
     Dim i As Long
     
     i = grdRegistrations.Row
-    If i = 0 Then Exit Sub
+    If i <= 1 Then Exit Sub
     
-    Set objRegistration = mobjTemplate.Registrations(i)
+    Set objRegistration = mobjTemplate.Registrations(i - 1)
     
     Set fRegistration = New frmRegistration
     Set fRegistration.Registration = objRegistration

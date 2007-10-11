@@ -15,27 +15,32 @@ Option Explicit
 Option Compare Text
 
 Public Event LogData(ByVal strData As String)
-Public Event NewConnection()
+Public Event Connecting(ByVal strServer As String)
+Public Event Validating()
+Public Event Receiving(ByVal lngEMail As Long, ByVal lngTotal As Long)
+Public Event Closing()
+Public Event Disconnected()
+
 Private WithEvents mobjSocket As CSocketMaster
 Attribute mobjSocket.VB_VarHelpID = -1
 
 
-Private muStatus As SM_Command
-Public Enum SM_Command
-    SM_CLOSE = 0
-    SM_OPEN
-    SM_USER
-    SM_PASS
-    SM_STAT
-    SM_LIST
-    SM_RETR
-    SM_DELE
-    SM_NOOP
-    SM_RSET
-    SM_QUIT
-    SM_APOP
-    SM_TOP
-    SM_UIDL
+Private muStatus As GM_Command
+Public Enum GM_Command
+    GM_CLOSE = 0
+    GM_OPEN
+    GM_USER
+    GM_PASS
+    GM_STAT
+    GM_LIST
+    GM_RETR
+    GM_DELE
+    GM_NOOP
+    GM_RSET
+    GM_QUIT
+    GM_APOP
+    GM_TOP
+    GM_UIDL
 End Enum
 Const c_CLOSE = "CLOSE"
 Const c_OPEN = "OPEN"
@@ -58,32 +63,33 @@ Private mlngMessages As Long
 Private mlngCurrentMessage As Long
 Private mstrEMail As String
 
-Public Property Get Status() As SM_Command
+Public Property Get Status() As GM_Command
     Status = muStatus
 End Property
 
 Public Sub GetMail()
-    If Status = SM_CLOSE Then
+    If Status = GM_CLOSE Then
         Call Connect
     End If
 End Sub
 
 Private Sub Connect()
-    RaiseEvent NewConnection
+    RaiseEvent Connecting(POPServer)
     RaiseEvent LogData("> open " & POPServer & ":" & POPServerPort & vbNewLine)
     With mobjSocket
         .Protocol = sckTCPProtocol
         .Connect POPServer, POPServerPort
     End With
-    muStatus = SM_OPEN
+    muStatus = GM_OPEN
 End Sub
 
 Private Sub Disconnect()
+    RaiseEvent Closing
     RaiseEvent LogData("> closed ")
     With mobjSocket
         .CloseSck
     End With
-    muStatus = SM_CLOSE
+    muStatus = GM_CLOSE
 End Sub
 
 Private Sub ProcessData(ByVal strData As String)
@@ -92,101 +98,104 @@ Private Sub ProcessData(ByVal strData As String)
     Dim varFields As Variant
     Dim blnEMailOK As Boolean
     
+    DoEvents
     RaiseEvent LogData(strData)
-    
     blnOK = (Left(strData, Len(c_OK)) = c_OK)
     blnError = (Left(strData, Len(c_ERR)) = c_ERR)
     
     Select Case muStatus
-    Case SM_Command.SM_OPEN
+    Case GM_Command.GM_OPEN
         If blnOK Then
+            RaiseEvent Validating
             SendData c_USER & " " & POPUserID
-            muStatus = SM_USER
+            muStatus = GM_USER
         Else
             SendData c_QUIT
-            muStatus = SM_QUIT
+            muStatus = GM_QUIT
         End If
         
-    Case SM_Command.SM_USER
+    Case GM_Command.GM_USER
         If blnOK Then
             SendData c_PASS & " " & POPPassword
-            muStatus = SM_PASS
+            muStatus = GM_PASS
         Else
             SendData c_QUIT
-            muStatus = SM_QUIT
+            muStatus = GM_QUIT
         End If
         
-    Case SM_Command.SM_PASS
+    Case GM_Command.GM_PASS
         If blnOK Then
             SendData c_STAT
-            muStatus = SM_STAT
+            muStatus = GM_STAT
         Else
             SendData c_QUIT
-            muStatus = SM_QUIT
+            muStatus = GM_QUIT
         End If
         
-    Case SM_Command.SM_STAT
+    Case GM_Command.GM_STAT
         If blnOK Then
             varFields = Split(strData, " ")
             mlngMessages = Val(varFields(1))
             If mlngMessages > 0 Then
                 mlngCurrentMessage = 1
                 mstrEMail = ""
+                RaiseEvent Receiving(mlngCurrentMessage, mlngMessages)
                 SendData c_RETR & " " & CStr(mlngCurrentMessage)
-                muStatus = SM_RETR
+                muStatus = GM_RETR
             Else
                 SendData c_QUIT
-                muStatus = SM_QUIT
+                muStatus = GM_QUIT
             End If
         Else
             SendData c_QUIT
-            muStatus = SM_QUIT
+            muStatus = GM_QUIT
         End If
         
-    Case SM_Command.SM_LIST
+    Case GM_Command.GM_LIST
     
-    Case SM_Command.SM_RETR
+    Case GM_Command.GM_RETR
         If blnOK Then
             'ignore this line and receive the message
         ElseIf blnError Then
             SendData c_QUIT
-            muStatus = SM_QUIT
+            muStatus = GM_QUIT
         ElseIf Right(strData, 5) = vbCrLf & "." & vbCrLf Then
             mstrEMail = mstrEMail & Left(strData, Len(strData) - 5)
             Call SaveEMail(mstrEMail)
             SendData c_DETE & " " & CStr(mlngCurrentMessage)
-            muStatus = SM_DELE
+            muStatus = GM_DELE
         Else
             mstrEMail = mstrEMail & strData
         End If
     
-    Case SM_Command.SM_DELE
+    Case GM_Command.GM_DELE
         If blnOK Then
             mlngCurrentMessage = mlngCurrentMessage + 1
             If mlngCurrentMessage <= mlngMessages Then
                 mstrEMail = ""
+                RaiseEvent Receiving(mlngCurrentMessage, mlngMessages)
                 SendData c_RETR & " " & CStr(mlngCurrentMessage)
-                muStatus = SM_RETR
+                muStatus = GM_RETR
             Else
                 SendData c_QUIT
-                muStatus = SM_QUIT
+                muStatus = GM_QUIT
             End If
         Else
             SendData c_QUIT
-            muStatus = SM_QUIT
+            muStatus = GM_QUIT
         End If
     
-    Case SM_Command.SM_QUIT
+    Case GM_Command.GM_QUIT
         Call Disconnect
-    Case SM_Command.SM_RSET
+    Case GM_Command.GM_RSET
     
-    Case SM_Command.SM_NOOP
+    Case GM_Command.GM_NOOP
     
-    Case SM_Command.SM_TOP
+    Case GM_Command.GM_TOP
     
-    Case SM_Command.SM_APOP
+    Case GM_Command.GM_APOP
     
-    Case SM_Command.SM_UIDL
+    Case GM_Command.GM_UIDL
     
     Case Else
     
@@ -203,10 +212,14 @@ Private Sub Class_Initialize()
 End Sub
 
 Private Sub Class_Terminate()
-    If Status <> SM_CLOSE Then
+    If Status <> GM_CLOSE Then
         mobjSocket.CloseSck
     End If
     Set mobjSocket = Nothing
+End Sub
+
+Private Sub mobjSocket_CloseSck()
+    RaiseEvent Disconnected
 End Sub
 
 Private Sub mobjSocket_DataArrival(ByVal bytesTotal As Long)
@@ -222,7 +235,7 @@ Private Sub SaveEMail(ByVal strEMail As String)
     Dim strFileName As String
     
     Do
-        strFileName = Inbox & Format(Now, "yyyymmddhhnnss") & " " & Format(i, "00000") & ".txt"
+        strFileName = Inbox & Format(Now, "yyyymmddhhnnss") & "_" & Format(i, "0") & ".txt"
         If Dir(strFileName) = "" Then Exit Do
         i = i + 1
     Loop

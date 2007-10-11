@@ -72,6 +72,7 @@ Begin VB.Form frmGames
    End
    Begin VB.Menu mnuActions 
       Caption         =   "&Actions"
+      Visible         =   0   'False
       Begin VB.Menu mnuCreateTemplate 
          Caption         =   "Create Template"
       End
@@ -85,7 +86,7 @@ Begin VB.Form frmGames
          Caption         =   "Delete Template"
       End
       Begin VB.Menu mnuRefreshTemplate 
-         Caption         =   "Refresh Template"
+         Caption         =   "Refresh Templates"
       End
       Begin VB.Menu mnuActionSeperator1 
          Caption         =   "-"

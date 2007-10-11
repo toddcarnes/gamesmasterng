@@ -1,6 +1,6 @@
 VERSION 5.00
-Begin VB.Form frmGetMail 
-   Caption         =   "GetMail"
+Begin VB.Form frmSendMail 
+   Caption         =   "SendMail"
    ClientHeight    =   3690
    ClientLeft      =   60
    ClientTop       =   450
@@ -20,7 +20,7 @@ Begin VB.Form frmGetMail
       Width           =   6915
    End
 End
-Attribute VB_Name = "frmGetMail"
+Attribute VB_Name = "frmSendMail"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
@@ -28,11 +28,11 @@ Attribute VB_Exposed = False
 Option Explicit
 Option Compare Text
 
-Public WithEvents mobjGetMail As GetMail
-Attribute mobjGetMail.VB_VarHelpID = -1
+Public WithEvents mobjSendMail As SendMail
+Attribute mobjSendMail.VB_VarHelpID = -1
 
 Private Sub Form_Load()
-    Set mobjGetMail = MainForm.GetMail
+    Set mobjSendMail = MainForm.SendMail
 End Sub
 
 Private Sub Form_Resize()
@@ -40,15 +40,14 @@ Private Sub Form_Resize()
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
-    Set mobjGetMail = Nothing
-    MainForm.mnuMailShowGetMail.Checked = False
+    Set mobjSendMail = Nothing
+    MainForm.mnuMailShowSendMail.Checked = False
 End Sub
 
-Private Sub mobjGetMail_Connecting(ByVal strServer As String)
-    txtLog = ""
-End Sub
-
-Private Sub mobjGetMail_LogData(ByVal strData As String)
+Private Sub mobjSendMail_LogData(ByVal strData As String)
     txtLog = txtLog & strData
 End Sub
 
+Private Sub mobjSendMail_NewConnection()
+    txtLog = ""
+End Sub

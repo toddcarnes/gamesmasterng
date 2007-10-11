@@ -49,7 +49,7 @@ Begin VB.MDIForm frmMain
             AutoSize        =   2
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "24/09/2007"
+            TextSave        =   "11/10/2007"
             Key             =   "Date"
          EndProperty
          BeginProperty Panel4 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
@@ -58,7 +58,7 @@ Begin VB.MDIForm frmMain
             AutoSize        =   2
             Object.Width           =   1402
             MinWidth        =   1411
-            TextSave        =   "6:49"
+            TextSave        =   "15:17"
             Key             =   "Time"
          EndProperty
       EndProperty
@@ -86,14 +86,23 @@ Begin VB.MDIForm frmMain
    End
    Begin VB.Menu mnMail 
       Caption         =   "Mail"
+      Begin VB.Menu mnuMailShowGetMail 
+         Caption         =   "Show Get Mail"
+      End
       Begin VB.Menu mnuMailRetreive 
          Caption         =   "Retreive"
       End
       Begin VB.Menu mnuMailProcess 
          Caption         =   "Process"
       End
-      Begin VB.Menu mnuMailShow 
-         Caption         =   "Show"
+      Begin VB.Menu mnuMailSep0 
+         Caption         =   "-"
+      End
+      Begin VB.Menu mnuMailShowSendMail 
+         Caption         =   "Show Send Mail"
+      End
+      Begin VB.Menu mnuMailSend 
+         Caption         =   "Send"
       End
    End
 End
@@ -104,8 +113,9 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 
-Private mobjGetMail As GetMail
+Private WithEvents mobjGetMail As GetMail
 Attribute mobjGetMail.VB_VarHelpID = -1
+Private WithEvents mobjSendMail As SendMail
 Private mdtNextMailCheck As Date
 
 Public Function GetMail() As GetMail
@@ -113,6 +123,13 @@ Public Function GetMail() As GetMail
         Set mobjGetMail = New GetMail
     End If
     Set GetMail = mobjGetMail
+End Function
+
+Public Function SendMail() As SendMail
+    If mobjSendMail Is Nothing Then
+        Set mobjSendMail = New SendMail
+    End If
+    Set SendMail = mobjSendMail
 End Function
 
 Private Sub MDIForm_Load()
@@ -128,6 +145,7 @@ Private Sub MDIForm_Load()
         .Interval = 10000
         .Enabled = False
     End With
+    Status = ""
 End Sub
 
 Private Sub MDIForm_QueryUnload(Cancel As Integer, UnloadMode As Integer)
@@ -190,7 +208,11 @@ Private Sub mnuMailRetreive_Click()
     GetMail.GetMail
 End Sub
 
-Private Sub mnuMailShow_Click()
+Private Sub mnuMailSend_Click()
+    SendMail.Send
+End Sub
+
+Private Sub mnuMailShowGetMail_Click()
     Dim fForm As Form
     Dim fGetMail As frmGetMail
     
@@ -205,16 +227,80 @@ Private Sub mnuMailShow_Click()
         Set fGetMail = New frmGetMail
         Load fGetMail
     End If
-    If mnuMailShow.Checked Then
-        mnuMailShow.Checked = False
+    If mnuMailShowGetMail.Checked Then
+        mnuMailShowGetMail.Checked = False
         Unload fGetMail
     Else
-        mnuMailShow.Checked = True
+        mnuMailShowGetMail.Checked = True
         fGetMail.Show
     End If
     
     Set fForm = Nothing
     Set fGetMail = Nothing
+End Sub
+
+Private Sub mnuMailShowSendMail_Click()
+    Dim fForm As Form
+    Dim fSendMail As frmSendMail
+    
+    For Each fForm In Forms
+        If fForm.name = "frmSendMail" Then
+            Set fSendMail = fForm
+            Exit For
+        End If
+    Next fForm
+    
+    If fSendMail Is Nothing Then
+        Set fSendMail = New frmSendMail
+        Load fSendMail
+    End If
+    If mnuMailShowSendMail.Checked Then
+        mnuMailShowSendMail.Checked = False
+        Unload fSendMail
+    Else
+        mnuMailShowSendMail.Checked = True
+        fSendMail.Show
+    End If
+    
+    Set fForm = Nothing
+    Set fSendMail = Nothing
+
+End Sub
+
+Private Sub mobjGetMail_Closing()
+    Status = "Closing POP Connection"
+End Sub
+
+Private Sub mobjGetMail_Connecting(ByVal strServer As String)
+    Status = "Connecting to " & strServer
+End Sub
+
+Private Sub mobjGetMail_Disconnected()
+    Status = ""
+End Sub
+
+Private Sub mobjGetMail_Receiving(ByVal lngEMail As Long, ByVal lngTotal As Long)
+    Status = "Receiving E-Mail " & CStr(lngEMail) & " of " & CStr(lngTotal) & "."
+End Sub
+
+Private Sub mobjGetMail_Validating()
+    Status = "Signing onto Mail Server"
+End Sub
+
+Private Sub mobjSendMail_Closing()
+    Status = "Closing SMTP Mail Connection"
+End Sub
+
+Private Sub mobjSendMail_Connecting(ByVal strServer As String)
+    Status = "Connecting to " & strServer
+End Sub
+
+Private Sub mobjSendMail_Disconnected()
+    Status = ""
+End Sub
+
+Private Sub mobjSendMail_Sending(ByVal lngEMail As Long, ByVal lngTotal As Long)
+    Status = "Sending EMail " & CStr(lngEMail) & " of " & CStr(lngTotal) & "."
 End Sub
 
 Private Sub SysTray_MouseDblClick(Button As Integer, Id As Long)
@@ -229,3 +315,16 @@ Private Sub tmrMail_Timer()
         GetMail.GetMail
     End If
 End Sub
+
+Public Property Get Status() As String
+    Status = Mid(StatusBar.Panels(1).Text, 7)
+End Property
+
+Public Property Let Status(ByVal strStatus As String)
+    If strStatus = "" Then
+        StatusBar.Panels(1).Text = ""
+    Else
+        StatusBar.Panels(1).Text = Format(Now, "hh:nn") & " " & strStatus
+    End If
+End Property
+

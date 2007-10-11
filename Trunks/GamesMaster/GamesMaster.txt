@@ -82,53 +82,52 @@ if you want this option.
 14 Footer
 
 ---------------------------------------
-Mykoala GamesMaster
+[1] GamesMaster
 E-Mail: gamesmaster@mykoala.net
-Web: http://www.mykoala.net
 
 This e-mail has been generated automatically by the GalaxyNG game server 
 called [1] and should not be replied to.
 @
 15 NoGame
-Your request to join the GalaxyNG game "[1]" has failed because the game does not exist.
-Please check the name of the game that you wish to join and try registering again.
+Your request to join the GalaxyNG game "[1]" has FAILED 
+because the game does not exist. 
+
+Please check the name of the game that you wish to join 
+and try registering again.
 @
 16 GameStarted
-Your request to join GalaxyNG game "[1]" has failed because the game is currently underway.
+Your request to join GalaxyNG game "[1]" has FAILED
+because the game is currently underway.
 @
 17 NotOpen
-Your request to join GalaxyNG game "[1]" has failed because the game is not currently
-accepting registrations. 
+Your request to join GalaxyNG game "[1]" has FAILED 
+because the game is not currently accepting registrations. 
 @
 18 GameFull
-Your request to join GalaxyNG game "[1]" has failed due to the [2] positions 
-already having been filled.
+Your request to join GalaxyNG game "[1]" has FAILED due to 
+the [2] positions already having been filled.
 @ 
 19 TooManyPlanets
-Your request to join GalaxyNG game "[1]" has encountered an error due to [2] planets being 
-specified in the registration but only [3] are allowed.
+Your request to join GalaxyNG game "[1]" has encountered an error 
+due to [2] planets being specified in the registration but 
+only [3] are allowed.
 
-Your Registration will be processed using the games default planet sizes. You
-may register again to update the planet sizes. This will not register you twice 
-for the game.
+Your Registration will be processed using the games default planet sizes. 
 ------------------------------------------------------------
 @
 20 PlanetTooLarge
-Your request to join GalaxyNG game "[1]" has encountered and error due to a planet's size of [2] being 
-requested but the maximum size cannot exceede [3].
+Your request to join GalaxyNG game "[1]" has encountered an error 
+due to a planet's size of [2] being requested but the maximum 
+size cannot exceede [3].
 
-Your Registration will be processed using the games default planet sizes. You
-may register again to update the planet sizes. This will not register you twice 
-for the game.
+Your Registration will be processed using the games default planet sizes. 
 ------------------------------------------------------------
 @
 21 TotalPlanets
-Your request to join GalaxyNG game "[1]" as encountered and error due to the total planet size being 
-too large.
+Your request to join GalaxyNG game "[1]" as encountered an error 
+due to the total planet size ([2]) not being equal to [3].
 
-Your Registration will be processed using the games default planet sizes. You
-may register again to update the planet sizes. This will not register you twice 
-for the game.
+Your Registration will be processed using the games default planet sizes. 
 ------------------------------------------------------------
 @
 22 RegistrationAccepted
@@ -137,13 +136,22 @@ Your Planets have been recorded as follows.
 
 [2]
 
-Should you wish to change you planet sizes, just submit another registration using
-the same e-mail address and your registration will be updated.
+Should you wish to change your planet sizes, just submit another 
+registration using the same e-mail address and your registration 
+will be updated.
+
+Mykoala Home Page: http://www.mykoala.net
+GalaxyNG Home Page: http://galaxyng.sourceforge.net/
+Player's Manual: http://galaxyng.sourceforge.net/manual.php
+Client Programs: http://galaxyview.sourceforge.net/tools.html
 @
 23 RegistrationUpdated
-Your registration for the GalaxyNG game "[1]" was updated successfully.
-Your Planets were altered to be as follows.
+The Registration change for the GalaxyNG game "[1]" was successful.
+Your Planet sizes were UPDATED to be as follows.
 
 [2]
 
+Should you wish to make further changes to your planet sizes, just submit 
+another registration using the same e-mail address and your registration 
+will be updated.
 @

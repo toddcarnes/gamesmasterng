@@ -86,14 +86,14 @@ End Property
 
 Public Property Get DefaultHomeWorlds() As HomeWorlds
     Dim objHomeWorlds As HomeWorlds
-    Dim objHomeWorld As HomeWorld
+    Dim objHomeworld As HomeWorld
     Dim i As Long
     
     Set objHomeWorlds = New HomeWorlds
     For i = 0 To UBound(core_sizes)
-        Set objHomeWorld = New HomeWorld
-        objHomeWorld.Size = core_sizes(i)
-        objHomeWorlds.Add objHomeWorld
+        Set objHomeworld = New HomeWorld
+        objHomeworld.Size = core_sizes(i)
+        objHomeWorlds.Add objHomeworld
     Next i
     Set DefaultHomeWorlds = objHomeWorlds
 End Property
@@ -104,7 +104,7 @@ Public Sub Load(Optional ByVal strFileName As String)
     Dim strFields() As String
     Dim i As Long
     Dim objRegistration As Registration
-    Dim objHomeWorld As HomeWorld
+    Dim objHomeworld As HomeWorld
     Dim blnPlayersFound As Boolean
     
     If strFileName <> "" Then
@@ -183,9 +183,9 @@ Public Sub Load(Optional ByVal strFileName As String)
                 objRegistration.EMail = Mid(strLine, 7)
             Case "homeworld"
                 If Not objRegistration Is Nothing Then
-                    Set objHomeWorld = New HomeWorld
-                    objRegistration.HomeWorlds.Add objHomeWorld
-                    With objHomeWorld
+                    Set objHomeworld = New HomeWorld
+                    objRegistration.HomeWorlds.Add objHomeworld
+                    With objHomeworld
                         .Size = strFields(1)
                         If UBound(strFields) = 3 Then
                             .x = strFields(2)
@@ -196,7 +196,7 @@ Public Sub Load(Optional ByVal strFileName As String)
             Case "end_player"
                 If InStr(1, objRegistration.EMail, "@their.address.tld") = 0 Then
                     Registrations.Add objRegistration
-                    Set objHomeWorld = Nothing
+                    Set objHomeworld = Nothing
                 End If
             End Select
         End If
@@ -239,7 +239,7 @@ Public Sub Save(Optional ByVal strFileName As String)
     Dim intFN As Integer
     Dim i As Long
     Dim objRegistration As Registration
-    Dim objHomeWorld As HomeWorld
+    Dim objHomeworld As HomeWorld
     
     If strFileName = vbNullString Then
         strFileName = Filename
@@ -296,14 +296,14 @@ Public Sub Save(Optional ByVal strFileName As String)
     For Each objRegistration In Registrations
         Print #intFN, "start_player"
         Print #intFN, "email "; objRegistration.EMail
-        For Each objHomeWorld In objRegistration.HomeWorlds
-            Print #intFN, "homeworld "; CStr(objHomeWorld.Size);
-            If objHomeWorld.x <> 0 Or objHomeWorld.y <> 0 Then
-                Print #intFN, " "; CStr(objHomeWorld.x);
-                Print #intFN, " "; CStr(objHomeWorld.y);
+        For Each objHomeworld In objRegistration.HomeWorlds
+            Print #intFN, "homeworld "; CStr(objHomeworld.Size);
+            If objHomeworld.x <> 0 Or objHomeworld.y <> 0 Then
+                Print #intFN, " "; CStr(objHomeworld.x);
+                Print #intFN, " "; CStr(objHomeworld.y);
             End If
             Print #intFN, ""
-        Next objHomeWorld
+        Next objHomeworld
         Print #intFN, "end_player"
     Next objRegistration
     Close #intFN
