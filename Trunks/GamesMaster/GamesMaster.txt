@@ -1,5 +1,4 @@
 0 Notes
-Orders
 Run Game
 Report
 Relay
@@ -199,4 +198,21 @@ Your orders have been received for turn [1] and will be stored for
 future processing.
 
 [2]
+@
+27 run_game
+rem Merge the Orders
+cd "[orders][game]"
+copy /y *.[turn] [turn].all
+del /q *.[turn]
+
+rem Delete the old reports
+cd "[reports][game]"
+del /q *.*
+
+rem Run the Game
+cd "[galaxynghome]"
+set GALAXYNGHOME=.
+"[galaxyngexe]" -run [game] "orders\[game]\[turn].all" [turn]
+"[galaxyngexe]" -score [game] >[game].html
+
 @

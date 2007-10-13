@@ -294,13 +294,13 @@ End Sub
 Private Sub mnuGameCreate_Click()
     Dim strTemplate As String
     Dim objGame As Game
-    Dim objTemplate As Template
+    Dim objtemplate As Template
     
     With grdGames
         strTemplate = .TextMatrix(.Row, 1)
     End With
     Set objGame = GalaxyNG.Games(strTemplate)
-    Set objTemplate = objGame.Template
+    Set objtemplate = objGame.Template
     Call RunGalaxyNG("-create """ & objGame.TemplateFile & """ >" & strTemplate & ".txt")
 End Sub
 
@@ -313,7 +313,31 @@ Private Sub mnuGameEdit_Click()
 End Sub
 
 Private Sub mnuGameRun_Click()
-'
+    Dim strGame As String
+    Dim strCommand As String
+    Dim objGame As Game
+    
+    With grdGames
+        strGame = .TextMatrix(.Row, 1)
+    End With
+    Set objGame = GalaxyNG.Games(strGame)
+    Call objGame.Refresh
+    
+    strCommand = GetMessage("run_game")
+    strCommand = Replace(strCommand, "[turn]", objGame.NextTurn)
+    strCommand = Replace(strCommand, "[game]", strGame)
+    strCommand = Replace(strCommand, "[galaxynghome]", GalaxyNGHome)
+    strCommand = Replace(strCommand, "[galaxyngexe]", GalaxyNGexe)
+    strCommand = Replace(strCommand, "[orders]", GalaxyNGOrders)
+    strCommand = Replace(strCommand, "[reports]", GalaxyNGReports)
+    strCommand = Replace(strCommand, "[data]", GalaxyNGData)
+    strCommand = Replace(strCommand, "[log]", GalaxyNGLog)
+    strCommand = Replace(strCommand, "[notices]", GalaxyNGNotices)
+    strCommand = Replace(strCommand, "[statistics]", GalaxyNGStatistics)
+    
+    Call RunCommandFile(strCommand)
+    Call SendReports(strGame)
+    Call MainForm.SendMail.Send
 End Sub
 
 Private Sub mnuGameStart_Click()
@@ -347,7 +371,7 @@ End Sub
 Private Sub mnuTemplate_Click()
     Dim strTemplate As String
     Dim objGame As Game
-    Dim objTemplate As Template
+    Dim objtemplate As Template
     
     With grdGames
         strTemplate = .TextMatrix(.Row, 1)
@@ -360,7 +384,7 @@ Private Sub mnuTemplate_Click()
         mnuTemplateEdit.Enabled = False
         mnuTemplateView.Enabled = False
     Else
-        Set objTemplate = objGame.Template
+        Set objtemplate = objGame.Template
         If objGame.Created Then
             mnuTemplateDelete.Enabled = False
             mnuTemplateEdit.Enabled = False
@@ -377,7 +401,7 @@ Private Sub mnuTemplate_Click()
     mnuEditTemplate.Visible = mnuTemplateEdit.Enabled
     mnuRefreshTemplate.Visible = mnuTemplateRefresh
     
-    Set objTemplate = Nothing
+    Set objtemplate = Nothing
     Set objGame = Nothing
     
 End Sub

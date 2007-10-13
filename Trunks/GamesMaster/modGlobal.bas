@@ -142,6 +142,16 @@ Private Sub SaveSettings()
 End Sub
 
 Public Function RunGalaxyNG(Optional ByVal strParameters As String) As Boolean
+    Dim strCommand As String
+    
+    strCommand = _
+    "SET GalaxyNGHome=." & vbNewLine & _
+    "CD """ & GalaxyNGHome & """ " & vbNewLine & _
+    """" & GalaxyNGexe & """ " & strParameters & vbNewLine
+    Call RunCommandFile(strCommand)
+End Function
+
+Public Function RunCommandFile(ByVal strCommands) As Boolean
     Dim ret As Long
     Dim intFN As Integer
     
@@ -151,9 +161,7 @@ Public Function RunGalaxyNG(Optional ByVal strParameters As String) As Boolean
         Kill gcCommandFileName
     End If
     Open gcCommandFileName For Output As intFN
-    Print #intFN, "SET GalaxyNGHome=."
-    Print #intFN, "CD """ & GalaxyNGHome & """ "
-    Print #intFN, """" & GalaxyNGexe & """ " & strParameters
+    Print #intFN, strCommands;
     Close intFN
     
     'Run the command file and wait for completion
