@@ -23,7 +23,7 @@ Public VersionString As String
 Public VersionNumber As Single
 Public VersionDate As String
 Public Turn As Long
-Public Flags As Long
+Public flags As Long
 Public GalacticPeace As Long
 Public InitialDrive As Single
 Public InitialWeapons As Single
@@ -46,7 +46,7 @@ Public Enum GameFlag
 End Enum
 
 Public Property Get Flag(ByVal uFlag As GameFlag) As Boolean
-    Flag = ((Flags And uFlag) = uFlag)
+    Flag = ((flags And uFlag) = uFlag)
 End Property
 
 Public Property Get Template() As Template
@@ -114,7 +114,9 @@ Public Sub Refresh()
     
     ' Turn Number
     l = l + 1
-    Turn = vLines(l)
+    If vLines(l) <> "" Then
+        Turn = vLines(l)
+    End If
     
     ' Galaxy Size
     l = l + 1
@@ -129,7 +131,7 @@ Public Sub Refresh()
     
     ' Game Options
     l = l + 1
-    Flags = 0 & vLines(l)
+    flags = 0 & vLines(l)
     
     ' Galactic Peace
     l = l + 1
@@ -197,9 +199,9 @@ Public Sub Refresh()
         l = l + 1
         objRace.MassProduced = vLines(l)
         l = l + 1
-        objRace.LastOrders = vLines(l)
+        objRace.LastOrders = Val(vLines(l))
         l = l + 1
-        objRace.Flags = vLines(l)
+        objRace.flags = vLines(l)
         
         '------------------------------------------------------------
         ' Find the Player Ship types

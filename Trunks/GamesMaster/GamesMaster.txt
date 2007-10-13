@@ -1,3 +1,16 @@
+0 Notes
+Create Game
+Send Move 0 
+Orders
+Run Game
+Report
+Relay
+Options
+View Game
+View Player
+Edit Game
+Edit Player
+@
 1 Galaxy Size
 The size is only approximately right.
 You probably want to experiment with different sizes to get

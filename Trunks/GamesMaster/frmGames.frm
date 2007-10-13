@@ -28,8 +28,8 @@ Begin VB.Form frmGames
          Caption         =   "E&xit"
       End
    End
-   Begin VB.Menu mnuTemplates 
-      Caption         =   "&Templates"
+   Begin VB.Menu mnutemplate 
+      Caption         =   "&Template"
       Begin VB.Menu mnuTemplateCreate 
          Caption         =   "&Create"
       End
@@ -42,8 +42,12 @@ Begin VB.Form frmGames
       Begin VB.Menu mnuTemplateDelete 
          Caption         =   "&Delete"
       End
+      Begin VB.Menu mnutemplateSep1 
+         Caption         =   "-"
+      End
       Begin VB.Menu mnuTemplateRefresh 
          Caption         =   "&Refresh"
+         Shortcut        =   {F5}
       End
    End
    Begin VB.Menu mnuGame 
@@ -60,19 +64,18 @@ Begin VB.Form frmGames
       Begin VB.Menu mnuGameDelete 
          Caption         =   "&Delete"
       End
-   End
-   Begin VB.Menu mnuTurn 
-      Caption         =   "Turn"
-      Begin VB.Menu mnuTurnStart 
-         Caption         =   "&Start Game"
+      Begin VB.Menu mnuGameSep1 
+         Caption         =   "-"
       End
-      Begin VB.Menu mnuTurnRun 
-         Caption         =   "&Run Turn"
+      Begin VB.Menu mnuGameStart 
+         Caption         =   "&Start"
+      End
+      Begin VB.Menu mnuGameRun 
+         Caption         =   "Run Turn"
       End
    End
    Begin VB.Menu mnuActions 
       Caption         =   "&Actions"
-      Visible         =   0   'False
       Begin VB.Menu mnuCreateTemplate 
          Caption         =   "Create Template"
       End
@@ -112,9 +115,6 @@ Begin VB.Form frmGames
       Begin VB.Menu mnuRunTurn 
          Caption         =   "Run Turn"
       End
-   End
-   Begin VB.Menu mnuTest 
-      Caption         =   "Test"
    End
 End
 Attribute VB_Name = "frmGames"
@@ -178,6 +178,10 @@ Private Sub LoadGames()
     End With
 End Sub
 
+Private Sub Form_Load()
+    mnuActions.Visible = False
+End Sub
+
 Private Sub Form_Resize()
     If Me.WindowState = vbMinimized Then Exit Sub
     With grdGames
@@ -193,38 +197,35 @@ Private Sub grdGames_DblClick()
 End Sub
 
 Private Sub grdGames_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
-    Dim strGame As String
-    Dim objGame As Game
     If Button = vbRightButton Then
-        strGame = grdGames.TextMatrix(grdGames.Row, 1)
-        Set objGame = GalaxyNG.Games(strGame)
-        If objGame Is Nothing Then
-            mnuCreateGame.Visible = False
-            mnuViewGame.Visible = False
-            mnuEditGame.Visible = False
-            mnuDeleteGame.Visible = False
-            mnuActionSeperator2.Visible = False
-            mnuStartGame.Visible = False
-            mnuRunTurn.Visible = False
-        Else
-            mnuCreateGame.Visible = Not objGame.Created
-            mnuViewGame.Visible = objGame.Created
-            mnuEditGame.Visible = objGame.Created
-            mnuDeleteGame.Visible = objGame.Created
-            mnuActionSeperator2.Visible = objGame.Created
-            mnuStartGame.Visible = objGame.Created And (objGame.NextTurn < 0)
-            mnuRunTurn.Visible = objGame.Created And (objGame.NextTurn >= 0)
-        End If
+        Call mnuActions_Click
         PopupMenu mnuActions
     End If
+End Sub
+
+Private Sub mnuActions_Click()
+    Call mnuTemplate_Click
+    Call mnuGame_Click
+End Sub
+
+Private Sub mnuCreateGame_Click()
+    Call mnuGameCreate_Click
 End Sub
 
 Private Sub mnuCreateTemplate_Click()
     Call mnuTemplateCreate_Click
 End Sub
 
+Private Sub mnuDeleteGame_Click()
+    Call mnuGameDelete_Click
+End Sub
+
 Private Sub mnuDeleteTemplate_Click()
     Call mnuTemplateDelete_Click
+End Sub
+
+Private Sub mnuEditGame_Click()
+    Call mnuGameEdit_Click
 End Sub
 
 Private Sub mnuEditTemplate_Click()
@@ -235,8 +236,139 @@ Private Sub mnuFileExit_Click()
     Unload MainForm
 End Sub
 
+Private Sub mnuGame_Click()
+    Dim strTemplate As String
+    Dim objGame As Game
+    Dim objTemplate As Template
+    
+    With grdGames
+        strTemplate = .TextMatrix(.Row, 1)
+    End With
+    Set objGame = GalaxyNG.Games(strTemplate)
+    If objGame Is Nothing Then
+        mnuGameCreate.Enabled = False
+        mnuGameDelete.Enabled = False
+        mnuGameView.Enabled = False
+        mnuGameEdit.Enabled = False
+        mnuGameStart.Enabled = False
+        mnuGameRun.Enabled = False
+        mnuGameSep1.Enabled = True
+    Else
+        Set objTemplate = objGame.Template
+        If objGame.Created Then
+            mnuGameCreate.Enabled = False
+            mnuGameDelete.Enabled = True
+            mnuGameView.Enabled = True
+            mnuGameEdit.Enabled = True
+            mnuGameStart.Enabled = (objGame.Turn < 0)
+            mnuGameRun.Enabled = (objGame.Turn >= 0)
+'            mnuGameSep1.Enabled = (mnuGameStart.Enabled Or mnuGameRun.Enabled)
+        Else
+            mnuGameCreate.Enabled = (objTemplate.Registrations.Count >= objTemplate.MinPlayers)
+            mnuGameDelete.Enabled = False
+            mnuGameEdit.Enabled = False
+            mnuGameView.Enabled = False
+            mnuGameStart.Enabled = False
+            mnuRunTurn.Enabled = False
+            mnuGameSep1.Enabled = False
+        End If
+    End If
+    
+    ' update the sction menu
+    mnuActionSeperator1.Visible = (mnuGameCreate.Enabled Or mnuGameView.Enabled)
+    mnuCreateGame.Visible = mnuGameCreate.Enabled
+    mnuDeleteGame.Visible = mnuGameDelete.Enabled
+    mnuViewGame.Visible = mnuGameView.Enabled
+    mnuEditGame.Visible = mnuGameEdit.Enabled
+    mnuActionSeperator2.Visible = (mnuGameStart.Enabled Or mnuGameRun.Enabled)
+    mnuStartGame.Visible = mnuGameStart.Enabled
+    mnuRunTurn.Visible = mnuGameRun.Enabled
+    
+    Set objTemplate = Nothing
+    Set objGame = Nothing
+End Sub
+
+Private Sub mnuGameCreate_Click()
+    Dim strTemplate As String
+    Dim objGame As Game
+    Dim objTemplate As Template
+    
+    With grdGames
+        strTemplate = .TextMatrix(.Row, 1)
+    End With
+    Set objGame = GalaxyNG.Games(strTemplate)
+    Set objTemplate = objGame.Template
+    Call RunGalaxyNG("-create """ & objGame.TemplateFile & """ >" & strTemplate & ".txt")
+End Sub
+
+Private Sub mnuGameDelete_Click()
+'
+End Sub
+
+Private Sub mnuGameEdit_Click()
+'
+End Sub
+
+Private Sub mnuGameRun_Click()
+'
+End Sub
+
+Private Sub mnuGameStart_Click()
+'
+End Sub
+
+Private Sub mnuGameView_Click()
+'
+End Sub
+
 Private Sub mnuRefreshTemplate_Click()
     Call mnuTemplateRefresh_Click
+End Sub
+
+Private Sub mnuRunTurn_Click()
+    Call mnuGameRun_Click
+End Sub
+
+Private Sub mnuStartGame_Click()
+    Call mnuGameStart_Click
+End Sub
+
+Private Sub mnuTemplate_Click()
+    Dim strTemplate As String
+    Dim objGame As Game
+    Dim objTemplate As Template
+    
+    With grdGames
+        strTemplate = .TextMatrix(.Row, 1)
+    End With
+    Set objGame = GalaxyNG.Games(strTemplate)
+    mnuTemplateCreate.Enabled = True
+    mnuTemplateRefresh.Enabled = True
+    If objGame Is Nothing Then
+        mnuTemplateDelete.Enabled = False
+        mnuTemplateEdit.Enabled = False
+        mnuTemplateView.Enabled = False
+    Else
+        Set objTemplate = objGame.Template
+        If objGame.Created Then
+            mnuTemplateDelete.Enabled = False
+            mnuTemplateEdit.Enabled = False
+            mnuTemplateView.Enabled = True
+        Else
+            mnuTemplateDelete.Enabled = True
+            mnuTemplateEdit.Enabled = True
+            mnuTemplateView.Enabled = True
+        End If
+    End If
+    mnuCreateTemplate.Visible = mnuTemplateCreate.Enabled
+    mnuDeleteTemplate.Visible = mnuTemplateDelete.Enabled
+    mnuViewTemplate.Visible = mnuTemplateView.Enabled
+    mnuEditTemplate.Visible = mnuTemplateEdit.Enabled
+    mnuRefreshTemplate.Visible = mnuTemplateRefresh
+    
+    Set objTemplate = Nothing
+    Set objGame = Nothing
+    
 End Sub
 
 Private Sub mnuTemplateCreate_Click()
@@ -335,6 +467,10 @@ Private Sub GetTemplate(Optional ByVal blnReadOnly As Boolean = True)
     fTemplate.ReadOnly = blnReadOnly
     Set fForm = Nothing
     Set fTemplate = Nothing
+End Sub
+
+Private Sub mnuViewGame_Click()
+    Call mnuGameView_Click
 End Sub
 
 Private Sub mnuViewTemplate_Click()

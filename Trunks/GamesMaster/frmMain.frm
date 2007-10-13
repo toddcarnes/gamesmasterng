@@ -49,7 +49,7 @@ Begin VB.MDIForm frmMain
             AutoSize        =   2
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "11/10/2007"
+            TextSave        =   "13/10/2007"
             Key             =   "Date"
          EndProperty
          BeginProperty Panel4 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
@@ -58,7 +58,7 @@ Begin VB.MDIForm frmMain
             AutoSize        =   2
             Object.Width           =   1402
             MinWidth        =   1411
-            TextSave        =   "15:17"
+            TextSave        =   "11:31"
             Key             =   "Time"
          EndProperty
       EndProperty
@@ -116,6 +116,7 @@ Option Explicit
 Private WithEvents mobjGetMail As GetMail
 Attribute mobjGetMail.VB_VarHelpID = -1
 Private WithEvents mobjSendMail As SendMail
+Attribute mobjSendMail.VB_VarHelpID = -1
 Private mdtNextMailCheck As Date
 
 Public Function GetMail() As GetMail
