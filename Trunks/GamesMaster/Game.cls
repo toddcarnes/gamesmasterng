@@ -114,7 +114,9 @@ Public Sub Refresh()
     
     ' Turn Number
     l = l + 1
-    If vLines(l) <> "" Then
+    If vLines(l) = "" Then
+        Turn = 0
+    Else
         Turn = vLines(l)
     End If
     
@@ -258,5 +260,6 @@ Private Sub Class_Terminate()
     Set mobjTemplate = Nothing
 End Sub
 
-
-
+Public Property Get Started() As Boolean
+    Started = (Dir(GalaxyNGReports & GameName & "\*.*") <> "")
+End Property

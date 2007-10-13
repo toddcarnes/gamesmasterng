@@ -30,8 +30,15 @@ Public SMTPServerPort  As Long
 Public SMTPFromAddress As String
 Public CheckMailInterval As Long
 
+Public Const gcOrdersFileName = "orders.txt"
+Public Const gcForecastFileName = "forecast.txt"
+
 Public MainForm As frmMain
 Public INIFile As INIFile
+
+Public Function gcCommandFileName() As String
+    gcCommandFileName = App.EXEName & "_execute.cmd"
+End Function
 
 Public Sub Main()
     Call LoadSettings
@@ -137,22 +144,23 @@ End Sub
 Public Function RunGalaxyNG(Optional ByVal strParameters As String) As Boolean
     Dim ret As Long
     Dim intFN As Integer
-    Dim strCommandFile As String
     
     ' Write a command file with the commands wanted
-    strCommandFile = App.EXEName & "_1.cmd"
     intFN = FreeFile
-    Open strCommandFile For Output As intFN
+    If Dir(gcCommandFileName) <> "" Then
+        Kill gcCommandFileName
+    End If
+    Open gcCommandFileName For Output As intFN
     Print #intFN, "SET GalaxyNGHome=."
     Print #intFN, "CD """ & GalaxyNGHome & """ "
     Print #intFN, """" & GalaxyNGexe & """ " & strParameters
     Close intFN
     
     'Run the command file and wait for completion
-    Call ShellWait(strCommandFile, SW_HIDE)
+    Call ShellWait(gcCommandFileName, SW_HIDE)
     
     'Delete the command file
-    Kill strCommandFile
+    Kill gcCommandFileName
 End Function
 
 Public Function GetAddress(ByVal strEMail As String) As String
@@ -236,3 +244,16 @@ Private Sub LoadMessages()
     Wend
     Close #intFN
 End Sub
+
+Public Sub SaveFile(ByVal strFileName As String, ByVal strData As String)
+    Dim intFN As Integer
+    
+    intFN = FreeFile
+    Open strFileName For Output As #intFN
+    Print #intFN, strData;
+    Close #intFN
+End Sub
+
+Public Function MarkText(ByVal strSource As String) As String
+    MarkText = "> " & Replace(strSource, vbCrLf, vbCrLf & "> ")
+End Function

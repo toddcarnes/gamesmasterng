@@ -99,7 +99,7 @@ Private Sub ProcessData(ByVal strData As String)
     Dim blnEMailOK As Boolean
     
     DoEvents
-    RaiseEvent LogData(strData)
+    RaiseEvent LogData(Len(strData) & " " & strData)
     blnOK = (Left(strData, Len(c_OK)) = c_OK)
     blnError = (Left(strData, Len(c_ERR)) = c_ERR)
     
@@ -159,6 +159,10 @@ Private Sub ProcessData(ByVal strData As String)
         ElseIf blnError Then
             SendData c_QUIT
             muStatus = GM_QUIT
+        ElseIf strData = "." & vbCrLf Then
+            Call SaveEMail(mstrEMail)
+            SendData c_DETE & " " & CStr(mlngCurrentMessage)
+            muStatus = GM_DELE
         ElseIf Right(strData, 5) = vbCrLf & "." & vbCrLf Then
             mstrEMail = mstrEMail & Left(strData, Len(strData) - 5)
             Call SaveEMail(mstrEMail)
@@ -230,7 +234,6 @@ Private Sub mobjSocket_DataArrival(ByVal bytesTotal As Long)
 End Sub
 
 Private Sub SaveEMail(ByVal strEMail As String)
-    Dim intFN As Integer
     Dim i As Long
     Dim strFileName As String
     
@@ -240,11 +243,7 @@ Private Sub SaveEMail(ByVal strEMail As String)
         i = i + 1
     Loop
         
-    intFN = FreeFile
-    Open strFileName For Output As #intFN
-    Print #intFN, strEMail;
-    Close #intFN
-
+    Call SaveFile(strFileName, strEMail)
 End Sub
 
 

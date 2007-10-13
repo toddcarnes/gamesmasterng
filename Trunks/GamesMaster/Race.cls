@@ -34,7 +34,7 @@ Public Unused5 As String
 Public MassLost As String
 Public MassProduced As String
 Public LastOrders As Long
-Public Flags As Long
+Public flags As Long
 
 Public Enum RaceFlag
     R_ANONYMOUS = 1          'Player want to stay anonymous
@@ -57,5 +57,6 @@ Public Enum RaceFlag
 End Enum
 
 Public Property Get Flag(ByVal uFlag As RaceFlag) As Boolean
-    Flag = ((Flags And uFlag) = uFlag)
+    Flag = ((flags And uFlag) = uFlag)
 End Property
+

@@ -1,6 +1,4 @@
 0 Notes
-Create Game
-Send Move 0 
 Orders
 Run Game
 Report
@@ -167,4 +165,38 @@ Your Planet sizes were UPDATED to be as follows.
 Should you wish to make further changes to your planet sizes, just submit 
 another registration using the same e-mail address and your registration 
 will be updated.
+@
+24 InvalidOrdersEMail
+Major problems were encountered while attempting to process the 
+orders submitted.
+
+The EMail was incorrectly formed. The orders must be submitted in
+the following format with a subject of "orders".
+
+#galaxyng <game> <race> <password> <turn> [finalorders]
+.... orders ....
+#end
+
+------------------------------------------------------------
+[1]
+@
+25 InvalidOrdersHeader
+Major problems were encountered while attempting to process the 
+orders submitted.
+
+[1]
+
+The orders must be submitted in the following format 
+with a subject of "orders".
+
+#galaxyng <game> <race> <password> <turn> [finalorders]
+
+------------------------------------------------------------
+[2]
+@
+26 FutureOrders
+Your orders have been received for turn [1] and will be stored for
+future processing.
+
+[2]
 @

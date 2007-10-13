@@ -168,7 +168,11 @@ Private Sub LoadGames()
             If lngRow + 1 > .Rows Then .Rows = lngRow + 1
             .TextMatrix(lngRow, 1) = objGame.GameName
             If objGame.Created Then
-                .TextMatrix(lngRow, 2) = objGame.Turn
+                If objGame.Started Then
+                    .TextMatrix(lngRow, 2) = objGame.Turn
+                Else
+                    .TextMatrix(lngRow, 2) = "-"
+                End If
                 .TextMatrix(lngRow, 3) = objGame.ActivePlayers & "/" & objGame.Races.Count
             Else
                 .TextMatrix(lngRow, 2) = ""
@@ -237,14 +241,14 @@ Private Sub mnuFileExit_Click()
 End Sub
 
 Private Sub mnuGame_Click()
-    Dim strTemplate As String
+    Dim strGame As String
     Dim objGame As Game
-    Dim objTemplate As Template
     
     With grdGames
-        strTemplate = .TextMatrix(.Row, 1)
+        strGame = .TextMatrix(.Row, 1)
     End With
-    Set objGame = GalaxyNG.Games(strTemplate)
+    Set objGame = GalaxyNG.Games(strGame)
+    
     If objGame Is Nothing Then
         mnuGameCreate.Enabled = False
         mnuGameDelete.Enabled = False
@@ -254,17 +258,17 @@ Private Sub mnuGame_Click()
         mnuGameRun.Enabled = False
         mnuGameSep1.Enabled = True
     Else
-        Set objTemplate = objGame.Template
+        objGame.Refresh
         If objGame.Created Then
             mnuGameCreate.Enabled = False
             mnuGameDelete.Enabled = True
             mnuGameView.Enabled = True
             mnuGameEdit.Enabled = True
-            mnuGameStart.Enabled = (objGame.Turn < 0)
-            mnuGameRun.Enabled = (objGame.Turn >= 0)
+            mnuGameStart.Enabled = Not objGame.Started
+            mnuGameRun.Enabled = objGame.Started
 '            mnuGameSep1.Enabled = (mnuGameStart.Enabled Or mnuGameRun.Enabled)
         Else
-            mnuGameCreate.Enabled = (objTemplate.Registrations.Count >= objTemplate.MinPlayers)
+            mnuGameCreate.Enabled = (objGame.Template.Registrations.Count >= objGame.Template.MinPlayers)
             mnuGameDelete.Enabled = False
             mnuGameEdit.Enabled = False
             mnuGameView.Enabled = False
@@ -284,7 +288,6 @@ Private Sub mnuGame_Click()
     mnuStartGame.Visible = mnuGameStart.Enabled
     mnuRunTurn.Visible = mnuGameRun.Enabled
     
-    Set objTemplate = Nothing
     Set objGame = Nothing
 End Sub
 
@@ -314,7 +317,15 @@ Private Sub mnuGameRun_Click()
 End Sub
 
 Private Sub mnuGameStart_Click()
-'
+    Dim strGame As String
+    
+    With grdGames
+        strGame = .TextMatrix(.Row, 1)
+    End With
+    
+    Call RunGalaxyNG("-mail0 " & strGame)
+    Call SendReports(strGame)
+    Call MainForm.SendMail.Send
 End Sub
 
 Private Sub mnuGameView_Click()
