@@ -73,6 +73,9 @@ Begin VB.Form frmGames
       Begin VB.Menu mnuGameRun 
          Caption         =   "Run Turn"
       End
+      Begin VB.Menu mnuGameResend 
+         Caption         =   "ReSend Reports"
+      End
    End
    Begin VB.Menu mnuActions 
       Caption         =   "&Actions"
@@ -114,6 +117,9 @@ Begin VB.Form frmGames
       End
       Begin VB.Menu mnuRunTurn 
          Caption         =   "Run Turn"
+      End
+      Begin VB.Menu mnuResendReports 
+         Caption         =   "ReSend Reports"
       End
    End
 End
@@ -256,6 +262,7 @@ Private Sub mnuGame_Click()
         mnuGameEdit.Enabled = False
         mnuGameStart.Enabled = False
         mnuGameRun.Enabled = False
+        mnuGameResend.Enabled = False
         mnuGameSep1.Enabled = True
     Else
         objGame.Refresh
@@ -266,6 +273,7 @@ Private Sub mnuGame_Click()
             mnuGameEdit.Enabled = True
             mnuGameStart.Enabled = Not objGame.Started
             mnuGameRun.Enabled = objGame.Started
+            mnuGameResend.Enabled = objGame.Started
 '            mnuGameSep1.Enabled = (mnuGameStart.Enabled Or mnuGameRun.Enabled)
         Else
             mnuGameCreate.Enabled = (objGame.Template.Registrations.Count >= objGame.Template.MinPlayers)
@@ -274,6 +282,7 @@ Private Sub mnuGame_Click()
             mnuGameView.Enabled = False
             mnuGameStart.Enabled = False
             mnuRunTurn.Enabled = False
+            mnuGameResend.Enabled = False
             mnuGameSep1.Enabled = False
         End If
     End If
@@ -287,6 +296,7 @@ Private Sub mnuGame_Click()
     mnuActionSeperator2.Visible = (mnuGameStart.Enabled Or mnuGameRun.Enabled)
     mnuStartGame.Visible = mnuGameStart.Enabled
     mnuRunTurn.Visible = mnuGameRun.Enabled
+    mnuResendReports.Visible = mnuGameResend.Enabled
     
     Set objGame = Nothing
 End Sub
@@ -312,9 +322,8 @@ Private Sub mnuGameEdit_Click()
 '
 End Sub
 
-Private Sub mnuGameRun_Click()
+Private Sub mnuGameResend_Click()
     Dim strGame As String
-    Dim strCommand As String
     Dim objGame As Game
     
     With grdGames
@@ -323,29 +332,33 @@ Private Sub mnuGameRun_Click()
     Set objGame = GalaxyNG.Games(strGame)
     Call objGame.Refresh
     
-    strCommand = GetMessage("run_game")
-    strCommand = Replace(strCommand, "[turn]", objGame.NextTurn)
-    strCommand = Replace(strCommand, "[game]", strGame)
-    strCommand = Replace(strCommand, "[galaxynghome]", GalaxyNGHome)
-    strCommand = Replace(strCommand, "[galaxyngexe]", GalaxyNGexe)
-    strCommand = Replace(strCommand, "[orders]", GalaxyNGOrders)
-    strCommand = Replace(strCommand, "[reports]", GalaxyNGReports)
-    strCommand = Replace(strCommand, "[data]", GalaxyNGData)
-    strCommand = Replace(strCommand, "[log]", GalaxyNGLog)
-    strCommand = Replace(strCommand, "[notices]", GalaxyNGNotices)
-    strCommand = Replace(strCommand, "[statistics]", GalaxyNGStatistics)
-    
-    Call RunCommandFile(strCommand)
     Call SendReports(strGame)
+    Call MainForm.SendMail.Send
+End Sub
+
+Private Sub mnuGameRun_Click()
+    Dim strGame As String
+    Dim objGame As Game
+    
+    With grdGames
+        strGame = .TextMatrix(.Row, 1)
+    End With
+    GalaxyNG.Games.Refresh
+    
+    Call RunGame(strGame)
     Call MainForm.SendMail.Send
 End Sub
 
 Private Sub mnuGameStart_Click()
     Dim strGame As String
+    Dim objGame As Game
     
     With grdGames
         strGame = .TextMatrix(.Row, 1)
     End With
+    GalaxyNG.Games.Refresh
+    Set objGame = GalaxyNG.Games(strGame)
+    objGame.Refresh
     
     Call RunGalaxyNG("-mail0 " & strGame)
     Call SendReports(strGame)
@@ -358,6 +371,10 @@ End Sub
 
 Private Sub mnuRefreshTemplate_Click()
     Call mnuTemplateRefresh_Click
+End Sub
+
+Private Sub mnuResendReports_Click()
+    Call mnuGameResend_Click
 End Sub
 
 Private Sub mnuRunTurn_Click()

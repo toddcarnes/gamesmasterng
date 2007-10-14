@@ -49,7 +49,7 @@ Begin VB.MDIForm frmMain
             AutoSize        =   2
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "13/10/2007"
+            TextSave        =   "15/10/2007"
             Key             =   "Date"
          EndProperty
          BeginProperty Panel4 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
@@ -58,7 +58,7 @@ Begin VB.MDIForm frmMain
             AutoSize        =   2
             Object.Width           =   1402
             MinWidth        =   1411
-            TextSave        =   "12:43"
+            TextSave        =   "6:46"
             Key             =   "Time"
          EndProperty
       EndProperty
@@ -104,6 +104,12 @@ Begin VB.MDIForm frmMain
       Begin VB.Menu mnuMailSend 
          Caption         =   "Send"
       End
+      Begin VB.Menu mnuMailSep2 
+         Caption         =   "-"
+      End
+      Begin VB.Menu mnuMailAutoCheck 
+         Caption         =   "Auto Check Mail"
+      End
    End
 End
 Attribute VB_Name = "frmMain"
@@ -118,6 +124,7 @@ Attribute mobjGetMail.VB_VarHelpID = -1
 Private WithEvents mobjSendMail As SendMail
 Attribute mobjSendMail.VB_VarHelpID = -1
 Private mdtNextMailCheck As Date
+Private mdtNextRunCheck As Date
 
 Public Function GetMail() As GetMail
     If mobjGetMail Is Nothing Then
@@ -139,11 +146,11 @@ Private Sub MDIForm_Load()
         .Height = 600 * Screen.TwipsPerPixelY
     End With
     With tmrMail
-        .Interval = 10000
+        .Interval = 150
         .Enabled = False
     End With
     With tmrGalaxyNG
-        .Interval = 10000
+        .Interval = 150
         .Enabled = False
     End With
     Status = ""
@@ -199,6 +206,18 @@ Private Sub mnuGames_Click()
     End If
     Set fForm = Nothing
     Set fGames = Nothing
+End Sub
+
+Private Sub mnuMailAutoCheck_Click()
+    If mnuMailAutoCheck.Checked Then
+        tmrMail.Enabled = False
+        mnuMailAutoCheck.Checked = False
+    Else
+        tmrMail.Interval = 150
+        mdtNextMailCheck = 0
+        tmrMail.Enabled = True
+        mnuMailAutoCheck.Checked = True
+    End If
 End Sub
 
 Private Sub mnuMailProcess_Click()
@@ -278,6 +297,9 @@ End Sub
 
 Private Sub mobjGetMail_Disconnected()
     Status = ""
+    Call ProcessEMails
+    DoEvents
+    Call SendMail.Send
 End Sub
 
 Private Sub mobjGetMail_Receiving(ByVal lngEMail As Long, ByVal lngTotal As Long)
@@ -310,9 +332,34 @@ Private Sub SysTray_MouseDblClick(Button As Integer, Id As Long)
     Systray.InTray = False
 End Sub
 
+Private Sub tmrGalaxyNG_Timer()
+    Dim objGames As Games
+    Dim objGame As Game
+    
+    tmrGalaxyNG_Timer.Interval = 30000
+    If mdtNextRunCheck < Now Then
+        mdtNextMailCheck = DateAdd("n", 10, Now)
+        
+        tmrMail.Enabled = False
+        Set objGames = New Games
+        objGames.Refresh
+        For Each objGame In objGames
+            objGame.Refresh
+            If objGame.ReadyToRun Then
+                Call RunGame(strGame)
+            End If
+        Next objGame
+        tmrMail.Enabled = True
+        
+        GalaxyNG.Games.Refresh
+        Call SendMail.Send
+    End If
+End Sub
+
 Private Sub tmrMail_Timer()
+    tmrMail.Interval = 10000
     If mdtNextMailCheck < Now Then
-        mdtNextMailCheck = DateAdd("n", 5, Now)
+        mdtNextMailCheck = DateAdd("n", CheckMailInterval, Now)
         GetMail.GetMail
     End If
 End Sub

@@ -76,6 +76,9 @@ End Sub
 Private Sub Connect()
     RaiseEvent Connecting(POPServer)
     RaiseEvent LogData("> open " & POPServer & ":" & POPServerPort & vbNewLine)
+    If mobjSocket Is Nothing Then
+        Set mobjSocket = New CSocketMaster
+    End If
     With mobjSocket
         .Protocol = sckTCPProtocol
         .Connect POPServer, POPServerPort
@@ -89,7 +92,9 @@ Private Sub Disconnect()
     With mobjSocket
         .CloseSck
     End With
+    Set mobjSocket = Nothing
     muStatus = GM_CLOSE
+    RaiseEvent Disconnected
 End Sub
 
 Private Sub ProcessData(ByVal strData As String)
@@ -99,7 +104,7 @@ Private Sub ProcessData(ByVal strData As String)
     Dim blnEMailOK As Boolean
     
     DoEvents
-    RaiseEvent LogData(Len(strData) & " " & strData)
+    RaiseEvent LogData("S: " & strData)
     blnOK = (Left(strData, Len(c_OK)) = c_OK)
     blnError = (Left(strData, Len(c_ERR)) = c_ERR)
     
@@ -211,19 +216,12 @@ Private Sub SendData(ByVal strData As String)
     mobjSocket.SendData strData & vbCrLf
 End Sub
 
-Private Sub Class_Initialize()
-    Set mobjSocket = New CSocketMaster
-End Sub
-
 Private Sub Class_Terminate()
     If Status <> GM_CLOSE Then
         mobjSocket.CloseSck
     End If
+    muStatus = GM_CLOSE
     Set mobjSocket = Nothing
-End Sub
-
-Private Sub mobjSocket_CloseSck()
-    RaiseEvent Disconnected
 End Sub
 
 Private Sub mobjSocket_DataArrival(ByVal bytesTotal As Long)

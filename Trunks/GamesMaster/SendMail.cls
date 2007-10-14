@@ -80,6 +80,9 @@ End Sub
 Private Sub Connect()
     RaiseEvent Connecting(SMTPServer)
     RaiseEvent LogData("> open " & SMTPServer & ":" & SMTPServerPort & vbNewLine)
+    If mobjSocket Is Nothing Then
+        Set mobjSocket = New CSocketMaster
+    End If
     With mobjSocket
         .Protocol = sckTCPProtocol
         .Connect SMTPServer, SMTPServerPort
@@ -94,6 +97,8 @@ Private Sub Disconnect()
         .CloseSck
     End With
     muStatus = SM_CLOSE
+    Set mobjSocket = Nothing
+    RaiseEvent Disconnected
 End Sub
 
 Private Sub ProcessData(ByVal strData As String)
@@ -102,7 +107,7 @@ Private Sub ProcessData(ByVal strData As String)
     Dim lngResponse As Long
     
     DoEvents
-    RaiseEvent LogData(strData)
+    RaiseEvent LogData("S: " & strData)
     i = InStr(1, strData, " ")
     lngResponse = Val(Left(strData, i - 1))
     
@@ -186,14 +191,11 @@ Private Sub SendData(ByVal strData As String)
     mobjSocket.SendData strData & vbCrLf
 End Sub
 
-Private Sub Class_Initialize()
-    Set mobjSocket = New CSocketMaster
-End Sub
-
 Private Sub Class_Terminate()
     If Status <> SM_CLOSE Then
         mobjSocket.CloseSck
     End If
+    muStatus = GM_CLOSE
     Set mobjSocket = Nothing
 End Sub
 

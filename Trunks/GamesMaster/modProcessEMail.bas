@@ -28,18 +28,21 @@ Private Sub ProcessEMail(ByVal strPath As String)
     Wend
     
     varSubject = Split(strSubject, " ")
-    Select Case varSubject(0)
-    Case "join"
-        Call JoinGame(varSubject(1), strFrom, varBody)
-    Case "orders", "order"
-        Call CheckOrders(strFrom, strEMail)
-    Case "relay"
-        Call RelayMessage(varSubject(1), strFrom, varBody)
-    Case "report"
-        Call EMailReport(strFrom, varBody)
-    End Select
-    
-    Name strPath As strPath & ".sav"
+    If UBound(varSubject) >= 0 Then
+        Select Case varSubject(0)
+        Case "join"
+            Call JoinGame(varSubject(1), strFrom, varBody)
+        Case "orders", "order"
+            Call CheckOrders(strFrom, strEMail)
+        Case "relay"
+            Call RelayMessage(varSubject(1), strFrom, varBody)
+        Case "report"
+            Call EMailReport(strFrom, varBody)
+        End Select
+        Name strPath As strPath & ".sav"
+    Else
+        Name strPath As strPath & ".err"
+    End If
 
 End Sub
 
@@ -149,19 +152,43 @@ Public Sub SendReports(ByVal strGame As String)
     Dim objRace As Race
     Dim strTurn As String
     Dim strBody As String
+    Dim strFileName As String
     
+    GalaxyNG.Games.Refresh
     Set objGame = GalaxyNG.Games(strGame)
+    objGame.Refresh
     strTurn = objGame.Turn
+    
+    'Send the Games Master Report
+    strFileName = GamesMasterReport(strGame, strTurn)
+    If Dir(strFileName) <> "" Then
+        strBody = GetFile(strFileName)
+        Call SendEMail(GamesMasterEMail, _
+                "[GNG] " & objGame.GameName & " turn " & strTurn & _
+                " text report for GM", _
+                strBody)
+    End If
     
     For Each objRace In objGame.Races
         If Not objRace.Flag(R_DEAD) Then
-            strBody = GetFile(GalaxyNGReports & objGame.GameName & "\" & _
-                        objRace.RaceName & "_" & strTurn & ".txt")
+            'Get the Text Report
+            strFileName = RaceReport(strGame, objRace.RaceName, strTurn)
+            strBody = GetFile(strFileName)
             Call SendEMail(objRace.EMail, _
-                    "[GNG] " & objGame.GameName & _
-                    " turn " & strTurn & _
+                    "[GNG] " & objGame.GameName & " turn " & strTurn & _
                     " text report for " & objRace.RaceName, _
                     strBody)
+            
+            ' Check for the machinery Report
+            strFileName = RaceMachineReport(strGame, objRace.RaceName, strTurn)
+            If Dir(strFileName) <> "" Then
+                strBody = GetFile(strFileName)
+                Call SendEMail(objRace.EMail, _
+                        "[GNG] " & objGame.GameName & " turn " & strTurn & _
+                        " machine report for " & objRace.RaceName, _
+                        strBody)
+            End If
+            
         End If
     Next objRace
 End Sub

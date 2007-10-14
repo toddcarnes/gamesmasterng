@@ -1,5 +1,5 @@
 0 Notes
-Run Game
+Schedule
 Report
 Relay
 Options
@@ -92,8 +92,8 @@ if you want this option.
 14 Footer
 
 ---------------------------------------
-[1] GamesMaster
-E-Mail: gamesmaster@mykoala.net
+[server] Games Master
+E-Mail: [gamesmaster]
 
 This e-mail has been generated automatically by the GalaxyNG game server 
 called [1] and should not be replied to.

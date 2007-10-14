@@ -39,6 +39,7 @@ Module=modOrders; modOrders.bas
 Module=modRegister; modRegister.bas
 Startup="Sub Main"
 HelpFile=""
+ExeName32="GamesMaster.exe"
 Command32=""
 Name="GamesMaster"
 HelpContextID="0"

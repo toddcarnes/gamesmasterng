@@ -830,7 +830,7 @@ Private Sub Form_Load()
 End Sub
 
 Private Sub grdRegistrations_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
-    If Button = vbRightButton Then
+    If Button = vbRightButton And Not ReadOnly Then
         PopupMenu mnuAction
     End If
 End Sub

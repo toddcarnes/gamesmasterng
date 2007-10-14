@@ -6,8 +6,10 @@ Private mcRace As String
 Private NextTurnFile As String
 Private GamesMasterReportFile As String
 Private RaceReportFile As String
+Private RaceMachineFile As String
 Private mcolMessages As Collection
 
+Public GamesMasterEMail As String
 Public GalaxyNGHome As String
 Public GalaxyNGData As String
 Public GalaxyNGReports As String
@@ -42,6 +44,7 @@ End Function
 
 Public Sub Main()
     Call LoadSettings
+    Call SaveSettings
     Set GalaxyNG = New GalaxyNG
     Set MainForm = New frmMain
     MainForm.Show
@@ -55,15 +58,23 @@ Public Function GamesMasterReport(ByVal Game As String, ByVal Turn As Long) As S
     Dim strFile As String
     
     strFile = Replace(GamesMasterReportFile, mcTurn, CStr(Turn))
-    GamesMasterReport = GalaxyNGReports & Game & strFile
+    GamesMasterReport = GalaxyNGReports & Game & "\" & strFile
 End Function
 
-Public Function RaceReport(ByVal Game As String, ByVal Race As String, Turn As Long) As String
+Public Function RaceReport(ByVal Game As String, ByVal Race As String, ByVal Turn As Long) As String
     Dim strFile As String
     
     strFile = Replace(RaceReportFile, mcRace, Race)
     strFile = Replace(strFile, mcTurn, CStr(Turn))
-    RaceReport = GalaxyNGReports & Game & strFile
+    RaceReport = GalaxyNGReports & Game & "\" & strFile
+End Function
+
+Public Function RaceMachineReport(ByVal Game As String, ByVal Race As String, ByVal Turn As Long) As String
+    Dim strFile As String
+    
+    strFile = Replace(RaceMachineFile, mcRace, Race)
+    strFile = Replace(strFile, mcTurn, CStr(Turn))
+    RaceMachineReport = GalaxyNGReports & Game & "\" & strFile
 End Function
 
 Public Function GetFileName(ByVal FilePath As String) As String
@@ -91,7 +102,7 @@ Private Sub LoadSettings()
         GalaxyNGStatistics = GalaxyNGHome & "statistics\"
         GalaxyNGLog = GalaxyNGHome & "log\"
     
-    
+        GamesMasterEMail = .GetSetting("EMail", "GamesMasterEMail", "")
         CheckMailInterval = .GetSetting("EMail", "Interval", "5")
         Inbox = .GetSetting("EMail", "Inbox", App.Path & "\Inbox\")
         Outbox = .GetSetting("EMail", "Outbox", App.Path & "\Outbox\")
@@ -107,10 +118,14 @@ Private Sub LoadSettings()
         NextTurnFile = .GetSetting("FileNames", "NextTurn", "next_turn")
         GamesMasterReportFile = .GetSetting("FileNames", "GamesMasterReport", "NG_GameMaster_" & mcTurn & ".txt")
         RaceReportFile = .GetSetting("FileNames", "RaceReport", mcRace & "_" & mcTurn & ".txt")
+        RaceMachineFile = .GetSetting("FileNames", "RaceMachineReport", mcRace & "_" & mcTurn & ".m")
         GalaxyNGexe = .GetSetting("FileNames", "Executable", GalaxyNGHome & "GalaxyNG.exe")
     End With
     If Dir(Inbox, vbDirectory) = "" Then
         MkDir Inbox
+    End If
+    If Dir(Outbox, vbDirectory) = "" Then
+        MkDir Outbox
     End If
 End Sub
 
@@ -122,6 +137,7 @@ Private Sub SaveSettings()
         
         Call .SaveSetting("Folders", "GalaxyNGHome", GalaxyNGHome)
     
+        Call .SaveSetting("EMail", "GamesMasterEMail", GamesMasterEMail)
         Call .SaveSetting("EMail", "Interval", CheckMailInterval)
         Call .SaveSetting("EMail", "Inbox", Inbox)
         Call .SaveSetting("EMail", "Outbox", Outbox)
@@ -137,6 +153,7 @@ Private Sub SaveSettings()
         Call .SaveSetting("FileNames", "NextTurn", NextTurnFile)
         Call .SaveSetting("FileNames", "GamesMasterReport", GamesMasterReportFile)
         Call .SaveSetting("FileNames", "RaceReport", RaceReportFile)
+        Call .SaveSetting("FileNames", "RaceMachineReport", RaceMachineFile)
         Call .SaveSetting("FileNames", "Executable", GalaxyNGexe)
     End With
 End Sub
@@ -210,6 +227,17 @@ Public Function GetMessage(ByVal strKey As String, ParamArray Parm() As Variant)
     strMessage = mcolMessages(strKey)
     On Error GoTo 0
     
+    strMessage = Replace(strMessage, "[galaxynghome]", GalaxyNGHome)
+    strMessage = Replace(strMessage, "[galaxyngexe]", GalaxyNGexe)
+    strMessage = Replace(strMessage, "[orders]", GalaxyNGOrders)
+    strMessage = Replace(strMessage, "[reports]", GalaxyNGReports)
+    strMessage = Replace(strMessage, "[data]", GalaxyNGData)
+    strMessage = Replace(strMessage, "[log]", GalaxyNGLog)
+    strMessage = Replace(strMessage, "[notices]", GalaxyNGNotices)
+    strMessage = Replace(strMessage, "[statistics]", GalaxyNGStatistics)
+    strMessage = Replace(strMessage, "[gamesmaster]", GamesMasterEMail)
+    strMessage = Replace(strMessage, "[server]", ServerName)
+    
     If Not IsEmpty(Parm) Then
         For i = LBound(Parm) To UBound(Parm)
             strMessage = Replace(strMessage, "[" & CStr(i + 1) & "]", Parm(i))
@@ -265,3 +293,18 @@ End Sub
 Public Function MarkText(ByVal strSource As String) As String
     MarkText = "> " & Replace(strSource, vbCrLf, vbCrLf & "> ")
 End Function
+
+Public Sub RunGame(ByVal strGame As String)
+    Dim strCommand As String
+    Dim objGame As Game
+    
+    Set objGame = GalaxyNG.Games(strGame)
+    Call objGame.Refresh
+    
+    strCommand = GetMessage("run_game")
+    strCommand = Replace(strCommand, "[turn]", objGame.NextTurn)
+    strCommand = Replace(strCommand, "[game]", strGame)
+    
+    Call RunCommandFile(strCommand)
+    Call SendReports(strGame)
+End Sub

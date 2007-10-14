@@ -60,3 +60,4 @@ Public Property Get Flag(ByVal uFlag As RaceFlag) As Boolean
     Flag = ((flags And uFlag) = uFlag)
 End Property
 
+

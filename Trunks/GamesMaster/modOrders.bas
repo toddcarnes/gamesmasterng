@@ -163,9 +163,9 @@ Public Sub CheckOrders(ByVal strFrom As String, ByVal strEMail As String)
     GoTo Send
 
 Error:
-    strMessage = GetMessage("Header", ServerName) & _
+    strMessage = GetMessage("Header") & _
                     strMessage & _
-                    GetMessage("Footer", ServerName)
+                    GetMessage("Footer")
 Send:
     Call SendEMail(strFrom, strSubject, strMessage)
 End Sub

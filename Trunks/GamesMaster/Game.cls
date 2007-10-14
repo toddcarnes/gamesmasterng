@@ -263,3 +263,70 @@ End Sub
 Public Property Get Started() As Boolean
     Started = (Dir(GalaxyNGReports & GameName & "\*.*") <> "")
 End Property
+
+Public Function ReadyToRun() As Boolean
+    Dim dtNext As Date
+    Dim objRace As Race
+    Dim blnAllFinalOrdersReceived As Boolean
+    
+    dtNext = NextRunDate
+    If dtNext <> 0 And dtNext < Now Then
+        ReadyToRun = True
+    
+    ElseIf dtNext <> 0 Then
+        blnAllFinalOrdersReceived = True
+        For Each objRace In Races
+            If Not objRace.Flag(R_DEAD) Then
+                If Not FinalOrdersReceived(objRace.RaceName) Then
+                    blnAllFinalOrdersReceived = False
+                    Exit For
+                End If
+            End If
+        Next objRace
+        If blnAllFinalOrdersReceived Then
+            ReadyToRun = True
+        End If
+    End If
+End Function
+
+Public Function FinalOrdersReceived(ByVal strRace As String) As Boolean
+    Dim strFileName As String
+    
+    strFileName = GalaxyNGOrders & GameName & "\" & strRace & "_finalorders." & NextTurn
+    
+    If Dir(strFileName) <> "" Then
+        FinalOrdersReceived = True
+    End If
+    
+End Function
+
+Public Function OrdersReceived(ByVal strRace As String) As Boolean
+    Dim strFileName As String
+    
+    strFileName = GalaxyNGOrders & GameName & "\" & strRace & "." & NextTurn
+    
+    If Dir(strFileName) <> "" Then
+        OrdersReceived = True
+    End If
+    
+End Function
+
+Public Function NextRunDate() As Date
+    Dim dtLast As Date
+    Dim dtNext As Date
+    
+    dtLast = LastRunDate
+    If dtLast <> 0 Then
+        dtNext = DateAdd("d", LastRunDate, Template.ScheduleDays, dtLast)
+        dtNext = CDate(Format(dtNext, "dd-mmm-yyyy") & " " & Format(Template.RunTime, "hh:nn:ss"))
+    End If
+End Function
+
+
+Public Function LastRunDate() As Date
+    If Created Then
+        If Started Then
+            LastRunDate = FileDateTime(GalaxyNGNextTurn(GameName))
+        End If
+    End If
+End Function
