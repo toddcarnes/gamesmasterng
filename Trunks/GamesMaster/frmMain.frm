@@ -49,7 +49,7 @@ Begin VB.MDIForm frmMain
             AutoSize        =   2
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "15/10/2007"
+            TextSave        =   "16/10/2007"
             Key             =   "Date"
          EndProperty
          BeginProperty Panel4 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
@@ -58,7 +58,7 @@ Begin VB.MDIForm frmMain
             AutoSize        =   2
             Object.Width           =   1402
             MinWidth        =   1411
-            TextSave        =   "6:46"
+            TextSave        =   "6:52"
             Key             =   "Time"
          EndProperty
       EndProperty
@@ -109,6 +109,9 @@ Begin VB.MDIForm frmMain
       End
       Begin VB.Menu mnuMailAutoCheck 
          Caption         =   "Auto Check Mail"
+      End
+      Begin VB.Menu mnuAutoRun 
+         Caption         =   "Auto RunGames"
       End
    End
 End
@@ -177,6 +180,18 @@ Private Sub MDIForm_Unload(Cancel As Integer)
     Systray.InTray = False
     tmrMail.Interval = 0
     tmrGalaxyNG.Interval = 0
+End Sub
+
+Private Sub mnuAutoRun_Click()
+    If mnuAutoRun.Checked Then
+        tmrGalaxyNG.Enabled = False
+        mnuAutoRun.Checked = False
+    Else
+        mdtNextRunCheck = 0
+        tmrGalaxyNG.Interval = 150
+        tmrGalaxyNG.Enabled = True
+        mnuAutoRun.Checked = True
+    End If
 End Sub
 
 Private Sub mnuExit_Click()
@@ -335,21 +350,23 @@ End Sub
 Private Sub tmrGalaxyNG_Timer()
     Dim objGames As Games
     Dim objGame As Game
+    Dim blnMailTimer As Boolean
     
-    tmrGalaxyNG_Timer.Interval = 30000
+    tmrGalaxyNG.Interval = 30000
+    
     If mdtNextRunCheck < Now Then
-        mdtNextMailCheck = DateAdd("n", 10, Now)
+        mdtNextMailCheck = DateAdd("n", 5, Now)
         
+        blnMailTimer = tmrMail.Enabled
         tmrMail.Enabled = False
         Set objGames = New Games
-        objGames.Refresh
         For Each objGame In objGames
             objGame.Refresh
             If objGame.ReadyToRun Then
-                Call RunGame(strGame)
+                Call RunGame(objGame.GameName)
             End If
         Next objGame
-        tmrMail.Enabled = True
+        tmrMail.Enabled = blnMailTimer
         
         GalaxyNG.Games.Refresh
         Call SendMail.Send

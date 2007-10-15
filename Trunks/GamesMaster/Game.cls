@@ -273,7 +273,7 @@ Public Function ReadyToRun() As Boolean
     If dtNext <> 0 And dtNext < Now Then
         ReadyToRun = True
     
-    ElseIf dtNext <> 0 Then
+    ElseIf dtNext <> 0 And Template.FinalOrders Then
         blnAllFinalOrdersReceived = True
         For Each objRace In Races
             If Not objRace.Flag(R_DEAD) Then
@@ -283,9 +283,9 @@ Public Function ReadyToRun() As Boolean
                 End If
             End If
         Next objRace
-        If blnAllFinalOrdersReceived Then
-            ReadyToRun = True
-        End If
+        ReadyToRun = blnAllFinalOrdersReceived
+    Else
+        ReadyToRun = True
     End If
 End Function
 
@@ -317,9 +317,13 @@ Public Function NextRunDate() As Date
     
     dtLast = LastRunDate
     If dtLast <> 0 Then
-        dtNext = DateAdd("d", LastRunDate, Template.ScheduleDays, dtLast)
+        dtNext = DateAdd("d", Template.ScheduleDays, dtLast)
         dtNext = CDate(Format(dtNext, "dd-mmm-yyyy") & " " & Format(Template.RunTime, "hh:nn:ss"))
+        NextRunDate = dtNext
+    Else
+        NextRunDate = 0
     End If
+    NextRunDate = dtNext
 End Function
 
 
