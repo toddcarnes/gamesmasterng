@@ -317,9 +317,13 @@ Public Function NextRunDate() As Date
     
     dtLast = LastRunDate
     If dtLast <> 0 Then
-        dtNext = DateAdd("d", Template.ScheduleDays, dtLast)
-        dtNext = CDate(Format(dtNext, "dd-mmm-yyyy") & " " & Format(Template.RunTime, "hh:nn:ss"))
-        NextRunDate = dtNext
+        If Template.ScheduleActive Then
+            dtNext = DateAdd("d", Template.ScheduleDays, dtLast)
+            dtNext = CDate(Format(dtNext, "dd-mmm-yyyy") & " " & Format(Template.RunTime, "hh:nn:ss"))
+            NextRunDate = dtNext
+        Else
+            NextRunDate = 0
+        End If
     Else
         NextRunDate = 0
     End If

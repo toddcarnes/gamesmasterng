@@ -13,11 +13,19 @@ Begin VB.Form frmTemplate
    MinButton       =   0   'False
    ScaleHeight     =   8205
    ScaleWidth      =   7215
+   Begin VB.CheckBox chkScheduleActive 
+      Height          =   315
+      Left            =   6420
+      TabIndex        =   1
+      Tag             =   "12"
+      Top             =   60
+      Width           =   255
+   End
    Begin VB.CommandButton cmdCancel 
       Caption         =   "&Cancel"
       Height          =   435
       Left            =   2160
-      TabIndex        =   62
+      TabIndex        =   63
       Top             =   7620
       Width           =   1155
    End
@@ -25,13 +33,13 @@ Begin VB.Form frmTemplate
       Caption         =   "Run Options"
       Height          =   4215
       Left            =   4200
-      TabIndex        =   53
+      TabIndex        =   54
       Top             =   1560
       Width           =   2955
       Begin VB.TextBox txtTotalPlanetSize 
          Height          =   315
          Left            =   1560
-         TabIndex        =   24
+         TabIndex        =   25
          Tag             =   "1"
          Top             =   1680
          Width           =   495
@@ -39,7 +47,7 @@ Begin VB.Form frmTemplate
       Begin VB.TextBox txtMaxPlanetSize 
          Height          =   315
          Left            =   1560
-         TabIndex        =   23
+         TabIndex        =   24
          Tag             =   "1"
          Top             =   1320
          Width           =   495
@@ -47,7 +55,7 @@ Begin VB.Form frmTemplate
       Begin VB.TextBox txtMaxPlanets 
          Height          =   315
          Left            =   1560
-         TabIndex        =   22
+         TabIndex        =   23
          Tag             =   "1"
          Top             =   960
          Width           =   495
@@ -55,7 +63,7 @@ Begin VB.Form frmTemplate
       Begin VB.CheckBox chkFinalOrders 
          Height          =   315
          Left            =   1560
-         TabIndex        =   30
+         TabIndex        =   31
          Tag             =   "12"
          Top             =   3780
          Width           =   255
@@ -63,7 +71,7 @@ Begin VB.Form frmTemplate
       Begin VB.TextBox txtScheduleDays 
          Height          =   315
          Left            =   1560
-         TabIndex        =   29
+         TabIndex        =   30
          Tag             =   "1"
          Top             =   3480
          Width           =   555
@@ -71,7 +79,7 @@ Begin VB.Form frmTemplate
       Begin GamesMaster.DateBox dtRegOpen 
          Height          =   315
          Left            =   1560
-         TabIndex        =   25
+         TabIndex        =   26
          Top             =   2040
          Width           =   1035
          _ExtentX        =   1826
@@ -91,7 +99,7 @@ Begin VB.Form frmTemplate
       Begin VB.TextBox txtMinPlayers 
          Height          =   315
          Left            =   1560
-         TabIndex        =   21
+         TabIndex        =   22
          Tag             =   "1"
          Top             =   600
          Width           =   495
@@ -99,7 +107,7 @@ Begin VB.Form frmTemplate
       Begin VB.TextBox txtMaxPlayers 
          Height          =   315
          Left            =   1560
-         TabIndex        =   20
+         TabIndex        =   21
          Tag             =   "1"
          Top             =   240
          Width           =   495
@@ -107,7 +115,7 @@ Begin VB.Form frmTemplate
       Begin GamesMaster.DateBox dtRegClose 
          Height          =   315
          Left            =   1560
-         TabIndex        =   26
+         TabIndex        =   27
          Top             =   2400
          Width           =   1035
          _ExtentX        =   1826
@@ -127,7 +135,7 @@ Begin VB.Form frmTemplate
       Begin GamesMaster.DateBox dtRunTime 
          Height          =   315
          Left            =   1560
-         TabIndex        =   27
+         TabIndex        =   28
          Top             =   2760
          Width           =   555
          _ExtentX        =   979
@@ -147,7 +155,7 @@ Begin VB.Form frmTemplate
       Begin GamesMaster.DateBox dtStartDate 
          Height          =   315
          Left            =   1560
-         TabIndex        =   28
+         TabIndex        =   29
          Top             =   3120
          Width           =   1035
          _ExtentX        =   1826
@@ -170,7 +178,7 @@ Begin VB.Form frmTemplate
          Height          =   255
          Index           =   25
          Left            =   60
-         TabIndex        =   65
+         TabIndex        =   66
          Top             =   1740
          Width           =   1395
       End
@@ -180,7 +188,7 @@ Begin VB.Form frmTemplate
          Height          =   255
          Index           =   24
          Left            =   240
-         TabIndex        =   64
+         TabIndex        =   65
          Top             =   1380
          Width           =   1215
       End
@@ -190,7 +198,7 @@ Begin VB.Form frmTemplate
          Height          =   255
          Index           =   23
          Left            =   300
-         TabIndex        =   63
+         TabIndex        =   64
          Top             =   1020
          Width           =   1155
       End
@@ -200,7 +208,7 @@ Begin VB.Form frmTemplate
          Height          =   255
          Index           =   22
          Left            =   300
-         TabIndex        =   61
+         TabIndex        =   62
          Top             =   3840
          Width           =   1155
       End
@@ -210,7 +218,7 @@ Begin VB.Form frmTemplate
          Height          =   255
          Index           =   21
          Left            =   300
-         TabIndex        =   60
+         TabIndex        =   61
          Top             =   3540
          Width           =   1155
       End
@@ -220,7 +228,7 @@ Begin VB.Form frmTemplate
          Height          =   255
          Index           =   20
          Left            =   300
-         TabIndex        =   59
+         TabIndex        =   60
          Top             =   3180
          Width           =   1155
       End
@@ -230,7 +238,7 @@ Begin VB.Form frmTemplate
          Height          =   255
          Index           =   19
          Left            =   300
-         TabIndex        =   58
+         TabIndex        =   59
          Top             =   2820
          Width           =   1155
       End
@@ -240,7 +248,7 @@ Begin VB.Form frmTemplate
          Height          =   255
          Index           =   18
          Left            =   300
-         TabIndex        =   57
+         TabIndex        =   58
          Top             =   2460
          Width           =   1155
       End
@@ -250,7 +258,7 @@ Begin VB.Form frmTemplate
          Height          =   255
          Index           =   17
          Left            =   300
-         TabIndex        =   56
+         TabIndex        =   57
          Top             =   2100
          Width           =   1155
       End
@@ -260,7 +268,7 @@ Begin VB.Form frmTemplate
          Height          =   255
          Index           =   16
          Left            =   300
-         TabIndex        =   55
+         TabIndex        =   56
          Top             =   660
          Width           =   1155
       End
@@ -270,7 +278,7 @@ Begin VB.Form frmTemplate
          Height          =   255
          Index           =   3
          Left            =   300
-         TabIndex        =   54
+         TabIndex        =   55
          Top             =   300
          Width           =   1155
       End
@@ -279,13 +287,13 @@ Begin VB.Form frmTemplate
       Caption         =   "Registrations"
       Height          =   1755
       Left            =   0
-      TabIndex        =   47
+      TabIndex        =   48
       Top             =   5820
       Width           =   7155
       Begin MSHierarchicalFlexGridLib.MSHFlexGrid grdRegistrations 
          Height          =   1395
          Left            =   120
-         TabIndex        =   31
+         TabIndex        =   32
          Top             =   240
          Width           =   6915
          _ExtentX        =   12197
@@ -299,13 +307,13 @@ Begin VB.Form frmTemplate
       Caption         =   "Galaxy Options"
       Height          =   1035
       Left            =   60
-      TabIndex        =   43
+      TabIndex        =   44
       Top             =   480
       Width           =   7095
       Begin VB.CheckBox chkFullBombing 
          Height          =   315
          Left            =   1440
-         TabIndex        =   4
+         TabIndex        =   5
          Tag             =   "8"
          Top             =   600
          Width           =   255
@@ -313,7 +321,7 @@ Begin VB.Form frmTemplate
       Begin VB.CheckBox chkKeepproduction 
          Height          =   315
          Left            =   3120
-         TabIndex        =   5
+         TabIndex        =   6
          Tag             =   "10"
          Top             =   600
          Width           =   255
@@ -321,7 +329,7 @@ Begin VB.Form frmTemplate
       Begin VB.CheckBox chkDontDropDead 
          Height          =   315
          Left            =   4740
-         TabIndex        =   6
+         TabIndex        =   7
          Tag             =   "11"
          Top             =   600
          Width           =   255
@@ -329,7 +337,7 @@ Begin VB.Form frmTemplate
       Begin VB.CheckBox chkSphericalGalaxy 
          Height          =   315
          Left            =   6360
-         TabIndex        =   7
+         TabIndex        =   8
          Tag             =   "12"
          Top             =   600
          Width           =   255
@@ -337,7 +345,7 @@ Begin VB.Form frmTemplate
       Begin VB.TextBox txtPeace 
          Height          =   315
          Left            =   4920
-         TabIndex        =   3
+         TabIndex        =   4
          Tag             =   "9"
          Top             =   240
          Width           =   495
@@ -345,7 +353,7 @@ Begin VB.Form frmTemplate
       Begin VB.TextBox txtRaceSpacing 
          Height          =   315
          Left            =   3300
-         TabIndex        =   2
+         TabIndex        =   3
          Tag             =   "2"
          Top             =   240
          Width           =   495
@@ -353,7 +361,7 @@ Begin VB.Form frmTemplate
       Begin VB.TextBox txtSize 
          Height          =   315
          Left            =   1440
-         TabIndex        =   1
+         TabIndex        =   2
          Tag             =   "1"
          Top             =   240
          Width           =   495
@@ -364,7 +372,7 @@ Begin VB.Form frmTemplate
          Height          =   255
          Index           =   6
          Left            =   300
-         TabIndex        =   52
+         TabIndex        =   53
          Top             =   660
          Width           =   1035
       End
@@ -374,7 +382,7 @@ Begin VB.Form frmTemplate
          Height          =   255
          Index           =   7
          Left            =   1740
-         TabIndex        =   51
+         TabIndex        =   52
          Top             =   660
          Width           =   1275
       End
@@ -384,7 +392,7 @@ Begin VB.Form frmTemplate
          Height          =   255
          Index           =   8
          Left            =   3360
-         TabIndex        =   50
+         TabIndex        =   51
          Top             =   660
          Width           =   1275
       End
@@ -394,7 +402,7 @@ Begin VB.Form frmTemplate
          Height          =   255
          Index           =   9
          Left            =   4980
-         TabIndex        =   49
+         TabIndex        =   50
          Top             =   660
          Width           =   1275
       End
@@ -404,7 +412,7 @@ Begin VB.Form frmTemplate
          Height          =   255
          Index           =   12
          Left            =   4260
-         TabIndex        =   48
+         TabIndex        =   49
          Top             =   300
          Width           =   555
       End
@@ -414,7 +422,7 @@ Begin VB.Form frmTemplate
          Height          =   255
          Index           =   2
          Left            =   2040
-         TabIndex        =   45
+         TabIndex        =   46
          Top             =   300
          Width           =   1155
       End
@@ -424,7 +432,7 @@ Begin VB.Form frmTemplate
          Height          =   255
          Index           =   1
          Left            =   420
-         TabIndex        =   44
+         TabIndex        =   45
          Top             =   300
          Width           =   915
       End
@@ -440,21 +448,21 @@ Begin VB.Form frmTemplate
       Caption         =   "Player Options"
       Height          =   3135
       Left            =   60
-      TabIndex        =   33
+      TabIndex        =   34
       Top             =   1560
       Width           =   4095
       Begin VB.Frame frCoreSizes 
          Caption         =   "Planet Core Sizes"
          Height          =   675
          Left            =   120
-         TabIndex        =   39
+         TabIndex        =   40
          Top             =   1380
          Width           =   3855
          Begin VB.TextBox txtCoreSizes 
             Height          =   315
             Index           =   0
             Left            =   120
-            TabIndex        =   11
+            TabIndex        =   12
             Tag             =   "3"
             Top             =   240
             Width           =   675
@@ -463,7 +471,7 @@ Begin VB.Form frmTemplate
             Height          =   315
             Index           =   1
             Left            =   840
-            TabIndex        =   12
+            TabIndex        =   13
             Tag             =   "3"
             Top             =   240
             Width           =   675
@@ -472,7 +480,7 @@ Begin VB.Form frmTemplate
             Height          =   315
             Index           =   2
             Left            =   1560
-            TabIndex        =   13
+            TabIndex        =   14
             Tag             =   "3"
             Top             =   240
             Width           =   675
@@ -481,7 +489,7 @@ Begin VB.Form frmTemplate
             Height          =   315
             Index           =   3
             Left            =   2280
-            TabIndex        =   14
+            TabIndex        =   15
             Tag             =   "3"
             Top             =   240
             Width           =   675
@@ -490,7 +498,7 @@ Begin VB.Form frmTemplate
             Height          =   315
             Index           =   4
             Left            =   3000
-            TabIndex        =   15
+            TabIndex        =   16
             Tag             =   "3"
             Top             =   240
             Width           =   675
@@ -500,14 +508,14 @@ Begin VB.Form frmTemplate
          Caption         =   "Initial Tech Levels"
          Height          =   915
          Left            =   120
-         TabIndex        =   34
+         TabIndex        =   35
          Top             =   2100
          Width           =   3495
          Begin VB.TextBox txtInitialTechLevel 
             Height          =   315
             Index           =   0
             Left            =   120
-            TabIndex        =   16
+            TabIndex        =   17
             Tag             =   "7"
             Top             =   480
             Width           =   675
@@ -516,7 +524,7 @@ Begin VB.Form frmTemplate
             Height          =   315
             Index           =   1
             Left            =   960
-            TabIndex        =   17
+            TabIndex        =   18
             Tag             =   "7"
             Top             =   480
             Width           =   675
@@ -525,7 +533,7 @@ Begin VB.Form frmTemplate
             Height          =   315
             Index           =   2
             Left            =   1800
-            TabIndex        =   18
+            TabIndex        =   19
             Tag             =   "7"
             Top             =   480
             Width           =   675
@@ -534,7 +542,7 @@ Begin VB.Form frmTemplate
             Height          =   315
             Index           =   3
             Left            =   2640
-            TabIndex        =   19
+            TabIndex        =   20
             Tag             =   "7"
             Top             =   480
             Width           =   675
@@ -544,7 +552,7 @@ Begin VB.Form frmTemplate
             Height          =   255
             Index           =   11
             Left            =   120
-            TabIndex        =   38
+            TabIndex        =   39
             Top             =   240
             Width           =   675
          End
@@ -553,7 +561,7 @@ Begin VB.Form frmTemplate
             Height          =   255
             Index           =   13
             Left            =   960
-            TabIndex        =   37
+            TabIndex        =   38
             Top             =   240
             Width           =   855
          End
@@ -562,7 +570,7 @@ Begin VB.Form frmTemplate
             Height          =   255
             Index           =   14
             Left            =   1800
-            TabIndex        =   36
+            TabIndex        =   37
             Top             =   240
             Width           =   675
          End
@@ -571,7 +579,7 @@ Begin VB.Form frmTemplate
             Height          =   255
             Index           =   15
             Left            =   2640
-            TabIndex        =   35
+            TabIndex        =   36
             Top             =   240
             Width           =   675
          End
@@ -579,7 +587,7 @@ Begin VB.Form frmTemplate
       Begin VB.TextBox txtStuffPlanets 
          Height          =   315
          Left            =   1260
-         TabIndex        =   10
+         TabIndex        =   11
          Tag             =   "6"
          Top             =   960
          Width           =   495
@@ -587,7 +595,7 @@ Begin VB.Form frmTemplate
       Begin VB.TextBox txtEmptyRadius 
          Height          =   315
          Left            =   1260
-         TabIndex        =   9
+         TabIndex        =   10
          Tag             =   "5"
          Top             =   600
          Width           =   495
@@ -595,7 +603,7 @@ Begin VB.Form frmTemplate
       Begin VB.TextBox txtEmptyPlanets 
          Height          =   315
          Left            =   1260
-         TabIndex        =   8
+         TabIndex        =   9
          Tag             =   "4"
          Top             =   240
          Width           =   495
@@ -606,7 +614,7 @@ Begin VB.Form frmTemplate
          Height          =   255
          Index           =   10
          Left            =   120
-         TabIndex        =   42
+         TabIndex        =   43
          Top             =   1020
          Width           =   975
       End
@@ -616,7 +624,7 @@ Begin VB.Form frmTemplate
          Height          =   255
          Index           =   5
          Left            =   120
-         TabIndex        =   41
+         TabIndex        =   42
          Top             =   660
          Width           =   1035
       End
@@ -626,7 +634,7 @@ Begin VB.Form frmTemplate
          Height          =   255
          Index           =   4
          Left            =   120
-         TabIndex        =   40
+         TabIndex        =   41
          Top             =   300
          Width           =   1035
       End
@@ -635,9 +643,19 @@ Begin VB.Form frmTemplate
       Caption         =   "Close"
       Height          =   435
       Left            =   3660
-      TabIndex        =   32
+      TabIndex        =   33
       Top             =   7620
       Width           =   1155
+   End
+   Begin VB.Label Label 
+      Alignment       =   1  'Right Justify
+      Caption         =   "Schedule Active:"
+      Height          =   255
+      Index           =   26
+      Left            =   5040
+      TabIndex        =   67
+      Top             =   120
+      Width           =   1275
    End
    Begin VB.Label Label 
       Alignment       =   1  'Right Justify
@@ -645,7 +663,7 @@ Begin VB.Form frmTemplate
       Height          =   255
       Index           =   0
       Left            =   180
-      TabIndex        =   46
+      TabIndex        =   47
       Top             =   120
       Width           =   1395
    End
@@ -715,6 +733,10 @@ Private Sub chkKeepproduction_Click()
     Template.KeepProduction = (chkKeepproduction.Value = vbChecked)
 End Sub
 
+Private Sub chkScheduleActive_Click()
+    Template.ScheduleActive = (chkScheduleActive.Value = vbChecked)
+End Sub
+
 Private Sub chkSphericalGalaxy_Click()
     Template.sphericalgalaxy = (chkSphericalGalaxy.Value = vbChecked)
 End Sub
@@ -735,6 +757,7 @@ Private Sub LoadTemplate()
     
     If mobjTemplate Is Nothing Then
         txtName = ""
+        chkScheduleActive = False
         txtSize = ""
         txtRaceSpacing = ""
         txtEmptyPlanets = ""
@@ -766,6 +789,7 @@ Private Sub LoadTemplate()
     Else
         With mobjTemplate
             txtName = .TemplateName
+            chkScheduleActive = IIf(.ScheduleActive, vbChecked, vbUnchecked)
             txtSize = .Size
             txtRaceSpacing = .race_spacing
             txtEmptyPlanets = .empty_planets

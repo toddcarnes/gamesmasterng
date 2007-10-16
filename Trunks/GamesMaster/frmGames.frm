@@ -145,6 +145,8 @@ End Property
 Private Sub LoadGames()
     Dim lngRow As Long
     Dim objGame As Game
+    Dim c As Long
+    Dim dtNext As Date
     
     With grdGames
         .Clear
@@ -153,36 +155,66 @@ Private Sub LoadGames()
         .SelectionMode = flexSelectionByRow
         .Rows = 2
         .RowHeight(1) = 0
-        .Cols = 4
+        .Cols = 7
         .FixedCols = 1
         .FixedRows = 1
         .ColSel = 3
-        .ColWidth(0) = 16 * Screen.TwipsPerPixelX
-        .ColWidth(1) = 2000
-        .ColWidth(2) = 800
-        .ColAlignment(2) = flexAlignCenterTop
-        .ColWidth(3) = 800
-        .ColAlignment(3) = flexAlignCenterTop
-        .TextMatrix(0, 1) = "Name"
-        .TextMatrix(0, 2) = "Turn"
-        .TextMatrix(0, 3) = "Players"
+        c = 0
+        .ColWidth(c) = 16 * Screen.TwipsPerPixelX
+        c = c + 1
+        .TextMatrix(0, c) = "A"
+        .ColWidth(c) = 16 * Screen.TwipsPerPixelX
+        c = c + 1
+        .TextMatrix(0, c) = "Name"
+        .ColWidth(c) = 2000
+        c = c + 1
+        .TextMatrix(0, c) = "Turn"
+        .ColWidth(c) = 800
+        .ColAlignment(c) = flexAlignCenterTop
+        c = c + 1
+        .TextMatrix(0, c) = "Players"
+        .ColWidth(c) = 800
+        .ColAlignment(c) = flexAlignCenterTop
+        c = c + 1
+        .TextMatrix(0, c) = "Last Run"
+        .ColWidth(c) = 1500
+        .ColAlignment(c) = flexAlignLeftTop
+        c = c + 1
+        .TextMatrix(0, c) = "Next Run"
+        .ColWidth(c) = 1500
+        .ColAlignment(c) = flexAlignLeftTop
         
         lngRow = 1
         For Each objGame In Games
             objGame.Refresh
             lngRow = lngRow + 1
             If lngRow + 1 > .Rows Then .Rows = lngRow + 1
-            .TextMatrix(lngRow, 1) = objGame.GameName
+            c = 1
+            .TextMatrix(lngRow, c) = IIf(objGame.Template.ScheduleActive, "S", "")
+            c = c + 1
+            .TextMatrix(lngRow, c) = objGame.GameName
+            c = c + 1
             If objGame.Created Then
                 If objGame.Started Then
-                    .TextMatrix(lngRow, 2) = objGame.Turn
+                    .TextMatrix(lngRow, c) = objGame.Turn
                 Else
-                    .TextMatrix(lngRow, 2) = "-"
+                    .TextMatrix(lngRow, c) = "-"
                 End If
-                .TextMatrix(lngRow, 3) = objGame.ActivePlayers & "/" & objGame.Races.Count
+                c = c + 1
+                .TextMatrix(lngRow, c) = objGame.ActivePlayers & "/" & objGame.Races.Count
+                c = c + 1
+                .TextMatrix(lngRow, c) = Format(objGame.LastRunDate, "dd-mmm-yyyy hh:nn")
+                c = c + 1
+                dtNext = objGame.NextRunDate
+                .TextMatrix(lngRow, c) = IIf(dtNext = 0, "", Format(objGame.NextRunDate, "dd-mmm-yyyy hh:nn"))
             Else
-                .TextMatrix(lngRow, 2) = ""
-                .TextMatrix(lngRow, 3) = objGame.Template.Registrations.Count & "/" & objGame.Template.MaxPlayers
+                .TextMatrix(lngRow, c) = ""
+                c = c + 1
+                .TextMatrix(lngRow, c) = objGame.Template.Registrations.Count & "/" & objGame.Template.MaxPlayers
+                c = c + 1
+                .TextMatrix(lngRow, c) = ""
+                c = c + 1
+                .TextMatrix(lngRow, c) = ""
             End If
         Next objGame
     End With
@@ -250,9 +282,7 @@ Private Sub mnuGame_Click()
     Dim strGame As String
     Dim objGame As Game
     
-    With grdGames
-        strGame = .TextMatrix(.Row, 1)
-    End With
+    strGame = SelectedGame
     Set objGame = GalaxyNG.Games(strGame)
     
     If objGame Is Nothing Then
@@ -306,9 +336,7 @@ Private Sub mnuGameCreate_Click()
     Dim objGame As Game
     Dim objtemplate As Template
     
-    With grdGames
-        strTemplate = .TextMatrix(.Row, 1)
-    End With
+    strTemplate = SelectedGame
     Set objGame = GalaxyNG.Games(strTemplate)
     Set objtemplate = objGame.Template
     Call RunGalaxyNG("-create """ & objGame.TemplateFile & """ >" & strTemplate & ".txt")
@@ -326,9 +354,7 @@ Private Sub mnuGameResend_Click()
     Dim strGame As String
     Dim objGame As Game
     
-    With grdGames
-        strGame = .TextMatrix(.Row, 1)
-    End With
+    strGame = SelectedGame
     Set objGame = GalaxyNG.Games(strGame)
     Call objGame.Refresh
     
@@ -340,9 +366,7 @@ Private Sub mnuGameRun_Click()
     Dim strGame As String
     Dim objGame As Game
     
-    With grdGames
-        strGame = .TextMatrix(.Row, 1)
-    End With
+    strGame = SelectedGame
     GalaxyNG.Games.Refresh
     
     Call RunGame(strGame)
@@ -353,9 +377,7 @@ Private Sub mnuGameStart_Click()
     Dim strGame As String
     Dim objGame As Game
     
-    With grdGames
-        strGame = .TextMatrix(.Row, 1)
-    End With
+    strGame = SelectedGame
     GalaxyNG.Games.Refresh
     Set objGame = GalaxyNG.Games(strGame)
     objGame.Refresh
@@ -390,9 +412,7 @@ Private Sub mnuTemplate_Click()
     Dim objGame As Game
     Dim objtemplate As Template
     
-    With grdGames
-        strTemplate = .TextMatrix(.Row, 1)
-    End With
+    strTemplate = SelectedGame
     Set objGame = GalaxyNG.Games(strTemplate)
     mnuTemplateCreate.Enabled = True
     mnuTemplateRefresh.Enabled = True
@@ -404,7 +424,7 @@ Private Sub mnuTemplate_Click()
         Set objtemplate = objGame.Template
         If objGame.Created Then
             mnuTemplateDelete.Enabled = False
-            mnuTemplateEdit.Enabled = False
+            mnuTemplateEdit.Enabled = True
             mnuTemplateView.Enabled = True
         Else
             mnuTemplateDelete.Enabled = True
@@ -460,9 +480,7 @@ Private Sub mnuTemplateDelete_Click()
     Dim strTemplate As String
     Dim objGame As Game
     
-    With grdGames
-        strTemplate = .TextMatrix(.Row, 1)
-    End With
+    strTemplate = SelectedGame
     Set objGame = GalaxyNG.Games(strTemplate)
     If objGame.Created Then
         MsgBox "Game has already been created. " & vbNewLine & _
@@ -492,15 +510,15 @@ Private Sub GetTemplate(Optional ByVal blnReadOnly As Boolean = True)
     Dim fTemplate As frmTemplate
     Dim strTemplate As String
     
-    With grdGames
-        strTemplate = .TextMatrix(.Row, 1)
-    End With
+    strTemplate = SelectedGame
     
     For Each fForm In Forms
         If fForm.name = "frmTemplate" Then
             Set fTemplate = fForm
-            If fTemplate.Template.TemplateName = strTemplate Then
-                Exit For
+            If Not fTemplate.Template Is Nothing Then
+                If fTemplate.Template.TemplateName = strTemplate Then
+                    Exit For
+                End If
             End If
             Set fTemplate = Nothing
         End If
@@ -528,3 +546,10 @@ End Sub
 Private Sub mnuViewTemplate_Click()
     Call mnuTemplateView_Click
 End Sub
+
+Public Property Get SelectedGame() As String
+    With grdGames
+        SelectedGame = .TextMatrix(.Row, 2)
+    End With
+End Property
+

@@ -30,7 +30,7 @@ Public Peace As Long
 Public KeepProduction As Boolean
 Public DontDropDead As Boolean
 Public sphericalgalaxy As Boolean
-
+Public ScheduleActive As Boolean
 Public MaxPlayers As Long
 Public MinPlayers As Long
 Public RegistrationOpen As Date
@@ -119,6 +119,8 @@ Public Sub Load(Optional ByVal strFileName As String)
         If strLine <> "" Then
             strFields = Split(strLine, " ")
             Select Case LCase(strFields(0))
+            Case ";scheduleactive"
+                ScheduleActive = strFields(1)
             Case ";maxplanets"
                 MaxPlanets = strFields(1)
             Case ";maxplanetsize"
@@ -209,6 +211,7 @@ Public Function Clone(ByVal strTemplateName As String) As Template
     Set Clone = New Template
     With Clone
         .Filename = GalaxyNGHome & strTemplateName & ".glx"
+        .ScheduleActive = ScheduleActive
         .MaxPlanets = MaxPlanets
         .MaxPlanetSize = MaxPlanetSize
         .TotalPlanetSize = TotalPlanetSize
@@ -254,6 +257,7 @@ Public Sub Save(Optional ByVal strFileName As String)
     
     intFN = FreeFile
     Open strFileName For Output As intFN
+    Print #intFN, ";ScheduleActive "; CStr(ScheduleActive)
     Print #intFN, ";MaxPlayers "; CStr(MaxPlayers)
     Print #intFN, ";MinPlayers "; CStr(MinPlayers)
     Print #intFN, ";MaxPlanets "; CStr(MaxPlanets)
