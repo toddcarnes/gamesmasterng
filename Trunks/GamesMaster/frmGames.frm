@@ -76,6 +76,9 @@ Begin VB.Form frmGames
       Begin VB.Menu mnuGameResend 
          Caption         =   "ReSend Reports"
       End
+      Begin VB.Menu mnuGameNotify 
+         Caption         =   "Notify Users"
+      End
    End
    Begin VB.Menu mnuActions 
       Caption         =   "&Actions"
@@ -142,10 +145,10 @@ Public Property Set Games(ByVal objGames As Games)
     Call LoadGames
 End Property
 
-Private Sub LoadGames()
+Public Sub LoadGames()
     Dim lngRow As Long
     Dim objGame As Game
-    Dim c As Long
+    Dim C As Long
     Dim dtNext As Date
     
     With grdGames
@@ -159,62 +162,62 @@ Private Sub LoadGames()
         .FixedCols = 1
         .FixedRows = 1
         .ColSel = 3
-        c = 0
-        .ColWidth(c) = 16 * Screen.TwipsPerPixelX
-        c = c + 1
-        .TextMatrix(0, c) = "A"
-        .ColWidth(c) = 16 * Screen.TwipsPerPixelX
-        c = c + 1
-        .TextMatrix(0, c) = "Name"
-        .ColWidth(c) = 2000
-        c = c + 1
-        .TextMatrix(0, c) = "Turn"
-        .ColWidth(c) = 800
-        .ColAlignment(c) = flexAlignCenterTop
-        c = c + 1
-        .TextMatrix(0, c) = "Players"
-        .ColWidth(c) = 800
-        .ColAlignment(c) = flexAlignCenterTop
-        c = c + 1
-        .TextMatrix(0, c) = "Last Run"
-        .ColWidth(c) = 1500
-        .ColAlignment(c) = flexAlignLeftTop
-        c = c + 1
-        .TextMatrix(0, c) = "Next Run"
-        .ColWidth(c) = 1500
-        .ColAlignment(c) = flexAlignLeftTop
+        C = 0
+        .ColWidth(C) = 16 * Screen.TwipsPerPixelX
+        C = C + 1
+        .TextMatrix(0, C) = "A"
+        .ColWidth(C) = 16 * Screen.TwipsPerPixelX
+        C = C + 1
+        .TextMatrix(0, C) = "Name"
+        .ColWidth(C) = 2000
+        C = C + 1
+        .TextMatrix(0, C) = "Turn"
+        .ColWidth(C) = 800
+        .ColAlignment(C) = flexAlignCenterTop
+        C = C + 1
+        .TextMatrix(0, C) = "Players"
+        .ColWidth(C) = 800
+        .ColAlignment(C) = flexAlignCenterTop
+        C = C + 1
+        .TextMatrix(0, C) = "Last Run"
+        .ColWidth(C) = 1500
+        .ColAlignment(C) = flexAlignLeftTop
+        C = C + 1
+        .TextMatrix(0, C) = "Next Run"
+        .ColWidth(C) = 1500
+        .ColAlignment(C) = flexAlignLeftTop
         
         lngRow = 1
         For Each objGame In Games
             objGame.Refresh
             lngRow = lngRow + 1
             If lngRow + 1 > .Rows Then .Rows = lngRow + 1
-            c = 1
-            .TextMatrix(lngRow, c) = IIf(objGame.Template.ScheduleActive, "S", "")
-            c = c + 1
-            .TextMatrix(lngRow, c) = objGame.GameName
-            c = c + 1
+            C = 1
+            .TextMatrix(lngRow, C) = IIf(objGame.Template.ScheduleActive, "S", "")
+            C = C + 1
+            .TextMatrix(lngRow, C) = objGame.GameName
+            C = C + 1
             If objGame.Created Then
                 If objGame.Started Then
-                    .TextMatrix(lngRow, c) = objGame.Turn
+                    .TextMatrix(lngRow, C) = objGame.Turn
                 Else
-                    .TextMatrix(lngRow, c) = "-"
+                    .TextMatrix(lngRow, C) = "-"
                 End If
-                c = c + 1
-                .TextMatrix(lngRow, c) = objGame.ActivePlayers & "/" & objGame.Races.Count
-                c = c + 1
-                .TextMatrix(lngRow, c) = Format(objGame.LastRunDate, "dd-mmm-yyyy hh:nn")
-                c = c + 1
+                C = C + 1
+                .TextMatrix(lngRow, C) = objGame.PlayersReady & "/" & objGame.ActivePlayers & "/" & objGame.Races.Count
+                C = C + 1
+                .TextMatrix(lngRow, C) = Format(objGame.LastRunDate, "dd-mmm-yyyy hh:nn")
+                C = C + 1
                 dtNext = objGame.NextRunDate
-                .TextMatrix(lngRow, c) = IIf(dtNext = 0, "", Format(objGame.NextRunDate, "dd-mmm-yyyy hh:nn"))
+                .TextMatrix(lngRow, C) = IIf(dtNext = 0, "", Format(objGame.NextRunDate, "dd-mmm-yyyy hh:nn"))
             Else
-                .TextMatrix(lngRow, c) = ""
-                c = c + 1
-                .TextMatrix(lngRow, c) = objGame.Template.Registrations.Count & "/" & objGame.Template.MaxPlayers
-                c = c + 1
-                .TextMatrix(lngRow, c) = ""
-                c = c + 1
-                .TextMatrix(lngRow, c) = ""
+                .TextMatrix(lngRow, C) = ""
+                C = C + 1
+                .TextMatrix(lngRow, C) = objGame.Template.Registrations.Count & "/" & objGame.Template.MaxPlayers
+                C = C + 1
+                .TextMatrix(lngRow, C) = ""
+                C = C + 1
+                .TextMatrix(lngRow, C) = ""
             End If
         Next objGame
     End With
@@ -222,6 +225,9 @@ End Sub
 
 Private Sub Form_Load()
     mnuActions.Visible = False
+    mnuGameView.Visible = False
+    mnuGameEdit.Visible = False
+    mnuGameDelete.Visible = False
 End Sub
 
 Private Sub Form_Resize()
@@ -318,15 +324,15 @@ Private Sub mnuGame_Click()
     End If
     
     ' update the sction menu
-    mnuActionSeperator1.Visible = (mnuGameCreate.Enabled Or mnuGameView.Enabled)
-    mnuCreateGame.Visible = mnuGameCreate.Enabled
-    mnuDeleteGame.Visible = mnuGameDelete.Enabled
-    mnuViewGame.Visible = mnuGameView.Enabled
-    mnuEditGame.Visible = mnuGameEdit.Enabled
-    mnuActionSeperator2.Visible = (mnuGameStart.Enabled Or mnuGameRun.Enabled)
-    mnuStartGame.Visible = mnuGameStart.Enabled
-    mnuRunTurn.Visible = mnuGameRun.Enabled
-    mnuResendReports.Visible = mnuGameResend.Enabled
+    mnuCreateGame.Visible = mnuGameCreate.Enabled And mnuGameCreate.Visible
+    mnuDeleteGame.Visible = mnuGameDelete.Enabled And mnuGameDelete.Visible
+    mnuViewGame.Visible = mnuGameView.Enabled And mnuGameView.Visible
+    mnuActionSeperator1.Visible = (mnuCreateGame.Visible Or mnuViewGame.Visible)
+    mnuEditGame.Visible = mnuGameEdit.Enabled And mnuGameEdit.Visible
+    mnuStartGame.Visible = mnuGameStart.Enabled And mnuGameStart.Visible
+    mnuRunTurn.Visible = mnuGameRun.Enabled And mnuGameRun.Visible
+    mnuResendReports.Visible = mnuGameResend.Enabled And mnuGameResend.Visible
+    mnuActionSeperator2.Visible = (mnuStartGame.Visible Or mnuRunTurn.Visible Or mnuResendReports.Visible)
     
     Set objGame = Nothing
 End Sub
@@ -350,6 +356,18 @@ Private Sub mnuGameEdit_Click()
 '
 End Sub
 
+Private Sub mnuGameNotify_Click()
+    Dim strGame As String
+    Dim objGame As Game
+    
+    strGame = SelectedGame
+    GalaxyNG.Games.Refresh
+    
+    Call NotifyUsers(strGame)
+    Call MainForm.RefreshGamesForm
+    Call MainForm.SendMail.Send
+End Sub
+
 Private Sub mnuGameResend_Click()
     Dim strGame As String
     Dim objGame As Game
@@ -370,6 +388,7 @@ Private Sub mnuGameRun_Click()
     GalaxyNG.Games.Refresh
     
     Call RunGame(strGame)
+    Call MainForm.RefreshGamesForm
     Call MainForm.SendMail.Send
 End Sub
 
@@ -383,6 +402,7 @@ Private Sub mnuGameStart_Click()
     objGame.Refresh
     
     Call RunGalaxyNG("-mail0 " & strGame)
+    Call MainForm.RefreshGamesForm
     Call SendReports(strGame)
     Call MainForm.SendMail.Send
 End Sub
@@ -432,11 +452,11 @@ Private Sub mnuTemplate_Click()
             mnuTemplateView.Enabled = True
         End If
     End If
-    mnuCreateTemplate.Visible = mnuTemplateCreate.Enabled
-    mnuDeleteTemplate.Visible = mnuTemplateDelete.Enabled
-    mnuViewTemplate.Visible = mnuTemplateView.Enabled
-    mnuEditTemplate.Visible = mnuTemplateEdit.Enabled
-    mnuRefreshTemplate.Visible = mnuTemplateRefresh
+    mnuCreateTemplate.Visible = mnuTemplateCreate.Enabled And mnuTemplateCreate.Visible
+    mnuDeleteTemplate.Visible = mnuTemplateDelete.Enabled And mnuTemplateDelete.Visible
+    mnuViewTemplate.Visible = mnuTemplateView.Enabled And mnuTemplateView.Visible
+    mnuEditTemplate.Visible = mnuTemplateEdit.Enabled And mnuTemplateEdit.Visible
+    mnuRefreshTemplate.Visible = mnuTemplateRefresh.Enabled And mnuTemplateRefresh.Visible
     
     Set objtemplate = Nothing
     Set objGame = Nothing

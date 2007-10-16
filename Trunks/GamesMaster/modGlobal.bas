@@ -294,11 +294,46 @@ Public Function MarkText(ByVal strSource As String) As String
     MarkText = "> " & Replace(strSource, vbCrLf, vbCrLf & "> ")
 End Function
 
+Public Sub NotifyUsers(ByVal strGame As String)
+    Dim objGames As Games
+    Dim objGame As Game
+    Dim objRace As Race
+    Dim strRace As String
+    Dim strMessage As String
+    
+    Set objGames = New Games
+    objGames.Refresh
+    Set objGame = objGames(strGame)
+    Call objGame.Refresh
+
+    For Each objRace In objGame.Races
+        strRace = objRace.RaceName
+        If objRace.Flag(R_DEAD) Then
+        ElseIf objGame.FinalOrdersReceived(strRace) Then
+        ElseIf objGame.OrdersReceived(strRace) Then
+        ElseIf objGame.NotificationSent(strRace) Then
+        Else
+            strMessage = GetMessage("Header")
+            strMessage = strMessage & GetMessage("NotifyUser", "24 hours", strRace)
+            strMessage = strMessage & vbNewLine & GetMessage("Footer")
+            strMessage = Replace(strMessage, "[turn]", objGame.NextTurn)
+            strMessage = Replace(strMessage, "[game]", strGame)
+            Call SendEMail(objRace.EMail, _
+                    "[GNG] " & objGame.GameName & " turn " & objGame.NextTurn & _
+                    " Notification for " & strRace, _
+                    strMessage)
+        End If
+    Next objRace
+End Sub
+
 Public Sub RunGame(ByVal strGame As String)
     Dim strCommand As String
+    Dim objGames As Games
     Dim objGame As Game
     
-    Set objGame = GalaxyNG.Games(strGame)
+    Set objGames = New Games
+    objGames.Refresh
+    Set objGame = objGames(strGame)
     Call objGame.Refresh
     
     strCommand = GetMessage("run_game")

@@ -748,6 +748,7 @@ End Sub
 Private Sub cmdClose_Click()
     If Not ReadOnly Then
         Call Template.Save
+        Call MainForm.RefreshGamesForm
     End If
     Unload Me
 End Sub

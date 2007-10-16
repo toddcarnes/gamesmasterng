@@ -246,6 +246,19 @@ Public Property Get ActivePlayers() As Long
     Next objRace
 End Property
 
+Public Property Get PlayersReady() As Long
+    Dim objRace As Race
+    
+    PlayersReady = 0
+    For Each objRace In mvarRaces
+        If Not objRace.Flag(R_DEAD) Then
+            If OrdersReceived(objRace.RaceName) Then
+                PlayersReady = PlayersReady + 1
+            End If
+        End If
+    Next objRace
+End Property
+
 Public Property Set Races(vData As Races)
     Set mvarRaces = vData
 End Property
@@ -289,6 +302,44 @@ Public Function ReadyToRun() As Boolean
     End If
 End Function
 
+Public Function NotifyUsers() As Boolean
+    Dim objRace As Race
+    Dim strRace As String
+    Dim dtNext As Date
+    
+    dtNext = NextRunDate
+    If dtNext = 0 Then Exit Function
+    
+    ' Notify User 24 hours before turn
+    dtNext = DateAdd("h", -24, dtNext)
+    ' If not due to notify
+    If dtNext > Now Then Exit Function
+    
+    ' Only check for 15 minutes
+    If DateDiff("n", dtNext, Now) > 15 Then Exit Function
+    
+    For Each objRace In Races
+        If Not objRace.Flag(R_DEAD) Then
+            strRace = objRace.RaceName
+            If OrdersReceived(strRace) Then
+            ElseIf NotificationSent(strRace) Then
+            Else
+                NotifyUsers = True
+                Exit For
+            End If
+        End If
+    Next objRace
+End Function
+
+Public Function NotificationSent(ByVal strRace As String) As Boolean
+    Dim strFileName As String
+    
+    strFileName = GalaxyNGOrders & GameName & "\" & strRace & "_" & NextTurn & ".notify"
+    If Dir(strFileName) <> "" Then
+        NotificationSent = True
+    End If
+End Function
+
 Public Function FinalOrdersReceived(ByVal strRace As String) As Boolean
     Dim strFileName As String
     
@@ -304,11 +355,14 @@ Public Function OrdersReceived(ByVal strRace As String) As Boolean
     Dim strFileName As String
     
     strFileName = GalaxyNGOrders & GameName & "\" & strRace & "." & NextTurn
-    
     If Dir(strFileName) <> "" Then
         OrdersReceived = True
+    Else
+        strFileName = GalaxyNGOrders & GameName & "\" & strRace & "_final." & NextTurn
+        If Dir(strFileName) <> "" Then
+            OrdersReceived = True
+        End If
     End If
-    
 End Function
 
 Public Function NextRunDate() As Date

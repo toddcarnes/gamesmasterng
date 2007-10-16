@@ -58,7 +58,7 @@ Begin VB.MDIForm frmMain
             AutoSize        =   2
             Object.Width           =   1402
             MinWidth        =   1411
-            TextSave        =   "3:36"
+            TextSave        =   "6:29"
             Key             =   "Time"
          EndProperty
       EndProperty
@@ -223,6 +223,17 @@ Private Sub mnuGames_Click()
     Set fGames = Nothing
 End Sub
 
+Public Sub RefreshGamesForm()
+    Dim fForm As Form
+    Dim fGames As frmGames
+    
+    For Each fForm In Forms
+        If fForm.name = "frmGames" Then
+            Set fGames = fForm
+            Call fGames.LoadGames
+        End If
+    Next fForm
+End Sub
 Private Sub mnuMailAutoCheck_Click()
     If mnuMailAutoCheck.Checked Then
         tmrMail.Enabled = False
@@ -351,6 +362,7 @@ Private Sub tmrGalaxyNG_Timer()
     Dim objGames As Games
     Dim objGame As Game
     Dim blnMailTimer As Boolean
+    Dim blnProcessed As Boolean
     
     tmrGalaxyNG.Interval = 30000
     
@@ -364,12 +376,19 @@ Private Sub tmrGalaxyNG_Timer()
             objGame.Refresh
             If objGame.ReadyToRun Then
                 Call RunGame(objGame.GameName)
+                blnProcessed = True
+            ElseIf objGame.NotifyUsers Then
+                Call NotifyUsers(objGame.GameName)
+                blnProcessed = True
             End If
         Next objGame
         tmrMail.Enabled = blnMailTimer
         
-        GalaxyNG.Games.Refresh
-        Call SendMail.Send
+        If blnProcessed Then
+            GalaxyNG.Games.Refresh
+            Call MainForm.RefreshGamesForm
+            Call SendMail.Send
+        End If
     End If
 End Sub
 

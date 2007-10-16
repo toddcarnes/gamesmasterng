@@ -71,7 +71,7 @@ Public Sub Send()
             strFileName = Dir()
         Wend
         ReDim Preserve mvarEMail(e)
-        
+        mlngMessages = UBound(mvarEMail) + 1
         'Connect to the mail server
         Call Connect
     End If
@@ -123,7 +123,7 @@ Private Sub ProcessData(ByVal strData As String)
         
     Case SM_Command.SM_HELO
         If lngResponse = 250 Then
-            RaiseEvent Sending(mlngEMail, mlngMessages)
+            RaiseEvent Sending(mlngEMail + 1, mlngMessages)
             Set mobjEMail = New EMail
             mobjEMail.Load mvarEMail(mlngEMail)
             SendData c_MAIL & mobjEMail.From
