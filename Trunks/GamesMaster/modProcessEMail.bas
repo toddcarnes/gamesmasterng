@@ -37,7 +37,7 @@ Private Sub ProcessEMail(ByVal strPath As String)
         Case "relay"
             Call RelayMessage(varSubject(1), strFrom, varBody)
         Case "report"
-            Call EMailReport(strFrom, varBody)
+            Call SendReport(strFrom, strEMail)
         End Select
         Name strPath As strPath & ".sav"
     Else

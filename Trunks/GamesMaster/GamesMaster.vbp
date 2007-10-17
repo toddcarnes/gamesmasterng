@@ -37,6 +37,7 @@ Class=EMail; EMail.cls
 Form=frmGetMail.frm
 Module=modOrders; modOrders.bas
 Module=modRegister; modRegister.bas
+Module=modReport; modReport.bas
 Startup="Sub Main"
 HelpFile=""
 ExeName32="GamesMaster.exe"

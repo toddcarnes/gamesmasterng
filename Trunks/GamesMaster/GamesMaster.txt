@@ -1,5 +1,4 @@
 0 Notes
-Notify (testing)
 Report
 Relay
 Options
@@ -224,3 +223,28 @@ Orders have not been received for your race "[2]".
 
 Please submit your orders for processing.
 @
+29 InvalidReportEMail
+Major problems were encountered while attempting to process the 
+report request.
+
+The EMail was incorrectly formed. The orders must be submitted in
+the following format with a subject of "report".
+
+#galaxyng <game> <race> <password> <turn>
+
+------------------------------------------------------------
+[1]
+@
+25 InvalidReportHeader
+Major problems were encountered while attempting to process the 
+report request.
+
+[1]
+
+The orders must be submitted in the following format 
+with a subject of "report".
+
+#galaxyng <game> <race> <password> <turn>
+
+------------------------------------------------------------
+[2]

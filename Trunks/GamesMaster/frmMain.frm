@@ -58,7 +58,7 @@ Begin VB.MDIForm frmMain
             AutoSize        =   2
             Object.Width           =   1402
             MinWidth        =   1411
-            TextSave        =   "5:37"
+            TextSave        =   "6:01"
             Key             =   "Time"
          EndProperty
       EndProperty

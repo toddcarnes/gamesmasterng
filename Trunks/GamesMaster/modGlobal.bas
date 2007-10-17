@@ -34,6 +34,7 @@ Public CheckMailInterval As Long
 
 Public Const gcOrdersFileName = "orders.txt"
 Public Const gcForecastFileName = "forecast.txt"
+Public Const gcReportFileName = "report.txt"
 
 Public MainForm As frmMain
 Public INIFile As INIFile
