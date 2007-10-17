@@ -1,5 +1,5 @@
 0 Notes
-Notify
+Notify (testing)
 Report
 Relay
 Options
@@ -96,7 +96,7 @@ if you want this option.
 E-Mail: [gamesmaster]
 
 This e-mail has been generated automatically by the GalaxyNG game server 
-called [1] and should not be replied to.
+called [server] and should not be replied to.
 @
 15 NoGame
 Your request to join the GalaxyNG game "[1]" has FAILED 
