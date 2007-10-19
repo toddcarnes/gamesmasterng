@@ -35,7 +35,7 @@ Private Sub ProcessEMail(ByVal strPath As String)
         Case "orders", "order"
             Call CheckOrders(strFrom, strEMail)
         Case "relay"
-            Call RelayMessage(varSubject(1), strFrom, varBody)
+            Call RelayMessage(varSubject(1), strFrom, strEMail)
         Case "report"
             Call SendReport(strFrom, strEMail)
         End Select
@@ -43,11 +43,6 @@ Private Sub ProcessEMail(ByVal strPath As String)
     Else
         Name strPath As strPath & ".err"
     End If
-
-End Sub
-
-
-Private Sub RelayMessage(ByVal strTo As String, ByVal strFrom As String, ByVal varBody As Variant)
 
 End Sub
 

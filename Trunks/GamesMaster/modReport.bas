@@ -99,9 +99,9 @@ Public Sub SendReport(ByVal strFrom As String, ByVal strEMail As String)
     ' Get the Report file to send
     strSubject = "[GNG] " & strGame & " turn " & CStr(lngTurn) & _
                     " text report for " & strRace
-    Call RunGalaxyNG("-report " & strGame & " " & strRace & " " & CStr(lngTurn) & ">" & gcReportFileName)
-    strMessage = GetFile(gcReportFileName)
-    Kill gcReportFileName
+    Call RunGalaxyNG("-report " & strGame & " " & strRace & " " & CStr(lngTurn) & " >" & gcReportFileName)
+    strMessage = GetFile(GalaxyNGHome & gcReportFileName)
+    Kill GalaxyNGHome & gcReportFileName
 
     GoTo Send
 

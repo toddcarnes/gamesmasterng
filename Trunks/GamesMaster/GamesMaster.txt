@@ -1,6 +1,5 @@
 0 Notes
-Report
-Relay
+Relay test
 Options
 View Game
 View Player
@@ -248,3 +247,35 @@ with a subject of "report".
 
 ------------------------------------------------------------
 [2]
+@
+29 InvalidRelayEMail
+Major problems were encountered while attempting to process the 
+relay request.
+
+The EMail was incorrectly formed. The orders must be submitted in
+the following format with a subject of "relay <race>".
+
+#galaxyng <game> <race> <password>
+
+------------------------------------------------------------
+[1]
+@
+25 InvalidRelayHeader
+Major problems were encountered while attempting to process the 
+relay request.
+
+[1]
+
+The orders must be submitted in the following format 
+with a subject of "relay <race>".
+
+#galaxyng <game> <race> <password>
+
+------------------------------------------------------------
+[2]
+@
+@
+25 RelaySent
+Your message relay request to "[1]" has been processed and your
+message has been sent.
+@
