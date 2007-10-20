@@ -24,7 +24,8 @@ Private mCol As Collection
 
 Public Property Get Item(vntIndexKey As Variant) As Race
 Attribute Item.VB_UserMemId = 0
-  Set Item = mCol(vntIndexKey)
+    On Error Resume Next
+    Set Item = mCol(vntIndexKey)
 End Property
 
 Public Property Get Count() As Long

@@ -45,7 +45,7 @@ Public Sub RelayMessage(ByVal strTo As String, ByVal strFrom As String, ByVal st
         strOrders = ""
     Else
         strHeader = Left(strOrders, lngEOL - 1)
-        strOrders = Mid(strEMail, lngEOL + 2)
+        strOrders = Mid(strOrders, lngEOL + 2)
     End If
     'Reduce multiple spaces to single spaces
     strHeader = Replace(strHeader, vbTab, " ")
@@ -100,7 +100,7 @@ Public Sub RelayMessage(ByVal strTo As String, ByVal strFrom As String, ByVal st
     End If
     
     Set objToRace = objGame.Races(strTo)
-    If objToRace Is Nothing & strTo <> "gm" & strTo <> "gamesmaster" & strTo <> strGame Then
+    If objToRace Is Nothing And strTo <> "gm" And strTo <> "gamesmaster" And strTo <> strGame Then
         'Invalid race
         strMessage = GetMessage("InvalidRelayHeader", _
                 "An invalid race name was specified to receive the message.", _
@@ -110,18 +110,20 @@ Public Sub RelayMessage(ByVal strTo As String, ByVal strFrom As String, ByVal st
     
     ' Send message to all races
     If strTo = strGame Then
-        For Each objRace In objGame.Races
-            If Not objRace.Flag(R_DEAD) Then
-                strSubject = "[GNG]" & strGame & " message relay " & strRace
+        For Each objToRace In objGame.Races
+            If Not objToRace.Flag(R_DEAD) Then
+                strSubject = "[GNG]" & strGame & " relay to " & objToRace.RaceName & " from " & strRace
                 Call SendEMail(objToRace.EMail, strSubject, strOrders)
             End If
-        Next objRace
+        Next objToRace
         Call SendEMail(GamesMasterEMail, strSubject, strOrders)
     Else
         strSubject = "[GNG]" & strGame & " message relay " & strRace
         If objRace Is Nothing Then
+            strSubject = "[GNG]" & strGame & " relay to GamesMaster from " & strRace
             Call SendEMail(GamesMasterEMail, strSubject, strOrders)
         Else
+            strSubject = "[GNG]" & strGame & " relay to " & objToRace.RaceName & " from " & strRace
             Call SendEMail(objToRace.EMail, strSubject, strOrders)
         End If
     End If

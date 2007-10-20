@@ -1,5 +1,4 @@
 0 Notes
-Relay test
 Options
 View Game
 View Player
@@ -273,7 +272,6 @@ with a subject of "relay <race>".
 
 ------------------------------------------------------------
 [2]
-@
 @
 25 RelaySent
 Your message relay request to "[1]" has been processed and your
