@@ -11,6 +11,8 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
+Attribute VB_Ext_KEY = "SavedWithClassBuilder6" ,"Yes"
+Attribute VB_Ext_KEY = "Top_Level" ,"Yes"
 '********************************************************************************
 '
 'Name.......... CSocketMaster
@@ -52,7 +54,7 @@ Private Declare Function api_sendto Lib "ws2_32.dll" Alias "sendto" (ByVal s As 
 Private Declare Function api_getsockopt Lib "ws2_32.dll" Alias "getsockopt" (ByVal s As Long, ByVal level As Long, ByVal optname As Long, optval As Any, optlen As Long) As Long
 Private Declare Function api_setsockopt Lib "ws2_32.dll" Alias "setsockopt" (ByVal s As Long, ByVal level As Long, ByVal optname As Long, optval As Any, ByVal optlen As Long) As Long
 Private Declare Function api_recv Lib "ws2_32.dll" Alias "recv" (ByVal s As Long, ByRef buf As Any, ByVal buflen As Long, ByVal flags As Long) As Long
-Private Declare Function api_recvfrom Lib "ws2_32.dll" Alias "recvfrom" (ByVal s As Long, ByRef buf As Any, ByVal buflen As Long, ByVal flags As Long, ByRef from As sockaddr_in, ByRef fromlen As Long) As Long
+Private Declare Function api_recvfrom Lib "ws2_32.dll" Alias "recvfrom" (ByVal s As Long, ByRef buf As Any, ByVal buflen As Long, ByVal flags As Long, ByRef From As sockaddr_in, ByRef fromlen As Long) As Long
 Private Declare Function api_WSACancelAsyncRequest Lib "ws2_32.dll" Alias "WSACancelAsyncRequest" (ByVal hAsyncTaskHandle As Long) As Long
 Private Declare Function api_listen Lib "ws2_32.dll" Alias "listen" (ByVal s As Long, ByVal backlog As Long) As Long
 Private Declare Function api_accept Lib "ws2_32.dll" Alias "accept" (ByVal s As Long, ByRef addr As sockaddr_in, ByRef addrlen As Long) As Long
@@ -1053,11 +1055,11 @@ End If
 'We need to convert data variant into a byte array
 Select Case varType(data)
         Case vbString
-            Dim strdata As String
-            strdata = CStr(data)
-            If Len(strdata) = 0 Then Exit Sub
-            ReDim arrData(Len(strdata) - 1)
-            arrData() = StrConv(strdata, vbFromUnicode)
+            Dim strData As String
+            strData = CStr(data)
+            If Len(strData) = 0 Then Exit Sub
+            ReDim arrData(Len(strData) - 1)
+            arrData() = StrConv(strData, vbFromUnicode)
         Case vbArray + vbByte
             Dim strArray As String
             strArray = StrConv(data, vbUnicode)
@@ -1477,9 +1479,9 @@ End If
     Select Case varClass
     
     Case vbString
-        Dim strdata As String
-        strdata = StrConv(arrBuffer(), vbUnicode)
-        data = strdata
+        Dim strData As String
+        strData = StrConv(arrBuffer(), vbUnicode)
+        data = strData
     Case vbArray + vbByte
         data = arrBuffer
     Case vbBoolean
@@ -1552,12 +1554,12 @@ End Function
 
 'Returns a byte array of Size bytes filled with incoming buffer data.
 Private Function BuildArray(ByVal Size As Long, ByVal blnPeek As Boolean, ByRef lngErrorCode As Long) As Byte()
-Dim strdata As String
+Dim strData As String
 
 If m_enmProtocol = sckTCPProtocol Then
         
-    strdata = Left$(m_strRecvBuffer, CLng(Size))
-    BuildArray = StrConv(strdata, vbFromUnicode)
+    strData = Left$(m_strRecvBuffer, CLng(Size))
+    BuildArray = StrConv(strData, vbFromUnicode)
                 
     If Not blnPeek Then
         m_strRecvBuffer = Mid$(m_strRecvBuffer, Size + 1)

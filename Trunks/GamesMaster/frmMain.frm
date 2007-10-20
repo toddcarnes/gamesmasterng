@@ -49,7 +49,7 @@ Begin VB.MDIForm frmMain
             AutoSize        =   2
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "18/10/2007"
+            TextSave        =   "21/10/2007"
             Key             =   "Date"
          EndProperty
          BeginProperty Panel4 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
@@ -58,7 +58,7 @@ Begin VB.MDIForm frmMain
             AutoSize        =   2
             Object.Width           =   1402
             MinWidth        =   1411
-            TextSave        =   "6:01"
+            TextSave        =   "9:13"
             Key             =   "Time"
          EndProperty
       EndProperty
@@ -77,6 +77,9 @@ Begin VB.MDIForm frmMain
    End
    Begin VB.Menu mnuFile 
       Caption         =   "&File"
+      Begin VB.Menu mnuFileOptions 
+         Caption         =   "Options"
+      End
       Begin VB.Menu mnuExit 
          Caption         =   "E&xit"
       End
@@ -196,6 +199,30 @@ End Sub
 
 Private Sub mnuExit_Click()
     Unload Me
+End Sub
+
+Private Sub mnuFileOptions_Click()
+    Dim fForm As Form
+    Dim fOptions As frmOptions
+    
+    For Each fForm In Forms
+        If fForm.name = "frmOptions" Then
+            Set fOptions = fForm
+            Exit For
+        End If
+    Next fForm
+    
+    If fOptions Is Nothing Then
+        Set fOptions = New frmOptions
+        Load fOptions
+        fOptions.Show
+    Else
+        fOptions.Visible = True
+        fOptions.WindowState = vbNormal
+        fOptions.SetFocus
+    End If
+    Set fForm = Nothing
+    Set fOptions = Nothing
 End Sub
 
 Private Sub mnuGames_Click()
@@ -395,7 +422,7 @@ End Sub
 Private Sub tmrMail_Timer()
     tmrMail.Interval = 10000
     If mdtNextMailCheck < Now Then
-        mdtNextMailCheck = DateAdd("n", CheckMailInterval, Now)
+        mdtNextMailCheck = DateAdd("n", Options.CheckMailInterval, Now)
         GetMail.GetMail
     End If
 End Sub

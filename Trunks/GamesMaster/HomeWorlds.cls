@@ -19,8 +19,8 @@ Option Explicit
 
 Private mCol As Collection
 
-Public Sub Add(ByVal objHomeWorld As HomeWorld)
-    mCol.Add objHomeWorld
+Public Sub Add(ByVal objHomeworld As HomeWorld)
+    mCol.Add objHomeworld
 End Sub
 
 Public Property Get Item(vntIndexKey As Variant) As HomeWorld
@@ -53,39 +53,39 @@ Private Sub Class_Terminate()
 End Sub
 
 Public Function MaxSize() As Long
-    Dim objHomeWorld As HomeWorld
+    Dim objHomeworld As HomeWorld
     Dim lngMax As Long
     
-    For Each objHomeWorld In mCol
-        If objHomeWorld.Size > lngMax Then
-            lngMax = objHomeWorld.Size
+    For Each objHomeworld In mCol
+        If objHomeworld.Size > lngMax Then
+            lngMax = objHomeworld.Size
         End If
-    Next objHomeWorld
+    Next objHomeworld
     
     MaxSize = lngMax
 End Function
 
 Public Function TotalSize() As Long
-    Dim objHomeWorld As HomeWorld
+    Dim objHomeworld As HomeWorld
     Dim lngTotal As Long
     
-    For Each objHomeWorld In mCol
-        lngTotal = lngTotal + objHomeWorld.Size
-    Next objHomeWorld
+    For Each objHomeworld In mCol
+        lngTotal = lngTotal + objHomeworld.Size
+    Next objHomeworld
     
     TotalSize = lngTotal
 End Function
 
 Public Function Text() As String
-    Dim objHomeWorld As HomeWorld
+    Dim objHomeworld As HomeWorld
     Dim strText As String
     Dim i As Long
     
-    For Each objHomeWorld In mCol
+    For Each objHomeworld In mCol
         i = i + 1
         strText = strText & _
-                "    Homeworld " & CStr(i) & " size: " & CStr(objHomeWorld.Size) & vbNewLine
-    Next objHomeWorld
+                "    Homeworld " & CStr(i) & " size: " & CStr(objHomeworld.Size) & vbNewLine
+    Next objHomeworld
     Text = strText
 End Function
 

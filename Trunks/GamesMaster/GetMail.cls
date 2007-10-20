@@ -11,6 +11,9 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
+Attribute VB_Ext_KEY = "SavedWithClassBuilder6" ,"Yes"
+Attribute VB_Ext_KEY = "Member0" ,"GetMail"
+Attribute VB_Ext_KEY = "Top_Level" ,"Yes"
 Option Explicit
 Option Compare Text
 
@@ -74,14 +77,14 @@ Public Sub GetMail()
 End Sub
 
 Private Sub Connect()
-    RaiseEvent Connecting(POPServer)
-    RaiseEvent LogData("> open " & POPServer & ":" & POPServerPort & vbNewLine)
+    RaiseEvent Connecting(Options.POPServer)
+    RaiseEvent LogData("> open " & Options.POPServer & ":" & Options.POPServerPort & vbNewLine)
     If mobjSocket Is Nothing Then
         Set mobjSocket = New CSocketMaster
     End If
     With mobjSocket
         .Protocol = sckTCPProtocol
-        .Connect POPServer, POPServerPort
+        .Connect Options.POPServer, Options.POPServerPort
     End With
     muStatus = GM_OPEN
 End Sub
@@ -112,7 +115,7 @@ Private Sub ProcessData(ByVal strData As String)
     Case GM_Command.GM_OPEN
         If blnOK Then
             RaiseEvent Validating
-            SendData c_USER & " " & POPUserID
+            SendData c_USER & " " & Options.POPUserID
             muStatus = GM_USER
         Else
             SendData c_QUIT
@@ -121,7 +124,7 @@ Private Sub ProcessData(ByVal strData As String)
         
     Case GM_Command.GM_USER
         If blnOK Then
-            SendData c_PASS & " " & POPPassword
+            SendData c_PASS & " " & Options.POPPassword
             muStatus = GM_PASS
         Else
             SendData c_QUIT
@@ -236,7 +239,7 @@ Private Sub SaveEMail(ByVal strEMail As String)
     Dim strFileName As String
     
     Do
-        strFileName = Inbox & Format(Now, "yyyymmddhhnnss") & "_" & Format(i, "0") & ".txt"
+        strFileName = Options.Inbox & Format(Now, "yyyymmddhhnnss") & "_" & Format(i, "0") & ".txt"
         If Dir(strFileName) = "" Then Exit Do
         i = i + 1
     Loop

@@ -6,16 +6,18 @@ BEGIN
   DataSourceBehavior  = 0  'vbNone
   MTSTransactionMode  = 0  'NotAnMTSObject
 END
-Attribute VB_Name = "HomeWorld"
+Attribute VB_Name = "Message"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 Attribute VB_Ext_KEY = "SavedWithClassBuilder6" ,"Yes"
-Attribute VB_Ext_KEY = "Top_Level" ,"No"
+Attribute VB_Ext_KEY = "Member0" ,"Message"
+Attribute VB_Ext_KEY = "Top_Level" ,"Yes"
 Option Explicit
+Option Compare Text
 
-Public Size As Single
-Public x As Single
-Public y As Single
-
+Public Index As Long
+Public Key As String
+Public Heading As String
+Public Message As String

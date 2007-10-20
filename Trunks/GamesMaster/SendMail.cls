@@ -11,6 +11,8 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
+Attribute VB_Ext_KEY = "SavedWithClassBuilder6" ,"Yes"
+Attribute VB_Ext_KEY = "Top_Level" ,"Yes"
 Option Explicit
 Option Compare Text
 
@@ -56,7 +58,7 @@ Public Sub Send()
     
     If Status = SM_CLOSE Then
         ' Abort if the outbox is empty
-        strFileName = Dir(Outbox & "*.txt")
+        strFileName = Dir(Options.Outbox & "*.txt")
         If strFileName = "" Then Exit Sub
         ReDim mvarEMail(100)
         mlngEMail = 0
@@ -67,7 +69,7 @@ Public Sub Send()
             If e > UBound(mvarEMail) Then
                 ReDim Preserve mvarEMail(e + 99)
             End If
-            mvarEMail(e) = Outbox & strFileName
+            mvarEMail(e) = Options.Outbox & strFileName
             strFileName = Dir()
         Wend
         ReDim Preserve mvarEMail(e)
@@ -78,14 +80,14 @@ Public Sub Send()
 End Sub
 
 Private Sub Connect()
-    RaiseEvent Connecting(SMTPServer)
-    RaiseEvent LogData("> open " & SMTPServer & ":" & SMTPServerPort & vbNewLine)
+    RaiseEvent Connecting(Options.SMTPServer)
+    RaiseEvent LogData("> open " & Options.SMTPServer & ":" & Options.SMTPServerPort & vbNewLine)
     If mobjSocket Is Nothing Then
         Set mobjSocket = New CSocketMaster
     End If
     With mobjSocket
         .Protocol = sckTCPProtocol
-        .Connect SMTPServer, SMTPServerPort
+        .Connect Options.SMTPServer, Options.SMTPServerPort
     End With
     muStatus = SM_OPEN
 End Sub
@@ -114,7 +116,7 @@ Private Sub ProcessData(ByVal strData As String)
     Select Case muStatus
     Case SM_Command.SM_OPEN
         If lngResponse = 220 Then
-            SendData c_HELO & ServerName
+            SendData c_HELO & Options.ServerName
             muStatus = SM_HELO
         Else
             SendData c_QUIT
@@ -216,7 +218,7 @@ Private Sub SaveEMail(ByVal strEMail As String)
     Dim strFileName As String
     
     Do
-        strFileName = Inbox & Format(Now, "yyyymmddhhnnss") & " " & Format(i, "00000") & ".txt"
+        strFileName = Options.Inbox & Format(Now, "yyyymmddhhnnss") & " " & Format(i, "00000") & ".txt"
         If Dir(strFileName) = "" Then Exit Do
         i = i + 1
     Loop

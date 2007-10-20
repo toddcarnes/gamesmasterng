@@ -1,5 +1,5 @@
 0 Notes
-Options
+Options Validation and searching
 View Game
 View Player
 Edit Game
@@ -89,11 +89,11 @@ if you want this option.
 14 Footer
 
 ---------------------------------------
-[server] Games Master
-E-Mail: [gamesmaster]
+[servername] Games Master
+E-Mail: [gamesmasteremail]
 
 This e-mail has been generated automatically by the GalaxyNG game server 
-called [server] and should not be replied to.
+called [servername] and should not be replied to.
 @
 15 NoGame
 Your request to join the GalaxyNG game "[1]" has FAILED 
@@ -198,13 +198,13 @@ future processing.
 @
 27 run_game
 rem Merge the Orders
-cd "[orders][game]"
+cd "[galaxynghome]orders\[game]"
 copy /y *.[turn] [turn].all
 del /q *.[turn]
 del /q *.notify
 
 rem Delete the old reports
-cd "[reports][game]"
+cd "[galaxynghome]reports\[game]"
 del /q *.*
 
 rem Run the Game
@@ -255,7 +255,8 @@ The EMail was incorrectly formed. The orders must be submitted in
 the following format with a subject of "relay <race>".
 
 #galaxyng <game> <race> <password>
-
+.... message ....
+#end
 ------------------------------------------------------------
 [1]
 @
@@ -265,10 +266,12 @@ relay request.
 
 [1]
 
-The orders must be submitted in the following format 
+The EMail must be submitted in the following format 
 with a subject of "relay <race>".
 
 #galaxyng <game> <race> <password>
+.... message ....
+#end
 
 ------------------------------------------------------------
 [2]

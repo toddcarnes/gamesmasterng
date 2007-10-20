@@ -23,7 +23,7 @@ Public Sub SendReport(ByVal strFrom As String, ByVal strEMail As String)
     lngStart = InStr(1, strEMail, "#galaxy", vbTextCompare)
     If lngStart = 0 Then
         'Invalid EMail
-        strMessage = GetMessage("InvalidReportEMail", strEMail)
+        strMessage = Options.GetMessage("InvalidReportEMail", strEMail)
         GoTo Error
     End If
     
@@ -44,12 +44,12 @@ Public Sub SendReport(ByVal strFrom As String, ByVal strEMail As String)
     varHeader = Split(strHeader, " ")
     If UBound(varHeader) < 4 Then
         'Invalid Header
-        strMessage = GetMessage("InvalidReportHeader", "> " & strHeader)
+        strMessage = Options.GetMessage("InvalidReportHeader", "> " & strHeader)
         GoTo Error
     End If
     If varHeader(0) <> "#galaxy" Then
         'Invalid Header
-        strMessage = GetMessage("InvalidReportHeader", "> " & strHeader)
+        strMessage = Options.GetMessage("InvalidReportHeader", "> " & strHeader)
         GoTo Error
     End If
     strGame = varHeader(1)
@@ -64,7 +64,7 @@ Public Sub SendReport(ByVal strFrom As String, ByVal strEMail As String)
     
     If objGame Is Nothing Then
         'Invalid Header
-        strMessage = GetMessage("InvalidReportHeader", _
+        strMessage = Options.GetMessage("InvalidReportHeader", _
                 "An unknown game was specified.", _
                 "> " & strHeader)
         GoTo Error
@@ -74,7 +74,7 @@ Public Sub SendReport(ByVal strFrom As String, ByVal strEMail As String)
     Set objRace = objGame.Races(strRace)
     If objRace Is Nothing Then
         'Invalid Header
-        strMessage = GetMessage("InvalidReportHeader", _
+        strMessage = Options.GetMessage("InvalidReportHeader", _
                 "An unknown race was specified.", _
                 "> " & strHeader)
         GoTo Error
@@ -82,7 +82,7 @@ Public Sub SendReport(ByVal strFrom As String, ByVal strEMail As String)
     
     If objRace.Password <> strPassword Then
         'Invalid Header
-        strMessage = GetMessage("InvalidReportHeader", _
+        strMessage = Options.GetMessage("InvalidReportHeader", _
                 "An invalid password was specified for the selected race.", _
                 "> " & strHeader)
         GoTo Error
@@ -90,7 +90,7 @@ Public Sub SendReport(ByVal strFrom As String, ByVal strEMail As String)
     
     If lngTurn > objGame.Turn Then
         'Invalid Header
-        strMessage = GetMessage("InvalidReportHeader", _
+        strMessage = Options.GetMessage("InvalidReportHeader", _
                 "The turn number is for a turn that has not been processed.", _
                 "> " & strHeader)
         GoTo Error
@@ -99,16 +99,16 @@ Public Sub SendReport(ByVal strFrom As String, ByVal strEMail As String)
     ' Get the Report file to send
     strSubject = "[GNG] " & strGame & " turn " & CStr(lngTurn) & _
                     " text report for " & strRace
-    Call RunGalaxyNG("-report " & strGame & " " & strRace & " " & CStr(lngTurn) & " >" & gcReportFileName)
-    strMessage = GetFile(GalaxyNGHome & gcReportFileName)
-    Kill GalaxyNGHome & gcReportFileName
+    Call RunGalaxyNG("-report " & strGame & " " & strRace & " " & CStr(lngTurn) & " >" & Options.ReportFileName)
+    strMessage = GetFile(Options.GalaxyNGHome & Options.ReportFileName)
+    Kill Options.GalaxyNGHome & Options.ReportFileName
 
     GoTo Send
 
 Error:
-    strMessage = GetMessage("Header") & _
+    strMessage = Options.GetMessage("Header") & _
                     strMessage & _
-                    GetMessage("Footer")
+                    Options.GetMessage("Footer")
 Send:
     Call SendEMail(strFrom, strSubject, strMessage)
 End Sub

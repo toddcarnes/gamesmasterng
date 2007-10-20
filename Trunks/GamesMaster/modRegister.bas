@@ -12,13 +12,13 @@ Public Sub JoinGame(ByVal strGame As String, ByVal strFrom As String, ByVal varB
     
     Set objGame = GalaxyNG.Games(strGame)
     If objGame Is Nothing Then
-        strMessage = GetMessage("NoGame", strGame)
+        strMessage = Options.GetMessage("NoGame", strGame)
         blnValid = False
     ElseIf objGame.Created Then
-        strMessage = GetMessage("GameStarted", strGame)
+        strMessage = Options.GetMessage("GameStarted", strGame)
         blnValid = False
     ElseIf Not objGame.Template.OpenForRegistrations Then
-        strMessage = GetMessage("NotOpen", strGame)
+        strMessage = Options.GetMessage("NotOpen", strGame)
         blnValid = False
     Else
         strAddress = GetAddress(strFrom)
@@ -27,7 +27,7 @@ Public Sub JoinGame(ByVal strGame As String, ByVal strFrom As String, ByVal varB
             Set objRegistration = RegisterPlayer(varBody)
             blnValid = True
         ElseIf objGame.Template.Registrations.Count >= objGame.Template.MaxPlayers Then
-            strMessage = GetMessage("GameFull", strGame, objGame.Template.MaxPlayers)
+            strMessage = Options.GetMessage("GameFull", strGame, objGame.Template.MaxPlayers)
             blnValid = False
         Else
             Set objRegistration = RegisterPlayer(varBody)
@@ -40,18 +40,18 @@ Public Sub JoinGame(ByVal strGame As String, ByVal strFrom As String, ByVal varB
         If objRegistration.HomeWorlds.Count = 0 Then
             Set objRegistration.HomeWorlds = objGame.Template.DefaultHomeWorlds
         ElseIf objRegistration.HomeWorlds.Count > objGame.Template.MaxPlanets Then
-            strMessage = GetMessage("TooManyPlanets", strGame, _
+            strMessage = Options.GetMessage("TooManyPlanets", strGame, _
                         objRegistration.HomeWorlds.Count, _
                         objGame.Template.MaxPlanets)
             Set objRegistration.HomeWorlds = objGame.Template.DefaultHomeWorlds
             blnValid = True
         ElseIf objRegistration.HomeWorlds.MaxSize > objGame.Template.MaxPlanetSize Then
-            strMessage = GetMessage("PlanetTooLarge", strGame, _
+            strMessage = Options.GetMessage("PlanetTooLarge", strGame, _
             objRegistration.HomeWorlds.MaxSize, objGame.Template.MaxPlanetSize)
             Set objRegistration.HomeWorlds = objGame.Template.DefaultHomeWorlds
             blnValid = True
         ElseIf objRegistration.HomeWorlds.TotalSize <> objGame.Template.TotalPlanetSize Then
-            strMessage = GetMessage("TotalPlanets", strGame, _
+            strMessage = Options.GetMessage("TotalPlanets", strGame, _
             objRegistration.HomeWorlds.TotalSize, _
             objGame.Template.TotalPlanetSize)
             Set objRegistration.HomeWorlds = objGame.Template.DefaultHomeWorlds
@@ -63,18 +63,18 @@ Public Sub JoinGame(ByVal strGame As String, ByVal strFrom As String, ByVal varB
         If objExisting Is Nothing Then
             objGame.Template.Registrations.Add objRegistration
             strMessage = strMessage & vbNewLine & _
-                            GetMessage("RegistrationAccepted", strGame, objRegistration.HomeWorlds.Text)
+                            Options.GetMessage("RegistrationAccepted", strGame, objRegistration.HomeWorlds.Text)
         Else
             Set objExisting.HomeWorlds = objRegistration.HomeWorlds
             strMessage = strMessage & vbNewLine & _
-                            GetMessage("RegistrationUpdated", strGame, objRegistration.HomeWorlds.Text)
+                            Options.GetMessage("RegistrationUpdated", strGame, objRegistration.HomeWorlds.Text)
         End If
     End If
     
     ' Send Message
-    strMessage = GetMessage("Header") & _
+    strMessage = Options.GetMessage("Header") & _
                 strMessage & _
-                GetMessage("Footer", ServerName)
+                Options.GetMessage("Footer", Options.ServerName)
     Call SendEMail(strFrom, "re: Join " & strGame, strMessage)
     
     If blnValid Then

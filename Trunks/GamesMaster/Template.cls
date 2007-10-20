@@ -210,7 +210,7 @@ End Sub
 Public Function Clone(ByVal strTemplateName As String) As Template
     Set Clone = New Template
     With Clone
-        .Filename = GalaxyNGHome & strTemplateName & ".glx"
+        .Filename = Options.GalaxyNGHome & strTemplateName & ".glx"
         .ScheduleActive = ScheduleActive
         .MaxPlanets = MaxPlanets
         .MaxPlanetSize = MaxPlanetSize

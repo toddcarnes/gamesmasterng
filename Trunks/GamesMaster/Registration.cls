@@ -14,6 +14,7 @@ Attribute VB_Exposed = False
 Attribute VB_Ext_KEY = "SavedWithClassBuilder6" ,"Yes"
 Attribute VB_Ext_KEY = "Top_Level" ,"No"
 Attribute VB_Ext_KEY = "Member0" ,"HomeWorlds"
+Attribute VB_Ext_KEY = "Member1" ,"EMail"
 Option Explicit
 
 Public EMail As String

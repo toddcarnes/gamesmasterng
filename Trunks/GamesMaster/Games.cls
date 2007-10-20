@@ -48,13 +48,13 @@ Public Function Refresh()
     Set mCol = New Collection
     
     ' Load templates
-    strFile = Dir(GalaxyNGHome & "*.glx")
+    strFile = Dir(Options.GalaxyNGHome & "*.glx")
     
     While strFile <> ""
         If Right(strFile, 1) <> "~" Then
             Set objGame = New Game
             With objGame
-                .TemplateFile = GalaxyNGHome & strFile
+                .TemplateFile = Options.GalaxyNGHome & strFile
                 .GameName = GetFileName(strFile)
                 mCol.Add objGame, .GameName
             End With
@@ -63,7 +63,7 @@ Public Function Refresh()
     Wend
     
     'Load Created Games
-    strFile = Dir(GalaxyNGData & "*.*", vbDirectory)
+    strFile = Dir(Options.GalaxyNGData & "*.*", vbDirectory)
     
     While strFile <> ""
         If strFile <> "." And strFile <> ".." Then

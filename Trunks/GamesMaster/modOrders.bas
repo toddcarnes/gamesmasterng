@@ -27,14 +27,14 @@ Public Sub CheckOrders(ByVal strFrom As String, ByVal strEMail As String)
     lngStart = InStr(1, strEMail, "#galaxy", vbTextCompare)
     If lngStart = 0 Then
         'Invalid EMail
-        strMessage = GetMessage("InvalidOrdersEMail", strEMail)
+        strMessage = Options.GetMessage("InvalidOrdersEMail", strEMail)
         GoTo Error
     End If
     
     lngEnd = InStr(lngStart, strEMail, "#end", vbTextCompare)
     If lngEnd = 0 Then
         'Invalid EMail
-        strMessage = GetMessage("InvalidOrdersEMail", strEMail)
+        strMessage = Options.GetMessage("InvalidOrdersEMail", strEMail)
         GoTo Error
     End If
     lngEOL = InStr(lngEnd, strEMail, vbCrLf)
@@ -62,12 +62,12 @@ Public Sub CheckOrders(ByVal strFrom As String, ByVal strEMail As String)
     varHeader = Split(strHeader, " ")
     If UBound(varHeader) < 4 Then
         'Invalid Header
-        strMessage = GetMessage("InvalidOrdersHeader", strEMail)
+        strMessage = Options.GetMessage("InvalidOrdersHeader", strEMail)
         GoTo Error
     End If
     If varHeader(0) <> "#galaxy" Then
         'Invalid Header
-        strMessage = GetMessage("InvalidOrdersHeader", strEMail)
+        strMessage = Options.GetMessage("InvalidOrdersHeader", strEMail)
         GoTo Error
     End If
     strGame = varHeader(1)
@@ -79,13 +79,13 @@ Public Sub CheckOrders(ByVal strFrom As String, ByVal strEMail As String)
             blnFinalOrders = True
         Else
             'Invalid Header
-            strMessage = GetMessage("InvalidOrdersHeader", strEMail)
+            strMessage = Options.GetMessage("InvalidOrdersHeader", strEMail)
             GoTo Error
         End If
     End If
     If UBound(varHeader) > 5 Then
         'Invalid Header
-        strMessage = GetMessage("InvalidOrdersHeader", _
+        strMessage = Options.GetMessage("InvalidOrdersHeader", _
                 "An invalid number of header parameters were specified", _
                 strEMail)
         GoTo Error
@@ -96,7 +96,7 @@ Public Sub CheckOrders(ByVal strFrom As String, ByVal strEMail As String)
     
     If objGame Is Nothing Then
         'Invalid Header
-        strMessage = GetMessage("InvalidOrdersHeader", _
+        strMessage = Options.GetMessage("InvalidOrdersHeader", _
                 "An unknown game was specified.", _
                 strEMail)
         GoTo Error
@@ -106,7 +106,7 @@ Public Sub CheckOrders(ByVal strFrom As String, ByVal strEMail As String)
     Set objRace = objGame.Races(strRace)
     If objRace Is Nothing Then
         'Invalid Header
-        strMessage = GetMessage("InvalidOrdersHeader", _
+        strMessage = Options.GetMessage("InvalidOrdersHeader", _
                 "An unknown race was specified.", _
                 strEMail)
         GoTo Error
@@ -114,7 +114,7 @@ Public Sub CheckOrders(ByVal strFrom As String, ByVal strEMail As String)
     
     If objRace.Password <> strPassword Then
         'Invalid Header
-        strMessage = GetMessage("InvalidOrdersHeader", _
+        strMessage = Options.GetMessage("InvalidOrdersHeader", _
                 "An invalid password was specified for the selected race.", _
                 strEMail)
         GoTo Error
@@ -122,7 +122,7 @@ Public Sub CheckOrders(ByVal strFrom As String, ByVal strEMail As String)
     
     If lngTurn < objGame.NextTurn Then
         'Invalid Header
-        strMessage = GetMessage("InvalidOrdersHeader", _
+        strMessage = Options.GetMessage("InvalidOrdersHeader", _
                 "The turn number is for a turn that has already been processed.", _
                 strEMail)
         GoTo Error
@@ -132,25 +132,25 @@ Public Sub CheckOrders(ByVal strFrom As String, ByVal strEMail As String)
         strSubject = "[GNG] " & objGame.GameName & _
                     " turn " & CStr(lngTurn) & _
                     " orders received for " & objRace.RaceName
-        strMessage = GetMessage("Header", ServerName) & _
-                    GetMessage("FutureOrders", lngTurn, MarkText(strOrders)) & _
-                    GetMessage("Footer", ServerName)
+        strMessage = Options.GetMessage("Header", Options.ServerName) & _
+                    Options.GetMessage("FutureOrders", lngTurn, MarkText(strOrders)) & _
+                    Options.GetMessage("Footer", Options.ServerName)
         
     Else 'if lngTurn = objGame.NextTurn Then
         strSubject = "[GNG] " & objGame.GameName & _
                     " turn " & CStr(lngTurn) & _
                     " text forecast for " & objRace.RaceName
         ' check it
-        Call SaveFile(GalaxyNGHome & gcOrdersFileName, strOrders)
-        Call RunGalaxyNG("-check " & strGame & " " & strRace & "<" & gcOrdersFileName & " >" & gcForecastFileName)
-        strMessage = GetFile(GalaxyNGHome & gcForecastFileName)
-        Kill GalaxyNGHome & gcOrdersFileName
-        Kill GalaxyNGHome & gcForecastFileName
+        Call SaveFile(Options.GalaxyNGHome & Options.OrdersFileName, strOrders)
+        Call RunGalaxyNG("-check " & strGame & " " & strRace & "<" & Options.OrdersFileName & " >" & Options.ForecastFileName)
+        strMessage = GetFile(Options.GalaxyNGHome & Options.ForecastFileName)
+        Kill Options.GalaxyNGHome & Options.OrdersFileName
+        Kill Options.GalaxyNGHome & Options.ForecastFileName
     End If
 
     'File the orders
-    strFileName = GalaxyNGOrders & strGame & "\" & strRace & "." & CStr(lngTurn)
-    strFileName1 = GalaxyNGOrders & strGame & "\" & strRace & "_final" & "." & CStr(lngTurn)
+    strFileName = Options.GalaxyNGOrders & strGame & "\" & strRace & "." & CStr(lngTurn)
+    strFileName1 = Options.GalaxyNGOrders & strGame & "\" & strRace & "_final" & "." & CStr(lngTurn)
     
     If Dir(strFileName) <> "" Then Kill strFileName
     If Dir(strFileName1) <> "" Then Kill strFileName1
@@ -163,9 +163,9 @@ Public Sub CheckOrders(ByVal strFrom As String, ByVal strEMail As String)
     GoTo Send
 
 Error:
-    strMessage = GetMessage("Header") & _
+    strMessage = Options.GetMessage("Header") & _
                     strMessage & _
-                    GetMessage("Footer")
+                    Options.GetMessage("Footer")
 Send:
     Call SendEMail(strFrom, strSubject, strMessage)
 End Sub

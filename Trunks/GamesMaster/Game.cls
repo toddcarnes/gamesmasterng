@@ -64,7 +64,7 @@ End Property
 
 Public Function GameFile(Optional ByVal Turn As Long = -1)
     If Turn < 0 Then Turn = NextTurn - 1
-    GameFile = GalaxyNGData & GameName & "\" & CStr(Turn) & ".New"
+    GameFile = Options.GalaxyNGData & GameName & "\" & CStr(Turn) & ".New"
 End Function
 
 Public Property Get NextTurn() As Long
@@ -72,7 +72,7 @@ Public Property Get NextTurn() As Long
     If Created Then
         If mlngNextTurn < 0 Then
             intFN = FreeFile
-            Open GalaxyNGNextTurn(GameName) For Input As intFN
+            Open Options.GalaxyNGNextTurn(GameName) For Input As intFN
             Input #intFN, mlngNextTurn
             Close intFN
         End If
@@ -274,7 +274,7 @@ Private Sub Class_Terminate()
 End Sub
 
 Public Property Get Started() As Boolean
-    Started = (Dir(GalaxyNGReports & GameName & "\*.*") <> "")
+    Started = (Dir(Options.GalaxyNGReports & GameName & "\*.*") <> "")
 End Property
 
 Public Function ReadyToRun() As Boolean
@@ -334,7 +334,7 @@ End Function
 Public Function NotificationSent(ByVal strRace As String) As Boolean
     Dim strFileName As String
     
-    strFileName = GalaxyNGOrders & GameName & "\" & strRace & "_" & NextTurn & ".notify"
+    strFileName = Options.GalaxyNGOrders & GameName & "\" & strRace & "_" & NextTurn & ".notify"
     If Dir(strFileName) <> "" Then
         NotificationSent = True
     End If
@@ -343,7 +343,7 @@ End Function
 Public Function FinalOrdersReceived(ByVal strRace As String) As Boolean
     Dim strFileName As String
     
-    strFileName = GalaxyNGOrders & GameName & "\" & strRace & "_finalorders." & NextTurn
+    strFileName = Options.GalaxyNGOrders & GameName & "\" & strRace & "_finalorders." & NextTurn
     
     If Dir(strFileName) <> "" Then
         FinalOrdersReceived = True
@@ -354,11 +354,11 @@ End Function
 Public Function OrdersReceived(ByVal strRace As String) As Boolean
     Dim strFileName As String
     
-    strFileName = GalaxyNGOrders & GameName & "\" & strRace & "." & NextTurn
+    strFileName = Options.GalaxyNGOrders & GameName & "\" & strRace & "." & NextTurn
     If Dir(strFileName) <> "" Then
         OrdersReceived = True
     Else
-        strFileName = GalaxyNGOrders & GameName & "\" & strRace & "_final." & NextTurn
+        strFileName = Options.GalaxyNGOrders & GameName & "\" & strRace & "_final." & NextTurn
         If Dir(strFileName) <> "" Then
             OrdersReceived = True
         End If
@@ -388,7 +388,7 @@ End Function
 Public Function LastRunDate() As Date
     If Created Then
         If Started Then
-            LastRunDate = FileDateTime(GalaxyNGNextTurn(GameName))
+            LastRunDate = FileDateTime(Options.GalaxyNGNextTurn(GameName))
         End If
     End If
 End Function

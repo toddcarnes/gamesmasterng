@@ -26,14 +26,14 @@ Public Sub RelayMessage(ByVal strTo As String, ByVal strFrom As String, ByVal st
     lngStart = InStr(1, strEMail, "#galaxy", vbTextCompare)
     If lngStart = 0 Then
         'Invalid EMail
-        strMessage = GetMessage("InvalidRelayEMail", strEMail)
+        strMessage = Options.GetMessage("InvalidRelayEMail", strEMail)
         GoTo Error
     End If
     
     lngEnd = InStr(lngStart, strEMail, "#end", vbTextCompare)
     If lngEnd = 0 Then
         'Invalid EMail
-        strMessage = GetMessage("InvalidRelayEMail", strEMail)
+        strMessage = Options.GetMessage("InvalidRelayEMail", strEMail)
         GoTo Error
     End If
     strOrders = Mid(strEMail, lngStart, lngEnd - lngStart)
@@ -58,12 +58,12 @@ Public Sub RelayMessage(ByVal strTo As String, ByVal strFrom As String, ByVal st
     varHeader = Split(strHeader, " ")
     If UBound(varHeader) < 3 Then
         'Invalid Header
-        strMessage = GetMessage("InvalidRelayHeader", strEMail)
+        strMessage = Options.GetMessage("InvalidRelayHeader", strEMail)
         GoTo Error
     End If
     If varHeader(0) <> "#galaxy" Then
         'Invalid Header
-        strMessage = GetMessage("InvalidRelayHeader", strEMail)
+        strMessage = Options.GetMessage("InvalidRelayHeader", strEMail)
         GoTo Error
     End If
     strGame = varHeader(1)
@@ -75,7 +75,7 @@ Public Sub RelayMessage(ByVal strTo As String, ByVal strFrom As String, ByVal st
     
     If objGame Is Nothing Then
         'Invalid Header
-        strMessage = GetMessage("InvalidRelayHeader", _
+        strMessage = Options.GetMessage("InvalidRelayHeader", _
                 "An unknown game was specified.", _
                 strEMail)
         GoTo Error
@@ -85,7 +85,7 @@ Public Sub RelayMessage(ByVal strTo As String, ByVal strFrom As String, ByVal st
     Set objRace = objGame.Races(strRace)
     If objRace Is Nothing Then
         'Invalid Header
-        strMessage = GetMessage("InvalidRelayHeader", _
+        strMessage = Options.GetMessage("InvalidRelayHeader", _
                 "An unknown race was specified.", _
                 strEMail)
         GoTo Error
@@ -93,7 +93,7 @@ Public Sub RelayMessage(ByVal strTo As String, ByVal strFrom As String, ByVal st
     
     If objRace.Password <> strPassword Then
         'Invalid Header
-        strMessage = GetMessage("InvalidRelayHeader", _
+        strMessage = Options.GetMessage("InvalidRelayHeader", _
                 "An invalid password was specified for the selected race.", _
                 strEMail)
         GoTo Error
@@ -102,7 +102,7 @@ Public Sub RelayMessage(ByVal strTo As String, ByVal strFrom As String, ByVal st
     Set objToRace = objGame.Races(strTo)
     If objToRace Is Nothing And strTo <> "gm" And strTo <> "gamesmaster" And strTo <> strGame Then
         'Invalid race
-        strMessage = GetMessage("InvalidRelayHeader", _
+        strMessage = Options.GetMessage("InvalidRelayHeader", _
                 "An invalid race name was specified to receive the message.", _
                 strEMail)
         GoTo Error
@@ -116,12 +116,12 @@ Public Sub RelayMessage(ByVal strTo As String, ByVal strFrom As String, ByVal st
                 Call SendEMail(objToRace.EMail, strSubject, strOrders)
             End If
         Next objToRace
-        Call SendEMail(GamesMasterEMail, strSubject, strOrders)
+        Call SendEMail(Options.GamesMasterEMail, strSubject, strOrders)
     Else
         strSubject = "[GNG]" & strGame & " message relay " & strRace
         If objRace Is Nothing Then
             strSubject = "[GNG]" & strGame & " relay to GamesMaster from " & strRace
-            Call SendEMail(GamesMasterEMail, strSubject, strOrders)
+            Call SendEMail(Options.GamesMasterEMail, strSubject, strOrders)
         Else
             strSubject = "[GNG]" & strGame & " relay to " & objToRace.RaceName & " from " & strRace
             Call SendEMail(objToRace.EMail, strSubject, strOrders)
@@ -129,13 +129,13 @@ Public Sub RelayMessage(ByVal strTo As String, ByVal strFrom As String, ByVal st
     End If
     
     strSubject = "[GNG]" & strGame & " relay sent to " & strTo
-    strMessage = GetMessage("RelaySent", strTo)
+    strMessage = Options.GetMessage("RelaySent", strTo)
 
 
 Error:
-    strMessage = GetMessage("Header") & _
+    strMessage = Options.GetMessage("Header") & _
                     strMessage & _
-                    GetMessage("Footer")
+                    Options.GetMessage("Footer")
 Send:
     Call SendEMail(strFrom, strSubject, strMessage)
 
