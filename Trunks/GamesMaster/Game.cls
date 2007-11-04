@@ -161,9 +161,8 @@ Public Sub Refresh()
         If Left(vLines(l), 8) = "@Players" Then Exit Do
         l = l + 1
     Loop
+    ' Process the Player Details
     Do
-        '------------------------------------------------------------
-        ' Get the Player Details
         l = l + 1
         If Left(vLines(l), 9) = "@EPlayers" Then Exit Do
         Set objRace = New Race
@@ -208,33 +207,154 @@ Public Sub Refresh()
         '------------------------------------------------------------
         ' Find the Player Ship types
         Do
-            If Left(vLines(l), 10) = "@ShipTypes" Then Exit Do
             l = l + 1
+            If vLines(l) = "@ShipTypes" Then Exit Do
         Loop
-        'Ship Type Name
-        'drive
-        'attacks
-        'weapons
-        'shields
-        'cargo
+        ' Process the Ship Types
+        Do
+            l = l + 1
+            If vLines(l) = "@EShipTypes" Then Exit Do
+            'Ship Type Name
+            l = l + 1
+            'drive
+            l = l + 1
+            'attacks
+            l = l + 1
+            'weapons
+            l = l + 1
+            'shields
+            l = l + 1
+            'cargo
+        Loop
         
         '------------------------------------------------------------
         ' Find the Player Fleets
         Do
-            If Left(vLines(l), 7) = "@Fleets" Then Exit Do
             l = l + 1
+            If vLines(l) = "@Fleets" Then Exit Do
         Loop
-        'Fleet Name
-        
-        '------------------------------------------------------------
-        ' Find the last line for the Player
+        ' Process the Player Fleets
         Do
-            If Left(vLines(l), 8) = "@EFleets" Then Exit Do
             l = l + 1
+            If vLines(l) = "@EFleets" Then Exit Do
+            'Fleet Name
         Loop
+        
         Races.Add objRace, objRace.RaceName
     Loop
     
+    '------------------------------------------------------------
+    ' Find the Allies
+    Do
+        l = l + 1
+        If vLines(l) = "@Allies" Then Exit Do
+    Loop
+    ' Process the Allies
+    Do
+        l = l + 1
+        If vLines(l) = "@EAllies" Then Exit Do
+        'Alliance Details
+    Loop
+    
+    '------------------------------------------------------------
+    ' Find the Planets
+    Do
+        l = l + 1
+        If vLines(l) = "@Planets" Then Exit Do
+    Loop
+    ' Process the Planets
+    Do
+        l = l + 1
+        If vLines(l) = "@EPlanets" Then Exit Do
+        'Planet Name
+        l = l + 1
+        'Owner Pointer
+        l = l + 1
+        'X
+        l = l + 1
+        'Y
+        l = l + 1
+        'Size
+        l = l + 1
+        'Resources
+        l = l + 1
+        'Pop
+        l = l + 1
+        'Ind
+        l = l + 1
+        'Producing
+        l = l + 1
+        'Cap
+        l = l + 1
+        'Mat
+        l = l + 1
+        'Col
+        l = l + 1
+        'In Progress
+        l = l + 1
+        'Spent
+        l = l + 1
+        'Flags
+    Loop
+    
+    '------------------------------------------------------------
+    ' Find the Routes
+    Do
+        l = l + 1
+        If vLines(l) = "@Routes" Then Exit Do
+    Loop
+    
+    ' Process the Routes
+    Do
+        l = l + 1
+        If vLines(l) = "@ERoutes" Then Exit Do
+        'Route Details
+    Loop
+    
+    '------------------------------------------------------------
+    ' Find the Player groups
+    Do
+        l = l + 1
+        If vLines(l) = "@PGroups" Then Exit Do
+    Loop
+    
+    ' Process the Player Groups
+    Do
+        l = l + 1
+        If vLines(l) = "@EPGroups" Then Exit Do
+        'Type Pointer
+        l = l + 1
+        'Number
+        l = l + 1
+        'Drive
+        l = l + 1
+        'Weapons
+        l = l + 1
+        'Shields
+        l = l + 1
+        'Cargo
+        l = l + 1
+        'Load Type
+        l = l + 1
+        'Load
+        l = l + 1
+        'From Pointer
+        l = l + 1
+        'Where pointer
+        l = l + 1
+        'Dist
+        l = l + 1
+        'Ships
+        l = l + 1
+        'Fleet Pointer
+    Loop
+    
+    Do
+        l = l + 1
+        If l > UBound(vLines) Then Exit Do
+        ' Save data at the end of the file
+    Loop
+        
 End Sub
 
 Public Property Get ActivePlayers() As Long
