@@ -12,8 +12,8 @@ Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 Attribute VB_Ext_KEY = "SavedWithClassBuilder6" ,"Yes"
-Attribute VB_Ext_KEY = "Member0" ,"INIFile"
-Attribute VB_Ext_KEY = "Member1" ,"GalaxyNG"
+Attribute VB_Ext_KEY = "Member0" ,"GalaxyNG"
+Attribute VB_Ext_KEY = "Member1" ,"INIFile"
 Attribute VB_Ext_KEY = "Top_Level" ,"Yes"
 Option Explicit
 Option Compare Text

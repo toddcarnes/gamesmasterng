@@ -14,6 +14,9 @@ Attribute VB_Exposed = False
 Attribute VB_Description = "A Race in the GalaxyNG game"
 Attribute VB_Ext_KEY = "SavedWithClassBuilder6" ,"Yes"
 Attribute VB_Ext_KEY = "Top_Level" ,"No"
+Attribute VB_Ext_KEY = "Member0" ,"Groups"
+Attribute VB_Ext_KEY = "Member1" ,"ShipTypes"
+Attribute VB_Ext_KEY = "Member2" ,"EMail"
 Option Explicit
 
 Public RaceName As String
@@ -34,7 +37,9 @@ Public Unused5 As String
 Public MassLost As String
 Public MassProduced As String
 Public LastOrders As Long
-Public flags As Long
+Public Flags As Long
+Private mcolShipTypes As ShipTypes
+Private mcolGroups As Groups
 
 Public Enum RaceFlag
     R_ANONYMOUS = 1          'Player want to stay anonymous
@@ -56,8 +61,34 @@ Public Enum RaceFlag
     R_TXTREPORT = 65536      'is a text report wanted?
 End Enum
 
-Public Property Get Flag(ByVal uFlag As RaceFlag) As Boolean
-    Flag = ((flags And uFlag) = uFlag)
+Public Property Get Groups() As Groups
+    If mcolGroups Is Nothing Then
+        Set mcolGroups = New Groups
+    End If
+    Set Groups = mcolGroups
 End Property
 
+Public Property Set Groups(vData As Groups)
+    Set mcolGroups = vData
+End Property
+
+Public Property Get ShipTypes() As ShipTypes
+    If mcolShipTypes Is Nothing Then
+        Set mcolShipTypes = New ShipTypes
+    End If
+    Set ShipTypes = mcolShipTypes
+End Property
+
+Public Property Set ShipTypes(vData As ShipTypes)
+    Set mcolShipTypes = vData
+End Property
+
+Private Sub Class_Terminate()
+  Set mcolGroups = Nothing
+    Set mcolShipTypes = Nothing
+End Sub
+
+Public Property Get Flag(ByVal uFlag As RaceFlag) As Boolean
+    Flag = ((Flags And uFlag) = uFlag)
+End Property
 

@@ -19,21 +19,21 @@ Attribute VB_Ext_KEY = "Top_Level" ,"Yes"
 Attribute VB_Ext_KEY = "Member2" ,"Registrations"
 Option Explicit
 
-Private mvarGames As Games
+Private mcolGames As Games
 
 Public Property Get Games() As Games
-    If mvarGames Is Nothing Then
-        Set mvarGames = New Games
+    If mcolGames Is Nothing Then
+        Set mcolGames = New Games
     End If
-    Set Games = mvarGames
+    Set Games = mcolGames
 End Property
 
 Public Property Set Games(vData As Games)
-    Set mvarGames = vData
+    Set mcolGames = vData
 End Property
 
 Private Sub Class_Terminate()
-    Set mvarGames = Nothing
+    Set mcolGames = Nothing
 End Sub
 
 

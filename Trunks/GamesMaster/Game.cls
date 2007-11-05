@@ -13,8 +13,9 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 Attribute VB_Ext_KEY = "SavedWithClassBuilder6" ,"Yes"
 Attribute VB_Ext_KEY = "Top_Level" ,"No"
-Attribute VB_Ext_KEY = "Member0" ,"Races"
-Attribute VB_Ext_KEY = "Member1" ,"Template"
+Attribute VB_Ext_KEY = "Member0" ,"Planets"
+Attribute VB_Ext_KEY = "Member1" ,"Races"
+Attribute VB_Ext_KEY = "Member2" ,"Template"
 Option Explicit
 
 Public GameName As String
@@ -23,7 +24,7 @@ Public VersionString As String
 Public VersionNumber As Single
 Public VersionDate As String
 Public Turn As Long
-Public flags As Long
+Public Flags As Long
 Public GalacticPeace As Long
 Public InitialDrive As Single
 Public InitialWeapons As Single
@@ -32,8 +33,10 @@ Public InitialCargo As Single
 Public GalaxySize As Single
 Public Created As Boolean
 Private mlngNextTurn As Long
-Private mvarRaces As Races
+Private mcolRaces As Races
 Private mobjTemplate As Template
+Private mcolPlanets As Planets
+
 
 'Game Options Flags
 Public Enum GameFlag
@@ -45,8 +48,19 @@ Public Enum GameFlag
     G_SPHERICALGALAXY = 32  'Galaxy is mapped on a sphere
 End Enum
 
+Public Property Get Planets() As Planets
+    If mcolPlanets Is Nothing Then
+        Set mcolPlanets = New Planets
+    End If
+    Set Planets = mcolPlanets
+End Property
+
+Public Property Set Planets(vData As Planets)
+    Set mcolPlanets = vData
+End Property
+
 Public Property Get Flag(ByVal uFlag As GameFlag) As Boolean
-    Flag = ((flags And uFlag) = uFlag)
+    Flag = ((Flags And uFlag) = uFlag)
 End Property
 
 Public Property Get Template() As Template
@@ -59,7 +73,7 @@ Public Property Get Template() As Template
 End Property
 
 Public Property Get Races() As Races
-    Set Races = mvarRaces
+    Set Races = mcolRaces
 End Property
 
 Public Function GameFile(Optional ByVal Turn As Long = -1)
@@ -86,8 +100,11 @@ Public Sub Refresh()
     Dim strBuffer As String
     Dim vLines As Variant
     Dim l As Long
-    Dim objRace As Race
     Dim i As Long
+    Dim objRace As Race
+    Dim objShipType As ShipType
+    Dim objPlanet As Planet
+    Dim objGroup As Group
     
     Set Races = New Races
     
@@ -133,7 +150,7 @@ Public Sub Refresh()
     
     ' Game Options
     l = l + 1
-    flags = 0 & vLines(l)
+    Flags = 0 & vLines(l)
     
     ' Galactic Peace
     l = l + 1
@@ -202,7 +219,7 @@ Public Sub Refresh()
         l = l + 1
         objRace.LastOrders = Val(vLines(l))
         l = l + 1
-        objRace.flags = vLines(l)
+        objRace.Flags = vLines(l)
         
         '------------------------------------------------------------
         ' Find the Player Ship types
@@ -214,17 +231,18 @@ Public Sub Refresh()
         Do
             l = l + 1
             If vLines(l) = "@EShipTypes" Then Exit Do
-            'Ship Type Name
+            objShipType.ShipType = vLines(l)
             l = l + 1
-            'drive
+            objShipType.Drive = vLines(l)
             l = l + 1
-            'attacks
+            objShipType.Attacks = vLines(l)
             l = l + 1
-            'weapons
+            objShipType.Weapons = vLines(l)
             l = l + 1
-            'shields
+            objShipType.Shields = vLines(l)
             l = l + 1
-            'cargo
+            objShipType.Cargo = vLines(l)
+            objRace.ShipTypes.Add objShipType
         Loop
         
         '------------------------------------------------------------
@@ -264,37 +282,41 @@ Public Sub Refresh()
     Loop
     ' Process the Planets
     Do
+        Set objPlanet = New Planet
         l = l + 1
         If vLines(l) = "@EPlanets" Then Exit Do
-        'Planet Name
+        objPlanet.Planet = vLines(l)
         l = l + 1
-        'Owner Pointer
+        objPlanet.OwnerID = vLines(l)
+        Set objPlanet.Owner = Races(objPlanet.OwnerID)
         l = l + 1
-        'X
+        objPlanet.X = vLines(l)
         l = l + 1
-        'Y
+        objPlanet.Y = vLines(l)
         l = l + 1
-        'Size
+        objPlanet.Size = vLines(l)
         l = l + 1
-        'Resources
+        objPlanet.Resources = vLines(l)
         l = l + 1
-        'Pop
+        objPlanet.Pop = vLines(l)
         l = l + 1
-        'Ind
+        objPlanet.Ind = vLines(l)
         l = l + 1
-        'Producing
+        objPlanet.Producing = vLines(l)
         l = l + 1
-        'Cap
+        objPlanet.Cap = vLines(l)
         l = l + 1
-        'Mat
+        objPlanet.Mat = vLines(l)
         l = l + 1
-        'Col
+        objPlanet.Col = vLines(l)
         l = l + 1
-        'In Progress
+        objPlanet.InProgress = vLines(l)
         l = l + 1
-        'Spent
+        objPlanet.Spent = vLines(l)
         l = l + 1
-        'Flags
+        objPlanet.Flags = vLines(l)
+        
+        Planets.Add objPlanet
     Loop
     
     '------------------------------------------------------------
@@ -320,33 +342,37 @@ Public Sub Refresh()
     
     ' Process the Player Groups
     Do
+        Set objGroup = New Group
         l = l + 1
         If vLines(l) = "@EPGroups" Then Exit Do
-        'Type Pointer
+        objGroup.ShipTypeID = vLines(l)
         l = l + 1
-        'Number
+        objGroup.Number = vLines(l)
         l = l + 1
-        'Drive
+        objGroup.Drive = vLines(l)
         l = l + 1
-        'Weapons
+        objGroup.Weapons = vLines(l)
         l = l + 1
-        'Shields
+        objGroup.Shields = vLines(l)
         l = l + 1
-        'Cargo
+        objGroup.Cargo = vLines(l)
         l = l + 1
-        'Load Type
+        objGroup.LoadType = vLines(l)
         l = l + 1
-        'Load
+        objGroup.Load = vLines(l)
         l = l + 1
-        'From Pointer
+        objGroup.FromPlanetID = vLines(l)
+        Set objGroup.FromPlanet = Planets(objGroup.FromPlanetID)
         l = l + 1
-        'Where pointer
+        objGroup.WherePlanetID = vLines(l)
+        Set objGroup.WherePlanet = Planets(objGroup.WherePlanetID)
         l = l + 1
-        'Dist
+        objGroup.Dist = vLines(l)
         l = l + 1
-        'Ships
+        objGroup.Ships = vLines(l)
         l = l + 1
-        'Fleet Pointer
+        objGroup.FleetID = vLines(l)
+        objRace.Groups.Add objGroup
     Loop
     
     Do
@@ -361,7 +387,7 @@ Public Property Get ActivePlayers() As Long
     Dim objRace As Race
     
     ActivePlayers = 0
-    For Each objRace In mvarRaces
+    For Each objRace In mcolRaces
         If Not objRace.Flag(R_DEAD) Then ActivePlayers = ActivePlayers + 1
     Next objRace
 End Property
@@ -370,7 +396,7 @@ Public Property Get PlayersReady() As Long
     Dim objRace As Race
     
     PlayersReady = 0
-    For Each objRace In mvarRaces
+    For Each objRace In mcolRaces
         If Not objRace.Flag(R_DEAD) Then
             If OrdersReceived(objRace.RaceName) Then
                 PlayersReady = PlayersReady + 1
@@ -380,7 +406,7 @@ Public Property Get PlayersReady() As Long
 End Property
 
 Public Property Set Races(vData As Races)
-    Set mvarRaces = vData
+    Set mcolRaces = vData
 End Property
 
 Private Sub Class_Initialize()
@@ -389,7 +415,8 @@ Private Sub Class_Initialize()
 End Sub
 
 Private Sub Class_Terminate()
-    Set mvarRaces = Nothing
+    Set mcolPlanets = Nothing
+    Set mcolRaces = Nothing
     Set mobjTemplate = Nothing
 End Sub
 

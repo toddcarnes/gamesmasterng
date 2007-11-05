@@ -14,6 +14,7 @@ Attribute VB_Exposed = False
 Attribute VB_Description = "Design Template for a Galaxy NG Game"
 Attribute VB_Ext_KEY = "SavedWithClassBuilder6" ,"Yes"
 Attribute VB_Ext_KEY = "Top_Level" ,"No"
+Attribute VB_Ext_KEY = "Member0" ,"Registrations"
 Option Explicit
 
 Public Filename As String
@@ -44,8 +45,7 @@ Public MaxPlanets As Long
 Public MaxPlanetSize As Long
 Public TotalPlanetSize As Long
 
-
-Private mobjRegistrations As Registrations
+Private mcolRegistrations As Registrations
 
 Public Enum Tech
     Drive = 0
@@ -74,14 +74,14 @@ Public Function OpenForRegistrations() As Boolean
 End Function
 
 Public Property Get Registrations() As Registrations
-    If mobjRegistrations Is Nothing Then
-        Set mobjRegistrations = New Registrations
+    If mcolRegistrations Is Nothing Then
+        Set mcolRegistrations = New Registrations
     End If
-    Set Registrations = mobjRegistrations
+    Set Registrations = mcolRegistrations
 End Property
 
 Public Property Set Registrations(ByVal objRegistrations As Registrations)
-    Set mobjRegistrations = objRegistrations
+    Set mcolRegistrations = objRegistrations
 End Property
 
 Public Property Get DefaultHomeWorlds() As HomeWorlds
@@ -190,8 +190,8 @@ Public Sub Load(Optional ByVal strFileName As String)
                     With objHomeworld
                         .Size = strFields(1)
                         If UBound(strFields) = 3 Then
-                            .x = strFields(2)
-                            .y = strFields(3)
+                            .X = strFields(2)
+                            .Y = strFields(3)
                         End If
                     End With
                 End If
@@ -302,9 +302,9 @@ Public Sub Save(Optional ByVal strFileName As String)
         Print #intFN, "email "; objRegistration.EMail
         For Each objHomeworld In objRegistration.HomeWorlds
             Print #intFN, "homeworld "; CStr(objHomeworld.Size);
-            If objHomeworld.x <> 0 Or objHomeworld.y <> 0 Then
-                Print #intFN, " "; CStr(objHomeworld.x);
-                Print #intFN, " "; CStr(objHomeworld.y);
+            If objHomeworld.X <> 0 Or objHomeworld.Y <> 0 Then
+                Print #intFN, " "; CStr(objHomeworld.X);
+                Print #intFN, " "; CStr(objHomeworld.Y);
             End If
             Print #intFN, ""
         Next objHomeworld

@@ -6,16 +6,19 @@ BEGIN
   DataSourceBehavior  = 0  'vbNone
   MTSTransactionMode  = 0  'NotAnMTSObject
 END
-Attribute VB_Name = "HomeWorld"
+Attribute VB_Name = "ShipType"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 Attribute VB_Ext_KEY = "SavedWithClassBuilder6" ,"Yes"
-Attribute VB_Ext_KEY = "Top_Level" ,"No"
+Attribute VB_Ext_KEY = "Member0" ,"ShipType"
+Attribute VB_Ext_KEY = "Top_Level" ,"Yes"
 Option Explicit
 
-Public Size As Single
-Public X As Single
-Public Y As Single
-
+Public ShipType As String
+Public Drive As Single
+Public Attacks As Long
+Public Weapons As Single
+Public Shields As Single
+Public Cargo As Single
