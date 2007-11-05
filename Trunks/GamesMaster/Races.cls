@@ -20,38 +20,44 @@ Option Explicit
 Option Compare Text
 
 'local variable to hold collection
-Private mCol As Collection
+Private mcolRaces As Collection
 
 Public Property Get Item(vntIndexKey As Variant) As Race
 Attribute Item.VB_UserMemId = 0
     On Error Resume Next
-    Set Item = mCol(vntIndexKey)
+    Set Item = mcolRaces(vntIndexKey)
 End Property
 
 Public Property Get Count() As Long
-    Count = mCol.Count
+    Count = mcolRaces.Count
 End Property
 
 Public Sub Add(ByVal Race As Race, ByVal Key As String)
-    mCol.Add Race, Key
+    mcolRaces.Add Race, Key
 End Sub
 
 Public Sub Remove(vntIndexKey As Variant)
-    mCol.Remove vntIndexKey
+    mcolRaces.Remove vntIndexKey
 End Sub
 
 Public Property Get NewEnum() As IUnknown
 Attribute NewEnum.VB_UserMemId = -4
 Attribute NewEnum.VB_MemberFlags = "40"
-    Set NewEnum = mCol.[_NewEnum]
+    Set NewEnum = mcolRaces.[_NewEnum]
 End Property
 
 
 Private Sub Class_Initialize()
-    Set mCol = New Collection
+    Set mcolRaces = New Collection
 End Sub
 
 Private Sub Class_Terminate()
-    Set mCol = Nothing
+    Dim objRace As Race
+    
+    For Each objRace In mcolRaces
+        Call objRace.Terminate
+    Next objRace
+    
+    Set mcolRaces = Nothing
 End Sub
 

@@ -18,6 +18,8 @@ Option Explicit
 
 Public PlanetID As Long
 Public Owner As Race
+Public Routes As Variant
+Public RouteIDs As Variant
 
 Public Planet As String
 Public OwnerID As Long
@@ -34,3 +36,23 @@ Public Col As Single
 Public InProgress As String
 Public Spent As Single
 Public Flags As Long
+
+Private Sub Class_Initialize()
+    Dim i As Long
+    
+    ReDim Routes(4)
+    ReDim RouteIDs(4)
+    
+    For i = 1 To 4
+        Set Routes(i) = Nothing
+        RouteIDs(i) = 0
+    Next i
+End Sub
+
+Private Sub Class_Terminate()
+    Call Terminate
+End Sub
+
+Public Sub Terminate()
+    Routes = Empty
+End Sub

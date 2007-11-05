@@ -25,7 +25,8 @@ End Function
 
 Public Property Get Item(vntIndexKey As Variant) As Planet
 Attribute Item.VB_UserMemId = 0
-  Set Item = mcolPlanets(vntIndexKey)
+    On Error Resume Next
+    Set Item = mcolPlanets(vntIndexKey)
 End Property
 
 Public Property Get Count() As Long
@@ -47,6 +48,12 @@ Private Sub Class_Initialize()
 End Sub
 
 Private Sub Class_Terminate()
+    Dim objPlanet As Planet
+    
+    For Each objPlanet In mcolPlanets
+        objPlanet.Terminate
+    Next objPlanet
+    
     Set mcolPlanets = Nothing
 End Sub
 

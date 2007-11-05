@@ -101,6 +101,8 @@ Public Sub Refresh()
     Dim vLines As Variant
     Dim l As Long
     Dim i As Long
+    Dim lngID As Long
+    Dim r As Long
     Dim lngAllie As Long
     Dim objRace As Race
     Dim objShipType As ShipType
@@ -108,6 +110,9 @@ Public Sub Refresh()
     Dim objGroup As Group
     Dim objFleet As Fleet
     Dim objAllie As Race
+    
+    Set Planets = Nothing
+    Set Races = Nothing
     
     Set Races = New Races
     
@@ -289,6 +294,9 @@ Public Sub Refresh()
         l = l + 1
         objPlanet.OwnerID = 0 & vLines(l)
         Set objPlanet.Owner = Races(objPlanet.OwnerID)
+        If Not objPlanet.Owner Is Nothing Then
+            objPlanet.Owner.Planets.Add objPlanet
+        End If
         l = l + 1
         objPlanet.X = vLines(l)
         l = l + 1
@@ -327,10 +335,19 @@ Public Sub Refresh()
     Loop
     
     ' Process the Routes
+    For Each objPlanet In Planets
+        For r = 1 To 4
+            l = l + 1
+            lngID = 0 & vLines(l)
+            objPlanet.RouteIDs(r) = lngID
+            Set objPlanet.Routes(r) = Planets(lngID)
+        Next r
+    Next objPlanet
+    
+    ' Process the Routes
     Do
         l = l + 1
         If vLines(l) = "@ERoutes" Then Exit Do
-        'Route Details
     Loop
     
     '------------------------------------------------------------

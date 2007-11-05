@@ -43,6 +43,7 @@ Private mcolShipTypes As ShipTypes
 Private mcolGroups As Groups
 Private mcolFleets As Fleets
 Private mcolAllies As Races
+Private mcolPlanets As Planets
 
 Public Enum RaceFlag
     R_ANONYMOUS = 1          'Player want to stay anonymous
@@ -63,6 +64,17 @@ Public Enum RaceFlag
     R_DEAD = 32768           'player is no longer active
     R_TXTREPORT = 65536      'is a text report wanted?
 End Enum
+
+Public Property Get Planets() As Planets
+    If mcolPlanets Is Nothing Then
+        Set mcolPlanets = New Planets
+    End If
+    Set Planets = mcolPlanets
+End Property
+
+Public Property Set Planets(ByVal colPlanets)
+    Set mcolPlanets = colPlanets
+End Property
 
 Public Property Get Allies() As Races
     If mcolAllies Is Nothing Then
@@ -109,10 +121,17 @@ Public Property Set ShipTypes(vData As ShipTypes)
 End Property
 
 Private Sub Class_Terminate()
-  Set mcolFleets = Nothing
-  Set mcolGroups = Nothing
-    Set mcolShipTypes = Nothing
+    Call Terminate
 End Sub
+
+Public Sub Terminate()
+    Set mcolShipTypes = Nothing
+    Set mcolGroups = Nothing
+    Set mcolFleets = Nothing
+    Set mcolAllies = Nothing
+    Set mcolPlanets = Nothing
+End Sub
+
 
 Public Property Get Flag(ByVal uFlag As RaceFlag) As Boolean
     Flag = ((Flags And uFlag) = uFlag)
