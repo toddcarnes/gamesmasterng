@@ -21,7 +21,7 @@ Option Explicit
 Private mcolFleets As Collection
 
 Public Function Add(ByVal objFleet As Fleet) As Fleet
-    mcolFleets.Add objFleet
+    mcolFleets.Add objFleet, objFleet.Fleet
 End Function
 
 Public Property Get Item(vntIndexKey As Variant) As Fleet

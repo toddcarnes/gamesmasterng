@@ -101,11 +101,13 @@ Public Sub Refresh()
     Dim vLines As Variant
     Dim l As Long
     Dim i As Long
+    Dim lngAllie As Long
     Dim objRace As Race
     Dim objShipType As ShipType
     Dim objPlanet As Planet
     Dim objGroup As Group
     Dim objFleet As Fleet
+    Dim objAllie As Race
     
     Set Races = New Races
     
@@ -248,27 +250,30 @@ Public Sub Refresh()
             Set objFleet = New Fleet
             l = l + 1
             If vLines(l) = "@EFleets" Then Exit Do
-            'Fleet Name
+            objFleet.Fleet = vLines(l)  'Fleet name
             
-            'objRace.Fleets.Add objFleet
+            objRace.Fleets.Add objFleet
         Loop
         
         Races.Add objRace, objRace.RaceName
     Loop
     
     '------------------------------------------------------------
-    ' Find the Allies
-    Do
-        l = l + 1
-        If vLines(l) = "@Allies" Then Exit Do
-    Loop
-    ' Process the Allies
-    Do
-        l = l + 1
-        If vLines(l) = "@EAllies" Then Exit Do
-        'Alliance Details
-    Loop
-    
+    For Each objRace In Races
+        ' Find the Allies
+        Do
+            l = l + 1
+            If vLines(l) = "@Allies" Then Exit Do
+        Loop
+        ' Process the Allies
+        Do
+            l = l + 1
+            If vLines(l) = "@EAllies" Then Exit Do
+            lngAllie = vLines(l) 'Allie Pointer
+            Set objAllie = Races(lngAllie)
+            objRace.Allies.Add objAllie, objAllie.RaceName
+        Loop
+    Next objRace
     '------------------------------------------------------------
     ' Find the Planets
     Do
@@ -330,46 +335,47 @@ Public Sub Refresh()
     
     '------------------------------------------------------------
     ' Find the Player groups
-    Do
-        l = l + 1
-        If vLines(l) = "@PGroups" Then Exit Do
-    Loop
-    
-    ' Process the Player Groups
-    Do
-        Set objGroup = New Group
-        l = l + 1
-        If vLines(l) = "@EPGroups" Then Exit Do
-        objGroup.ShipTypeID = vLines(l)
-        l = l + 1
-        objGroup.Number = vLines(l)
-        l = l + 1
-        objGroup.Drive = vLines(l)
-        l = l + 1
-        objGroup.Weapons = 0 & vLines(l)
-        l = l + 1
-        objGroup.Shields = 0 & vLines(l)
-        l = l + 1
-        objGroup.Cargo = 0 & vLines(l)
-        l = l + 1
-        objGroup.LoadType = vLines(l)
-        l = l + 1
-        objGroup.Load = 0 & vLines(l)
-        l = l + 1
-        objGroup.FromPlanetID = vLines(l)
-        Set objGroup.FromPlanet = Planets(objGroup.FromPlanetID)
-        l = l + 1
-        objGroup.WherePlanetID = vLines(l)
-        Set objGroup.WherePlanet = Planets(objGroup.WherePlanetID)
-        l = l + 1
-        objGroup.Dist = 0 & vLines(l)
-        l = l + 1
-        objGroup.Ships = vLines(l)
-        l = l + 1
-        objGroup.FleetID = 0 & vLines(l)
-        objRace.Groups.Add objGroup
-    Loop
-    
+    For Each objRace In Races
+        Do
+            l = l + 1
+            If vLines(l) = "@PGroups" Then Exit Do
+        Loop
+        
+        ' Process the Player Groups
+        Do
+            Set objGroup = New Group
+            l = l + 1
+            If vLines(l) = "@EPGroups" Then Exit Do
+            objGroup.ShipTypeID = vLines(l)
+            l = l + 1
+            objGroup.Number = vLines(l)
+            l = l + 1
+            objGroup.Drive = vLines(l)
+            l = l + 1
+            objGroup.Weapons = 0 & vLines(l)
+            l = l + 1
+            objGroup.Shields = 0 & vLines(l)
+            l = l + 1
+            objGroup.Cargo = 0 & vLines(l)
+            l = l + 1
+            objGroup.LoadType = vLines(l)
+            l = l + 1
+            objGroup.Load = 0 & vLines(l)
+            l = l + 1
+            objGroup.FromPlanetID = vLines(l)
+            Set objGroup.FromPlanet = Planets(objGroup.FromPlanetID)
+            l = l + 1
+            objGroup.WherePlanetID = vLines(l)
+            Set objGroup.WherePlanet = Planets(objGroup.WherePlanetID)
+            l = l + 1
+            objGroup.Dist = 0 & vLines(l)
+            l = l + 1
+            objGroup.Ships = vLines(l)
+            l = l + 1
+            objGroup.FleetID = 0 & vLines(l)
+            objRace.Groups.Add objGroup
+        Loop
+    Next objRace
     Do
         l = l + 1
         If l > UBound(vLines) Then Exit Do

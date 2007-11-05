@@ -17,23 +17,4 @@ Attribute VB_Ext_KEY = "Member1" ,"Groups"
 Attribute VB_Ext_KEY = "Top_Level" ,"Yes"
 Option Explicit
 
-Public FleetID As Long
 Public Fleet As String
-
-'local variable(s) to hold property value(s)
-Private mvarGroups As Groups 'local copy
-Public Property Set Groups(ByVal vData As Groups)
-'used when assigning an Object to the property, on the left side of a Set statement.
-'Syntax: Set x.Groups = Form1
-    Set mvarGroups = vData
-End Property
-
-
-Public Property Get Groups() As Groups
-'used when retrieving value of a property, on the right side of an assignment.
-'Syntax: Debug.Print X.Groups
-    Set Groups = mvarGroups
-End Property
-
-
-

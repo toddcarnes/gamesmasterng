@@ -42,6 +42,7 @@ Public Flags As Long
 Private mcolShipTypes As ShipTypes
 Private mcolGroups As Groups
 Private mcolFleets As Fleets
+Private mcolAllies As Races
 
 Public Enum RaceFlag
     R_ANONYMOUS = 1          'Player want to stay anonymous
@@ -62,6 +63,17 @@ Public Enum RaceFlag
     R_DEAD = 32768           'player is no longer active
     R_TXTREPORT = 65536      'is a text report wanted?
 End Enum
+
+Public Property Get Allies() As Races
+    If mcolAllies Is Nothing Then
+        Set mcolAllies = New Races
+    End If
+    Set Allies = mcolAllies
+End Property
+
+Public Property Set Allies(ByVal colAllies)
+    Set mcolAllies = colAllies
+End Property
 
 Public Property Get Fleets() As Fleets
     If mcolFleets Is Nothing Then
