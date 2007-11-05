@@ -14,9 +14,10 @@ Attribute VB_Exposed = False
 Attribute VB_Description = "A Race in the GalaxyNG game"
 Attribute VB_Ext_KEY = "SavedWithClassBuilder6" ,"Yes"
 Attribute VB_Ext_KEY = "Top_Level" ,"No"
-Attribute VB_Ext_KEY = "Member0" ,"Groups"
-Attribute VB_Ext_KEY = "Member1" ,"ShipTypes"
-Attribute VB_Ext_KEY = "Member2" ,"EMail"
+Attribute VB_Ext_KEY = "Member0" ,"Fleets"
+Attribute VB_Ext_KEY = "Member1" ,"Groups"
+Attribute VB_Ext_KEY = "Member2" ,"ShipTypes"
+Attribute VB_Ext_KEY = "Member3" ,"EMail"
 Option Explicit
 
 Public RaceName As String
@@ -40,6 +41,7 @@ Public LastOrders As Long
 Public Flags As Long
 Private mcolShipTypes As ShipTypes
 Private mcolGroups As Groups
+Private mcolFleets As Fleets
 
 Public Enum RaceFlag
     R_ANONYMOUS = 1          'Player want to stay anonymous
@@ -60,6 +62,17 @@ Public Enum RaceFlag
     R_DEAD = 32768           'player is no longer active
     R_TXTREPORT = 65536      'is a text report wanted?
 End Enum
+
+Public Property Get Fleets() As Fleets
+    If mcolFleets Is Nothing Then
+        Set mcolFleets = New Fleets
+    End If
+    Set Fleets = mcolFleets
+End Property
+
+Public Property Set Fleets(vData As Fleets)
+    Set mcolFleets = vData
+End Property
 
 Public Property Get Groups() As Groups
     If mcolGroups Is Nothing Then
@@ -84,6 +97,7 @@ Public Property Set ShipTypes(vData As ShipTypes)
 End Property
 
 Private Sub Class_Terminate()
+  Set mcolFleets = Nothing
   Set mcolGroups = Nothing
     Set mcolShipTypes = Nothing
 End Sub
