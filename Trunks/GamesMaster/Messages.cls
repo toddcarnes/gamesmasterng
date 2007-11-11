@@ -22,7 +22,7 @@ Private mColIndex As Collection
 
 Public Function Add(ByVal objMessage As Message)
     mColKey.Add objMessage, objMessage.Key
-    mColIndex.Add objMessage, objMessage.Index
+    mColIndex.Add objMessage
 End Function
 
 Public Property Get Item(vntIndexKey As Variant) As Message
