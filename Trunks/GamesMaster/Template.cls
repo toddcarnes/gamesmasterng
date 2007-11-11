@@ -133,13 +133,13 @@ Public Sub Load(Optional ByVal strFileName As String)
             Case ";minplayers"
                 MinPlayers = strFields(1)
             Case ";registrationopen"
-                RegistrationOpen = CDate(strFields(1) & " " & strFields(2))
+                RegistrationOpen = CDate(strFields(1))
             Case ";registrationclose"
-                RegistrationClose = CDate(strFields(1) & " " & strFields(2))
+                RegistrationClose = CDate(strFields(1))
             Case ";runtime"
-                RunTime = CDate(strFields(1) & " " & strFields(2))
+                RunTime = CDate(strFields(1))
             Case ";startdate"
-                StartDate = CDate(strFields(1) & " " & strFields(2))
+                StartDate = CDate(strFields(1))
             Case ";scheduledays"
                 ScheduleDays = strFields(1)
             Case ";finalorders"

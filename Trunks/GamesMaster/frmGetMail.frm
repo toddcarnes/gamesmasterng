@@ -47,7 +47,7 @@ End Sub
 
 Private Sub mobjGetMail_Connecting(ByVal strServer As String)
     txtLog = Format(Now, "hh:mm:ss dddd, dd mmmm yyyy") & vbNewLine & _
-             "------------------------------------------------------------"
+             "------------------------------------------------------------" & vbNewLine
 End Sub
 
 Private Sub mobjGetMail_LogData(ByVal strData As String)

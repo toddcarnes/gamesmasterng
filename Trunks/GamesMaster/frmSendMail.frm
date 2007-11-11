@@ -45,11 +45,12 @@ Private Sub Form_Unload(Cancel As Integer)
     MainForm.mnuMailShowSendMail.Checked = False
 End Sub
 
+Private Sub mobjSendMail_Connecting(ByVal strServer As String)
+    txtLog = Format(Now, "hh:mm:ss dddd, dd mmmm yyyy") & vbNewLine & _
+             "------------------------------------------------------------" & vbNewLine
+End Sub
+
 Private Sub mobjSendMail_LogData(ByVal strData As String)
     txtLog = txtLog & strData
 End Sub
 
-Private Sub mobjSendMail_NewConnection()
-    txtLog = Format(Now, "hh:mm:ss dddd, dd mmmm yyyy") & vbNewLine & _
-             "------------------------------------------------------------"
-End Sub
