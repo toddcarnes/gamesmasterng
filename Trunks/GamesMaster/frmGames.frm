@@ -244,7 +244,7 @@ Private Sub grdGames_DblClick()
     Call mnuTemplateView_Click
 End Sub
 
-Private Sub grdGames_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub grdGames_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
     If Button = vbRightButton Then
         Call mnuActions_Click
         PopupMenu mnuActions
@@ -310,7 +310,6 @@ Private Sub mnuGame_Click()
             mnuGameStart.Enabled = Not objGame.Started
             mnuGameRun.Enabled = objGame.Started
             mnuGameResend.Enabled = objGame.Started
-'            mnuGameSep1.Enabled = (mnuGameStart.Enabled Or mnuGameRun.Enabled)
         Else
             mnuGameCreate.Enabled = (objGame.Template.Registrations.Count >= objGame.Template.MinPlayers)
             mnuGameDelete.Enabled = False
@@ -319,7 +318,6 @@ Private Sub mnuGame_Click()
             mnuGameStart.Enabled = False
             mnuRunTurn.Enabled = False
             mnuGameResend.Enabled = False
-            mnuGameSep1.Enabled = False
         End If
     End If
     

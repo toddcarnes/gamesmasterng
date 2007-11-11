@@ -843,6 +843,7 @@ Private Sub dtStartDate_Change()
 End Sub
 
 Private Sub Form_Load()
+    Me.Top = 0
     dtRegOpen.DateFormat = "Short Date"
     dtRegOpen.TimeFormat = ""
     dtRegClose.DateFormat = "Short Date"
@@ -854,7 +855,7 @@ Private Sub Form_Load()
     dtStartDate.TimeFormat = ""
 End Sub
 
-Private Sub grdRegistrations_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub grdRegistrations_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
     If Button = vbRightButton And Not ReadOnly Then
         PopupMenu mnuAction
     End If
@@ -1001,12 +1002,12 @@ Private Sub LoadRegistrations()
             .TextMatrix(i, 1) = objRegistration.EMail
             For C = 1 To objRegistration.HomeWorlds.Count
                 If C > 4 Then Exit For
-                If objRegistration.HomeWorlds(C).x = 0 Then
+                If objRegistration.HomeWorlds(C).X = 0 Then
                     .TextMatrix(i, C + 1) = objRegistration.HomeWorlds(C).Size
                 Else
                     .TextMatrix(i, C + 1) = objRegistration.HomeWorlds(C).Size _
-                                        & "/" & objRegistration.HomeWorlds(C).x _
-                                        & "/" & objRegistration.HomeWorlds(C).y
+                                        & "/" & objRegistration.HomeWorlds(C).X _
+                                        & "/" & objRegistration.HomeWorlds(C).Y
                 End If
             Next C
         Next objRegistration

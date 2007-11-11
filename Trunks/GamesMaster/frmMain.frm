@@ -49,7 +49,7 @@ Begin VB.MDIForm frmMain
             AutoSize        =   2
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "21/10/2007"
+            TextSave        =   "11/11/2007"
             Key             =   "Date"
          EndProperty
          BeginProperty Panel4 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
@@ -58,7 +58,7 @@ Begin VB.MDIForm frmMain
             AutoSize        =   2
             Object.Width           =   1402
             MinWidth        =   1411
-            TextSave        =   "9:13"
+            TextSave        =   "17:02"
             Key             =   "Time"
          EndProperty
       EndProperty
@@ -148,8 +148,8 @@ End Function
 
 Private Sub MDIForm_Load()
     With Me
-        .Width = 800 * Screen.TwipsPerPixelX
-        .Height = 600 * Screen.TwipsPerPixelY
+        .Width = 1024 * Screen.TwipsPerPixelX
+        .Height = 768 * Screen.TwipsPerPixelY
     End With
     With tmrMail
         .Interval = 150

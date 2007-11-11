@@ -99,7 +99,7 @@ Private Sub Disconnect()
         .CloseSck
     End With
     muStatus = SM_CLOSE
-    Set mobjSocket = Nothing
+'    Set mobjSocket = Nothing
     RaiseEvent Disconnected
 End Sub
 

@@ -233,7 +233,7 @@ the following format with a subject of "report".
 ------------------------------------------------------------
 [1]
 @
-25 InvalidReportHeader
+29 InvalidReportHeader
 Major problems were encountered while attempting to process the 
 report request.
 
@@ -247,7 +247,7 @@ with a subject of "report".
 ------------------------------------------------------------
 [2]
 @
-29 InvalidRelayEMail
+30 InvalidRelayEMail
 Major problems were encountered while attempting to process the 
 relay request.
 
@@ -260,7 +260,7 @@ the following format with a subject of "relay <race>".
 ------------------------------------------------------------
 [1]
 @
-25 InvalidRelayHeader
+31 InvalidRelayHeader
 Major problems were encountered while attempting to process the 
 relay request.
 
@@ -276,7 +276,7 @@ with a subject of "relay <race>".
 ------------------------------------------------------------
 [2]
 @
-25 RelaySent
+32 RelaySent
 Your message relay request to "[1]" has been processed and your
 message has been sent.
 @
