@@ -59,7 +59,7 @@ Begin VB.MDIForm frmMain
             AutoSize        =   2
             Object.Width           =   1402
             MinWidth        =   1411
-            TextSave        =   "4:13"
+            TextSave        =   "4:26"
             Key             =   "Time"
          EndProperty
       EndProperty
@@ -148,6 +148,7 @@ Public Function SendMail() As SendMail
 End Function
 
 Private Sub MDIForm_Load()
+    Set Systray.TrayIcon = Me.Icon
     With Me
         .Width = 1024 * Screen.TwipsPerPixelX
         .Height = 768 * Screen.TwipsPerPixelY
