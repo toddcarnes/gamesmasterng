@@ -7,6 +7,7 @@ Begin VB.MDIForm frmMain
    ClientLeft      =   165
    ClientTop       =   855
    ClientWidth     =   8340
+   Icon            =   "frmMain.frx":0000
    LinkTopic       =   "MDIForm1"
    StartUpPosition =   3  'Windows Default
    Begin GamesMaster.cSysTray Systray 
@@ -15,7 +16,7 @@ Begin VB.MDIForm frmMain
       _ExtentX        =   900
       _ExtentY        =   900
       InTray          =   0   'False
-      TrayIcon        =   "frmMain.frx":0000
+      TrayIcon        =   "frmMain.frx":0CCA
       TrayTip         =   "GalaxyNG - Games Master"
    End
    Begin MSComctlLib.StatusBar StatusBar 
@@ -49,7 +50,7 @@ Begin VB.MDIForm frmMain
             AutoSize        =   2
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "11/11/2007"
+            TextSave        =   "12/11/2007"
             Key             =   "Date"
          EndProperty
          BeginProperty Panel4 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
@@ -58,7 +59,7 @@ Begin VB.MDIForm frmMain
             AutoSize        =   2
             Object.Width           =   1402
             MinWidth        =   1411
-            TextSave        =   "17:02"
+            TextSave        =   "4:13"
             Key             =   "Time"
          EndProperty
       EndProperty
@@ -150,6 +151,12 @@ Private Sub MDIForm_Load()
     With Me
         .Width = 1024 * Screen.TwipsPerPixelX
         .Height = 768 * Screen.TwipsPerPixelY
+        If (.Top + .Height) > Screen.Height Then
+            .Top = Screen.Height - .Height
+        End If
+        If (.Left + .Width) > Screen.Width Then
+            .Left = Screen.Width - .Width
+        End If
     End With
     With tmrMail
         .Interval = 150
@@ -197,11 +204,11 @@ Private Sub mnuAutoRun_Click()
     End If
 End Sub
 
-Private Sub mnuExit_Click()
+Public Sub mnuExit_Click()
     Unload Me
 End Sub
 
-Private Sub mnuFileOptions_Click()
+Public Sub mnuFileOptions_Click()
     Dim fForm As Form
     Dim fOptions As frmOptions
     

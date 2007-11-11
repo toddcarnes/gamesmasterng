@@ -146,3 +146,20 @@ Public Sub RunGame(ByVal strGame As String)
     Call RunCommandFile(strCommand)
     Call SendReports(strGame)
 End Sub
+
+Public Sub LogError(ByVal lngError As Long, _
+                    ByVal strError As String, _
+                    ByVal strSource As String, _
+                    ByVal strModule As String, _
+                    ByVal strProcedure As String)
+    Dim strMessage As String
+    
+    strMessage = "Error: " & CStr(lngError) & " - " & strError & vbNewLine & _
+                 "Source: " & strSource
+    If strModule <> "" Then strMessage = strMessage & vbNewLine & _
+                                        "Module: " & strModule
+    If strProcedure <> "" Then strMessage = strMessage & vbNewLine & _
+                                        "Procedure: " & strProcedure
+    MsgBox strMessage, vbCritical + vbOKOnly, App.Title & " Error"
+End Sub
+

@@ -275,8 +275,8 @@ Public Property Set Registration(ByVal objRegistration As Registration)
         i = i + 1
         With objHomeworld
             txtSize(i) = .Size
-            txtX(i) = Format(.x, "#.###")
-            txtY(i) = Format(.y, "#.###")
+            txtX(i) = Format(.X, "#.###")
+            txtY(i) = Format(.Y, "#.###")
         End With
     Next objHomeworld
     
@@ -302,8 +302,8 @@ Private Sub cmdSave_Click()
             End If
             Set objHomeworld = .HomeWorlds(i + 1)
             objHomeworld.Size = Val(txtSize(i))
-            objHomeworld.x = Val(txtX(i))
-            objHomeworld.y = Val(txtY(i))
+            objHomeworld.X = Val(txtX(i))
+            objHomeworld.Y = Val(txtY(i))
         Next i
         
         'Remove empty worlds
@@ -315,4 +315,8 @@ Private Sub cmdSave_Click()
         Next i
     End With
     Unload Me
+End Sub
+
+Private Sub Form_Load()
+    Me.Icon = MainForm.Icon
 End Sub

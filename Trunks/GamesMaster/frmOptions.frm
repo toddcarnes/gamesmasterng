@@ -70,17 +70,11 @@ Begin VB.Form frmOptions
       TabPicture(1)   =   "frmOptions.frx":001C
       Tab(1).ControlEnabled=   0   'False
       Tab(1).Control(0)=   "Label(10)"
-      Tab(1).Control(0).Enabled=   0   'False
       Tab(1).Control(1)=   "Label(11)"
-      Tab(1).Control(1).Enabled=   0   'False
       Tab(1).Control(2)=   "frPopServer"
-      Tab(1).Control(2).Enabled=   0   'False
       Tab(1).Control(3)=   "frSMTPServer"
-      Tab(1).Control(3).Enabled=   0   'False
       Tab(1).Control(4)=   "txtInbox"
-      Tab(1).Control(4).Enabled=   0   'False
       Tab(1).Control(5)=   "txtOutBox"
-      Tab(1).Control(5).Enabled=   0   'False
       Tab(1).ControlCount=   6
       Begin VB.TextBox txtOutBox 
          Height          =   315
@@ -380,5 +374,6 @@ Private Sub cmdSave_Click()
 End Sub
 
 Private Sub Form_Load()
+    Me.Icon = MainForm.Icon
     Call LoadOptions
 End Sub

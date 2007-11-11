@@ -32,6 +32,7 @@ Public WithEvents mobjSendMail As SendMail
 Attribute mobjSendMail.VB_VarHelpID = -1
 
 Private Sub Form_Load()
+    Me.Icon = MainForm.Icon
     Set mobjSendMail = MainForm.SendMail
 End Sub
 
@@ -49,5 +50,6 @@ Private Sub mobjSendMail_LogData(ByVal strData As String)
 End Sub
 
 Private Sub mobjSendMail_NewConnection()
-    txtLog = ""
+    txtLog = Format(Now, "hh:mm:ss dddd, dd mmmm yyyy") & vbNewLine & _
+             "------------------------------------------------------------"
 End Sub

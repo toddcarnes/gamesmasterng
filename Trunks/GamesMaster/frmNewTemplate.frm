@@ -91,6 +91,10 @@ Private Sub CancelButton_Click()
     Me.Hide
 End Sub
 
+Private Sub Form_Load()
+    Me.Icon = MainForm.Icon
+End Sub
+
 Private Sub OKButton_Click()
     mblnCancelled = False
     Me.Hide

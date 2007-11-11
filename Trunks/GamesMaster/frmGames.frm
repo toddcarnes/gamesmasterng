@@ -24,11 +24,14 @@ Begin VB.Form frmGames
    End
    Begin VB.Menu mnuFile 
       Caption         =   "&File"
+      Begin VB.Menu mnuFileOptions 
+         Caption         =   "Options"
+      End
       Begin VB.Menu mnuFileExit 
          Caption         =   "E&xit"
       End
    End
-   Begin VB.Menu mnutemplate 
+   Begin VB.Menu mnuTemplate 
       Caption         =   "&Template"
       Begin VB.Menu mnuTemplateCreate 
          Caption         =   "&Create"
@@ -41,6 +44,9 @@ Begin VB.Form frmGames
       End
       Begin VB.Menu mnuTemplateDelete 
          Caption         =   "&Delete"
+      End
+      Begin VB.Menu mnuTemplateViewSourceFile 
+         Caption         =   "View Source File"
       End
       Begin VB.Menu mnutemplateSep1 
          Caption         =   "-"
@@ -89,10 +95,13 @@ Begin VB.Form frmGames
          Caption         =   "View Template"
       End
       Begin VB.Menu mnuEditTemplate 
-         Caption         =   "Edit template"
+         Caption         =   "Edit Template"
       End
       Begin VB.Menu mnuDeleteTemplate 
          Caption         =   "Delete Template"
+      End
+      Begin VB.Menu mnuViewTemplateSourceFile 
+         Caption         =   "View Template Source File"
       End
       Begin VB.Menu mnuRefreshTemplate 
          Caption         =   "Refresh Templates"
@@ -224,6 +233,7 @@ Public Sub LoadGames()
 End Sub
 
 Private Sub Form_Load()
+    Me.Icon = MainForm.Icon
     mnuActions.Visible = False
     mnuGameView.Visible = False
     mnuGameEdit.Visible = False
@@ -281,7 +291,11 @@ Private Sub mnuEditTemplate_Click()
 End Sub
 
 Private Sub mnuFileExit_Click()
-    Unload MainForm
+    Call MainForm.mnuExit_Click
+End Sub
+
+Private Sub mnuFileOptions_Click()
+    Call MainForm.mnuFileOptions_Click
 End Sub
 
 Private Sub mnuGame_Click()
@@ -438,16 +452,20 @@ Private Sub mnuTemplate_Click()
         mnuTemplateDelete.Enabled = False
         mnuTemplateEdit.Enabled = False
         mnuTemplateView.Enabled = False
+        mnuTemplateView.Enabled = False
+        mnuTemplateViewSourceFile.Enabled = False
     Else
         Set objtemplate = objGame.Template
         If objGame.Created Then
             mnuTemplateDelete.Enabled = False
             mnuTemplateEdit.Enabled = True
             mnuTemplateView.Enabled = True
+            mnuTemplateViewSourceFile.Enabled = True
         Else
             mnuTemplateDelete.Enabled = True
             mnuTemplateEdit.Enabled = True
             mnuTemplateView.Enabled = True
+            mnuTemplateViewSourceFile.Enabled = True
         End If
     End If
     mnuCreateTemplate.Visible = mnuTemplateCreate.Enabled And mnuTemplateCreate.Visible
@@ -455,6 +473,7 @@ Private Sub mnuTemplate_Click()
     mnuViewTemplate.Visible = mnuTemplateView.Enabled And mnuTemplateView.Visible
     mnuEditTemplate.Visible = mnuTemplateEdit.Enabled And mnuTemplateEdit.Visible
     mnuRefreshTemplate.Visible = mnuTemplateRefresh.Enabled And mnuTemplateRefresh.Visible
+    mnuViewTemplateSourceFile.Visible = mnuTemplateView.Enabled And mnuTemplateView.Visible
     
     Set objtemplate = Nothing
     Set objGame = Nothing
@@ -557,6 +576,15 @@ Private Sub GetTemplate(Optional ByVal blnReadOnly As Boolean = True)
     Set fTemplate = Nothing
 End Sub
 
+Private Sub mnuTemplateViewSourceFile_Click()
+    Dim strTemplate As String
+    Dim objtemplate As Template
+    
+    strTemplate = SelectedGame
+    Set objtemplate = GalaxyNG.Games(strTemplate).Template
+    ShellOpen objtemplate.Filename
+End Sub
+
 Private Sub mnuViewGame_Click()
     Call mnuGameView_Click
 End Sub
@@ -571,3 +599,6 @@ Public Property Get SelectedGame() As String
     End With
 End Property
 
+Private Sub mnuViewTemplateSourceFile_Click()
+    Call mnuTemplateViewSourceFile_Click
+End Sub

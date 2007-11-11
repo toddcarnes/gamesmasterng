@@ -32,6 +32,7 @@ Public WithEvents mobjGetMail As GetMail
 Attribute mobjGetMail.VB_VarHelpID = -1
 
 Private Sub Form_Load()
+    Me.Icon = MainForm.Icon
     Set mobjGetMail = MainForm.GetMail
 End Sub
 
@@ -45,7 +46,8 @@ Private Sub Form_Unload(Cancel As Integer)
 End Sub
 
 Private Sub mobjGetMail_Connecting(ByVal strServer As String)
-    txtLog = ""
+    txtLog = Format(Now, "hh:mm:ss dddd, dd mmmm yyyy") & vbNewLine & _
+             "------------------------------------------------------------"
 End Sub
 
 Private Sub mobjGetMail_LogData(ByVal strData As String)

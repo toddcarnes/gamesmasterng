@@ -52,6 +52,7 @@ Class=Group; Group.cls
 Class=Groups; Groups.cls
 Class=Fleet; Fleet.cls
 Class=Fleets; Fleets.cls
+Module=modAPI; modAPI.bas
 Startup="Sub Main"
 HelpFile=""
 ExeName32="GamesMaster.exe"
