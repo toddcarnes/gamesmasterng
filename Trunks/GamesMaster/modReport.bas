@@ -44,12 +44,9 @@ Public Sub SendReport(ByVal strFrom As String, ByVal strEMail As String)
     varHeader = Split(strHeader, " ")
     If UBound(varHeader) < 4 Then
         'Invalid Header
-        strMessage = Options.GetMessage("InvalidReportHeader", "> " & strHeader)
-        GoTo Error
-    End If
-    If varHeader(0) <> "#galaxy" Then
-        'Invalid Header
-        strMessage = Options.GetMessage("InvalidReportHeader", "> " & strHeader)
+        strMessage = Options.GetMessage("InvalidReportHeader", _
+                                        "Insufficient parameters Supplied in the #galaxy line", _
+                                        "> " & strHeader)
         GoTo Error
     End If
     strGame = varHeader(1)

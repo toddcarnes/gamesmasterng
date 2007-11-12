@@ -228,7 +228,7 @@ report request.
 The EMail was incorrectly formed. The orders must be submitted in
 the following format with a subject of "report".
 
-#galaxyng <game> <race> <password> <turn>
+#galaxy <game> <race> <password> <turn>
 
 ------------------------------------------------------------
 [1]
@@ -242,7 +242,7 @@ report request.
 The orders must be submitted in the following format 
 with a subject of "report".
 
-#galaxyng <game> <race> <password> <turn>
+#galaxy <game> <race> <password> <turn>
 
 ------------------------------------------------------------
 [2]
