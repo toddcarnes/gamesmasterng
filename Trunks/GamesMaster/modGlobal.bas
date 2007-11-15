@@ -115,21 +115,27 @@ End Sub
 
 Public Sub CreateGame(ByVal strTemplate As String)
     Dim objGame As Game
-    Dim objTemplate As Template
+    Dim objtemplate As Template
     
     Set objGame = GalaxyNG.Games(strTemplate)
-    Set objTemplate = objGame.Template
+    Set objtemplate = objGame.Template
     Call RunGalaxyNG("-create """ & objGame.TemplateFile & """ >" & strTemplate & ".txt")
 End Sub
 
 Public Sub StartGame(ByVal strGame As String)
     Dim objGame As Game
+    Dim strBuffer As String
     
     GalaxyNG.Games.Refresh
     Set objGame = GalaxyNG.Games(strGame)
     objGame.Refresh
     
     Call RunGalaxyNG("-mail0 " & strGame)
+    
+    ' Change the date on the Next Turn file
+    strBuffer = GetFile(Options.GalaxyNGNextTurn(strGame))
+    Call SaveFile(Options.GalaxyNGNextTurn(strGame), strBuffer)
+    
     Call MainForm.RefreshGamesForm
     Call SendReports(strGame)
     Call MainForm.SendMail.Send

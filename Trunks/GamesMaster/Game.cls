@@ -566,21 +566,21 @@ End Function
 
 Public Function NextRunDate() As Date
     Dim dtLast As Date
-    Dim dtNext As Date
     
-    dtLast = LastRunDate
-    If dtLast <> 0 Then
-        If Template.ScheduleActive Then
-            dtNext = DateAdd("d", Template.ScheduleDays, dtLast)
-            dtNext = CDate(Format(dtNext, "dd-mmm-yyyy") & " " & Format(Template.RunTime, "hh:nn:ss"))
-            NextRunDate = dtNext
-        Else
-            NextRunDate = 0
+    NextRunDate = 0
+    If Not Template.ScheduleActive Then Exit Function
+    
+    If Not Created Then
+        If Template.RegistrationClose <> 0 Then
+            NextRunDate = Template.RegistrationClose + Template.RunTime
+        End If
+    ElseIf Not Started Then
+        If Template.StartDate <> 0 Then
+            NextRunDate = Template.StartDate + Template.RunTime
         End If
     Else
-        NextRunDate = 0
+        NextRunDate = LastRunDate + Template.ScheduleDays + Template.RunTime
     End If
-    NextRunDate = dtNext
 End Function
 
 
@@ -588,6 +588,7 @@ Public Function LastRunDate() As Date
     If Created Then
         If Started Then
             LastRunDate = FileDateTime(Options.GalaxyNGNextTurn(GameName))
+            LastRunDate = CDate(Format(LastRunDate, "dd-mmm-yyyy"))
         End If
     End If
 End Function
