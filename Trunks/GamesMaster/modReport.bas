@@ -31,7 +31,7 @@ Public Sub SendReport(ByVal strFrom As String, ByVal strEMail As String)
     If lngEOL = 0 Then
         strHeader = Mid(strEMail, lngStart)
     Else
-        strHeader = Mid(strEMail, lngStart, lngEOL + 2 - lngStart)
+        strHeader = Mid(strEMail, lngStart, lngEOL - lngStart)
     End If
     
     'Reduce multiple spaces to single spaces

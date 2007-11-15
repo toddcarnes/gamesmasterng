@@ -97,6 +97,75 @@ Public Function MarkText(ByVal strSource As String) As String
     MarkText = "> " & Replace(strSource, vbCrLf, vbCrLf & "> ")
 End Function
 
+Public Sub LogError(ByVal lngError As Long, _
+                    ByVal strError As String, _
+                    ByVal strSource As String, _
+                    ByVal strModule As String, _
+                    ByVal strProcedure As String)
+    Dim strMessage As String
+    
+    strMessage = "Error: " & CStr(lngError) & " - " & strError & vbNewLine & _
+                 "Source: " & strSource
+    If strModule <> "" Then strMessage = strMessage & vbNewLine & _
+                                        "Module: " & strModule
+    If strProcedure <> "" Then strMessage = strMessage & vbNewLine & _
+                                        "Procedure: " & strProcedure
+    MsgBox strMessage, vbCritical + vbOKOnly, App.Title & " Error"
+End Sub
+
+Public Sub CreateGame(ByVal strTemplate As String)
+    Dim objGame As Game
+    Dim objTemplate As Template
+    
+    Set objGame = GalaxyNG.Games(strTemplate)
+    Set objTemplate = objGame.Template
+    Call RunGalaxyNG("-create """ & objGame.TemplateFile & """ >" & strTemplate & ".txt")
+End Sub
+
+Public Sub StartGame(ByVal strGame As String)
+    Dim objGame As Game
+    
+    GalaxyNG.Games.Refresh
+    Set objGame = GalaxyNG.Games(strGame)
+    objGame.Refresh
+    
+    Call RunGalaxyNG("-mail0 " & strGame)
+    Call MainForm.RefreshGamesForm
+    Call SendReports(strGame)
+    Call MainForm.SendMail.Send
+
+End Sub
+
+Public Sub RunGame(ByVal strGame As String)
+    Dim strCommand As String
+    Dim objGames As Games
+    Dim objGame As Game
+    
+    Set objGames = New Games
+    objGames.Refresh
+    Set objGame = objGames(strGame)
+    Call objGame.Refresh
+    
+    strCommand = Options.GetMessage("run_game")
+    strCommand = Replace(strCommand, "[turn]", objGame.NextTurn)
+    strCommand = Replace(strCommand, "[game]", strGame)
+    
+    Call RunCommandFile(strCommand)
+    Call SendReports(strGame)
+    Call MainForm.RefreshGamesForm
+    Call MainForm.SendMail.Send
+End Sub
+
+Public Sub ResendReports(ByVal strGame As String)
+    Dim objGame As Game
+    
+    Set objGame = GalaxyNG.Games(strGame)
+    Call objGame.Refresh
+    
+    Call SendReports(strGame)
+    Call MainForm.SendMail.Send
+End Sub
+
 Public Sub NotifyUsers(ByVal strGame As String)
     Dim objGames As Games
     Dim objGame As Game
@@ -127,39 +196,9 @@ Public Sub NotifyUsers(ByVal strGame As String)
                     strMessage)
         End If
     Next objRace
+
+    Call MainForm.RefreshGamesForm
+    Call MainForm.SendMail.Send
 End Sub
 
-Public Sub RunGame(ByVal strGame As String)
-    Dim strCommand As String
-    Dim objGames As Games
-    Dim objGame As Game
-    
-    Set objGames = New Games
-    objGames.Refresh
-    Set objGame = objGames(strGame)
-    Call objGame.Refresh
-    
-    strCommand = Options.GetMessage("run_game")
-    strCommand = Replace(strCommand, "[turn]", objGame.NextTurn)
-    strCommand = Replace(strCommand, "[game]", strGame)
-    
-    Call RunCommandFile(strCommand)
-    Call SendReports(strGame)
-End Sub
-
-Public Sub LogError(ByVal lngError As Long, _
-                    ByVal strError As String, _
-                    ByVal strSource As String, _
-                    ByVal strModule As String, _
-                    ByVal strProcedure As String)
-    Dim strMessage As String
-    
-    strMessage = "Error: " & CStr(lngError) & " - " & strError & vbNewLine & _
-                 "Source: " & strSource
-    If strModule <> "" Then strMessage = strMessage & vbNewLine & _
-                                        "Module: " & strModule
-    If strProcedure <> "" Then strMessage = strMessage & vbNewLine & _
-                                        "Procedure: " & strProcedure
-    MsgBox strMessage, vbCritical + vbOKOnly, App.Title & " Error"
-End Sub
 

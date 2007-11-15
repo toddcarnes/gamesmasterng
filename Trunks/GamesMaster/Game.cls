@@ -439,8 +439,42 @@ Private Sub Class_Terminate()
 End Sub
 
 Public Property Get Started() As Boolean
-    Started = (Dir(Options.GalaxyNGReports & GameName & "\*.*") <> "")
+    If NextTurn > 1 Then
+        Started = True
+    ElseIf Dir(Options.GalaxyNGReports & GameName & "\*.*") <> "" Then
+        Started = True
+    End If
+    
 End Property
+
+Public Function ReadyToCreate() As Boolean
+    ReadyToCreate = False
+    
+    If Created Then Exit Function
+    With Template
+        If .RegistrationClose = 0 Then Exit Function
+        If .Registrations.Count = .MaxPlayers Then
+            ReadyToCreate = True
+        ElseIf .RegistrationClose <= Now _
+        And .Registrations.Count >= .MinPlayers Then
+            ReadyToCreate = True
+        End If
+    End With
+            
+End Function
+
+Public Function ReadyToStart() As Boolean
+    ReadyToStart = False
+    
+    If Not Created Then Exit Function
+    If Started Then Exit Function
+    With Template
+        If .StartDate = 0 Then Exit Function
+        If .StartDate <= Now Then
+            ReadyToStart = True
+        End If
+    End With
+End Function
 
 Public Function ReadyToRun() As Boolean
     Dim dtNext As Date
@@ -463,7 +497,7 @@ Public Function ReadyToRun() As Boolean
         Next objRace
         ReadyToRun = blnAllFinalOrdersReceived
     Else
-        ReadyToRun = True
+        ReadyToRun = False
     End If
 End Function
 

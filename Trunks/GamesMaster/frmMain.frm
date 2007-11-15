@@ -17,7 +17,7 @@ Begin VB.MDIForm frmMain
       _ExtentY        =   900
       InTray          =   0   'False
       TrayIcon        =   "frmMain.frx":0CCA
-      TrayTip         =   "GalaxyNG - Games Master"
+      TrayTip         =   ""
    End
    Begin MSComctlLib.StatusBar StatusBar 
       Align           =   2  'Align Bottom
@@ -50,7 +50,7 @@ Begin VB.MDIForm frmMain
             AutoSize        =   2
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "12/11/2007"
+            TextSave        =   "16/11/2007"
             Key             =   "Date"
          EndProperty
          BeginProperty Panel4 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
@@ -59,7 +59,7 @@ Begin VB.MDIForm frmMain
             AutoSize        =   2
             Object.Width           =   1402
             MinWidth        =   1411
-            TextSave        =   "4:26"
+            TextSave        =   "6:13"
             Key             =   "Time"
          EndProperty
       EndProperty
@@ -409,12 +409,18 @@ Private Sub tmrGalaxyNG_Timer()
         Set objGames = New Games
         For Each objGame In objGames
             objGame.Refresh
-            If objGame.ReadyToRun Then
-                Call RunGame(objGame.GameName)
-                blnProcessed = True
-            ElseIf objGame.NotifyUsers Then
-                Call NotifyUsers(objGame.GameName)
-                blnProcessed = True
+            If objGame.Template.ScheduleActive Then
+                If objGame.ReadyToCreate Then
+                    Call CreateGame(objGame.GameName)
+                ElseIf objGame.ReadyToStart Then
+                    Call StartGame(objGame.GameName)
+                ElseIf objGame.NotifyUsers Then
+                    Call NotifyUsers(objGame.GameName)
+                    blnProcessed = True
+                ElseIf objGame.ReadyToRun Then
+                    Call RunGame(objGame.GameName)
+                    blnProcessed = True
+                End If
             End If
         Next objGame
         tmrMail.Enabled = blnMailTimer

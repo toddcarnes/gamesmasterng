@@ -350,14 +350,7 @@ Private Sub mnuGame_Click()
 End Sub
 
 Private Sub mnuGameCreate_Click()
-    Dim strTemplate As String
-    Dim objGame As Game
-    Dim objtemplate As Template
-    
-    strTemplate = SelectedGame
-    Set objGame = GalaxyNG.Games(strTemplate)
-    Set objtemplate = objGame.Template
-    Call RunGalaxyNG("-create """ & objGame.TemplateFile & """ >" & strTemplate & ".txt")
+    Call CreateGame(SelectedGame)
 End Sub
 
 Private Sub mnuGameDelete_Click()
@@ -369,54 +362,19 @@ Private Sub mnuGameEdit_Click()
 End Sub
 
 Private Sub mnuGameNotify_Click()
-    Dim strGame As String
-    Dim objGame As Game
-    
-    strGame = SelectedGame
-    GalaxyNG.Games.Refresh
-    
-    Call NotifyUsers(strGame)
-    Call MainForm.RefreshGamesForm
-    Call MainForm.SendMail.Send
+    Call NotifyUsers(SelectedGame)
 End Sub
 
 Private Sub mnuGameResend_Click()
-    Dim strGame As String
-    Dim objGame As Game
-    
-    strGame = SelectedGame
-    Set objGame = GalaxyNG.Games(strGame)
-    Call objGame.Refresh
-    
-    Call SendReports(strGame)
-    Call MainForm.SendMail.Send
+    Call ResendReports(SelectedGame)
 End Sub
 
 Private Sub mnuGameRun_Click()
-    Dim strGame As String
-    Dim objGame As Game
-    
-    strGame = SelectedGame
-    GalaxyNG.Games.Refresh
-    
-    Call RunGame(strGame)
-    Call MainForm.RefreshGamesForm
-    Call MainForm.SendMail.Send
+    Call RunGame(SelectedGame)
 End Sub
 
 Private Sub mnuGameStart_Click()
-    Dim strGame As String
-    Dim objGame As Game
-    
-    strGame = SelectedGame
-    GalaxyNG.Games.Refresh
-    Set objGame = GalaxyNG.Games(strGame)
-    objGame.Refresh
-    
-    Call RunGalaxyNG("-mail0 " & strGame)
-    Call MainForm.RefreshGamesForm
-    Call SendReports(strGame)
-    Call MainForm.SendMail.Send
+    Call StartGame(SelectedGame)
 End Sub
 
 Private Sub mnuGameView_Click()
@@ -442,7 +400,7 @@ End Sub
 Private Sub mnuTemplate_Click()
     Dim strTemplate As String
     Dim objGame As Game
-    Dim objtemplate As Template
+    Dim objTemplate As Template
     
     strTemplate = SelectedGame
     Set objGame = GalaxyNG.Games(strTemplate)
@@ -455,7 +413,7 @@ Private Sub mnuTemplate_Click()
         mnuTemplateView.Enabled = False
         mnuTemplateViewSourceFile.Enabled = False
     Else
-        Set objtemplate = objGame.Template
+        Set objTemplate = objGame.Template
         If objGame.Created Then
             mnuTemplateDelete.Enabled = False
             mnuTemplateEdit.Enabled = True
@@ -475,7 +433,7 @@ Private Sub mnuTemplate_Click()
     mnuRefreshTemplate.Visible = mnuTemplateRefresh.Enabled And mnuTemplateRefresh.Visible
     mnuViewTemplateSourceFile.Visible = mnuTemplateView.Enabled And mnuTemplateView.Visible
     
-    Set objtemplate = Nothing
+    Set objTemplate = Nothing
     Set objGame = Nothing
     
 End Sub
@@ -578,11 +536,11 @@ End Sub
 
 Private Sub mnuTemplateViewSourceFile_Click()
     Dim strTemplate As String
-    Dim objtemplate As Template
+    Dim objTemplate As Template
     
     strTemplate = SelectedGame
-    Set objtemplate = GalaxyNG.Games(strTemplate).Template
-    ShellOpen objtemplate.Filename
+    Set objTemplate = GalaxyNG.Games(strTemplate).Template
+    ShellOpen objTemplate.Filename
 End Sub
 
 Private Sub mnuViewGame_Click()
