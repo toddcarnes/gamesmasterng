@@ -485,7 +485,7 @@ Public Function ReadyToRun() As Boolean
     If dtNext <> 0 And dtNext < Now Then
         ReadyToRun = True
     
-    ElseIf dtNext <> 0 And Template.FinalOrders Then
+    ElseIf dtNext <> 0 And Template.FinalOrders And Started Then
         blnAllFinalOrdersReceived = True
         For Each objRace In Races
             If Not objRace.Flag(R_DEAD) Then

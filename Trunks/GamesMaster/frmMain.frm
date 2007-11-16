@@ -50,7 +50,7 @@ Begin VB.MDIForm frmMain
             AutoSize        =   2
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "16/11/2007"
+            TextSave        =   "17/11/2007"
             Key             =   "Date"
          EndProperty
          BeginProperty Panel4 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
@@ -59,7 +59,7 @@ Begin VB.MDIForm frmMain
             AutoSize        =   2
             Object.Width           =   1402
             MinWidth        =   1411
-            TextSave        =   "6:13"
+            TextSave        =   "6:41"
             Key             =   "Time"
          EndProperty
       EndProperty
@@ -396,15 +396,14 @@ End Sub
 Private Sub tmrGalaxyNG_Timer()
     Dim objGames As Games
     Dim objGame As Game
-    Dim blnMailTimer As Boolean
+    Dim blnGalaxyNGTimer As Boolean
     Dim blnProcessed As Boolean
     
     tmrGalaxyNG.Interval = 30000
-    
     If mdtNextRunCheck < Now Then
-        mdtNextMailCheck = DateAdd("n", 5, Now)
+        mdtNextRunCheck = DateAdd("n", 5, Now)
         
-        blnMailTimer = tmrMail.Enabled
+        blnGalaxyNGTimer = tmrGalaxyNG.Enabled
         tmrMail.Enabled = False
         Set objGames = New Games
         For Each objGame In objGames
@@ -412,7 +411,8 @@ Private Sub tmrGalaxyNG_Timer()
             If objGame.Template.ScheduleActive Then
                 If objGame.ReadyToCreate Then
                     Call CreateGame(objGame.GameName)
-                ElseIf objGame.ReadyToStart Then
+                End If
+                If objGame.ReadyToStart Then
                     Call StartGame(objGame.GameName)
                 ElseIf objGame.NotifyUsers Then
                     Call NotifyUsers(objGame.GameName)
@@ -423,7 +423,7 @@ Private Sub tmrGalaxyNG_Timer()
                 End If
             End If
         Next objGame
-        tmrMail.Enabled = blnMailTimer
+        tmrGalaxyNG.Enabled = blnGalaxyNGTimer
         
         If blnProcessed Then
             GalaxyNG.Games.Refresh
