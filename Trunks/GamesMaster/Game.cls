@@ -128,6 +128,9 @@ Public Sub Refresh()
     Close #intFN
     
     vLines = Split(strBuffer, vbCrLf)
+    If UBound(vLines) = 0 Then
+        vLines = Split(strBuffer, vbLf)
+    End If
     l = 0
     
     ' GalaxyNG Version
@@ -579,16 +582,14 @@ Public Function NextRunDate() As Date
             NextRunDate = Template.StartDate + Template.RunTime
         End If
     Else
-        NextRunDate = LastRunDate + Template.ScheduleDays + Template.RunTime
+        NextRunDate = Int(LastRunDate) + Template.ScheduleDays + Template.RunTime
     End If
 End Function
 
 
 Public Function LastRunDate() As Date
     If Created Then
-        If Started Then
-            LastRunDate = FileDateTime(Options.GalaxyNGNextTurn(GameName))
-            LastRunDate = CDate(Format(LastRunDate, "dd-mmm-yyyy"))
-        End If
+        LastRunDate = FileDateTime(Options.GalaxyNGNextTurn(GameName))
+        LastRunDate = CDate(Format(LastRunDate, "dd-mmm-yyyy hh:nn:ss"))
     End If
 End Function

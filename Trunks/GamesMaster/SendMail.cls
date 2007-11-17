@@ -85,6 +85,10 @@ Private Sub Connect()
     If mobjSocket Is Nothing Then
         Set mobjSocket = New CSocketMaster
     End If
+    If mobjSocket.State <> sckClosed Then
+        mobjSocket.CloseSck
+        DoEvents
+    End If
     With mobjSocket
         .Protocol = sckTCPProtocol
         .Connect Options.SMTPServer, Options.SMTPServerPort

@@ -84,11 +84,30 @@ Public Sub LoadGames()
         .ColWidth(C) = 1500
         .ColAlignment(C) = flexAlignLeftTop
         
+        .Visible = False
         lngRow = 1
         For Each objGame In Games
             objGame.Refresh
             lngRow = lngRow + 1
             If lngRow + 1 > .Rows Then .Rows = lngRow + 1
+            Dim lngForeColour As Long
+            Dim lngBackColour As Long
+            If objGame.Started Then
+                lngForeColour = vbBlack
+                lngBackColour = vbWhite
+            ElseIf objGame.Created Then
+                lngForeColour = vbBlack
+                lngBackColour = vbCyan
+            Else
+                lngForeColour = vbWhite
+                lngBackColour = vbBlue
+            End If
+            For C = 1 To .Cols - 1
+                .Row = lngRow
+                .Col = C
+                .CellBackColor = lngBackColour
+                .CellForeColor = lngForeColour
+            Next C
             C = 1
             .TextMatrix(lngRow, C) = IIf(objGame.Template.ScheduleActive, "S", "")
             C = C + 1
@@ -98,25 +117,32 @@ Public Sub LoadGames()
                 If objGame.Started Then
                     .TextMatrix(lngRow, C) = objGame.Turn
                 Else
-                    .TextMatrix(lngRow, C) = "-"
+                    .TextMatrix(lngRow, C) = "Created"
                 End If
                 C = C + 1
                 .TextMatrix(lngRow, C) = objGame.PlayersReady & "/" & objGame.ActivePlayers & "/" & objGame.Races.Count
                 C = C + 1
                 .TextMatrix(lngRow, C) = Format(objGame.LastRunDate, "dd-mmm-yyyy hh:nn")
-                C = C + 1
-                dtNext = objGame.NextRunDate
-                .TextMatrix(lngRow, C) = IIf(dtNext = 0, "", Format(objGame.NextRunDate, "dd-mmm-yyyy hh:nn"))
             Else
                 .TextMatrix(lngRow, C) = ""
                 C = C + 1
                 .TextMatrix(lngRow, C) = objGame.Template.Registrations.Count & "/" & objGame.Template.MaxPlayers
                 C = C + 1
                 .TextMatrix(lngRow, C) = ""
-                C = C + 1
+            End If
+            C = C + 1
+            If objGame.Template.ScheduleActive Then
+                dtNext = objGame.NextRunDate
+                .TextMatrix(lngRow, C) = IIf(dtNext = 0, "", Format(objGame.NextRunDate, "dd-mmm-yyyy hh:nn"))
+            Else
                 .TextMatrix(lngRow, C) = ""
             End If
         Next objGame
+        .Visible = True
+        .Col = 1
+        .Row = 1
+        .ColSel = 1
+        .RowSel = 1
     End With
 End Sub
 

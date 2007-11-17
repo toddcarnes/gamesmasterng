@@ -50,7 +50,7 @@ Begin VB.MDIForm frmMain
             AutoSize        =   2
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "17/11/2007"
+            TextSave        =   "18/11/2007"
             Key             =   "Date"
          EndProperty
          BeginProperty Panel4 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
@@ -59,7 +59,7 @@ Begin VB.MDIForm frmMain
             AutoSize        =   2
             Object.Width           =   1402
             MinWidth        =   1411
-            TextSave        =   "15:27"
+            TextSave        =   "6:13"
             Key             =   "Time"
          EndProperty
       EndProperty
@@ -85,8 +85,11 @@ Begin VB.MDIForm frmMain
          Caption         =   "E&xit"
       End
    End
-   Begin VB.Menu mnuGames 
-      Caption         =   "&Games"
+   Begin VB.Menu mnuView 
+      Caption         =   "View"
+      Begin VB.Menu mnuViewGames 
+         Caption         =   "&Games"
+      End
    End
    Begin VB.Menu mnuTemplate 
       Caption         =   "&Template"
@@ -290,6 +293,8 @@ Private Sub MDIForm_Load()
         .Enabled = False
     End With
     Status = ""
+    DoEvents
+    Call mnuViewGames_Click
 End Sub
 
 Private Sub MDIForm_QueryUnload(Cancel As Integer, UnloadMode As Integer)
@@ -404,31 +409,6 @@ End Sub
 
 Private Sub mnuGameRun_Click()
     Call RunGame(SelectedGame)
-End Sub
-
-Private Sub mnuGames_Click()
-    Dim fForm As Form
-    Dim fGames As frmGames
-    
-    For Each fForm In Forms
-        If fForm.name = "frmGames" Then
-            Set fGames = fForm
-            Exit For
-        End If
-    Next fForm
-    
-    If fGames Is Nothing Then
-        Set fGames = New frmGames
-        Load fGames
-        Set fGames.Games = GalaxyNG.Games
-        fGames.Show
-    Else
-        fGames.Visible = True
-        fGames.WindowState = vbNormal
-        fGames.SetFocus
-    End If
-    Set fForm = Nothing
-    Set fGames = Nothing
 End Sub
 
 Public Sub RefreshGamesForm()
@@ -746,6 +726,31 @@ Private Sub mnuViewGame_Click()
     Call mnuGameView_Click
 End Sub
 
+Private Sub mnuViewGames_Click()
+    Dim fForm As Form
+    Dim fGames As frmGames
+    
+    For Each fForm In Forms
+        If fForm.name = "frmGames" Then
+            Set fGames = fForm
+            Exit For
+        End If
+    Next fForm
+    
+    If fGames Is Nothing Then
+        Set fGames = New frmGames
+        Load fGames
+        Set fGames.Games = GalaxyNG.Games
+        fGames.Show
+    Else
+        fGames.Visible = True
+        fGames.WindowState = vbNormal
+        fGames.SetFocus
+    End If
+    Set fForm = Nothing
+    Set fGames = Nothing
+End Sub
+
 Private Sub mnuViewTemplate_Click()
     Call mnuTemplateView_Click
 End Sub
@@ -836,14 +841,16 @@ Private Sub tmrGalaxyNG_Timer()
                 End If
                 If objGame.ReadyToStart Then
                     Call StartGame(objGame.GameName)
-                ElseIf objGame.NotifyUsers Then
-                    Call NotifyUsers(objGame.GameName)
-                    blnProcessed = True
-                ElseIf objGame.ReadyToRun Then
-                    Call RunGame(objGame.GameName)
-                    blnProcessed = True
+                ElseIf objGame.Started Then
+                    If objGame.NotifyUsers Then
+                        Call NotifyUsers(objGame.GameName)
+                        blnProcessed = True
+                    ElseIf objGame.ReadyToRun Then
+                        Call RunGame(objGame.GameName)
+                        blnProcessed = True
+                    End If
                 End If
-            End If
+        End If
         Next objGame
         tmrGalaxyNG.Enabled = blnGalaxyNGTimer
         
