@@ -58,12 +58,12 @@ End Enum
 Public Function OpenForRegistrations() As Boolean
     ' Not Open
     If RegistrationOpen = 0 _
-    Or RegistrationOpen > Now Then
+    Or RegistrationOpen + RunTime > Now Then
         OpenForRegistrations = False
     
     ' Closed
     ElseIf RegistrationClose <> 0 _
-    And RegistrationClose <= Now Then
+    And RegistrationClose + RunTime <= Now Then
         OpenForRegistrations = False
     
     ' Open and not closed
