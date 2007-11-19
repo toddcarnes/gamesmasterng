@@ -158,7 +158,6 @@ Public Sub RunGame(ByVal strGame As String)
     
     Call RunCommandFile(strCommand)
     Call SendReports(strGame)
-    Call MainForm.RefreshGamesForm
     Call MainForm.SendMail.Send
 End Sub
 

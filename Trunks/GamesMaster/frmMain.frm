@@ -50,7 +50,7 @@ Begin VB.MDIForm frmMain
             AutoSize        =   2
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "18/11/2007"
+            TextSave        =   "20/11/2007"
             Key             =   "Date"
          EndProperty
          BeginProperty Panel4 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
@@ -59,7 +59,7 @@ Begin VB.MDIForm frmMain
             AutoSize        =   2
             Object.Width           =   1402
             MinWidth        =   1411
-            TextSave        =   "6:13"
+            TextSave        =   "5:58"
             Key             =   "Time"
          EndProperty
       EndProperty
@@ -831,7 +831,7 @@ Private Sub tmrGalaxyNG_Timer()
         mdtNextRunCheck = DateAdd("n", 5, Now)
         
         blnGalaxyNGTimer = tmrGalaxyNG.Enabled
-        tmrMail.Enabled = False
+        tmrGalaxyNG.Enabled = False
         Set objGames = New Games
         For Each objGame In objGames
             objGame.Refresh
@@ -867,6 +867,10 @@ Private Sub tmrMail_Timer()
     If mdtNextMailCheck < Now Then
         mdtNextMailCheck = DateAdd("n", Options.CheckMailInterval, Now)
         GetMail.GetMail
+        If Me.Visible = False Then
+            Systray.InTray = False
+            Systray.InTray = True
+        End If
     End If
 End Sub
 

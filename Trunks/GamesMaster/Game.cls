@@ -545,7 +545,7 @@ End Function
 Public Function FinalOrdersReceived(ByVal strRace As String) As Boolean
     Dim strFileName As String
     
-    strFileName = Options.GalaxyNGOrders & GameName & "\" & strRace & "_finalorders." & NextTurn
+    strFileName = Options.GalaxyNGOrders & GameName & "\" & strRace & "_final." & NextTurn
     
     If Dir(strFileName) <> "" Then
         FinalOrdersReceived = True
