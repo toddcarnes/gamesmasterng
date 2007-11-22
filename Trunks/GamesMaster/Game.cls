@@ -482,47 +482,11 @@ End Function
 Public Function ReadyToRun() As Boolean
     Dim dtNext As Date
     Dim objRace As Race
-    Dim blnAllFinalOrdersReceived As Boolean
-    Dim dtFinalOrders As Date
-    Dim dtMaxFinalOrders As Date
     
     dtNext = NextRunDate
     'Time to run the game
     If dtNext <> 0 And dtNext < Now Then
         ReadyToRun = True
-    
-    'Final orders submitted
-    ElseIf dtNext <> 0 And Template.FinalOrders And Started Then
-        blnAllFinalOrdersReceived = True
-        For Each objRace In Races
-            If Not objRace.Flag(R_DEAD) Then
-                If FinalOrdersReceived(objRace.RaceName) Then
-                    'Remember the latest date of Finalorders received
-                    dtFinalOrders = FinalOrdersDate(objRace.RaceName)
-                    If dtFinalOrders > dtMaxFinalOrders Then
-                        dtMaxFinalOrders = dtFinalOrders
-                    End If
-                Else
-                    blnAllFinalOrdersReceived = False
-                    Exit For
-                End If
-            End If
-        Next objRace
-        If blnAllFinalOrdersReceived Then
-            ' Calculate the run date after the last final orders were received
-            dtNext = Int(dtMaxFinalOrders) + Template.RunTime
-            If dtNext < dtMaxFinalOrders Then
-                dtNext = dtNext + 1
-            End If
-            
-            If dtNext <= Now Then
-                ReadyToRun = True
-            Else
-                ReadyToRun = False
-            End If
-        Else
-            ReadyToRun = False
-        End If
             
     'Not ready
     Else
@@ -535,11 +499,10 @@ Public Function NotifyUsers() As Boolean
     Dim strRace As String
     Dim dtNext As Date
     
-    dtNext = NextRunDate
-    If dtNext = 0 Then Exit Function
+    NotifyUsers = False
     
-    ' Notify User 24 hours before turn
-    dtNext = DateAdd("h", -24, dtNext)
+    dtNext = NextNotifyDate
+    If dtNext = 0 Then Exit Function
     ' If not due to notify
     If dtNext > Now Then Exit Function
     
@@ -579,6 +542,34 @@ Public Function FinalOrdersReceived(ByVal strRace As String) As Boolean
     
 End Function
 
+Public Function AllFinalOrdersReceived() As Boolean
+    Dim objRace As Race
+    
+    AllFinalOrdersReceived = True
+    For Each objRace In Races
+        If Not objRace.Flag(R_DEAD) Then
+            If Not FinalOrdersReceived(objRace.RaceName) Then
+                AllFinalOrdersReceived = False
+                Exit For
+            End If
+        End If
+    Next objRace
+End Function
+
+Public Function LastFinalOrdersDate() As Date
+    Dim objRace As Race
+    Dim dtFinalOrders As Date
+    
+    For Each objRace In Races
+        If Not objRace.Flag(R_DEAD) Then
+            dtFinalOrders = FinalOrdersDate(objRace.RaceName)
+            If dtFinalOrders > LastFinalOrdersDate Then
+                LastFinalOrdersDate = dtFinalOrders
+            End If
+        End If
+    Next objRace
+End Function
+
 Public Function FinalOrdersDate(ByVal strRace As String) As Date
 
     Dim strFileName As String
@@ -607,21 +598,44 @@ End Function
 
 Public Function NextRunDate() As Date
     Dim dtLast As Date
+    Dim dtNext As Date
     
     NextRunDate = 0
     If Not Template.ScheduleActive Then Exit Function
     
+    '
     If Not Created Then
         If Template.RegistrationClose <> 0 Then
             NextRunDate = Template.RegistrationClose + Template.RunTime
         End If
+    
     ElseIf Not Started Then
         If Template.StartDate <> 0 Then
             NextRunDate = Template.StartDate + Template.RunTime
         End If
+        
+    ElseIf Template.FinalOrders And AllFinalOrdersReceived Then
+        dtLast = LastFinalOrdersDate
+        dtNext = Int(dtLast) + Template.RunTime
+        If dtNext < dtLast Then
+            dtNext = dtNext + 1
+        End If
+        NextRunDate = dtNext
     Else
         NextRunDate = Int(LastRunDate) + Template.ScheduleDays + Template.RunTime
     End If
+End Function
+
+Public Function NextNotifyDate() As Date
+    Dim dtLast As Date
+    Dim dtNext As Date
+    
+    NextNotifyDate = 0
+    If Not Template.ScheduleActive Then Exit Function
+    If Not Created Then Exit Function
+    If Not Started Then Exit Function
+    
+    NextNotifyDate = Int(LastRunDate) + Template.ScheduleDays - 1 + Template.RunTime
 End Function
 
 

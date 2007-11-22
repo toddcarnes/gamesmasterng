@@ -50,7 +50,7 @@ Begin VB.MDIForm frmMain
             AutoSize        =   2
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "21/11/2007"
+            TextSave        =   "23/11/2007"
             Key             =   "Date"
          EndProperty
          BeginProperty Panel4 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
@@ -59,7 +59,7 @@ Begin VB.MDIForm frmMain
             AutoSize        =   2
             Object.Width           =   1402
             MinWidth        =   1411
-            TextSave        =   "5:44"
+            TextSave        =   "6:01"
             Key             =   "Time"
          EndProperty
       EndProperty
@@ -837,15 +837,20 @@ Private Sub tmrGalaxyNG_Timer()
         For Each objGame In objGames
             objGame.Refresh
             If objGame.Template.ScheduleActive Then
+            
                 If objGame.ReadyToCreate Then
                     Call CreateGame(objGame.GameName)
                 End If
+                
                 If objGame.ReadyToStart Then
                     Call StartGame(objGame.GameName)
+                
                 ElseIf objGame.Started Then
+                    
                     If objGame.NotifyUsers Then
                         Call NotifyUsers(objGame.GameName)
                         blnProcessed = True
+                    
                     ElseIf objGame.ReadyToRun Then
                         Call RunGame(objGame.GameName)
                         blnProcessed = True
