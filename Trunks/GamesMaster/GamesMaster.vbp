@@ -61,12 +61,16 @@ ExeName32="GamesMaster.exe"
 Command32=""
 Name="GamesMaster"
 HelpContextID="0"
+Description="GalaxyNG Games Master"
 CompatibleMode="0"
-MajorVer=1
+MajorVer=0
 MinorVer=0
-RevisionVer=0
+RevisionVer=1
 AutoIncrementVer=0
 ServerSupportFiles=0
+VersionFileDescription="Visual Basic 6 Program"
+VersionLegalCopyright="Copyright 1997 Ian Evans"
+VersionProductName="GalaxyNG Games Master"
 CompilationType=0
 OptimizationType=0
 FavorPentiumPro(tm)=0
@@ -82,6 +86,7 @@ Unattended=0
 Retained=0
 ThreadPerObject=0
 MaxNumberOfThreads=1
+DebugStartupOption=0
 
 [MS Transaction Server]
 AutoRefresh=1

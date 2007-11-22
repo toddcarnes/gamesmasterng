@@ -50,7 +50,7 @@ Begin VB.MDIForm frmMain
             AutoSize        =   2
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "20/11/2007"
+            TextSave        =   "21/11/2007"
             Key             =   "Date"
          EndProperty
          BeginProperty Panel4 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
@@ -59,7 +59,7 @@ Begin VB.MDIForm frmMain
             AutoSize        =   2
             Object.Width           =   1402
             MinWidth        =   1411
-            TextSave        =   "5:58"
+            TextSave        =   "5:44"
             Key             =   "Time"
          EndProperty
       EndProperty
@@ -785,9 +785,10 @@ End Sub
 
 Private Sub mobjGetMail_Disconnected()
     Status = ""
-    Call ProcessEMails
-    DoEvents
-    Call SendMail.Send
+    If ProcessEMails Then
+        Call MainForm.RefreshGamesForm
+        Call SendMail.Send
+    End If
 End Sub
 
 Private Sub mobjGetMail_Receiving(ByVal lngEMail As Long, ByVal lngTotal As Long)

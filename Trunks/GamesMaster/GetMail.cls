@@ -27,7 +27,6 @@ Public Event Disconnected()
 Private WithEvents mobjSocket As CSocketMaster
 Attribute mobjSocket.VB_VarHelpID = -1
 
-
 Private muStatus As GM_Command
 Public Enum GM_Command
     GM_CLOSE = 0
@@ -94,8 +93,8 @@ Private Sub Connect()
 End Sub
 
 Private Sub Disconnect()
-    RaiseEvent Closing
     RaiseEvent LogData("> closed ")
+    RaiseEvent Closing
     With mobjSocket
         .CloseSck
     End With

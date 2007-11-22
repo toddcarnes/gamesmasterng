@@ -2,16 +2,18 @@ Attribute VB_Name = "modProcessEMail"
 Option Explicit
 Option Compare Text
 
-Public Sub ProcessEMails()
+Public Function ProcessEMails() As Boolean
     Dim varEMails As Variant
     Dim i As Long
     
+    ProcessEMails = False
     varEMails = GetEMails
-    If IsEmpty(varEMails) Then Exit Sub
+    If IsEmpty(varEMails) Then Exit Function
     For i = 0 To UBound(varEMails)
         Call ProcessEMail(Options.Inbox & varEMails(i))
     Next i
-End Sub
+    ProcessEMails = True
+End Function
 
 Private Sub ProcessEMail(ByVal strPath As String)
     Dim strEMail As String

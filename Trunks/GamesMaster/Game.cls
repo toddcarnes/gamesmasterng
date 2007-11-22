@@ -483,22 +483,48 @@ Public Function ReadyToRun() As Boolean
     Dim dtNext As Date
     Dim objRace As Race
     Dim blnAllFinalOrdersReceived As Boolean
+    Dim dtFinalOrders As Date
+    Dim dtMaxFinalOrders As Date
     
     dtNext = NextRunDate
+    'Time to run the game
     If dtNext <> 0 And dtNext < Now Then
         ReadyToRun = True
     
+    'Final orders submitted
     ElseIf dtNext <> 0 And Template.FinalOrders And Started Then
         blnAllFinalOrdersReceived = True
         For Each objRace In Races
             If Not objRace.Flag(R_DEAD) Then
-                If Not FinalOrdersReceived(objRace.RaceName) Then
+                If FinalOrdersReceived(objRace.RaceName) Then
+                    'Remember the latest date of Finalorders received
+                    dtFinalOrders = FinalOrdersDate(objRace.RaceName)
+                    If dtFinalOrders > dtMaxFinalOrders Then
+                        dtMaxFinalOrders = dtFinalOrders
+                    End If
+                Else
                     blnAllFinalOrdersReceived = False
                     Exit For
                 End If
             End If
         Next objRace
-        ReadyToRun = blnAllFinalOrdersReceived
+        If blnAllFinalOrdersReceived Then
+            ' Calculate the run date after the last final orders were received
+            dtNext = Int(dtMaxFinalOrders) + Template.RunTime
+            If dtNext < dtMaxFinalOrders Then
+                dtNext = dtNext + 1
+            End If
+            
+            If dtNext <= Now Then
+                ReadyToRun = True
+            Else
+                ReadyToRun = False
+            End If
+        Else
+            ReadyToRun = False
+        End If
+            
+    'Not ready
     Else
         ReadyToRun = False
     End If
@@ -551,6 +577,18 @@ Public Function FinalOrdersReceived(ByVal strRace As String) As Boolean
         FinalOrdersReceived = True
     End If
     
+End Function
+
+Public Function FinalOrdersDate(ByVal strRace As String) As Date
+
+    Dim strFileName As String
+    
+    strFileName = Options.GalaxyNGOrders & GameName & "\" & strRace & "_final." & NextTurn
+
+    If Dir(strFileName) <> "" Then
+        FinalOrdersDate = FileDateTime(strFileName)
+    End If
+
 End Function
 
 Public Function OrdersReceived(ByVal strRace As String) As Boolean
