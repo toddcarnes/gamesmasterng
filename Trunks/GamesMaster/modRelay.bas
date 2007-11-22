@@ -116,6 +116,7 @@ Public Sub RelayMessage(ByVal strTo As String, ByVal strFrom As String, ByVal st
                 Call SendEMail(objToRace.EMail, strSubject, strOrders)
             End If
         Next objToRace
+        strSubject = "[GNG]" & strGame & " relay to GM from " & strRace
         Call SendEMail(Options.GamesMasterEMail, strSubject, strOrders)
     Else
         strSubject = "[GNG]" & strGame & " message relay " & strRace
