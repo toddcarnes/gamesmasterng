@@ -47,8 +47,6 @@ Begin VB.Form frmOptions
       _ExtentX        =   13467
       _ExtentY        =   9763
       _Version        =   393216
-      Tabs            =   2
-      TabsPerRow      =   2
       TabHeight       =   520
       TabCaption(0)   =   "General"
       TabPicture(0)   =   "frmOptions.frx":0000
@@ -76,6 +74,73 @@ Begin VB.Form frmOptions
       Tab(1).Control(4)=   "txtInbox"
       Tab(1).Control(5)=   "txtOutBox"
       Tab(1).ControlCount=   6
+      TabCaption(2)   =   "Startup"
+      TabPicture(2)   =   "frmOptions.frx":0038
+      Tab(2).ControlEnabled=   0   'False
+      Tab(2).Control(0)=   "Label(13)"
+      Tab(2).Control(1)=   "Label(14)"
+      Tab(2).Control(2)=   "Label(15)"
+      Tab(2).Control(3)=   "Label(16)"
+      Tab(2).Control(4)=   "Label(17)"
+      Tab(2).Control(5)=   "Label(18)"
+      Tab(2).Control(6)=   "Label(19)"
+      Tab(2).Control(7)=   "chkStartWithWindows"
+      Tab(2).Control(8)=   "chkMinimizeAtStartup"
+      Tab(2).Control(9)=   "chkShowGames"
+      Tab(2).Control(10)=   "chkShowSendMail"
+      Tab(2).Control(11)=   "chkShowGetMail"
+      Tab(2).Control(12)=   "chkAutoCheckMail"
+      Tab(2).Control(13)=   "chkAutoRunGames"
+      Tab(2).ControlCount=   14
+      Begin VB.CheckBox chkAutoRunGames 
+         Height          =   255
+         Left            =   -72600
+         TabIndex        =   45
+         Top             =   2820
+         Width           =   1455
+      End
+      Begin VB.CheckBox chkAutoCheckMail 
+         Height          =   255
+         Left            =   -72600
+         TabIndex        =   44
+         Top             =   2460
+         Width           =   1455
+      End
+      Begin VB.CheckBox chkShowGetMail 
+         Height          =   255
+         Left            =   -72600
+         TabIndex        =   43
+         Top             =   2100
+         Width           =   1455
+      End
+      Begin VB.CheckBox chkShowSendMail 
+         Height          =   255
+         Left            =   -72600
+         TabIndex        =   42
+         Top             =   1740
+         Width           =   1455
+      End
+      Begin VB.CheckBox chkShowGames 
+         Height          =   255
+         Left            =   -72600
+         TabIndex        =   37
+         Top             =   1380
+         Width           =   1455
+      End
+      Begin VB.CheckBox chkMinimizeAtStartup 
+         Height          =   255
+         Left            =   -72600
+         TabIndex        =   35
+         Top             =   1020
+         Width           =   1455
+      End
+      Begin VB.CheckBox chkStartWithWindows 
+         Height          =   255
+         Left            =   -72600
+         TabIndex        =   34
+         Top             =   660
+         Width           =   1455
+      End
       Begin VB.TextBox txtOutBox 
          Height          =   315
          Left            =   -73440
@@ -265,6 +330,76 @@ Begin VB.Form frmOptions
       End
       Begin VB.Label Label 
          Alignment       =   1  'Right Justify
+         Caption         =   "Auto Run Games:"
+         Height          =   255
+         Index           =   19
+         Left            =   -74760
+         TabIndex        =   41
+         Top             =   2820
+         Width           =   1875
+      End
+      Begin VB.Label Label 
+         Alignment       =   1  'Right Justify
+         Caption         =   "Auto Check Mail:"
+         Height          =   255
+         Index           =   18
+         Left            =   -74760
+         TabIndex        =   40
+         Top             =   2460
+         Width           =   1875
+      End
+      Begin VB.Label Label 
+         Alignment       =   1  'Right Justify
+         Caption         =   "Show Get Mail:"
+         Height          =   255
+         Index           =   17
+         Left            =   -74760
+         TabIndex        =   39
+         Top             =   2100
+         Width           =   1875
+      End
+      Begin VB.Label Label 
+         Alignment       =   1  'Right Justify
+         Caption         =   "Show Send Mail:"
+         Height          =   255
+         Index           =   16
+         Left            =   -74760
+         TabIndex        =   38
+         Top             =   1740
+         Width           =   1875
+      End
+      Begin VB.Label Label 
+         Alignment       =   1  'Right Justify
+         Caption         =   "Show Games:"
+         Height          =   255
+         Index           =   15
+         Left            =   -74760
+         TabIndex        =   36
+         Top             =   1380
+         Width           =   1875
+      End
+      Begin VB.Label Label 
+         Alignment       =   1  'Right Justify
+         Caption         =   "Minimize At Startup:"
+         Height          =   255
+         Index           =   14
+         Left            =   -74760
+         TabIndex        =   33
+         Top             =   1020
+         Width           =   1875
+      End
+      Begin VB.Label Label 
+         Alignment       =   1  'Right Justify
+         Caption         =   "Start with Windows:"
+         Height          =   255
+         Index           =   13
+         Left            =   -74760
+         TabIndex        =   32
+         Top             =   660
+         Width           =   1875
+      End
+      Begin VB.Label Label 
+         Alignment       =   1  'Right Justify
          Caption         =   "Outbox:"
          Height          =   255
          Index           =   11
@@ -338,6 +473,14 @@ Public Sub LoadOptions()
     txtSMTPFromAddress = Options.SMTPFromAddress
     txtInbox = Options.Inbox
     txtOutBox = Options.Outbox
+    
+    chkStartWithWindows = IIf(Options.StartWithWindows, vbChecked, vbUnchecked)
+    chkMinimizeAtStartup = IIf(Options.MinimizeatStartup, vbChecked, vbUnchecked)
+    chkShowGames = IIf(Options.ShowGames, vbChecked, vbUnchecked)
+    chkShowGetMail = IIf(Options.ShowGetMail, vbChecked, vbUnchecked)
+    chkShowSendMail = IIf(Options.ShowSendMail, vbChecked, vbUnchecked)
+    chkAutoCheckMail = IIf(Options.AutoCheckMail, vbChecked, vbUnchecked)
+    chkAutoRunGames = IIf(Options.AutoRunGames, vbChecked, vbUnchecked)
 End Sub
 
 Public Sub SaveOptions()
@@ -357,6 +500,14 @@ Public Sub SaveOptions()
     Options.Inbox = txtInbox
     Options.Outbox = txtOutBox
     
+    Options.StartWithWindows = (chkStartWithWindows = vbChecked)
+    Options.MinimizeatStartup = (chkMinimizeAtStartup = vbChecked)
+    Options.ShowGames = (chkShowGames = vbChecked)
+    Options.ShowGetMail = (chkShowGetMail = vbChecked)
+    Options.ShowSendMail = (chkShowSendMail = vbChecked)
+    Options.AutoCheckMail = (chkAutoCheckMail = vbChecked)
+    Options.AutoRunGames = (chkAutoRunGames = vbChecked)
+    
     Options.SaveSettings
 End Sub
 
@@ -370,6 +521,12 @@ End Sub
 
 Private Sub cmdSave_Click()
     Call SaveOptions
+    If Options.StartWithWindows Then
+        Call SaveString(HKEY_LOCAL_MACHINE, "SOFTWARE\Microsoft\Windows\CurrentVersion\Run", App.EXEName, App.Path & "\" & App.EXEName & ".exe")
+    Else
+        Call DelSetting(HKEY_LOCAL_MACHINE, "SOFTWARE\Microsoft\Windows\CurrentVersion\Run", App.EXEName)
+    End If
+    
     Unload Me
 End Sub
 
@@ -377,3 +534,4 @@ Private Sub Form_Load()
     Me.Icon = MainForm.Icon
     Call LoadOptions
 End Sub
+

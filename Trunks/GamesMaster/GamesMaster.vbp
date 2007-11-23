@@ -53,6 +53,7 @@ Class=Groups; Groups.cls
 Class=Fleet; Fleet.cls
 Class=Fleets; Fleets.cls
 Module=modAPI; modAPI.bas
+Module=modRegistry; modRegistry.bas
 IconForm="frmMain"
 Startup="Sub Main"
 HelpFile=""

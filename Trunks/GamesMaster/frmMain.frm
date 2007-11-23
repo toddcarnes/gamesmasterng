@@ -5,11 +5,11 @@ Begin VB.MDIForm frmMain
    Caption         =   "GalaxyNG Games Master"
    ClientHeight    =   4650
    ClientLeft      =   165
-   ClientTop       =   855
+   ClientTop       =   555
    ClientWidth     =   8340
    Icon            =   "frmMain.frx":0000
    LinkTopic       =   "MDIForm1"
-   StartUpPosition =   3  'Windows Default
+   StartUpPosition =   2  'CenterScreen
    Begin GamesMaster.cSysTray Systray 
       Left            =   0
       Top             =   0
@@ -50,7 +50,7 @@ Begin VB.MDIForm frmMain
             AutoSize        =   2
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "23/11/2007"
+            TextSave        =   "24/11/2007"
             Key             =   "Date"
          EndProperty
          BeginProperty Panel4 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
@@ -59,7 +59,7 @@ Begin VB.MDIForm frmMain
             AutoSize        =   2
             Object.Width           =   1402
             MinWidth        =   1411
-            TextSave        =   "6:01"
+            TextSave        =   "7:00"
             Key             =   "Time"
          EndProperty
       EndProperty
@@ -293,8 +293,24 @@ Private Sub MDIForm_Load()
         .Enabled = False
     End With
     Status = ""
-    DoEvents
-    Call mnuViewGames_Click
+    If Options.MinimizeatStartup Then
+        Me.WindowState = vbMinimized
+    End If
+    If Options.ShowGames Then
+        Call mnuViewGames_Click
+    End If
+    If Options.ShowSendMail Then
+        Call mnuMailShowSendMail_Click
+    End If
+    If Options.ShowGetMail Then
+        Call mnuMailShowGetMail_Click
+    End If
+    If Options.AutoCheckMail Then
+        Call mnuMailAutoCheck_Click
+    End If
+    If Options.AutoRunGames Then
+        Call mnuAutoRun_Click
+    End If
 End Sub
 
 Private Sub MDIForm_QueryUnload(Cancel As Integer, UnloadMode As Integer)
@@ -310,7 +326,11 @@ End Sub
 
 Private Sub MDIForm_Resize()
     If Me.WindowState = vbMinimized Then
-        Systray.InTray = True
+        If tmrMail.Enabled Or tmrGalaxyNG.Enabled Then
+            Systray.InTray = True
+            Me.Hide
+            Exit Sub
+        End If
     End If
 End Sub
 
@@ -818,6 +838,7 @@ End Sub
 Private Sub SysTray_MouseDblClick(Button As Integer, Id As Long)
     Me.Show
     Me.WindowState = vbNormal
+    Me.Visible = True
     Systray.InTray = False
 End Sub
 

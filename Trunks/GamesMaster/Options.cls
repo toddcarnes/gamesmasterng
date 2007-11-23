@@ -54,6 +54,14 @@ Public SMTPServerPort  As Long
 Public SMTPFromAddress As String
 Public CheckMailInterval As Long
 
+Public StartWithWindows As Boolean
+Public MinimizeatStartup As Boolean
+Public ShowGames As Boolean
+Public ShowGetMail As Boolean
+Public ShowSendMail As Boolean
+Public AutoCheckMail As Boolean
+Public AutoRunGames As Boolean
+
 Public INIFile As INIFile
 
 Public Function OrdersFileName() As String
@@ -136,6 +144,16 @@ Public Sub LoadSettings()
         RaceReportFile = .GetSetting("FileNames", "RaceReport", RaceConstant & "_" & TurnConstant & ".txt")
         RaceMachineFile = .GetSetting("FileNames", "RaceMachineReport", RaceConstant & "_" & TurnConstant & ".m")
         GalaxyNGexe = .GetSetting("FileNames", "Executable", GalaxyNGHome & "GalaxyNG.exe")
+    
+        StartWithWindows = .GetSetting("Startup", "StartWithWindows", False)
+        MinimizeatStartup = .GetSetting("Startup", "MinimizeAtStartup", False)
+        ShowGames = .GetSetting("Startup", "ShowGames", False)
+        ShowGetMail = .GetSetting("Startup", "ShowGetMail", False)
+        ShowSendMail = .GetSetting("Startup", "ShowSendMail", False)
+        AutoCheckMail = .GetSetting("Startup", "AutoCheckMail", False)
+        AutoRunGames = .GetSetting("Startup", "AutoRunGames", False)
+    
+    
     End With
     If Dir(Inbox, vbDirectory) = "" Then
         MkDir Inbox
@@ -175,6 +193,15 @@ Public Sub SaveSettings()
         Call .SaveSetting("FileNames", "RaceReport", RaceReportFile)
         Call .SaveSetting("FileNames", "RaceMachineReport", RaceMachineFile)
         Call .SaveSetting("FileNames", "Executable", GalaxyNGexe)
+    
+        Call .SaveSetting("Startup", "StartWithWindows", StartWithWindows)
+        Call .SaveSetting("Startup", "MinimizeAtStartup", MinimizeatStartup)
+        Call .SaveSetting("Startup", "ShowGames ", ShowGames)
+        Call .SaveSetting("Startup", "ShowGetMail", ShowGetMail)
+        Call .SaveSetting("Startup", "ShowSendMail", ShowSendMail)
+        Call .SaveSetting("Startup", "AutoCheckMail", AutoCheckMail)
+        Call .SaveSetting("Startup", "AutoRunGames", AutoRunGames)
+    
     End With
 End Sub
 
