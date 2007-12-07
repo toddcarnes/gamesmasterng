@@ -74,7 +74,14 @@ Public Sub Send()
         Wend
         ReDim Preserve mvarEMail(e)
         mlngMessages = UBound(mvarEMail) + 1
+        
         'Connect to the mail server
+        If Status <> GM_CLOSE Then
+            RaiseEvent LogData("SendMail.Send - Status is NOT GM_CLOSE. Changing." & vbNewLine)
+            Call WriteLogFile("SendMail.Send - Status is NOT GM_CLOSE. Changing.")
+            muStatus = GM_CLOSE
+        End If
+        
         Call Connect
     End If
 End Sub
@@ -86,8 +93,14 @@ Private Sub Connect()
         Set mobjSocket = New CSocketMaster
     End If
     If mobjSocket.State <> sckClosed Then
+        RaiseEvent LogData("SendMail.Send - mobjSocket.State is NOT Closed. Closing" & vbNewLine)
+        Call WriteLogFile("SendMail.Send - mobjSocket.State is NOT Closed. Closing")
         mobjSocket.CloseSck
-        DoEvents
+        While mobjSocket.State <> sckClosed
+            DoEvents
+        Wend
+        RaiseEvent LogData("SendMail.Send - mobjSocket.State has Closed. Continuing." & vbNewLine)
+        Call WriteLogFile("SendMail.Send - mobjSocket.State has Closed. Continuing.")
     End If
     With mobjSocket
         .Protocol = sckTCPProtocol
@@ -111,6 +124,8 @@ Private Sub ProcessData(ByVal strData As String)
     Dim varFields As Variant
     Dim i As Long
     Dim lngResponse As Long
+    
+    On Error GoTo ErrorTag
     
     DoEvents
     RaiseEvent LogData("S: " & strData)
@@ -190,11 +205,22 @@ Private Sub ProcessData(ByVal strData As String)
     Case Else
     
     End Select
+    Exit Sub
+    
+ErrorTag:
+    Call LogError(Err.Number, Err.Description, Err.Source, "SendMail", "Processdata")
+    Call Disconnect
 End Sub
 
 Private Sub SendData(ByVal strData As String)
+    On Error GoTo ErrorTag
+    
     RaiseEvent LogData("> " & strData & vbCrLf)
     mobjSocket.SendData strData & vbCrLf
+    Exit Sub
+    
+ErrorTag:
+    Err.Raise Err.Number, "SendMail.Senddata." & Err.Source, Err.Description
 End Sub
 
 Private Sub Class_Terminate()

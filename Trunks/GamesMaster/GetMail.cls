@@ -70,9 +70,13 @@ Public Property Get Status() As GM_Command
 End Property
 
 Public Sub GetMail()
-    If Status = GM_CLOSE Then
-        Call Connect
+    If Status <> GM_CLOSE Then
+        RaiseEvent LogData("GetMail.GetMail - Status is NOT GM_CLOSE. Changing." & vbNewLine)
+        Call WriteLogFile("GetMail.GetMail - Status is NOT GM_CLOSE. Changing.")
+        muStatus = GM_CLOSE
     End If
+    
+    Call Connect
 End Sub
 
 Private Sub Connect()
@@ -82,8 +86,14 @@ Private Sub Connect()
         Set mobjSocket = New CSocketMaster
     End If
     If mobjSocket.State <> sckClosed Then
+        RaiseEvent LogData("GetMail.GetMail - mobjSocket.State is NOT Closed. Closing" & vbNewLine)
+        Call WriteLogFile("GetMail.GetMail - mobjSocket.State is NOT Closed. Closing")
         mobjSocket.CloseSck
-        DoEvents
+        While mobjSocket.State <> sckClosed
+            DoEvents
+        Wend
+        RaiseEvent LogData("GetMail.GetMail - mobjSocket.State has Closed. Continuing." & vbNewLine)
+        Call WriteLogFile("GetMail.GetMail - mobjSocket.State has Closed. Continuing.")
     End If
     With mobjSocket
         .Protocol = sckTCPProtocol
@@ -109,6 +119,7 @@ Private Sub ProcessData(ByVal strData As String)
     Dim varFields As Variant
     Dim blnEMailOK As Boolean
     
+    On Error GoTo ErrorTag
     DoEvents
     RaiseEvent LogData("S: " & strData)
     blnOK = (Left(strData, Len(c_OK)) = c_OK)
@@ -215,11 +226,22 @@ Private Sub ProcessData(ByVal strData As String)
     Case Else
     
     End Select
+    Exit Sub
+
+ErrorTag:
+    Call LogError(Err.Number, Err.Description, Err.Source, "GetMail", "Processdata")
+    Call Disconnect
 End Sub
 
 Private Sub SendData(ByVal strData As String)
+    On Error GoTo ErrorTag
+    
     RaiseEvent LogData("> " & strData & vbCrLf)
     mobjSocket.SendData strData & vbCrLf
+    Exit Sub
+    
+ErrorTag:
+    Err.Raise Err.Number, "GetMail.Senddata." & Err.Source, Err.Description
 End Sub
 
 Private Sub Class_Terminate()

@@ -36,7 +36,7 @@ Public Function RunGalaxyNG(Optional ByVal strParameters As String) As Boolean
 End Function
 
 Public Function RunCommandFile(ByVal strCommands) As Boolean
-    Dim ret As Long
+    Dim Ret As Long
     Dim intFN As Integer
     
     ' Write a command file with the commands wanted
@@ -105,12 +105,24 @@ Public Sub LogError(ByVal lngError As Long, _
     Dim strMessage As String
     
     strMessage = "Error: " & CStr(lngError) & " - " & strError & vbNewLine & _
-                 "Source: " & strSource
+                 "    Source: " & strSource
     If strModule <> "" Then strMessage = strMessage & vbNewLine & _
-                                        "Module: " & strModule
+                                        "    Module: " & strModule
     If strProcedure <> "" Then strMessage = strMessage & vbNewLine & _
-                                        "Procedure: " & strProcedure
+                                        "    Procedure: " & strProcedure
+    Call WriteLogFile(strMessage)
     MsgBox strMessage, vbCritical + vbOKOnly, App.Title & " Error"
+End Sub
+
+Public Sub WriteLogFile(ByVal strData As String)
+    Dim intFN As Integer
+    Dim strFileName As String
+    
+    strFileName = App.Path & "\" & App.EXEName & ".log"
+    intFN = FreeFile
+    Open strFileName For Append As #intFN
+    Print #intFN, Format(Now, "hh:nn:ss dd-mmm-yyyy") & ": " & strData
+    Close #intFN
 End Sub
 
 Public Sub CreateGame(ByVal strTemplate As String)

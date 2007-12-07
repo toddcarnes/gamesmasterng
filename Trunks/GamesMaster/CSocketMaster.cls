@@ -349,7 +349,9 @@ If m_lngSocketHandle = INVALID_SOCKET Then
         Dim blnCancelDisplay As Boolean
         blnCancelDisplay = True
         RaiseEvent Error(lngErrorCode, GetErrorDescription(lngErrorCode), 0, "CSocketMaster.SocketExists", "", 0, blnCancelDisplay)
-        If blnCancelDisplay = False Then MsgBox GetErrorDescription(lngErrorCode), vbOKOnly, "CSocketMaster.SocketExists"
+        If blnCancelDisplay = False Then
+            Call LogError(lngErrorCode, GetErrorDescription(lngErrorCode), "", "CSocketMaster", "SocketExists")
+        End If
     Else
         
         Debug.Print "OK Created socket: " & lngResult
@@ -500,7 +502,9 @@ If lngErrorCode <> 0 Then
     Dim blnCancelDisplay As Boolean
     blnCancelDisplay = True
     RaiseEvent Error(lngErrorCode, GetErrorDescription(lngErrorCode), 0, "CSocketMaster.PostSocket", "", 0, blnCancelDisplay)
-    If blnCancelDisplay = False Then MsgBox GetErrorDescription(lngErrorCode), vbOKOnly, "CSocketMaster.PostSocket"
+    If blnCancelDisplay = False Then
+        Call LogError(lngErrorCode, GetErrorDescription(lngErrorCode), "", "CSocketMaster", "PostSocket")
+    End If
     Exit Sub
 End If
 
@@ -692,7 +696,9 @@ If lngErrorCode <> 0 Then
     m_enmState = sckError: Debug.Print "STATE: sckError"
     blnCancelDisplay = True
     RaiseEvent Error(lngErrorCode, GetErrorDescription(lngErrorCode), 0, "CSocketMaster.ConnectToIP", "", 0, blnCancelDisplay)
-    If blnCancelDisplay = False Then MsgBox GetErrorDescription(lngErrorCode), vbOKOnly, "CSocketMaster.ConnectToIP"
+    If blnCancelDisplay = False Then
+        Call LogError(lngErrorCode, GetErrorDescription(lngErrorCode), "", "CSocketMaster", "ConnectToIP")
+    End If
     Exit Sub
 End If
 
@@ -726,7 +732,9 @@ If lngResult = SOCKET_ERROR Then
             m_enmState = sckError: Debug.Print "STATE: sckError"
             blnCancelDisplay = True
             RaiseEvent Error(lngErrorCode, GetErrorDescription(lngErrorCode), 0, "CSocketMaster.ConnectToIP", "", 0, blnCancelDisplay)
-            If blnCancelDisplay = False Then MsgBox GetErrorDescription(lngErrorCode), vbOKOnly, "CSocketMaster.ConnectToIP"
+            If blnCancelDisplay = False Then
+                Call LogError(lngErrorCode, GetErrorDescription(lngErrorCode), "", "CSocketMaster", "ConnectToIP")
+            End If
         End If
     End If
 End If
@@ -948,7 +956,9 @@ If lngAddress = INADDR_NONE Then 'if Host isn't an IP
             Dim blnCancelDisplay As Boolean
             blnCancelDisplay = True
             RaiseEvent Error(lngErrorCode, GetErrorDescription(lngErrorCode), 0, "CSocketMaster.ResolveIfHostname", "", 0, blnCancelDisplay)
-            If blnCancelDisplay = False Then MsgBox GetErrorDescription(lngErrorCode), vbOKOnly, "CSocketMaster.ResolveIfHostname"
+            If blnCancelDisplay = False Then
+                Call LogError(lngErrorCode, GetErrorDescription(lngErrorCode), "", "CSocketMaster", "ResolveIfHostname")
+            End If
         Else
             m_colWaitingResolutions.Add enmDestination, "R" & lngAsynHandle
             Debug.Print "Resolving host " & Host; " with handle " & lngAsynHandle
@@ -1177,7 +1187,9 @@ If lngResult = SOCKET_ERROR Then
     Dim blnCancelDisplay As Boolean
     blnCancelDisplay = True
     RaiseEvent Error(lngErrorCode, GetErrorDescription(lngErrorCode), 0, "CSocketMaster.SendBufferedDataUDP", "", 0, blnCancelDisplay)
-    If blnCancelDisplay = False Then MsgBox GetErrorDescription(lngErrorCode), vbOKOnly, "CSocketMaster.SendBufferedDataUDP"
+    If blnCancelDisplay = False Then
+        Call LogError(lngErrorCode, GetErrorDescription(lngErrorCode), "", "CSocketMaster", "SendBufferedDataUDP")
+    End If
 End If
     
 End Sub
@@ -1215,7 +1227,9 @@ Do Until lngResult = SOCKET_ERROR Or Len(m_strSendBuffer) = 0
             Dim blnCancelDisplay As Boolean
             blnCancelDisplay = True
             RaiseEvent Error(lngErrorCode, GetErrorDescription(lngErrorCode), 0, "CSocketMaster.SendBufferedData", "", 0, blnCancelDisplay)
-            If blnCancelDisplay = False Then MsgBox GetErrorDescription(lngErrorCode), vbOKOnly, "CSocketMaster.SendBufferedData"
+            If blnCancelDisplay = False Then
+                Call LogError(lngErrorCode, GetErrorDescription(lngErrorCode), "", "CSocketMaster", "SendBufferedData")
+            End If
         End If
 
     Else
