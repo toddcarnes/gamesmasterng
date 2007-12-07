@@ -46,7 +46,7 @@ Public Sub SendReport(ByVal strFrom As String, ByVal strEMail As String)
         'Invalid Header
         strMessage = Options.GetMessage("InvalidReportHeader", _
                                         "Insufficient parameters Supplied in the #galaxy line", _
-                                        "> " & strHeader)
+                                        QuoteText(strHeader))
         GoTo Error
     End If
     strGame = varHeader(1)
@@ -63,7 +63,7 @@ Public Sub SendReport(ByVal strFrom As String, ByVal strEMail As String)
         'Invalid Header
         strMessage = Options.GetMessage("InvalidReportHeader", _
                 "An unknown game was specified.", _
-                "> " & strHeader)
+                QuoteText(strHeader))
         GoTo Error
     End If
     
@@ -73,7 +73,7 @@ Public Sub SendReport(ByVal strFrom As String, ByVal strEMail As String)
         'Invalid Header
         strMessage = Options.GetMessage("InvalidReportHeader", _
                 "An unknown race was specified.", _
-                "> " & strHeader)
+                QuoteText(strHeader))
         GoTo Error
     End If
     
@@ -81,7 +81,7 @@ Public Sub SendReport(ByVal strFrom As String, ByVal strEMail As String)
         'Invalid Header
         strMessage = Options.GetMessage("InvalidReportHeader", _
                 "An invalid password was specified for the selected race.", _
-                "> " & strHeader)
+                QuoteText(strHeader))
         GoTo Error
     End If
     
@@ -89,7 +89,7 @@ Public Sub SendReport(ByVal strFrom As String, ByVal strEMail As String)
         'Invalid Header
         strMessage = Options.GetMessage("InvalidReportHeader", _
                 "The turn number is for a turn that has not been processed.", _
-                "> " & strHeader)
+                QuoteText(strHeader))
         GoTo Error
     End If
     

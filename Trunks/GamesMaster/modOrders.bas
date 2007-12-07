@@ -27,14 +27,14 @@ Public Sub CheckOrders(ByVal strFrom As String, ByVal strEMail As String)
     lngStart = InStr(1, strEMail, "#galaxy", vbTextCompare)
     If lngStart = 0 Then
         'Invalid EMail
-        strMessage = Options.GetMessage("InvalidOrdersEMail", strEMail)
+        strMessage = Options.GetMessage("InvalidOrdersEMail", QuoteText(strEMail))
         GoTo Error
     End If
     
     lngEnd = InStr(lngStart, strEMail, "#end", vbTextCompare)
     If lngEnd = 0 Then
         'Invalid EMail
-        strMessage = Options.GetMessage("InvalidOrdersEMail", strEMail)
+        strMessage = Options.GetMessage("InvalidOrdersEMail", QuoteText(strEMail))
         GoTo Error
     End If
     lngEOL = InStr(lngEnd, strEMail, vbCrLf)
@@ -64,14 +64,14 @@ Public Sub CheckOrders(ByVal strFrom As String, ByVal strEMail As String)
         'Invalid Header
         strMessage = Options.GetMessage("InvalidOrdersHeader", _
                 "An invalid number of header parameters were specified", _
-                strOrders)
+                QuoteText(strOrders))
         GoTo Error
     End If
     If varHeader(0) <> "#galaxy" Then
         'Invalid Header
         strMessage = Options.GetMessage("InvalidOrdersHeader", _
                 "An invalid #galaxy line was specified", _
-                strOrders)
+                QuoteText(strOrders))
         GoTo Error
     End If
     strGame = varHeader(1)
@@ -85,7 +85,7 @@ Public Sub CheckOrders(ByVal strFrom As String, ByVal strEMail As String)
             'Invalid Header
             strMessage = Options.GetMessage("InvalidOrdersHeader", _
                 "A fifth header parameter was specified and it was not ""finalorders""", _
-                strOrders)
+                QuoteText(strOrders))
             GoTo Error
         End If
     End If
@@ -93,7 +93,7 @@ Public Sub CheckOrders(ByVal strFrom As String, ByVal strEMail As String)
         'Invalid Header
         strMessage = Options.GetMessage("InvalidOrdersHeader", _
                 "Too many header parameters were specified", _
-                strOrders)
+                QuoteText(strOrders))
         GoTo Error
     End If
     
@@ -104,7 +104,7 @@ Public Sub CheckOrders(ByVal strFrom As String, ByVal strEMail As String)
         'Invalid Header
         strMessage = Options.GetMessage("InvalidOrdersHeader", _
                 "An unknown game was specified.", _
-                strOrders)
+                QuoteText(strOrders))
         GoTo Error
     End If
     
@@ -114,7 +114,7 @@ Public Sub CheckOrders(ByVal strFrom As String, ByVal strEMail As String)
         'Invalid Header
         strMessage = Options.GetMessage("InvalidOrdersHeader", _
                 "An unknown race was specified.", _
-                strOrders)
+                QuoteText(strOrders))
         GoTo Error
     End If
     
@@ -122,7 +122,7 @@ Public Sub CheckOrders(ByVal strFrom As String, ByVal strEMail As String)
         'Invalid Header
         strMessage = Options.GetMessage("InvalidOrdersHeader", _
                 "An invalid password was specified for the selected race.", _
-                strOrders)
+                QuoteText(strOrders))
         GoTo Error
     End If
     
@@ -130,7 +130,7 @@ Public Sub CheckOrders(ByVal strFrom As String, ByVal strEMail As String)
         'Invalid Header
         strMessage = Options.GetMessage("InvalidOrdersHeader", _
                 "The turn number is for a turn that has already been processed.", _
-                strOrders)
+                QuoteText(strOrders))
         GoTo Error
     End If
     

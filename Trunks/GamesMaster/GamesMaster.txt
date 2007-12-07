@@ -170,7 +170,7 @@ orders submitted.
 The EMail was incorrectly formed. The orders must be submitted in
 the following format with a subject of "orders".
 
-#galaxyng <game> <race> <password> <turn> [finalorders]
+#galaxy <game> <race> <password> <turn> [finalorders]
 .... orders ....
 #end
 
@@ -186,7 +186,9 @@ orders submitted.
 The orders must be submitted in the following format 
 with a subject of "orders".
 
-#galaxyng <game> <race> <password> <turn> [finalorders]
+#galaxy <game> <race> <password> <turn> [finalorders]
+.... orders ....
+#end
 
 ------------------------------------------------------------
 [2]
@@ -255,7 +257,7 @@ relay request.
 The EMail was incorrectly formed. The orders must be submitted in
 the following format with a subject of "relay <race>".
 
-#galaxyng <game> <race> <password>
+#galaxy <game> <race> <password>
 .... message ....
 #end
 ------------------------------------------------------------
@@ -270,7 +272,7 @@ relay request.
 The EMail must be submitted in the following format 
 with a subject of "relay <race>".
 
-#galaxyng <game> <race> <password>
+#galaxy <game> <race> <password>
 .... message ....
 #end
 

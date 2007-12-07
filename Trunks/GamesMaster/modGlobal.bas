@@ -218,4 +218,12 @@ Public Sub NotifyUsers(ByVal strGame As String)
     Call MainForm.SendMail.Send
 End Sub
 
+Public Function QuoteText(ByVal strText As String) As String
+    Dim strTemp As String
+    strTemp = "> " & Replace(strText, vbNewLine, vbNewLine & "> ")
+    If Right(strTemp, 2) = "> " Then
+        strTemp = Left(strTemp, Len(strTemp) - 2)
+    End If
+    QuoteText = strTemp
+End Function
 

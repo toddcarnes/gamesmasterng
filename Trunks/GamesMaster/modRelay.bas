@@ -58,12 +58,12 @@ Public Sub RelayMessage(ByVal strTo As String, ByVal strFrom As String, ByVal st
     varHeader = Split(strHeader, " ")
     If UBound(varHeader) < 3 Then
         'Invalid Header
-        strMessage = Options.GetMessage("InvalidRelayHeader", strEMail)
+        strMessage = Options.GetMessage("InvalidRelayHeader", QuoteText(strEMail))
         GoTo Error
     End If
     If varHeader(0) <> "#galaxy" Then
         'Invalid Header
-        strMessage = Options.GetMessage("InvalidRelayHeader", strEMail)
+        strMessage = Options.GetMessage("InvalidRelayHeader", QuoteText(strEMail))
         GoTo Error
     End If
     strGame = varHeader(1)
@@ -77,7 +77,7 @@ Public Sub RelayMessage(ByVal strTo As String, ByVal strFrom As String, ByVal st
         'Invalid Header
         strMessage = Options.GetMessage("InvalidRelayHeader", _
                 "An unknown game was specified.", _
-                strEMail)
+                QuoteText(strOrders))
         GoTo Error
     End If
     
@@ -87,7 +87,7 @@ Public Sub RelayMessage(ByVal strTo As String, ByVal strFrom As String, ByVal st
         'Invalid Header
         strMessage = Options.GetMessage("InvalidRelayHeader", _
                 "An unknown race was specified.", _
-                strEMail)
+                QuoteText(strOrders))
         GoTo Error
     End If
     
@@ -95,7 +95,7 @@ Public Sub RelayMessage(ByVal strTo As String, ByVal strFrom As String, ByVal st
         'Invalid Header
         strMessage = Options.GetMessage("InvalidRelayHeader", _
                 "An invalid password was specified for the selected race.", _
-                strEMail)
+                QuoteText(strOrders))
         GoTo Error
     End If
     
@@ -104,7 +104,7 @@ Public Sub RelayMessage(ByVal strTo As String, ByVal strFrom As String, ByVal st
         'Invalid race
         strMessage = Options.GetMessage("InvalidRelayHeader", _
                 "An invalid race name was specified to receive the message.", _
-                strEMail)
+                QuoteText(strOrders))
         GoTo Error
     End If
     
