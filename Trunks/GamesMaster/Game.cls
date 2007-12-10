@@ -506,9 +506,6 @@ Public Function NotifyUsers() As Boolean
     ' If not due to notify
     If dtNext > Now Then Exit Function
     
-    ' Only check for 15 minutes
-    If DateDiff("n", dtNext, Now) > 15 Then Exit Function
-    
     For Each objRace In Races
         If Not objRace.Flag(R_DEAD) Then
             strRace = objRace.RaceName

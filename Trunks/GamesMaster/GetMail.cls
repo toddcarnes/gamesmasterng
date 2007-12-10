@@ -118,6 +118,12 @@ Private Sub ProcessData(ByVal strData As String)
     Dim blnError As Boolean
     Dim varFields As Variant
     Dim blnEMailOK As Boolean
+    Dim blnNextEMail As Boolean
+    Dim blnSaveEMail As Boolean
+    Dim blnAbort As Boolean
+    Dim blnSendLogon As Boolean
+    Dim blnSendPassword As Boolean
+    Dim blnGetEMailCount As Boolean
     
     On Error GoTo ErrorTag
     DoEvents
@@ -128,30 +134,23 @@ Private Sub ProcessData(ByVal strData As String)
     Select Case muStatus
     Case GM_Command.GM_OPEN
         If blnOK Then
-            RaiseEvent Validating
-            SendData c_USER & " " & Options.POPUserID
-            muStatus = GM_USER
+            blnSendLogon = True
         Else
-            SendData c_QUIT
-            muStatus = GM_QUIT
+            blnAbort = True
         End If
         
     Case GM_Command.GM_USER
         If blnOK Then
-            SendData c_PASS & " " & Options.POPPassword
-            muStatus = GM_PASS
+            blnSendPassword = True
         Else
-            SendData c_QUIT
-            muStatus = GM_QUIT
+            blnAbort = True
         End If
         
     Case GM_Command.GM_PASS
         If blnOK Then
-            SendData c_STAT
-            muStatus = GM_STAT
+            blnGetEMailCount = True
         Else
-            SendData c_QUIT
-            muStatus = GM_QUIT
+            blnAbort = True
         End If
         
     Case GM_Command.GM_STAT
@@ -159,18 +158,13 @@ Private Sub ProcessData(ByVal strData As String)
             varFields = Split(strData, " ")
             mlngMessages = Val(varFields(1))
             If mlngMessages > 0 Then
-                mlngCurrentMessage = 1
-                mstrEMail = ""
-                RaiseEvent Receiving(mlngCurrentMessage, mlngMessages)
-                SendData c_RETR & " " & CStr(mlngCurrentMessage)
-                muStatus = GM_RETR
+                mlngCurrentMessage = 0
+                blnNextEMail = True
             Else
-                SendData c_QUIT
-                muStatus = GM_QUIT
+                blnAbort = True
             End If
         Else
-            SendData c_QUIT
-            muStatus = GM_QUIT
+            blnAbort = True
         End If
         
     Case GM_Command.GM_LIST
@@ -179,53 +173,86 @@ Private Sub ProcessData(ByVal strData As String)
         If blnOK Then
             'ignore this line and receive the message
         ElseIf blnError Then
-            SendData c_QUIT
-            muStatus = GM_QUIT
+            blnAbort = True
         ElseIf strData = "." & vbCrLf Then
-            Call SaveEMail(mstrEMail)
-            SendData c_DETE & " " & CStr(mlngCurrentMessage)
-            muStatus = GM_DELE
+            blnSaveEMail = True
         ElseIf Right(strData, 5) = vbCrLf & "." & vbCrLf Then
             mstrEMail = mstrEMail & Left(strData, Len(strData) - 5)
-            Call SaveEMail(mstrEMail)
-            SendData c_DETE & " " & CStr(mlngCurrentMessage)
-            muStatus = GM_DELE
+            blnSaveEMail = True
         Else
             mstrEMail = mstrEMail & strData
         End If
     
     Case GM_Command.GM_DELE
         If blnOK Then
-            mlngCurrentMessage = mlngCurrentMessage + 1
-            If mlngCurrentMessage <= mlngMessages Then
-                mstrEMail = ""
-                RaiseEvent Receiving(mlngCurrentMessage, mlngMessages)
-                SendData c_RETR & " " & CStr(mlngCurrentMessage)
-                muStatus = GM_RETR
-            Else
-                SendData c_QUIT
-                muStatus = GM_QUIT
-            End If
+            blnNextEMail = True
         Else
-            SendData c_QUIT
-            muStatus = GM_QUIT
+            blnAbort = True
         End If
     
     Case GM_Command.GM_QUIT
         Call Disconnect
+        
     Case GM_Command.GM_RSET
-    
     Case GM_Command.GM_NOOP
-    
     Case GM_Command.GM_TOP
-    
     Case GM_Command.GM_APOP
-    
     Case GM_Command.GM_UIDL
-    
     Case Else
     
     End Select
+    
+    If blnSendLogon Then
+        RaiseEvent Validating
+        SendData c_USER & " " & Options.POPUserID
+        muStatus = GM_USER
+        blnSendLogon = False
+    End If
+    
+    If blnSendPassword Then
+        SendData c_PASS & " " & Options.POPPassword
+        muStatus = GM_PASS
+        blnSendPassword = False
+    End If
+    
+    If blnSaveEMail Then
+        Call SaveEMail(mstrEMail)
+        ' Check Email
+        If Len(mstrEMail) < 15 Then
+            blnNextEMail = True
+        Else
+            SendData c_DETE & " " & CStr(mlngCurrentMessage)
+            muStatus = GM_DELE
+        End If
+        blnSaveEMail = False
+    End If
+    
+    If blnGetEMailCount Then
+        SendData c_STAT
+        muStatus = GM_STAT
+        blnGetEMailCount = False
+    End If
+    
+    If blnNextEMail Then
+        mlngCurrentMessage = mlngCurrentMessage + 1
+        If mlngCurrentMessage <= mlngMessages Then
+            mstrEMail = ""
+            RaiseEvent Receiving(mlngCurrentMessage, mlngMessages)
+            SendData c_RETR & " " & CStr(mlngCurrentMessage)
+            muStatus = GM_RETR
+        Else
+            SendData c_QUIT
+            muStatus = GM_QUIT
+        End If
+        blnNextEMail = False
+    End If
+    
+    If blnAbort Then
+        SendData c_QUIT
+        muStatus = GM_QUIT
+        blnAbort = False
+    End If
+    
     Exit Sub
 
 ErrorTag:

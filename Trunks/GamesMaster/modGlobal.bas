@@ -211,6 +211,8 @@ Public Sub NotifyUsers(ByVal strGame As String)
                     "[GNG] " & objGame.GameName & " turn " & objGame.NextTurn & _
                     " Notification for " & strRace, _
                     strMessage)
+            Call SaveFile(Options.GalaxyNGOrders & objGame.GameName & "\" & strRace & "_" & objGame.NextTurn & ".notify", _
+            "Notified " & Format(Now, "hh:nn:ss dddd, d mmmm yyyy"))
         End If
     Next objRace
 
