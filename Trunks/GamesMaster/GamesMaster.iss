@@ -46,12 +46,22 @@ Name: {commondesktop}\Games Master; Filename: {app}\GamesMaster.exe
 
 [Files]
 Source: {#Source}\GamesMaster.exe; DestDir: {app}; Flags: comparetimestamp
+Source: {#Source}\galaxyng.exe; DestDir: {app}; Flags: comparetimestamp
+Source: {#Source}\GamesMaster.txt; DestDir: {app}; Flags: comparetimestamp
 ;VB6
 Source: {#vbFiles}\stdole2.tlb; DestDir: {sys}; Flags: restartreplace uninsneveruninstall sharedfile regtypelib
 Source: {#vbFiles}\msvbvm60.dll; DestDir: {sys}; Flags: restartreplace uninsneveruninstall sharedfile regserver
 Source: {#vbFiles}\oleaut32.dll; DestDir: {sys}; Flags: restartreplace uninsneveruninstall sharedfile regserver
 Source: {#vbFiles}\olepro32.dll; DestDir: {sys}; Flags: restartreplace uninsneveruninstall sharedfile regserver
 Source: {#vbFiles}\asycfilt.dll; DestDir: {sys}; Flags: restartreplace uninsneveruninstall sharedfile
-;Source: {#vbFiles}\comcat.dll; DestDir: {sys}; Flags: restartreplace uninsneveruninstall sharedfile regserver
-Source: {#vbFiles}\COMDLG32.OCX; DestDir: {sys}; Flags: regserver sharedfile uninsneveruninstall restartreplace
-Source: {#vbFiles}\MSFLXGRD.OCX; DestDir: {sys}; Flags: restartreplace sharedfile uninsneveruninstall regserver
+Source: {#vbFiles}\mshflxgd.OCX; DestDir: {sys}; Flags: restartreplace sharedfile uninsneveruninstall regserver
+Source: {#vbFiles}\tabctl32.OCX; DestDir: {sys}; Flags: restartreplace sharedfile uninsneveruninstall regserver
+Source: {#vbFiles}\mscomctl.OCX; DestDir: {sys}; Flags: restartreplace sharedfile uninsneveruninstall regserver
+Source: package\data; DestDir: {app}; DestName: data
+Source: package\inbox; DestDir: {app}; DestName: inbox
+Source: package\log; DestDir: {app}; DestName: log
+Source: package\notices; DestDir: {app}; DestName: notices
+Source: package\orders DestDir: {app}; DestName: orders
+Source: package\outbox; DestDir: {app}; DestName: outbox
+Source: package\reports; DestDir: {app}; DestName: reports
+Source: package\statistics; DestDir: {app}; DestName: statistics
