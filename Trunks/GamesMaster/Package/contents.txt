@@ -1,0 +1,11 @@
+ Volume in drive C has no label.
+ Volume Serial Number is B877-ADE1
+
+ Directory of C:\My Documents\Visual Studio Projects\GamesMaster\Package
+
+13/12/2007  05:59    <DIR>          .
+13/12/2007  05:59    <DIR>          ..
+13/12/2007  05:59                 0 contents.txt
+05/07/2007  23:37           400,562 galaxyng.exe
+               2 File(s)        400,562 bytes
+               2 Dir(s)  20,147,654,656 bytes free
