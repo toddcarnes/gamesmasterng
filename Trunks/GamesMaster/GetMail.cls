@@ -124,6 +124,10 @@ Private Sub ProcessData(ByVal strData As String)
     Dim blnSendLogon As Boolean
     Dim blnSendPassword As Boolean
     Dim blnGetEMailCount As Boolean
+    Dim lngError As Long
+    Dim strError As String
+    Dim strSource As String
+    Dim lngState As Long
     
     On Error GoTo ErrorTag
     DoEvents
@@ -256,7 +260,15 @@ Private Sub ProcessData(ByVal strData As String)
     Exit Sub
 
 ErrorTag:
-    Call LogError(Err.Number, Err.Description, Err.Source, "GetMail", "Processdata")
+    On Error Resume Next
+    lngError = Err.Number
+    strError = Err.Description
+    strSource = Err.Source
+    lngState = mobjSocket.State
+    Call LogError(Err.Number, Err.Description, Err.Source, _
+                "GetMail", "Processdata", _
+                "Mail Status: " & CStr(Status) & vbNewLine & _
+                "Socket State: " & CStr(lngState))
     Call Disconnect
 End Sub
 

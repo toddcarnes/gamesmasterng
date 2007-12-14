@@ -99,17 +99,22 @@ End Function
 
 Public Sub LogError(ByVal lngError As Long, _
                     ByVal strError As String, _
-                    ByVal strSource As String, _
-                    ByVal strModule As String, _
-                    ByVal strProcedure As String)
+                    Optional ByVal strSource As String = "", _
+                    Optional ByVal strModule As String = "", _
+                    Optional ByVal strProcedure As String = "", _
+                    Optional ByVal strData As String = "")
     Dim strMessage As String
     
-    strMessage = "Error: " & CStr(lngError) & " - " & strError & vbNewLine & _
-                 "    Source: " & strSource
+    strMessage = "Error: " & CStr(lngError) & " - " & strError
+    If strSource <> "" Then strMessage = strMessage & vbNewLine & _
+                                         "    Source: " & strSource
     If strModule <> "" Then strMessage = strMessage & vbNewLine & _
                                         "    Module: " & strModule
     If strProcedure <> "" Then strMessage = strMessage & vbNewLine & _
                                         "    Procedure: " & strProcedure
+    If strData <> "" Then strMessage = strMessage & vbNewLine & vbNewLine & _
+                                        "Debug Data follows... " & vbNewLine & _
+                                        strData
     Call WriteLogFile(strMessage)
     MsgBox strMessage, vbCritical + vbOKOnly, App.Title & " Error"
 End Sub
