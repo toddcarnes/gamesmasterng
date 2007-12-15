@@ -265,7 +265,7 @@ ErrorTag:
     strError = Err.Description
     strSource = Err.Source
     lngState = mobjSocket.State
-    Call LogError(Err.Number, Err.Description, Err.Source, _
+    Call LogError(lngError, strError, strSource, _
                 "GetMail", "Processdata", _
                 "Mail Status: " & CStr(Status) & vbNewLine & _
                 "Socket State: " & CStr(lngState))
