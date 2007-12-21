@@ -61,6 +61,7 @@ Public ShowGetMail As Boolean
 Public ShowSendMail As Boolean
 Public AutoCheckMail As Boolean
 Public AutoRunGames As Boolean
+Public LogErrors As Boolean
 
 Public INIFile As INIFile
 
@@ -152,6 +153,8 @@ Public Sub LoadSettings()
         ShowSendMail = .GetSetting("Startup", "ShowSendMail", False)
         AutoCheckMail = .GetSetting("Startup", "AutoCheckMail", False)
         AutoRunGames = .GetSetting("Startup", "AutoRunGames", False)
+        
+        LogErrors = .GetSetting("Settings", "LogErrors", False)
     
     
     End With
@@ -201,6 +204,8 @@ Public Sub SaveSettings()
         Call .SaveSetting("Startup", "ShowSendMail", ShowSendMail)
         Call .SaveSetting("Startup", "AutoCheckMail", AutoCheckMail)
         Call .SaveSetting("Startup", "AutoRunGames", AutoRunGames)
+        
+        Call .SaveSetting("Settings", "LogErrors", LogErrors)
     
     End With
 End Sub

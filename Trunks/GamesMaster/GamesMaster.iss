@@ -36,8 +36,10 @@ UninstallDisplayIcon={app}\GamesMaster.exe
 UninstallDisplayName=Games Master Version {#AppVersion}
 AppReadmeFile=
 UsePreviousUserInfo=false
-DisableDirPage=true
+DisableDirPage=false
 DisableProgramGroupPage=false
+AllowRootDirectory=true
+AllowUNCPath=false
 
 [Icons]
 Name: {group}\Uninstall Games Master; Filename: {uninstallexe}
@@ -58,7 +60,7 @@ Source: {#vbFiles}\asycfilt.dll; DestDir: {sys}; Flags: restartreplace uninsneve
 Source: {#vbFiles}\mshflxgd.OCX; DestDir: {sys}; Flags: restartreplace sharedfile uninsneveruninstall regserver
 Source: {#vbFiles}\tabctl32.OCX; DestDir: {sys}; Flags: restartreplace sharedfile uninsneveruninstall regserver
 Source: {#vbFiles}\mscomctl.OCX; DestDir: {sys}; Flags: restartreplace sharedfile uninsneveruninstall regserver
-Source: {#vbFiles}\ws2_32.dll; DestDir: {sys}; Flags: restartreplace sharedfile uninsneveruninstall regserver
+Source: {#vbFiles}\ws2_32.dll; DestDir: {sys}; Flags: restartreplace sharedfile uninsneveruninstall
 [INI]
 Filename: {app}\gamesmaster.ini; Section: Folders; Key: GalaxyNGHome; String: {app}\
 Filename: {app}\gamesmaster.ini; Section: FileNames; Key: Executable; String: {app}\galaxyng.exe

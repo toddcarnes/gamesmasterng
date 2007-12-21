@@ -112,23 +112,27 @@ Public Sub LogError(ByVal lngError As Long, _
                                         "    Module: " & strModule
     If strProcedure <> "" Then strMessage = strMessage & vbNewLine & _
                                         "    Procedure: " & strProcedure
-    If strData <> "" Then strMessage = strMessage & vbNewLine & vbNewLine & _
-                                        "Debug Data follows... " & vbNewLine & _
+    If strData <> "" Then strMessage = strMessage & vbNewLine & _
+                                        "    Debug Data follows... " & vbNewLine & _
                                         strData
-    Call WriteLogFile(strMessage)
-    MsgBox strMessage, vbCritical + vbOKOnly, App.Title & " Error"
+    If Options.LogErrors Then
+        Call WriteLogFile(strMessage)
+    End If
+'    MsgBox strMessage, vbCritical + vbOKOnly, App.Title & " Error"
 End Sub
 
 Public Sub WriteLogFile(ByVal strData As String)
     Dim intFN As Integer
-    Dim strFileName As String
     
-    strFileName = App.Path & "\" & App.EXEName & ".log"
     intFN = FreeFile
-    Open strFileName For Append As #intFN
+    Open LogFilename For Append As #intFN
     Print #intFN, Format(Now, "hh:nn:ss dd-mmm-yyyy") & ": " & strData
     Close #intFN
 End Sub
+
+Public Function LogFilename() As String
+    LogFilename = App.Path & "\" & App.EXEName & ".log"
+End Function
 
 Public Sub CreateGame(ByVal strTemplate As String)
     Dim objGame As Game
