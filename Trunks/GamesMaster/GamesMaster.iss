@@ -1,4 +1,4 @@
-#define AppDate "13 December 2007"
+#define AppDate "23 December 2007"
 #define Source SourcePath
 #define HomePage "http://www.mykoala.net"
 #define vbFiles Source + "\VB60Files"
@@ -22,7 +22,7 @@ InfoBeforeFile=
 InfoAfterFile=
 OutputDir={#Source}\Distributions
 SourceDir={#Source}
-OutputBaseFilename=GamesMasterSetup {#AppVersion}
+OutputBaseFilename=GamesMasterSetupV{#AppVersion}
 MinVersion=4.1.1998,4.0.1381sp6
 AppCopyright=Copyright © Ian Llewelyn Evans 2007
 UserInfoPage=false
