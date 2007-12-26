@@ -238,3 +238,5 @@ Public Function QuoteText(ByVal strText As String) As String
     QuoteText = strTemp
 End Function
 
+
+

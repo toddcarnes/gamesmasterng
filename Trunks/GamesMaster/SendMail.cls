@@ -128,6 +128,7 @@ Private Sub ProcessData(ByVal strData As String)
     Dim strError As String
     Dim strSource As String
     Dim lngState As Long
+    Dim strFileName As String
     
     On Error GoTo ErrorTag
     
@@ -187,7 +188,13 @@ Private Sub ProcessData(ByVal strData As String)
     
     Case SM_Command.SM_Sent
         If lngResponse = 250 Then
-            Name mvarEMail(mlngEMail) As mvarEMail(mlngEMail) & ".sav"
+            strFileName = mvarEMail(mlngEMail) & ".sav"
+            i = 0
+            While Dir(strFileName) <> ""
+                i = i + 1
+                strFileName = mvarEMail(mlngEMail) & "_" & CStr(i) & ".sav"
+            Wend
+            Name mvarEMail(mlngEMail) As strFileName
             mlngEMail = mlngEMail + 1
             If mlngEMail > UBound(mvarEMail) Then
                 SendData c_QUIT

@@ -12,8 +12,8 @@ Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 Attribute VB_Ext_KEY = "SavedWithClassBuilder6" ,"Yes"
-Attribute VB_Ext_KEY = "Member0" ,"Fleet"
-Attribute VB_Ext_KEY = "Member1" ,"Groups"
+Attribute VB_Ext_KEY = "Member0" ,"Groups"
+Attribute VB_Ext_KEY = "Member1" ,"Fleet"
 Attribute VB_Ext_KEY = "Top_Level" ,"Yes"
 Option Explicit
 

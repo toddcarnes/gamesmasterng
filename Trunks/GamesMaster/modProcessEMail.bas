@@ -128,16 +128,25 @@ Public Function SendEMail(ByVal strTo As String, ByVal strSubject As String, ByV
     Dim intFN As Integer
     Dim i As Long
     Dim strFileName As String
+    Dim objTimeZone As CTimeZone
+    Dim strTime As String
+    
+    Set objTimeZone = New CTimeZone
+    strTime = objTimeZone.TimeEMail
+    Set objTimeZone = Nothing
+    
     Do
         strFileName = Options.Outbox & Format(Now, "yyyymmddhhnnss") & "_" & Format(i, "0") & ".txt"
         If Dir(strFileName) = "" Then Exit Do
         i = i + 1
     Loop
     intFN = FreeFile
+ 
     Open strFileName For Output As #intFN
     Print #intFN, "To: " & strTo
     Print #intFN, "From: " & Options.SMTPFromAddress
     Print #intFN, "Subject: " & strSubject
+    Print #intFN, "Date: " & strTime
     Print #intFN, ""
     Print #intFN, strBody
     Close #intFN
