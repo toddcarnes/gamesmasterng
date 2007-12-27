@@ -25,6 +25,17 @@ Public Function GetFileName(ByVal FilePath As String) As String
     GetFileName = Mid(FilePath, i + 1, j - i - 1)
 End Function
 
+Public Function GetFullFileName(ByVal strPath As String) As String
+    Dim i As Long
+    
+    i = InStrRev(strPath, "\")
+    If i = 0 Then
+        GetFullFileName = strPath
+    Else
+        GetFullFileName = Mid(strPath, i + 1)
+    End If
+End Function
+
 Public Function RunGalaxyNG(Optional ByVal strParameters As String) As Boolean
     Dim strCommand As String
     
@@ -74,6 +85,8 @@ Public Function GetFile(ByVal strPath As String) As String
     Dim strBuffer As String
     Dim lngLength As Long
     
+    On Error GoTo ErrorTag
+    
     lngLength = FileLen(strPath)
     strBuffer = String(lngLength, " ")
     
@@ -82,6 +95,12 @@ Public Function GetFile(ByVal strPath As String) As String
     Get intFN, , strBuffer
     Close intFN
     GetFile = strBuffer
+    Exit Function
+    
+ErrorTag:
+    Call LogError(Err.Number, Err.Description, Err.Source, "modGlobal", "GetFile", "File: " & strPath)
+    GetFile = ""
+    
 End Function
 
 Public Sub SaveFile(ByVal strFileName As String, ByVal strData As String)
@@ -206,7 +225,7 @@ Public Sub NotifyUsers(ByVal strGame As String)
 
     For Each objRace In objGame.Races
         strRace = objRace.RaceName
-        If objRace.Flag(R_DEAD) Then
+        If objRace.flag(R_DEAD) Then
         ElseIf objGame.FinalOrdersReceived(strRace) Then
         ElseIf objGame.OrdersReceived(strRace) Then
         ElseIf objGame.NotificationSent(strRace) Then

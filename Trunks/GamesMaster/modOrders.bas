@@ -137,7 +137,8 @@ Public Sub CheckOrders(ByVal strFrom As String, ByVal strEMail As String)
     If lngTurn > objGame.NextTurn Then
         strSubject = "[GNG] " & objGame.GameName & _
                     " turn " & CStr(lngTurn) & _
-                    " orders received for " & objRace.RaceName
+                    IIf(blnFinalOrders, " finalorders", " orders") & _
+                    " received for " & objRace.RaceName
         strMessage = Options.GetMessage("Header", Options.ServerName) & _
                     Options.GetMessage("FutureOrders", lngTurn, MarkText(strOrders)) & _
                     Options.GetMessage("Footer", Options.ServerName)
@@ -145,7 +146,9 @@ Public Sub CheckOrders(ByVal strFrom As String, ByVal strEMail As String)
     Else 'if lngTurn = objGame.NextTurn Then
         strSubject = "[GNG] " & objGame.GameName & _
                     " turn " & CStr(lngTurn) & _
-                    " text forecast for " & objRace.RaceName
+                    " text" & _
+                    IIf(blnFinalOrders, " finalorders", "") & _
+                    " forecast for " & objRace.RaceName
         ' check it
         Call SaveFile(Options.GalaxyNGHome & Options.OrdersFileName, strOrders)
         Call RunGalaxyNG("-check " & strGame & " " & strRace & "<" & Options.OrdersFileName & " >" & Options.ForecastFileName)

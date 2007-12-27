@@ -39,14 +39,14 @@ Public Sub Store(ByVal strData As String, ByVal uFormat As uefFormat, Optional B
         mstrEMailData = "Content-Type: text/plain"
         If strSource <> "" Then
             mstrEMailData = mstrEMailData & _
-                            "; name=""" & GetFileName(mstrSource) & """"
+                            "; name=""" & GetFullFileName(mstrSource) & """"
         End If
         mstrEMailData = mstrEMailData & vbNewLine & _
                         "Content-Transfer-Encoding: 7bit"
         If strSource <> "" Then
             mstrEMailData = mstrEMailData & vbNewLine & _
                         "Content-Disposition: inline; filename=""" & _
-                        GetFileName(mstrSource) & """"
+                        GetFullFileName(mstrSource) & """"
         End If
         mstrEMailData = mstrEMailData & vbNewLine & _
                     vbNewLine & _
@@ -57,14 +57,14 @@ Public Sub Store(ByVal strData As String, ByVal uFormat As uefFormat, Optional B
         mstrEMailData = "Content-Type: application/octet-stream"
         If strSource <> "" Then
             mstrEMailData = mstrEMailData & _
-                            "; name=""" & GetFileName(mstrSource) & """"
+                            "; name=""" & GetFullFileName(mstrSource) & """"
         End If
         mstrEMailData = mstrEMailData & vbNewLine & _
-                        "Content -Transfer - Encoding: Base64"
+                        "Content-Transfer-Encoding: base64"
         If strSource <> "" Then
             mstrEMailData = mstrEMailData & vbNewLine & _
                         "Content-Disposition: inline; filename=""" & _
-                        GetFileName(mstrSource) & """"
+                        GetFullFileName(mstrSource) & """"
         End If
         Set objBase64 = New Base64
         mstrEMailData = mstrEMailData & vbNewLine & _
@@ -106,15 +106,5 @@ Public Property Let EMailData(strEMailData As String)
     mstrEMailData = strEMailData
 End Property
 
-Public Function GetFileName(ByVal strPath As String) As String
-    Dim i As Long
-    
-    i = InStrRev(strPath, "\")
-    If i = 0 Then
-        GetFileName = strPath
-    Else
-        GetFileName = Mid(strPath, i + 1)
-    End If
-End Function
 
 

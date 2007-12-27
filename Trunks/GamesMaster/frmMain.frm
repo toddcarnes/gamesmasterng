@@ -50,7 +50,7 @@ Begin VB.MDIForm frmMain
             AutoSize        =   2
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "22/12/2007"
+            TextSave        =   "28/12/2007"
             Key             =   "Date"
          EndProperty
          BeginProperty Panel4 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
@@ -59,7 +59,7 @@ Begin VB.MDIForm frmMain
             AutoSize        =   2
             Object.Width           =   1402
             MinWidth        =   1411
-            TextSave        =   "7:32"
+            TextSave        =   "7:57"
             Key             =   "Time"
          EndProperty
       EndProperty
@@ -393,7 +393,7 @@ Public Sub mnuFileOptions_Click()
     Dim fOptions As frmOptions
     
     For Each fForm In Forms
-        If fForm.name = "frmOptions" Then
+        If fForm.Name = "frmOptions" Then
             Set fOptions = fForm
             Exit For
         End If
@@ -441,7 +441,7 @@ Public Sub RefreshGamesForm()
     Dim fGames As frmGames
     
     For Each fForm In Forms
-        If fForm.name = "frmGames" Then
+        If fForm.Name = "frmGames" Then
             Set fGames = fForm
             Call fGames.LoadGames
         End If
@@ -485,7 +485,7 @@ Private Sub mnuMailShowGetMail_Click()
     Dim fGetMail As frmGetMail
     
     For Each fForm In Forms
-        If fForm.name = "frmGetMail" Then
+        If fForm.Name = "frmGetMail" Then
             Set fGetMail = fForm
             Exit For
         End If
@@ -512,7 +512,7 @@ Private Sub mnuMailShowSendMail_Click()
     Dim fSendMail As frmSendMail
     
     For Each fForm In Forms
-        If fForm.name = "frmSendMail" Then
+        If fForm.Name = "frmSendMail" Then
             Set fSendMail = fForm
             Exit For
         End If
@@ -712,7 +712,7 @@ Private Sub GetTemplate(Optional ByVal blnReadOnly As Boolean = True)
     strTemplate = SelectedGame
     
     For Each fForm In Forms
-        If fForm.name = "frmTemplate" Then
+        If fForm.Name = "frmTemplate" Then
             Set fTemplate = fForm
             If Not fTemplate.Template Is Nothing Then
                 If fTemplate.Template.TemplateName = strTemplate Then
@@ -756,7 +756,7 @@ Private Sub mnuViewGames_Click()
     Dim fGames As frmGames
     
     For Each fForm In Forms
-        If fForm.name = "frmGames" Then
+        If fForm.Name = "frmGames" Then
             Set fGames = fForm
             Exit For
         End If
@@ -934,7 +934,7 @@ Public Function GamesForm() As frmGames
     Dim fGames As frmGames
     
     For Each fForm In Forms
-        If fForm.name = "frmGames" Then
+        If fForm.Name = "frmGames" Then
             Set fGames = fForm
             Exit For
         End If

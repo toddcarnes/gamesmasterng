@@ -49,6 +49,7 @@ Name: {commondesktop}\Games Master; Filename: {app}\GamesMaster.exe
 [Files]
 Source: {#Source}\GamesMaster.exe; DestDir: {app}; Flags: comparetimestamp
 Source: {#Source}\package\galaxyng.exe; DestDir: {app}; Flags: comparetimestamp
+Source: {#Source}\package\zip32.dll; DestDir: {app}; Flags: comparetimestamp
 Source: {#Source}\GamesMaster.txt; DestDir: {app}; Flags: comparetimestamp
 Source: {#Source}\GamesMaster.ini; DestDir: {app}; DestName: GamesMaster.ini; Flags: onlyifdoesntexist
 ;VB6

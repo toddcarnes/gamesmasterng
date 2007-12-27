@@ -153,12 +153,34 @@ Public Function SendEMail(ByVal strTo As String, ByVal strSubject As String, ByV
     
 End Function
 
+Public Function SendNewEMail(ByVal strBody As String)
+    Dim intFN As Integer
+    Dim i As Long
+    Dim strFileName As String
+    Dim objTimeZone As CTimeZone
+    
+    Do
+        strFileName = Options.Outbox & Format(Now, "yyyymmddhhnnss") & "_" & Format(i, "0") & ".txt"
+        If Dir(strFileName) = "" Then Exit Do
+        i = i + 1
+    Loop
+    intFN = FreeFile
+ 
+    Open strFileName For Output As #intFN
+    Print #intFN, strBody;
+    Close #intFN
+    
+End Function
+
 Public Sub SendReports(ByVal strGame As String)
     Dim objGame As Game
     Dim objRace As Race
     Dim strTurn As String
     Dim strBody As String
     Dim strFileName As String
+    Dim objNE As NewEMail
+    Dim objA As Attachment
+    Dim objZip As CGZipFiles
     
     GalaxyNG.Games.Refresh
     Set objGame = GalaxyNG.Games(strGame)
@@ -176,25 +198,94 @@ Public Sub SendReports(ByVal strGame As String)
     End If
     
     For Each objRace In objGame.Races
-        If Not objRace.Flag(R_DEAD) Then
-            'Get the Text Report
-            strFileName = Options.RaceReport(strGame, objRace.RaceName, strTurn)
-            strBody = GetFile(strFileName)
-            Call SendEMail(objRace.EMail, _
-                    "[GNG] " & objGame.GameName & " turn " & strTurn & _
-                    " text report for " & objRace.RaceName, _
-                    strBody)
+        If Not objRace.flag(R_DEAD) Then
+            If objRace.flag(R_COMPRESS) Then
+                Set objNE = New NewEMail
+                objNE.ToAddress = objRace.EMail
+                objNE.FromAddress = Options.SMTPFromAddress
+                objNE.DateSent = Now
+                objNE.Subject = "[GNG] " & objGame.GameName & " turn " & strTurn & _
+                        " text report for " & objRace.RaceName
+                
+                Set objA = New Attachment
+                Call objA.Store("GalaxyNG Reports Attached", uefText)
+                objNE.Attachments.Add objA
+                
+                Set objZip = New CGZipFiles
+                objZip.RemoveFile "querty"
+                objZip.RootDirectory = Options.GalaxyNGReports & strGame & "\"
+                
+                objZip.ZipFileName = Options.GalaxyNGReports & strGame & "\" & objRace.RaceName & "_" & strTurn & ".zip"
+                If Dir(objZip.ZipFileName) <> "" Then
+                    Kill objZip.ZipFileName
+                End If
+                
+                strFileName = Options.RaceReport(strGame, objRace.RaceName, strTurn)
+                If Dir(strFileName) <> "" Then
+                    objZip.AddFile GetFullFileName(strFileName)
+                End If
+                
+                strFileName = Options.RaceMachineReport(strGame, objRace.RaceName, strTurn)
+                If Dir(strFileName) <> "" Then
+                    objZip.AddFile GetFullFileName(strFileName)
+                End If
+                objZip.MakeZipFile
+                
+                Set objA = New Attachment
+                strFileName = objZip.ZipFileName
+                strBody = GetFile(strFileName)
+                Call objA.Store(strBody, uefBinary, strFileName)
+                objNE.Attachments.Add objA
+                Call SendNewEMail(objNE.EMailData)
+                
+            ElseIf 1 = 1 Then
+                Set objNE = New NewEMail
+                objNE.ToAddress = objRace.EMail
+                objNE.FromAddress = Options.SMTPFromAddress
+                objNE.DateSent = Now
+                objNE.Subject = "[GNG] " & objGame.GameName & " turn " & strTurn & _
+                        " text report for " & objRace.RaceName
+                
+                Set objA = New Attachment
+                Call objA.Store("GalaxyNG Reports are Attached", uefText)
+                objNE.Attachments.Add objA
+                
+                strFileName = Options.RaceReport(strGame, objRace.RaceName, strTurn)
+                If Dir(strFileName) <> "" Then
+                    Set objA = New Attachment
+                    strBody = GetFile(strFileName)
+                    Call objA.Store(strBody, uefText, strFileName)
+                    objNE.Attachments.Add objA
+                End If
+                
+                strFileName = Options.RaceMachineReport(strGame, objRace.RaceName, strTurn)
+                If Dir(strFileName) <> "" Then
+                    Set objA = New Attachment
+                    strBody = GetFile(strFileName)
+                    Call objA.Store(strBody, uefText, strFileName)
+                    objNE.Attachments.Add objA
+                End If
+                Call SendNewEMail(objNE.EMailData)
             
-            ' Check for the machinery Report
-            strFileName = Options.RaceMachineReport(strGame, objRace.RaceName, strTurn)
-            If Dir(strFileName) <> "" Then
+            Else
+                'Get the Text Report
+                strFileName = Options.RaceReport(strGame, objRace.RaceName, strTurn)
                 strBody = GetFile(strFileName)
                 Call SendEMail(objRace.EMail, _
                         "[GNG] " & objGame.GameName & " turn " & strTurn & _
-                        " machine report for " & objRace.RaceName, _
+                        " text report for " & objRace.RaceName, _
                         strBody)
+                
+                ' Check for the machinery Report
+                strFileName = Options.RaceMachineReport(strGame, objRace.RaceName, strTurn)
+                If Dir(strFileName) <> "" Then
+                    strBody = GetFile(strFileName)
+                    Call SendEMail(objRace.EMail, _
+                            "[GNG] " & objGame.GameName & " turn " & strTurn & _
+                            " machine report for " & objRace.RaceName, _
+                            strBody)
+                End If
             End If
-            
         End If
     Next objRace
 End Sub

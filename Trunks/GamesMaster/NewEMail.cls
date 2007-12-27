@@ -26,6 +26,11 @@ Private mstrBody As String
 
 Private mcolAttachments As Attachments
 
+Public Property Get EMailData() As String
+    Call MakeEMail
+    EMailData = mstrEMail
+End Property
+
 Public Sub MakeEMail()
     Dim strSeperator As String
     Dim strEMail As String
@@ -35,23 +40,21 @@ Public Sub MakeEMail()
     Set objTimeZone = New CTimeZone
     
     mstrEMail = "To: " & mstrToAddress & vbNewLine & _
-                "From: " & mstrToAddress & vbNewLine & _
+                "From: " & mstrFromAddress & vbNewLine & _
                 "Date: " & objTimeZone.TimeEMail(mdtDateSent) & vbNewLine & _
                 "Subject: " & mstrSubject & vbNewLine
     
     strSeperator = NewSeperator
     mstrEMail = mstrEMail & _
                 "MIME-version: 1.0" & vbNewLine & _
-               "Content-type: multipart/mixed; boundary=""" & strSeperator & """" & vbNewLine & _
-               vbNewLine
+                "Content-type: multipart/mixed; boundary=""" & strSeperator & """" & vbNewLine & _
+                vbNewLine
     
     For Each objAttachment In mcolAttachments
         mstrEMail = mstrEMail & _
-                "--" & strSeperator & vbNewLine & _
-                objAttachment.EMailData & vbNewLine
+                    "--" & strSeperator & vbNewLine & _
+                    objAttachment.EMailData & vbNewLine
     Next objAttachment
-    mstrEMail = mstrEMail & _
-            "--" & strSeperator & vbNewLine
 End Sub
 
 Public Property Get Attachments() As Attachments

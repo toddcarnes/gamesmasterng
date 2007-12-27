@@ -3,12 +3,15 @@ Requests and Wishlist
 
 Gamesmaster
 -----------
+DONE 	Forcast Report to include finalorders in subject.
+OK   	Send reports as attachments
+OK	Zip reports as attachment
+
+Make Attachments a program option
 View Game details
 View Player details
 Change Game Details
 Change Player Details
-Send reports as attachments
-Zip reports as attachment
 Help Documentation
 Build a description page for each game
 Option to Announce the opening of a game
@@ -20,43 +23,3 @@ Installation Program
 --------------------
 License Page
 Links to GalaxyNG sites including SIFAR
-
-----------------------------------------------------------------------
-Attachment Sample EMail
-Content-Transfer-Encoding: base64
-----------------------------------------------------------------------
-From: "Ian Evans" <ian@mykoala.net>
-To: "Ian Evans" <ian@mykoala.net>
-Date: Wed, 23 Dec 2007 06:59:55 +1000
-Subject: Testing an e-mail with attachments
-MIME-version: 1.0
-Content-type: multipart/mixed; boundary="frontier"
-
---frontier
-Content-type: text/plain
-
-1.This is a multi-part message in MIME format.
-
---frontier
-Content-type: text/plain
-Content-Disposition: inline; filename="myfile2.txt"
-
-
-2.This is the body of the message.
-
---frontier
-Content-type: text/plain
-Content-Disposition: inline; filename="myfile3.txt"
-
-3.Believe it or not this is a plain text attachment
-
-PGh0bWw+CiAgPGhlYWQ+CiAgPC9oZWFkPgogIDxib2R5PgogICAgPHA+VGhpcyBpcyB0aGUg
-Ym9keSBvZiB0aGUgbWVzc2FnZS48L3A+CiAgPC9ib2R5Pgo8L2h0bWw+Cg==
-
---frontier
-Content-type: text/plain
-Content-Disposition: inline; filename="myfile4.txt"
-
-4.Another attachment
-
---frontier

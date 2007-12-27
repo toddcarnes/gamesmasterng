@@ -118,7 +118,7 @@ Your Registration will be processed using the games default planet sizes.
 20 PlanetTooLarge
 Your request to join GalaxyNG game "[1]" has encountered an error 
 due to a planet's size of [2] being requested but the maximum 
-size cannot exceede [3].
+size cannot exceed [3].
 
 Your Registration will be processed using the games default planet sizes. 
 ------------------------------------------------------------
