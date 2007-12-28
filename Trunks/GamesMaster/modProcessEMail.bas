@@ -48,10 +48,6 @@ Private Sub ProcessEMail(ByVal strPath As String)
 
 End Sub
 
-Private Sub EMailReport(ByVal strFrom As String, ByVal varBody As Variant)
-
-End Sub
-
 Private Sub AnalyseEMail(ByVal strEMail As String, _
                         ByRef strFrom As String, _
                         ByRef strSubject As String, _
@@ -181,6 +177,7 @@ Public Sub SendReports(ByVal strGame As String)
     Dim objNE As NewEMail
     Dim objA As Attachment
     Dim objZip As Zip
+    Dim strMessage As String
     
     GalaxyNG.Games.Refresh
     Set objGame = GalaxyNG.Games(strGame)
@@ -209,7 +206,11 @@ Public Sub SendReports(ByVal strGame As String)
                 
                 'EMail Body
                 Set objA = New Attachment
-                Call objA.Store("GalaxyNG Reports Attached", uefText)
+                strMessage = Options.GetMessage("Header") & _
+                            Options.GetMessage("GamesMasterMessage") & _
+                            GetFile(Options.GalaxyNGNotices & strGame & ".txt") & _
+                            Options.GetMessage("Footer")
+                Call objA.Store(strMessage, uefText)
                 objNE.Attachments.Add objA
                 
                 'EMail Zip File Attachment
@@ -251,7 +252,11 @@ Public Sub SendReports(ByVal strGame As String)
                 
                 'EMail Body
                 Set objA = New Attachment
-                Call objA.Store("GalaxyNG Reports are Attached", uefText)
+                strMessage = Options.GetMessage("Header") & _
+                            Options.GetMessage("GamesMasterMessage") & _
+                            GetFile(Options.GalaxyNGNotices & strGame & ".txt") & _
+                            Options.GetMessage("Footer")
+                Call objA.Store(strMessage, uefText)
                 objNE.Attachments.Add objA
                 
                 'Text Report

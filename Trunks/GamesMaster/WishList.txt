@@ -7,13 +7,14 @@ DONE 	Forcast Report to include finalorders in subject.
 DONE 	Send reports as attachments
 DONE	Zip reports as attachment
 DONE	Make Attachments a program option
+DONE	Game and Server Specific Messages
+DONE	Build a description page for each game
 
 View Game details
 View Player details
 Change Game Details
 Change Player Details
 Help Documentation
-Build a description page for each game
 Option to Announce the opening of a game
 Option to upload Game Status webpage to a website each turn
 E-Mail Requests for list of games on the server.

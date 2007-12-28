@@ -59,7 +59,7 @@ Begin VB.MDIForm frmMain
             AutoSize        =   2
             Object.Width           =   1402
             MinWidth        =   1411
-            TextSave        =   "7:57"
+            TextSave        =   "12:49"
             Key             =   "Time"
          EndProperty
       EndProperty
@@ -133,6 +133,12 @@ Begin VB.MDIForm frmMain
       Begin VB.Menu mnuGameSep1 
          Caption         =   "-"
       End
+      Begin VB.Menu mnuGameEditMessage 
+         Caption         =   "Edit Message"
+      End
+      Begin VB.Menu mnuGameSep2 
+         Caption         =   "-"
+      End
       Begin VB.Menu mnuGameStart 
          Caption         =   "&Start"
       End
@@ -182,6 +188,12 @@ Begin VB.MDIForm frmMain
          Caption         =   "Delete Game"
       End
       Begin VB.Menu mnuActionSeperator2 
+         Caption         =   "-"
+      End
+      Begin VB.Menu mnuEditGameMessage 
+         Caption         =   "Edit Game Message"
+      End
+      Begin VB.Menu mnuActionSeperator3 
          Caption         =   "-"
       End
       Begin VB.Menu mnuStartGame 
@@ -269,6 +281,16 @@ Public Function SendMail() As SendMail
     Set SendMail = mobjSendMail
 End Function
 
+Private Sub mnuGameEditMessage_Click()
+    Dim strFileName As String
+    
+    strFileName = Options.GalaxyNGNotices & SelectedGame & ".txt"
+    If Dir(strFileName) = "" Then
+        Call SaveFile(strFileName, "")
+    End If
+    ShellOpen strFileName
+End Sub
+
 Private Sub MDIForm_Load()
     Set Systray.TrayIcon = Me.Icon
     mnuActions.Visible = False
@@ -345,9 +367,6 @@ Private Sub MDIForm_Unload(Cancel As Integer)
     tmrGalaxyNG.Interval = 0
 End Sub
 
-Public Sub mnuActions_Click()
-End Sub
-
 Private Sub mnuAutoRun_Click()
     If mnuAutoRun.Checked Then
         tmrGalaxyNG.Enabled = False
@@ -378,6 +397,10 @@ End Sub
 
 Private Sub mnuEditGame_Click()
     Call mnuGameEdit_Click
+End Sub
+
+Private Sub mnuEditGameMessage_Click()
+    Call mnuGameEditMessage_Click
 End Sub
 
 Private Sub mnuEditTemplate_Click()
@@ -547,6 +570,7 @@ Public Sub mnuGame_Click()
         mnuGameDelete.Enabled = False
         mnuGameView.Enabled = False
         mnuGameEdit.Enabled = False
+        mnuGameEditMessage.Enabled = False
         mnuGameStart.Enabled = False
         mnuGameRun.Enabled = False
         mnuGameResend.Enabled = False
@@ -559,6 +583,7 @@ Public Sub mnuGame_Click()
             mnuGameDelete.Enabled = True
             mnuGameView.Enabled = True
             mnuGameEdit.Enabled = True
+            mnuGameEditMessage.Enabled = True
             mnuGameStart.Enabled = Not objGame.Started
             mnuGameRun.Enabled = objGame.Started
             mnuGameResend.Enabled = objGame.Started
@@ -568,6 +593,7 @@ Public Sub mnuGame_Click()
             mnuGameDelete.Enabled = False
             mnuGameEdit.Enabled = False
             mnuGameView.Enabled = False
+            mnuGameEditMessage.Enabled = False
             mnuGameStart.Enabled = False
             mnuGameRun.Enabled = False
             mnuGameResend.Enabled = False
@@ -577,14 +603,16 @@ Public Sub mnuGame_Click()
     
     ' update the sction menu
     mnuCreateGame.Visible = mnuGameCreate.Enabled And mnuGameCreate.Visible
+    mnuEditGame.Visible = mnuGameEdit.Enabled And mnuGameEdit.Visible
     mnuDeleteGame.Visible = mnuGameDelete.Enabled And mnuGameDelete.Visible
     mnuViewGame.Visible = mnuGameView.Enabled And mnuGameView.Visible
     mnuActionSeperator1.Visible = (mnuCreateGame.Visible Or mnuViewGame.Visible)
-    mnuEditGame.Visible = mnuGameEdit.Enabled And mnuGameEdit.Visible
+    mnuEditGameMessage.Visible = mnuGameEditMessage.Enabled And mnuGameEditMessage.Visible
+    mnuActionSeperator3.Visible = mnuEditGameMessage.Visible
     mnuStartGame.Visible = mnuGameStart.Enabled And mnuGameStart.Visible
     mnuRunTurn.Visible = mnuGameRun.Enabled And mnuGameRun.Visible
     mnuResendReports.Visible = mnuGameResend.Enabled And mnuGameResend.Visible
-    mnuActionSeperator2.Visible = (mnuStartGame.Visible Or mnuRunTurn.Visible Or mnuResendReports.Visible)
+    mnuActionSeperator3.Visible = (mnuStartGame.Visible Or mnuRunTurn.Visible Or mnuResendReports.Visible)
     
     Set objGame = Nothing
 End Sub

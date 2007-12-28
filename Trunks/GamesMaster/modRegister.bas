@@ -109,7 +109,7 @@ Public Function RegisterPlayer(ByVal varBody As Variant) As Registration
                 Set objRegistration.HomeWorlds = New HomeWorlds
                 For j = 1 To UBound(varFields)
                     Set objHomeworld = New HomeWorld
-                    objHomeworld.Size = varFields(j)
+                    objHomeworld.Size = Val(varFields(j))
                     objRegistration.HomeWorlds.Add objHomeworld
                 Next j
             ElseIf varFields(0) = "#racename" Then

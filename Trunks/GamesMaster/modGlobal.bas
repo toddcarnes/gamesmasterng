@@ -87,6 +87,7 @@ Public Function GetFile(ByVal strPath As String) As String
     
     On Error GoTo ErrorTag
     
+    If Dir(strPath) = "" Then Exit Function
     lngLength = FileLen(strPath)
     strBuffer = String(lngLength, " ")
     

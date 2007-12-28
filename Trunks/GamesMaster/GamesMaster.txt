@@ -275,3 +275,7 @@ with a subject of "relay <race>".
 Your message relay request to "[1]" has been processed and your
 message has been sent.
 @
+33 GamesMasterMessage
+Your GalaxyNG Turn Report is attached to this EMail.
+
+@
