@@ -17,7 +17,7 @@ Begin VB.Form frmOptions
       Caption         =   "&Save"
       Height          =   375
       Left            =   4920
-      TabIndex        =   32
+      TabIndex        =   33
       Top             =   5820
       Width           =   1155
    End
@@ -26,7 +26,7 @@ Begin VB.Form frmOptions
       Caption         =   "&Cancel"
       Height          =   375
       Left            =   3240
-      TabIndex        =   31
+      TabIndex        =   32
       Top             =   5820
       Width           =   1155
    End
@@ -34,7 +34,7 @@ Begin VB.Form frmOptions
       Caption         =   "&Refresh"
       Height          =   375
       Left            =   1560
-      TabIndex        =   30
+      TabIndex        =   31
       Top             =   5820
       Width           =   1155
    End
@@ -47,38 +47,36 @@ Begin VB.Form frmOptions
       _ExtentX        =   13467
       _ExtentY        =   9763
       _Version        =   393216
+      Tab             =   1
       TabHeight       =   520
       TabCaption(0)   =   "General"
       TabPicture(0)   =   "frmOptions.frx":0000
-      Tab(0).ControlEnabled=   -1  'True
-      Tab(0).Control(0)=   "Label(0)"
-      Tab(0).Control(0).Enabled=   0   'False
-      Tab(0).Control(1)=   "Label(1)"
-      Tab(0).Control(1).Enabled=   0   'False
-      Tab(0).Control(2)=   "Label(2)"
-      Tab(0).Control(2).Enabled=   0   'False
-      Tab(0).Control(3)=   "Label(20)"
-      Tab(0).Control(3).Enabled=   0   'False
+      Tab(0).ControlEnabled=   0   'False
+      Tab(0).Control(0)=   "cmdViewErrors"
+      Tab(0).Control(1)=   "chkLogErrors"
+      Tab(0).Control(2)=   "txtGamesMasterEMail"
+      Tab(0).Control(3)=   "txtGalaxyNGHome"
       Tab(0).Control(4)=   "txtServerName"
-      Tab(0).Control(4).Enabled=   0   'False
-      Tab(0).Control(5)=   "txtGalaxyNGHome"
-      Tab(0).Control(5).Enabled=   0   'False
-      Tab(0).Control(6)=   "txtGamesMasterEMail"
-      Tab(0).Control(6).Enabled=   0   'False
-      Tab(0).Control(7)=   "chkLogErrors"
-      Tab(0).Control(7).Enabled=   0   'False
-      Tab(0).Control(8)=   "cmdViewErrors"
-      Tab(0).Control(8).Enabled=   0   'False
+      Tab(0).Control(5)=   "Label(20)"
+      Tab(0).Control(6)=   "Label(2)"
+      Tab(0).Control(7)=   "Label(1)"
+      Tab(0).Control(8)=   "Label(0)"
       Tab(0).ControlCount=   9
       TabCaption(1)   =   "E-Mail"
       TabPicture(1)   =   "frmOptions.frx":001C
-      Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "txtOutBox"
-      Tab(1).Control(1)=   "txtInbox"
-      Tab(1).Control(2)=   "frSMTPServer"
-      Tab(1).Control(3)=   "frPopServer"
-      Tab(1).Control(4)=   "Label(11)"
-      Tab(1).Control(5)=   "Label(10)"
+      Tab(1).ControlEnabled=   -1  'True
+      Tab(1).Control(0)=   "Label(10)"
+      Tab(1).Control(0).Enabled=   0   'False
+      Tab(1).Control(1)=   "Label(11)"
+      Tab(1).Control(1).Enabled=   0   'False
+      Tab(1).Control(2)=   "frPopServer"
+      Tab(1).Control(2).Enabled=   0   'False
+      Tab(1).Control(3)=   "frSMTPServer"
+      Tab(1).Control(3).Enabled=   0   'False
+      Tab(1).Control(4)=   "txtInbox"
+      Tab(1).Control(4).Enabled=   0   'False
+      Tab(1).Control(5)=   "txtOutBox"
+      Tab(1).Control(5).Enabled=   0   'False
       Tab(1).ControlCount=   6
       TabCaption(2)   =   "Startup"
       TabPicture(2)   =   "frmOptions.frx":0038
@@ -101,14 +99,14 @@ Begin VB.Form frmOptions
       Begin VB.CommandButton cmdViewErrors 
          Caption         =   "View Errors"
          Height          =   375
-         Left            =   3060
-         TabIndex        =   48
+         Left            =   -71940
+         TabIndex        =   49
          Top             =   2040
          Width           =   1095
       End
       Begin VB.CheckBox chkLogErrors 
          Height          =   315
-         Left            =   2640
+         Left            =   -72360
          TabIndex        =   7
          Top             =   2040
          Width           =   315
@@ -116,73 +114,80 @@ Begin VB.Form frmOptions
       Begin VB.CheckBox chkAutoRunGames 
          Height          =   255
          Left            =   -72600
-         TabIndex        =   46
+         TabIndex        =   47
          Top             =   2820
          Width           =   1455
       End
       Begin VB.CheckBox chkAutoCheckMail 
          Height          =   255
          Left            =   -72600
-         TabIndex        =   45
+         TabIndex        =   46
          Top             =   2460
          Width           =   1455
       End
       Begin VB.CheckBox chkShowGetMail 
          Height          =   255
          Left            =   -72600
-         TabIndex        =   44
+         TabIndex        =   45
          Top             =   2100
          Width           =   1455
       End
       Begin VB.CheckBox chkShowSendMail 
          Height          =   255
          Left            =   -72600
-         TabIndex        =   43
+         TabIndex        =   44
          Top             =   1740
          Width           =   1455
       End
       Begin VB.CheckBox chkShowGames 
          Height          =   255
          Left            =   -72600
-         TabIndex        =   38
+         TabIndex        =   39
          Top             =   1380
          Width           =   1455
       End
       Begin VB.CheckBox chkMinimizeAtStartup 
          Height          =   255
          Left            =   -72600
-         TabIndex        =   36
+         TabIndex        =   37
          Top             =   1020
          Width           =   1455
       End
       Begin VB.CheckBox chkStartWithWindows 
          Height          =   255
          Left            =   -72600
-         TabIndex        =   35
+         TabIndex        =   36
          Top             =   660
          Width           =   1455
       End
       Begin VB.TextBox txtOutBox 
          Height          =   315
-         Left            =   -73440
-         TabIndex        =   27
+         Left            =   1620
+         TabIndex        =   28
          Top             =   4980
          Width           =   5355
       End
       Begin VB.TextBox txtInbox 
          Height          =   315
-         Left            =   -73440
-         TabIndex        =   26
+         Left            =   1620
+         TabIndex        =   27
          Top             =   4560
          Width           =   5355
       End
       Begin VB.Frame frSMTPServer 
          Caption         =   "SMTP Server"
-         Height          =   1695
-         Left            =   -74820
+         Height          =   1935
+         Left            =   180
          TabIndex        =   13
-         Top             =   2700
+         Top             =   2400
          Width           =   7275
+         Begin VB.CheckBox chkAttachReports 
+            Height          =   315
+            Left            =   2520
+            TabIndex        =   24
+            Top             =   1500
+            Width           =   915
+         End
          Begin VB.TextBox txtSMTPFromAddress 
             Height          =   315
             Left            =   1440
@@ -203,6 +208,16 @@ Begin VB.Form frmOptions
             TabIndex        =   21
             Top             =   300
             Width           =   3675
+         End
+         Begin VB.Label Label 
+            Alignment       =   1  'Right Justify
+            Caption         =   "Send Reports as Attachments:"
+            Height          =   255
+            Index           =   21
+            Left            =   120
+            TabIndex        =   50
+            Top             =   1560
+            Width           =   2295
          End
          Begin VB.Label Label 
             Alignment       =   1  'Right Justify
@@ -237,15 +252,15 @@ Begin VB.Form frmOptions
       End
       Begin VB.Frame frPopServer 
          Caption         =   "POP Server"
-         Height          =   2055
-         Left            =   -74820
+         Height          =   1935
+         Left            =   180
          TabIndex        =   8
-         Top             =   540
+         Top             =   420
          Width           =   7275
          Begin VB.TextBox txtCheckMailInterval 
             Height          =   315
             Left            =   5640
-            TabIndex        =   29
+            TabIndex        =   30
             Top             =   1500
             Width           =   615
          End
@@ -283,7 +298,7 @@ Begin VB.Form frmOptions
             Height          =   255
             Index           =   12
             Left            =   3840
-            TabIndex        =   28
+            TabIndex        =   29
             Top             =   1560
             Width           =   1635
          End
@@ -330,21 +345,21 @@ Begin VB.Form frmOptions
       End
       Begin VB.TextBox txtGamesMasterEMail 
          Height          =   315
-         Left            =   2640
+         Left            =   -72360
          TabIndex        =   6
          Top             =   1560
          Width           =   4335
       End
       Begin VB.TextBox txtGalaxyNGHome 
          Height          =   315
-         Left            =   2640
+         Left            =   -72360
          TabIndex        =   5
          Top             =   1080
          Width           =   4335
       End
       Begin VB.TextBox txtServerName 
          Height          =   315
-         Left            =   2640
+         Left            =   -72360
          TabIndex        =   4
          Top             =   660
          Width           =   1695
@@ -354,8 +369,8 @@ Begin VB.Form frmOptions
          Caption         =   "Log Errors:"
          Height          =   255
          Index           =   20
-         Left            =   1380
-         TabIndex        =   47
+         Left            =   -73620
+         TabIndex        =   48
          Top             =   2040
          Width           =   1095
       End
@@ -365,7 +380,7 @@ Begin VB.Form frmOptions
          Height          =   255
          Index           =   19
          Left            =   -74760
-         TabIndex        =   42
+         TabIndex        =   43
          Top             =   2820
          Width           =   1875
       End
@@ -375,7 +390,7 @@ Begin VB.Form frmOptions
          Height          =   255
          Index           =   18
          Left            =   -74760
-         TabIndex        =   41
+         TabIndex        =   42
          Top             =   2460
          Width           =   1875
       End
@@ -385,7 +400,7 @@ Begin VB.Form frmOptions
          Height          =   255
          Index           =   17
          Left            =   -74760
-         TabIndex        =   40
+         TabIndex        =   41
          Top             =   2100
          Width           =   1875
       End
@@ -395,7 +410,7 @@ Begin VB.Form frmOptions
          Height          =   255
          Index           =   16
          Left            =   -74760
-         TabIndex        =   39
+         TabIndex        =   40
          Top             =   1740
          Width           =   1875
       End
@@ -405,7 +420,7 @@ Begin VB.Form frmOptions
          Height          =   255
          Index           =   15
          Left            =   -74760
-         TabIndex        =   37
+         TabIndex        =   38
          Top             =   1380
          Width           =   1875
       End
@@ -415,7 +430,7 @@ Begin VB.Form frmOptions
          Height          =   255
          Index           =   14
          Left            =   -74760
-         TabIndex        =   34
+         TabIndex        =   35
          Top             =   1020
          Width           =   1875
       End
@@ -425,7 +440,7 @@ Begin VB.Form frmOptions
          Height          =   255
          Index           =   13
          Left            =   -74760
-         TabIndex        =   33
+         TabIndex        =   34
          Top             =   660
          Width           =   1875
       End
@@ -434,8 +449,8 @@ Begin VB.Form frmOptions
          Caption         =   "Outbox:"
          Height          =   255
          Index           =   11
-         Left            =   -74700
-         TabIndex        =   25
+         Left            =   360
+         TabIndex        =   26
          Top             =   5040
          Width           =   1155
       End
@@ -444,8 +459,8 @@ Begin VB.Form frmOptions
          Caption         =   "Inbox:"
          Height          =   255
          Index           =   10
-         Left            =   -74700
-         TabIndex        =   24
+         Left            =   360
+         TabIndex        =   25
          Top             =   4620
          Width           =   1155
       End
@@ -454,7 +469,7 @@ Begin VB.Form frmOptions
          Caption         =   "GalaxyNG Home Folder:"
          Height          =   255
          Index           =   2
-         Left            =   180
+         Left            =   -74820
          TabIndex        =   3
          Top             =   1140
          Width           =   2355
@@ -464,7 +479,7 @@ Begin VB.Form frmOptions
          Caption         =   "Games Master E-Mail Address:"
          Height          =   255
          Index           =   1
-         Left            =   180
+         Left            =   -74820
          TabIndex        =   2
          Top             =   1620
          Width           =   2355
@@ -474,7 +489,7 @@ Begin VB.Form frmOptions
          Caption         =   "GalaxyNG Server Name:"
          Height          =   255
          Index           =   0
-         Left            =   180
+         Left            =   -74820
          TabIndex        =   1
          Top             =   720
          Width           =   2355
@@ -504,6 +519,7 @@ Public Sub LoadOptions()
     txtSMTPServer = Options.SMTPServer
     txtSMTPServerPort = Options.SMTPServerPort
     txtSMTPFromAddress = Options.SMTPFromAddress
+    chkAttachReports = IIf(Options.AttachReports, vbChecked, vbUnchecked)
     txtInbox = Options.Inbox
     txtOutBox = Options.Outbox
     
@@ -533,6 +549,7 @@ Public Sub SaveOptions()
     Options.SMTPServer = txtSMTPServer
     Options.SMTPServerPort = txtSMTPServerPort
     Options.SMTPFromAddress = txtSMTPFromAddress
+    Options.AttachReports = (chkAttachReports = vbChecked)
     Options.Inbox = txtInbox
     Options.Outbox = txtOutBox
     

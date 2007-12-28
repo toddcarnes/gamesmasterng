@@ -180,7 +180,7 @@ Public Sub SendReports(ByVal strGame As String)
     Dim strFileName As String
     Dim objNE As NewEMail
     Dim objA As Attachment
-    Dim objZip As CGZipFiles
+    Dim objZip As Zip
     
     GalaxyNG.Games.Refresh
     Set objGame = GalaxyNG.Games(strGame)
@@ -207,12 +207,13 @@ Public Sub SendReports(ByVal strGame As String)
                 objNE.Subject = "[GNG] " & objGame.GameName & " turn " & strTurn & _
                         " text report for " & objRace.RaceName
                 
+                'EMail Body
                 Set objA = New Attachment
                 Call objA.Store("GalaxyNG Reports Attached", uefText)
                 objNE.Attachments.Add objA
                 
-                Set objZip = New CGZipFiles
-                objZip.RemoveFile "querty"
+                'EMail Zip File Attachment
+                Set objZip = New Zip
                 objZip.RootDirectory = Options.GalaxyNGReports & strGame & "\"
                 
                 objZip.ZipFileName = Options.GalaxyNGReports & strGame & "\" & objRace.RaceName & "_" & strTurn & ".zip"
@@ -220,11 +221,13 @@ Public Sub SendReports(ByVal strGame As String)
                     Kill objZip.ZipFileName
                 End If
                 
+                'Text Report
                 strFileName = Options.RaceReport(strGame, objRace.RaceName, strTurn)
                 If Dir(strFileName) <> "" Then
                     objZip.AddFile GetFullFileName(strFileName)
                 End If
                 
+                'Machine Report
                 strFileName = Options.RaceMachineReport(strGame, objRace.RaceName, strTurn)
                 If Dir(strFileName) <> "" Then
                     objZip.AddFile GetFullFileName(strFileName)
@@ -238,7 +241,7 @@ Public Sub SendReports(ByVal strGame As String)
                 objNE.Attachments.Add objA
                 Call SendNewEMail(objNE.EMailData)
                 
-            ElseIf 1 = 1 Then
+            ElseIf Options.AttachReports Then
                 Set objNE = New NewEMail
                 objNE.ToAddress = objRace.EMail
                 objNE.FromAddress = Options.SMTPFromAddress
@@ -246,10 +249,12 @@ Public Sub SendReports(ByVal strGame As String)
                 objNE.Subject = "[GNG] " & objGame.GameName & " turn " & strTurn & _
                         " text report for " & objRace.RaceName
                 
+                'EMail Body
                 Set objA = New Attachment
                 Call objA.Store("GalaxyNG Reports are Attached", uefText)
                 objNE.Attachments.Add objA
                 
+                'Text Report
                 strFileName = Options.RaceReport(strGame, objRace.RaceName, strTurn)
                 If Dir(strFileName) <> "" Then
                     Set objA = New Attachment
@@ -258,6 +263,7 @@ Public Sub SendReports(ByVal strGame As String)
                     objNE.Attachments.Add objA
                 End If
                 
+                'Machine Report
                 strFileName = Options.RaceMachineReport(strGame, objRace.RaceName, strTurn)
                 If Dir(strFileName) <> "" Then
                     Set objA = New Attachment
@@ -267,16 +273,18 @@ Public Sub SendReports(ByVal strGame As String)
                 End If
                 Call SendNewEMail(objNE.EMailData)
             
-            Else
-                'Get the Text Report
+            Else ' EMail reports seperately
+                'Text Report
                 strFileName = Options.RaceReport(strGame, objRace.RaceName, strTurn)
-                strBody = GetFile(strFileName)
-                Call SendEMail(objRace.EMail, _
-                        "[GNG] " & objGame.GameName & " turn " & strTurn & _
-                        " text report for " & objRace.RaceName, _
-                        strBody)
+                If Dir(strFileName) <> "" Then
+                    strBody = GetFile(strFileName)
+                    Call SendEMail(objRace.EMail, _
+                            "[GNG] " & objGame.GameName & " turn " & strTurn & _
+                            " text report for " & objRace.RaceName, _
+                            strBody)
+                End If
                 
-                ' Check for the machinery Report
+                'Machine Report
                 strFileName = Options.RaceMachineReport(strGame, objRace.RaceName, strTurn)
                 If Dir(strFileName) <> "" Then
                     strBody = GetFile(strFileName)

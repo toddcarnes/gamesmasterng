@@ -6,7 +6,7 @@ BEGIN
   DataSourceBehavior  = 0  'vbNone
   MTSTransactionMode  = 0  'NotAnMTSObject
 END
-Attribute VB_Name = "CGZipFiles"
+Attribute VB_Name = "Zip"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
@@ -77,7 +77,7 @@ Private Sub Class_Initialize()
 ' The Zip process *always* fails on the first file,
 ' regardless of whether it's a valid file or not!
 '
-    mCollection.Add "querty", "querty"
+'    mCollection.Add "querty", "querty"
     miEncrypt = 0
     miSystem = 0
     msRootDirectory = "\"

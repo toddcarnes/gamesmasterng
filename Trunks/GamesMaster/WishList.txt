@@ -4,10 +4,10 @@ Requests and Wishlist
 Gamesmaster
 -----------
 DONE 	Forcast Report to include finalorders in subject.
-OK   	Send reports as attachments
-OK	Zip reports as attachment
+DONE 	Send reports as attachments
+DONE	Zip reports as attachment
+DONE	Make Attachments a program option
 
-Make Attachments a program option
 View Game details
 View Player details
 Change Game Details
