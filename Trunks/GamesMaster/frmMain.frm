@@ -50,7 +50,7 @@ Begin VB.MDIForm frmMain
             AutoSize        =   2
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "28/12/2007"
+            TextSave        =   "31/12/2007"
             Key             =   "Date"
          EndProperty
          BeginProperty Panel4 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
@@ -59,7 +59,7 @@ Begin VB.MDIForm frmMain
             AutoSize        =   2
             Object.Width           =   1402
             MinWidth        =   1411
-            TextSave        =   "12:49"
+            TextSave        =   "5:26"
             Key             =   "Time"
          EndProperty
       EndProperty
@@ -593,7 +593,7 @@ Public Sub mnuGame_Click()
             mnuGameDelete.Enabled = False
             mnuGameEdit.Enabled = False
             mnuGameView.Enabled = False
-            mnuGameEditMessage.Enabled = False
+            mnuGameEditMessage.Enabled = True
             mnuGameStart.Enabled = False
             mnuGameRun.Enabled = False
             mnuGameResend.Enabled = False

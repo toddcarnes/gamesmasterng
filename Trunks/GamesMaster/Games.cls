@@ -75,10 +75,16 @@ Public Function Refresh()
                     mCol.Add objGame, strFile
                 End With
             End If
-            objGame.Created = True
         End If
         strFile = Dir()
     Wend
+
+    For Each objGame In mCol
+        If Dir(objGame.GameFile(0)) <> "" Then
+            objGame.Created = True
+        End If
+    Next objGame
+
 End Function
 
 Private Sub Class_Initialize()

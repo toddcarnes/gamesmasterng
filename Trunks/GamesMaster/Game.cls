@@ -59,8 +59,8 @@ Public Property Set Planets(vData As Planets)
     Set mcolPlanets = vData
 End Property
 
-Public Property Get Flag(ByVal uFlag As GameFlag) As Boolean
-    Flag = ((Flags And uFlag) = uFlag)
+Public Property Get flag(ByVal uFlag As GameFlag) As Boolean
+    flag = ((Flags And uFlag) = uFlag)
 End Property
 
 Public Property Get Template() As Template
@@ -163,7 +163,7 @@ Public Sub Refresh()
     l = l + 1
     Flags = 0 & vLines(l)
     l = l + 1
-    GalacticPeace = 0 & vLines(l)
+    GalacticPeace = Val(vLines(l))
     l = l + 1
     InitialDrive = vLines(l)
     l = l + 1
@@ -301,7 +301,7 @@ Public Sub Refresh()
             objPlanet.Owner.Planets.Add objPlanet
         End If
         l = l + 1
-        objPlanet.X = vLines(l)
+        objPlanet.x = vLines(l)
         l = l + 1
         objPlanet.Y = vLines(l)
         l = l + 1
@@ -409,7 +409,7 @@ Public Property Get ActivePlayers() As Long
     
     ActivePlayers = 0
     For Each objRace In mcolRaces
-        If Not objRace.Flag(R_DEAD) Then ActivePlayers = ActivePlayers + 1
+        If Not objRace.flag(R_DEAD) Then ActivePlayers = ActivePlayers + 1
     Next objRace
 End Property
 
@@ -418,7 +418,7 @@ Public Property Get PlayersReady() As Long
     
     PlayersReady = 0
     For Each objRace In mcolRaces
-        If Not objRace.Flag(R_DEAD) Then
+        If Not objRace.flag(R_DEAD) Then
             If OrdersReceived(objRace.RaceName) Then
                 PlayersReady = PlayersReady + 1
             End If
@@ -507,7 +507,7 @@ Public Function NotifyUsers() As Boolean
     If dtNext > Now Then Exit Function
     
     For Each objRace In Races
-        If Not objRace.Flag(R_DEAD) Then
+        If Not objRace.flag(R_DEAD) Then
             strRace = objRace.RaceName
             If OrdersReceived(strRace) Then
             ElseIf NotificationSent(strRace) Then
@@ -544,7 +544,7 @@ Public Function AllFinalOrdersReceived() As Boolean
     
     AllFinalOrdersReceived = True
     For Each objRace In Races
-        If Not objRace.Flag(R_DEAD) Then
+        If Not objRace.flag(R_DEAD) Then
             If Not FinalOrdersReceived(objRace.RaceName) Then
                 AllFinalOrdersReceived = False
                 Exit For
@@ -558,7 +558,7 @@ Public Function LastFinalOrdersDate() As Date
     Dim dtFinalOrders As Date
     
     For Each objRace In Races
-        If Not objRace.Flag(R_DEAD) Then
+        If Not objRace.flag(R_DEAD) Then
             dtFinalOrders = FinalOrdersDate(objRace.RaceName)
             If dtFinalOrders > LastFinalOrdersDate Then
                 LastFinalOrdersDate = dtFinalOrders
