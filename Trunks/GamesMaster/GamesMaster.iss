@@ -1,4 +1,4 @@
-#define AppDate "23 December 2007"
+#define AppDate "31 December 2007"
 #define Source SourcePath
 #define HomePage "http://www.mykoala.net"
 #define vbFiles Source + "\VB60Files"
@@ -17,14 +17,14 @@ AppSupportURL={#HomePage}
 AppUpdatesURL={#HomePage}
 DefaultDirName={pf}\GalaxyNG
 DefaultGroupName=GalaxyNG
-LicenseFile=
-InfoBeforeFile=
-InfoAfterFile=
+LicenseFile={#Source}\package\License.rtf
+InfoBeforeFile={#Source}\package\Before.rtf
+InfoAfterFile={#Source}\package\After.rtf
 OutputDir={#Source}\Distributions
 SourceDir={#Source}
 OutputBaseFilename=GamesMasterSetupV{#AppVersion}
 MinVersion=4.1.1998,4.0.1381sp6
-AppCopyright=Copyright © Ian Llewelyn Evans 2007
+AppCopyright=Copyright © Ian Llewelyn Evans 2007-2008
 UserInfoPage=false
 ChangesAssociations=true
 VersionInfoVersion={#FileVersion}
@@ -40,6 +40,9 @@ DisableDirPage=false
 DisableProgramGroupPage=false
 AllowRootDirectory=true
 AllowUNCPath=false
+VersionInfoCopyright=Copyright © Ian Llewelyn Evans 2007-2008
+AlwaysShowDirOnReadyPage=true
+AlwaysShowGroupOnReadyPage=true
 
 [Icons]
 Name: {group}\Uninstall Games Master; Filename: {uninstallexe}
@@ -49,7 +52,10 @@ Name: {commondesktop}\Games Master; Filename: {app}\GamesMaster.exe
 [Files]
 Source: {#Source}\GamesMaster.exe; DestDir: {app}; Flags: comparetimestamp
 Source: {#Source}\package\galaxyng.exe; DestDir: {app}; Flags: comparetimestamp
+Source: {#Source}\Package\gpl-3.0.txt; DestDir: {app}; Flags: comparetimestamp
+Source: {#Source}\Package\License.rtf; DestDir: {app}; Flags: comparetimestamp
 Source: {#Source}\package\zip32.dll; DestDir: {app}; Flags: comparetimestamp
+Source: {#Source}\Package\Info-Zip License.txt; DestDir: {app}; Flags: comparetimestamp
 Source: {#Source}\GamesMaster.txt; DestDir: {app}; Flags: comparetimestamp
 Source: {#Source}\GamesMaster.ini; DestDir: {app}; DestName: GamesMaster.ini; Flags: onlyifdoesntexist
 ;VB6
@@ -62,6 +68,7 @@ Source: {#vbFiles}\mshflxgd.OCX; DestDir: {sys}; Flags: restartreplace sharedfil
 Source: {#vbFiles}\tabctl32.OCX; DestDir: {sys}; Flags: restartreplace sharedfile uninsneveruninstall regserver
 Source: {#vbFiles}\mscomctl.OCX; DestDir: {sys}; Flags: restartreplace sharedfile uninsneveruninstall regserver
 Source: {#vbFiles}\ws2_32.dll; DestDir: {sys}; Flags: restartreplace sharedfile uninsneveruninstall
+
 [INI]
 Filename: {app}\gamesmaster.ini; Section: Folders; Key: GalaxyNGHome; String: {app}\
 Filename: {app}\gamesmaster.ini; Section: FileNames; Key: Executable; String: {app}\galaxyng.exe

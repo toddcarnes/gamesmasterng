@@ -7,8 +7,7 @@ DONE 	Forcast Report to include finalorders in subject.
 DONE 	Send reports as attachments
 DONE	Zip reports as attachment
 DONE	Make Attachments a program option
-DONE	Game and Server Specific Messages
-DONE	Build a description page for each game
+DONE	Build a description page for each game  (Send with Turn when attachments)
 
 View Game details
 View Player details
@@ -22,5 +21,6 @@ E-Mail Requests for a game's status (Description, player numbers, turn, score)
 
 Installation Program
 --------------------
-License Page
-Links to GalaxyNG sites including SIFAR
+DONE	License Page
+DONE	Links to GalaxyNG sites including SIFAR
+DONE	Links to Info-Zip and licensing
