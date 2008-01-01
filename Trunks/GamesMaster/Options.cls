@@ -66,6 +66,14 @@ Public LogErrors As Boolean
 
 Public INIFile As INIFile
 
+Public Property Get INIFileName() As String
+    INIFileName = INIFile.File
+End Property
+
+Public Property Let INIFileName(ByVal strFileName As String)
+    INIFile.File = strFileName
+End Property
+
 Public Function OrdersFileName() As String
     OrdersFileName = "orders.txt"
 End Function
@@ -110,9 +118,7 @@ Public Function RaceMachineReport(ByVal Game As String, ByVal Race As String, By
 End Function
 
 Public Sub LoadSettings()
-    Set INIFile = New INIFile
     With INIFile
-        .File = App.Path & "\" & App.EXEName & ".ini"
         TurnConstant = .GetSetting("Constants", "Turn", "[turn]")
         RaceConstant = .GetSetting("Constants", "Race", "[race]")
         GalaxyNGHomeConstant = .GetSetting("Constants", "GalaxyNGHome", "[GalaxyNGHome]")
@@ -140,7 +146,7 @@ Public Sub LoadSettings()
         SMTPServer = .GetSetting("EMail", "SMTPServer", "")
         SMTPServerPort = .GetSetting("EMail", "SMTPServerPort", "25")
         SMTPFromAddress = .GetSetting("EMail", "SMTPFromAddress", "")
-        AttachReports = .GetSetting("EMail", "AttachReports", False)
+        AttachReports = .GetSetting("EMail", "AttachReports", True)
     
         NextTurnFile = .GetSetting("FileNames", "NextTurn", "next_turn")
         GamesMasterReportFile = .GetSetting("FileNames", "GamesMasterReport", "NG_GameMaster_" & TurnConstant & ".txt")
@@ -213,10 +219,6 @@ Public Sub SaveSettings()
     End With
 End Sub
 
-Private Sub Class_Initialize()
-    Call LoadSettings
-End Sub
-
 Public Function GetMessage(ByVal strKey As String, ParamArray Parm() As Variant) As String
     Dim strMessage As String
     Dim i As Long
@@ -284,3 +286,9 @@ Private Sub LoadMessages()
     Close #intFN
 End Sub
 
+Private Sub Class_Initialize()
+    Set INIFile = New INIFile
+    With INIFile
+        .File = App.Path & "\" & App.EXEName & ".ini"
+    End With
+End Sub

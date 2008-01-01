@@ -9,7 +9,6 @@ Begin VB.Form frmTemplate
    ClientWidth     =   7215
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
-   MDIChild        =   -1  'True
    MinButton       =   0   'False
    ScaleHeight     =   8205
    ScaleWidth      =   7215
@@ -856,7 +855,7 @@ Private Sub Form_Load()
     dtStartDate.TimeFormat = ""
 End Sub
 
-Private Sub grdRegistrations_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub grdRegistrations_MouseDown(Button As Integer, Shift As Integer, x As Single, Y As Single)
     If Button = vbRightButton And Not ReadOnly Then
         PopupMenu mnuAction
     End If
@@ -973,7 +972,7 @@ End Sub
 Private Sub LoadRegistrations()
     Dim objRegistration As Registration
     Dim i As Long
-    Dim C As Long
+    Dim c As Long
     
     With grdRegistrations
         .Clear
@@ -1001,16 +1000,16 @@ Private Sub LoadRegistrations()
         For Each objRegistration In mobjTemplate.Registrations
             i = i + 1
             .TextMatrix(i, 1) = objRegistration.EMail
-            For C = 1 To objRegistration.HomeWorlds.Count
-                If C > 4 Then Exit For
-                If objRegistration.HomeWorlds(C).X = 0 Then
-                    .TextMatrix(i, C + 1) = objRegistration.HomeWorlds(C).Size
+            For c = 1 To objRegistration.HomeWorlds.Count
+                If c > 4 Then Exit For
+                If objRegistration.HomeWorlds(c).x = 0 Then
+                    .TextMatrix(i, c + 1) = objRegistration.HomeWorlds(c).Size
                 Else
-                    .TextMatrix(i, C + 1) = objRegistration.HomeWorlds(C).Size _
-                                        & "/" & objRegistration.HomeWorlds(C).X _
-                                        & "/" & objRegistration.HomeWorlds(C).Y
+                    .TextMatrix(i, c + 1) = objRegistration.HomeWorlds(c).Size _
+                                        & "/" & objRegistration.HomeWorlds(c).x _
+                                        & "/" & objRegistration.HomeWorlds(c).Y
                 End If
-            Next C
+            Next c
         Next objRegistration
     End With
 

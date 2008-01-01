@@ -3,10 +3,10 @@ Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
 Begin VB.MDIForm frmMain 
    BackColor       =   &H8000000C&
    Caption         =   "GalaxyNG Games Master"
-   ClientHeight    =   4650
+   ClientHeight    =   7740
    ClientLeft      =   165
    ClientTop       =   555
-   ClientWidth     =   8340
+   ClientWidth     =   9525
    Icon            =   "frmMain.frx":0000
    LinkTopic       =   "MDIForm1"
    StartUpPosition =   2  'CenterScreen
@@ -24,16 +24,16 @@ Begin VB.MDIForm frmMain
       Height          =   315
       Left            =   0
       TabIndex        =   0
-      Top             =   4335
-      Width           =   8340
-      _ExtentX        =   14711
+      Top             =   7425
+      Width           =   9525
+      _ExtentX        =   16801
       _ExtentY        =   556
       _Version        =   393216
       BeginProperty Panels {8E3867A5-8586-11D1-B16A-00C0F0283628} 
          NumPanels       =   4
          BeginProperty Panel1 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             AutoSize        =   1
-            Object.Width           =   7064
+            Object.Width           =   9155
             Text            =   "Status Messages"
             TextSave        =   "Status Messages"
             Key             =   "Status"
@@ -50,7 +50,7 @@ Begin VB.MDIForm frmMain
             AutoSize        =   2
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "31/12/2007"
+            TextSave        =   "1/01/2008"
             Key             =   "Date"
          EndProperty
          BeginProperty Panel4 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
@@ -59,7 +59,7 @@ Begin VB.MDIForm frmMain
             AutoSize        =   2
             Object.Width           =   1402
             MinWidth        =   1411
-            TextSave        =   "5:26"
+            TextSave        =   "16:43"
             Key             =   "Time"
          EndProperty
       EndProperty
@@ -78,9 +78,6 @@ Begin VB.MDIForm frmMain
    End
    Begin VB.Menu mnuFile 
       Caption         =   "&File"
-      Begin VB.Menu mnuFileOptions 
-         Caption         =   "Options"
-      End
       Begin VB.Menu mnuExit 
          Caption         =   "E&xit"
       End
@@ -89,6 +86,12 @@ Begin VB.MDIForm frmMain
       Caption         =   "View"
       Begin VB.Menu mnuViewGames 
          Caption         =   "&Games"
+      End
+      Begin VB.Menu mnuFileOptions 
+         Caption         =   "Options"
+      End
+      Begin VB.Menu mnuViewLogFile 
+         Caption         =   "&Log File"
       End
    End
    Begin VB.Menu mnuTemplate 
@@ -298,8 +301,10 @@ Private Sub MDIForm_Load()
     mnuGameEdit.Visible = False
     mnuGameDelete.Visible = False
     With Me
-        .Width = 1024 * Screen.TwipsPerPixelX
-        .Height = 768 * Screen.TwipsPerPixelY
+        .Top = GetSetting(App.EXEName, .Name, "Top", Me.Top)
+        .Left = GetSetting(App.EXEName, .Name, "Left", Me.Left)
+        .Width = GetSetting(App.EXEName, .Name, "Width", Me.Width)
+        .Height = GetSetting(App.EXEName, .Name, "Height", Me.Height)
         If (.Top + .Height) > Screen.Height Then
             .Top = Screen.Height - .Height
         End If
@@ -365,6 +370,14 @@ Private Sub MDIForm_Unload(Cancel As Integer)
     Systray.InTray = False
     tmrMail.Interval = 0
     tmrGalaxyNG.Interval = 0
+    With Me
+        If Me.WindowState = vbNormal Then
+            Call SaveSetting(App.EXEName, .Name, "Top", .Top)
+            Call SaveSetting(App.EXEName, .Name, "Left", .Left)
+            Call SaveSetting(App.EXEName, .Name, "Width", .Width)
+            Call SaveSetting(App.EXEName, .Name, "Height", .Height)
+        End If
+    End With
 End Sub
 
 Private Sub mnuAutoRun_Click()
@@ -436,11 +449,16 @@ Public Sub mnuFileOptions_Click()
 End Sub
 
 Private Sub mnuGameCreate_Click()
-    Call CreateGame(SelectedGame)
+    If MsgBox("Are you sure that you want to Create " & _
+            "the game " & SelectedGame & ".", vbYesNo, "Create Game") = vbYes Then
+        Call CreateGame(SelectedGame)
+    End If
 End Sub
 
 Private Sub mnuGameDelete_Click()
-'
+    If MsgBox("Are you sure that you want to Delete " & _
+            "the game " & SelectedGame & ".", vbYesNo, "Delete Game") = vbYes Then
+    End If
 End Sub
 
 Private Sub mnuGameEdit_Click()
@@ -448,15 +466,24 @@ Private Sub mnuGameEdit_Click()
 End Sub
 
 Private Sub mnuGameNotify_Click()
-    Call NotifyUsers(SelectedGame)
+    If MsgBox("Are you sure that you want to Notify Users for " & _
+            "the game " & SelectedGame & ".", vbYesNo, "Notify Users") = vbYes Then
+        Call NotifyUsers(SelectedGame)
+    End If
 End Sub
 
 Private Sub mnuGameResend_Click()
-    Call ResendReports(SelectedGame)
+    If MsgBox("Are you sure that you want to Resend Reports for " & _
+            "the game " & SelectedGame & ".", vbYesNo, "Resend Reports") = vbYes Then
+        Call ResendReports(SelectedGame)
+    End If
 End Sub
 
 Private Sub mnuGameRun_Click()
-    Call RunGame(SelectedGame)
+    If MsgBox("Are you sure that you want to Run a Turn for " & _
+            "the game " & SelectedGame & ".", vbYesNo, "Run Game") = vbYes Then
+        Call RunGame(SelectedGame)
+    End If
 End Sub
 
 Public Sub RefreshGamesForm()
@@ -472,7 +499,10 @@ Public Sub RefreshGamesForm()
 End Sub
 
 Private Sub mnuGameStart_Click()
-    Call StartGame(SelectedGame)
+    If MsgBox("Are you sure that you want to start " & _
+            "the game " & SelectedGame & ".", vbYesNo, "Start Game") = vbYes Then
+        Call StartGame(SelectedGame)
+    End If
 End Sub
 
 Private Sub mnuGameView_Click()
@@ -802,6 +832,10 @@ Private Sub mnuViewGames_Click()
     End If
     Set fForm = Nothing
     Set fGames = Nothing
+End Sub
+
+Private Sub mnuViewLogFile_Click()
+    ShellOpen LogFilename
 End Sub
 
 Private Sub mnuViewTemplate_Click()

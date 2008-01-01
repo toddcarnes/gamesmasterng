@@ -8,11 +8,60 @@ Public INIFile As INIFile
 Public Options As Options
 
 Public Sub Main()
+    Dim blnShowOptions As Boolean
+    Dim strINIFile As String
+    Dim fOptions As frmOptions
+    
+    Call GetCommandLine(blnShowOptions, strINIFile)
     Set Options = New Options
-    Options.SaveSettings
-    Set GalaxyNG = New GalaxyNG
-    Set MainForm = New frmMain
-    MainForm.Show
+    If strINIFile <> "" Then
+        Options.INIFileName = strINIFile
+    End If
+    Call Options.LoadSettings
+    Call Options.SaveSettings
+    
+    If blnShowOptions Then
+        Set fOptions = New frmOptions
+        Load fOptions
+        fOptions.Show
+    Else
+        Set GalaxyNG = New GalaxyNG
+        Set MainForm = New frmMain
+        MainForm.Show
+    End If
+End Sub
+
+Private Sub GetCommandLine(ByRef blnShowOptions As Boolean, ByRef strINIFile As String)
+    Dim i As Long
+    Dim strLine As String
+    
+    ' get the command line
+    strLine = LCase(Command$)
+    
+    ' Shw the Options Dialog Only
+    If InStr(1, strLine, "-showoptions") > 0 Then
+        blnShowOptions = True
+        strLine = Replace(strLine, "-showoptions", "")
+    End If
+    
+    'Clean up the remainder of the line
+    strLine = Trim(strLine)
+    strLine = Replace(strLine, vbTab, " ")
+    
+    While InStr(1, strLine, "  ") > 0
+        strLine = Replace(strLine, "  ", " ")
+    Wend
+    
+    'Anything left is a path to the INIFile to use
+    If strLine <> "" Then
+        If InStr(1, strLine, "\") = 0 Then
+            strINIFile = App.Path & "\" & strLine
+        Else
+            strINIFile = strLine
+        End If
+    End If
+    
+    
 End Sub
 
 Public Function GetFileName(ByVal FilePath As String) As String

@@ -8,6 +8,11 @@ DONE 	Send reports as attachments
 DONE	Zip reports as attachment
 DONE	Make Attachments a program option
 DONE	Build a description page for each game  (Send with Turn when attachments)
+DONE	Request Confirmation of Critical Menu Options
+DONE	Options switch to set options at the end of installation.
+DONE	Option for setting which inifile to use.
+DONE	Make the Template for not a MDI form
+DONE	Set and save the Main window position
 
 View Game details
 View Player details
@@ -24,3 +29,4 @@ Installation Program
 DONE	License Page
 DONE	Links to GalaxyNG sites including SIFAR
 DONE	Links to Info-Zip and licensing
+DONE	Option to set options when installation finishes

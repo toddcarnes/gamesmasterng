@@ -51,19 +51,22 @@ Name: {commondesktop}\Games Master; Filename: {app}\GamesMaster.exe
 
 [Files]
 Source: {#Source}\GamesMaster.exe; DestDir: {app}; Flags: comparetimestamp
+Source: {#Source}\GamesMaster.txt; DestDir: {app}; Flags: comparetimestamp
+Source: {#Source}\Package\GamesMaster.ini; DestDir: {app}; DestName: GamesMaster.ini; Flags: onlyifdoesntexist
+Source: {#Source}\Package\License.rtf; DestDir: {app}; Flags: comparetimestamp
+;GalaxyNG
 Source: {#Source}\package\galaxyng.exe; DestDir: {app}; Flags: comparetimestamp
 Source: {#Source}\Package\gpl-3.0.txt; DestDir: {app}; Flags: comparetimestamp
-Source: {#Source}\Package\License.rtf; DestDir: {app}; Flags: comparetimestamp
+;Info-Zip
 Source: {#Source}\package\zip32.dll; DestDir: {app}; Flags: comparetimestamp
 Source: {#Source}\Package\Info-Zip License.txt; DestDir: {app}; Flags: comparetimestamp
-Source: {#Source}\GamesMaster.txt; DestDir: {app}; Flags: comparetimestamp
-Source: {#Source}\GamesMaster.ini; DestDir: {app}; DestName: GamesMaster.ini; Flags: onlyifdoesntexist
 ;VB6
 Source: {#vbFiles}\stdole2.tlb; DestDir: {sys}; Flags: restartreplace uninsneveruninstall sharedfile regtypelib
 Source: {#vbFiles}\msvbvm60.dll; DestDir: {sys}; Flags: restartreplace uninsneveruninstall sharedfile regserver
 Source: {#vbFiles}\oleaut32.dll; DestDir: {sys}; Flags: restartreplace uninsneveruninstall sharedfile regserver
 Source: {#vbFiles}\olepro32.dll; DestDir: {sys}; Flags: restartreplace uninsneveruninstall sharedfile regserver
 Source: {#vbFiles}\asycfilt.dll; DestDir: {sys}; Flags: restartreplace uninsneveruninstall sharedfile
+;VB6 Controls
 Source: {#vbFiles}\mshflxgd.OCX; DestDir: {sys}; Flags: restartreplace sharedfile uninsneveruninstall regserver
 Source: {#vbFiles}\tabctl32.OCX; DestDir: {sys}; Flags: restartreplace sharedfile uninsneveruninstall regserver
 Source: {#vbFiles}\mscomctl.OCX; DestDir: {sys}; Flags: restartreplace sharedfile uninsneveruninstall regserver
@@ -72,22 +75,8 @@ Source: {#vbFiles}\ws2_32.dll; DestDir: {sys}; Flags: restartreplace sharedfile 
 [INI]
 Filename: {app}\gamesmaster.ini; Section: Folders; Key: GalaxyNGHome; String: {app}\
 Filename: {app}\gamesmaster.ini; Section: FileNames; Key: Executable; String: {app}\galaxyng.exe
-Filename: {app}\gamesmaster.ini; Section: EMail; Key: GamesMasterEMail; String: gamesmaster@mydomain
 Filename: {app}\gamesmaster.ini; Section: EMail; Key: ServerName; String: {computername}
-Filename: {app}\gamesmaster.ini; Section: EMail; Key: Inbox; String: {app}\Inbox\
-Filename: {app}\gamesmaster.ini; Section: EMail; Key: Outbox; String: {app}\Outbox\
-Filename: {app}\gamesmaster.ini; Section: EMail; Key: POPServer; String: mail.mydomain
-Filename: {app}\gamesmaster.ini; Section: EMail; Key: POPUserID; String: MyUserID
-Filename: {app}\gamesmaster.ini; Section: EMail; Key: POPPassword; String: MyPassword
-Filename: {app}\gamesmaster.ini; Section: EMail; Key: SMTPServer; String: SMTP.mydomain
-Filename: {app}\gamesmaster.ini; Section: EMail; Key: SMTPFromAddress; String: """{computername} GalaxyNG Server""<{computername}@mydomain>"
-Filename: {app}\gamesmaster.ini; Section: Startup; Key: StartWithWindows; String: False
-Filename: {app}\gamesmaster.ini; Section: Startup; Key: MinimizeAtStartup; String: False
-Filename: {app}\gamesmaster.ini; Section: Startup; Key: ShowGames; String: False
-Filename: {app}\gamesmaster.ini; Section: Startup; Key: ShowSendMail; String: False
-Filename: {app}\gamesmaster.ini; Section: Startup; Key: ShowGetMail; String: False
-Filename: {app}\gamesmaster.ini; Section: Startup; Key: AutoCheckMail; String: False
-Filename: {app}\gamesmaster.ini; Section: Startup; Key: AutoRunGames; String: False
+
 [Dirs]
 Name: {app}\data
 Name: {app}\inbox
@@ -97,3 +86,9 @@ Name: {app}\orders
 Name: {app}\outbox
 Name: {app}\reports
 Name: {app}\statistics
+
+[Run]
+Filename: {app}\GamesMaster.exe; Parameters: -showoptions; WorkingDir: {app}; Tasks: " SetOptions"
+
+[Tasks]
+Name: SetOptions; Description: Set Program Options Now; Flags: unchecked checkablealone
