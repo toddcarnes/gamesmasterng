@@ -473,7 +473,7 @@ Public Function ReadyToStart() As Boolean
     If Started Then Exit Function
     With Template
         If .StartDate = 0 Then Exit Function
-        If .StartDate <= Now Then
+        If CDate(.StartDate + .RunTime) <= Now Then
             ReadyToStart = True
         End If
     End With
