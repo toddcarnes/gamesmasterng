@@ -1,0 +1,17 @@
+Requests and Wishlist 
+=====================
+
+Gamesmaster
+-----------
+View Game details
+View Player details
+Change Game Details
+Change Player Details
+Help Documentation
+Option to Announce the opening of a game
+Option to upload Game Status webpage to a website each turn
+E-Mail Requests for list of games on the server.
+E-Mail Requests for a game's status (Description, player numbers, turn, score)
+
+Installation Program
+--------------------

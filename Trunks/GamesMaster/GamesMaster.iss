@@ -55,11 +55,12 @@ Source: {#Source}\GamesMaster.txt; DestDir: {app}; Flags: comparetimestamp
 Source: {#Source}\Package\GamesMaster.ini; DestDir: {app}; DestName: GamesMaster.ini; Flags: onlyifdoesntexist
 Source: {#Source}\Package\License.rtf; DestDir: {app}; Flags: comparetimestamp
 ;GalaxyNG
-Source: {#Source}\package\galaxyng.exe; DestDir: {app}; Flags: comparetimestamp
+Source: {#Source}\Package\galaxyng.exe; DestDir: {app}; Flags: comparetimestamp
 Source: {#Source}\Package\gpl-3.0.txt; DestDir: {app}; Flags: comparetimestamp
 ;Info-Zip
-Source: {#Source}\package\zip32.dll; DestDir: {app}; Flags: comparetimestamp
+Source: {#Source}\Package\zip32.dll; DestDir: {app}; Flags: comparetimestamp
 Source: {#Source}\Package\Info-Zip License.txt; DestDir: {app}; Flags: comparetimestamp
+Source: {#Source}\Package\Changes.txt; DestDir: {app}; Flags: comparetimestamp
 ;VB6
 Source: {#vbFiles}\stdole2.tlb; DestDir: {sys}; Flags: restartreplace uninsneveruninstall sharedfile regtypelib
 Source: {#vbFiles}\msvbvm60.dll; DestDir: {sys}; Flags: restartreplace uninsneveruninstall sharedfile regserver
@@ -88,7 +89,6 @@ Name: {app}\reports
 Name: {app}\statistics
 
 [Run]
-Filename: {app}\GamesMaster.exe; Parameters: -showoptions; WorkingDir: {app}; Tasks: " SetOptions"
+Filename: {app}\GamesMaster.exe; Parameters: -showoptions; WorkingDir: {app}; Flags: postinstall unchecked
+Filename: {app}\Changes.txt; Description: View Changes included in this version; Flags: shellexec postinstall; WorkingDir: {app}
 
-[Tasks]
-Name: SetOptions; Description: Set Program Options Now; Flags: unchecked checkablealone

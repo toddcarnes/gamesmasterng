@@ -1,0 +1,22 @@
+Games Master Version 0.0.2
+--------------------------
+Changed Forcast Report Subjectto include finalorders in subject.
+Send reports as attachments
+Zip reports as attachment
+Make Attachments a program option
+Build a description page for each game (Send with Turn when attachments)
+Request Confirmation of Critical Menu Options
+Options switch to set options at the end of installation.
+Option for setting which inifile to use. 
+	(Allows multiple servers to run on one computer)
+Make the Template for not a MDI form
+Set and save the Main window position
+Fix Game Start to start at the appointed runtime not midnight 
+	Ref:neophyte turn 0
+
+Installation Program
+--------------------
+Create License Page
+Create Credit and Links page to GalaxyNG sites including SIFAR
+Create Credit and Links to Info-Zip and licensing
+Option to set options when installation finishes
