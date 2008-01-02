@@ -52,6 +52,7 @@ Public Sub CheckOrders(ByVal strFrom As String, ByVal strEMail As String)
         strHeader = Left(strOrders, lngEOL - 1)
     End If
     'Reduce multiple spaces to single spaces
+    strHeader = Trim(strHeader)
     strHeader = Replace(strHeader, vbTab, " ")
     While InStr(1, strHeader, "  ") > 0
         strHeader = Replace(strHeader, "  ", " ")

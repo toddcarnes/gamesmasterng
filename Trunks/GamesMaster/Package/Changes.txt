@@ -13,6 +13,8 @@ Make the Template for not a MDI form
 Set and save the Main window position
 Fix Game Start to start at the appointed runtime not midnight 
 	Ref:neophyte turn 0
+Remove Trailing spaces from the #galaxy Header Line
+	Was detecting an invalid finalorders parameter.
 
 Installation Program
 --------------------
