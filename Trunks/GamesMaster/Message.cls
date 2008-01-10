@@ -18,6 +18,7 @@ Option Explicit
 Option Compare Text
 
 Public Index As Long
+Public Category As String
 Public Key As String
 Public Heading As String
 Public Message As String

@@ -45,9 +45,10 @@ End Property
 Public Sub LoadGames()
     Dim lngRow As Long
     Dim objGame As Game
-    Dim C As Long
+    Dim c As Long
     Dim dtNext As Date
     
+    Games.Refresh
     With grdGames
         .Clear
         .AllowUserResizing = flexResizeColumns
@@ -59,83 +60,89 @@ Public Sub LoadGames()
         .FixedCols = 1
         .FixedRows = 1
         .ColSel = 3
-        C = 0
-        .ColWidth(C) = 16 * Screen.TwipsPerPixelX
-        C = C + 1
-        .TextMatrix(0, C) = "A"
-        .ColWidth(C) = 16 * Screen.TwipsPerPixelX
-        C = C + 1
-        .TextMatrix(0, C) = "Name"
-        .ColWidth(C) = 2000
-        C = C + 1
-        .TextMatrix(0, C) = "Turn"
-        .ColWidth(C) = 800
-        .ColAlignment(C) = flexAlignCenterTop
-        C = C + 1
-        .TextMatrix(0, C) = "Players"
-        .ColWidth(C) = 800
-        .ColAlignment(C) = flexAlignCenterTop
-        C = C + 1
-        .TextMatrix(0, C) = "Last Run"
-        .ColWidth(C) = 1500
-        .ColAlignment(C) = flexAlignLeftTop
-        C = C + 1
-        .TextMatrix(0, C) = "Next Run"
-        .ColWidth(C) = 1500
-        .ColAlignment(C) = flexAlignLeftTop
+        c = 0
+        .ColWidth(c) = 16 * Screen.TwipsPerPixelX
+        c = c + 1
+        .TextMatrix(0, c) = "A"
+        .ColWidth(c) = 16 * Screen.TwipsPerPixelX
+        c = c + 1
+        .TextMatrix(0, c) = "Name"
+        .ColWidth(c) = 2000
+        c = c + 1
+        .TextMatrix(0, c) = "Turn"
+        .ColWidth(c) = 800
+        .ColAlignment(c) = flexAlignCenterTop
+        c = c + 1
+        .TextMatrix(0, c) = "Players"
+        .ColWidth(c) = 800
+        .ColAlignment(c) = flexAlignCenterTop
+        c = c + 1
+        .TextMatrix(0, c) = "Last Run"
+        .ColWidth(c) = 1500
+        .ColAlignment(c) = flexAlignLeftTop
+        c = c + 1
+        .TextMatrix(0, c) = "Next Run"
+        .ColWidth(c) = 1500
+        .ColAlignment(c) = flexAlignLeftTop
         
         .Visible = False
         lngRow = 1
         For Each objGame In Games
             objGame.Refresh
-            lngRow = lngRow + 1
-            If lngRow + 1 > .Rows Then .Rows = lngRow + 1
-            Dim lngForeColour As Long
-            Dim lngBackColour As Long
-            If objGame.Started Then
-                lngForeColour = vbBlack
-                lngBackColour = vbWhite
-            ElseIf objGame.Created Then
-                lngForeColour = vbBlack
-                lngBackColour = vbCyan
-            Else
-                lngForeColour = vbWhite
-                lngBackColour = vbBlue
-            End If
-            For C = 1 To .Cols - 1
-                .Row = lngRow
-                .Col = C
-                .CellBackColor = lngBackColour
-                .CellForeColor = lngForeColour
-            Next C
-            C = 1
-            .TextMatrix(lngRow, C) = IIf(objGame.Template.ScheduleActive, "S", "")
-            C = C + 1
-            .TextMatrix(lngRow, C) = objGame.GameName
-            C = C + 1
-            If objGame.Created Then
-                If objGame.Started Then
-                    .TextMatrix(lngRow, C) = objGame.Turn
+            If Not objGame.Template.Finished _
+            Or (objGame.Template.Finished And MainForm.mnuTemplateShowAll.Checked) Then
+                lngRow = lngRow + 1
+                If lngRow + 1 > .Rows Then .Rows = lngRow + 1
+                Dim lngForeColour As Long
+                Dim lngBackColour As Long
+                If objGame.Template.Finished Then
+                    lngForeColour = vbWhite
+                    lngBackColour = vbRed
+                ElseIf objGame.Started Then
+                    lngForeColour = vbBlack
+                    lngBackColour = vbWhite
+                ElseIf objGame.Created Then
+                    lngForeColour = vbBlack
+                    lngBackColour = vbCyan
                 Else
-                    .TextMatrix(lngRow, C) = "Created"
+                    lngForeColour = vbWhite
+                    lngBackColour = vbBlue
                 End If
-                C = C + 1
-                .TextMatrix(lngRow, C) = objGame.PlayersReady & "/" & objGame.ActivePlayers & "/" & objGame.Races.Count
-                C = C + 1
-                .TextMatrix(lngRow, C) = Format(objGame.LastRunDate, "dd-mmm-yyyy hh:nn")
-            Else
-                .TextMatrix(lngRow, C) = ""
-                C = C + 1
-                .TextMatrix(lngRow, C) = objGame.Template.Registrations.Count & "/" & objGame.Template.MaxPlayers
-                C = C + 1
-                .TextMatrix(lngRow, C) = ""
-            End If
-            C = C + 1
-            If objGame.Template.ScheduleActive Then
-                dtNext = objGame.NextRunDate
-                .TextMatrix(lngRow, C) = IIf(dtNext = 0, "", Format(objGame.NextRunDate, "dd-mmm-yyyy hh:nn"))
-            Else
-                .TextMatrix(lngRow, C) = ""
+                For c = 1 To .Cols - 1
+                    .Row = lngRow
+                    .Col = c
+                    .CellBackColor = lngBackColour
+                    .CellForeColor = lngForeColour
+                Next c
+                c = 1
+                .TextMatrix(lngRow, c) = IIf(objGame.Template.ScheduleActive, "S", "")
+                c = c + 1
+                .TextMatrix(lngRow, c) = objGame.GameName
+                c = c + 1
+                If objGame.Created Then
+                    If objGame.Started Then
+                        .TextMatrix(lngRow, c) = objGame.Turn
+                    Else
+                        .TextMatrix(lngRow, c) = "Created"
+                    End If
+                    c = c + 1
+                    .TextMatrix(lngRow, c) = objGame.PlayersReady & "/" & objGame.ActivePlayers & "/" & objGame.Races.Count
+                    c = c + 1
+                    .TextMatrix(lngRow, c) = Format(objGame.LastRunDate, "dd-mmm-yyyy hh:nn")
+                Else
+                    .TextMatrix(lngRow, c) = ""
+                    c = c + 1
+                    .TextMatrix(lngRow, c) = objGame.Template.Registrations.Count & "/" & objGame.Template.MaxPlayers
+                    c = c + 1
+                    .TextMatrix(lngRow, c) = ""
+                End If
+                c = c + 1
+                If objGame.Template.ScheduleActive Then
+                    dtNext = objGame.NextRunDate
+                    .TextMatrix(lngRow, c) = IIf(dtNext = 0, "", Format(objGame.NextRunDate, "dd-mmm-yyyy hh:nn"))
+                Else
+                    .TextMatrix(lngRow, c) = ""
+                End If
             End If
         Next objGame
         .Visible = True
@@ -164,7 +171,7 @@ Private Sub grdGames_DblClick()
     Call MainForm.mnuTemplateView_Click
 End Sub
 
-Private Sub grdGames_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub grdGames_MouseDown(Button As Integer, Shift As Integer, x As Single, Y As Single)
     If Button = vbRightButton Then
         Call MainForm.mnuTemplate_Click
         Call MainForm.mnuGame_Click

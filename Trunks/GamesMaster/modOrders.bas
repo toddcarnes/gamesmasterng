@@ -78,7 +78,7 @@ Public Sub CheckOrders(ByVal strFrom As String, ByVal strEMail As String)
     strGame = varHeader(1)
     strRace = varHeader(2)
     strPassword = varHeader(3)
-    lngTurn = varHeader(4)
+    lngTurn = Val(varHeader(4))
     If UBound(varHeader) = 5 Then
         If varHeader(5) = "finalorders" Then
             blnFinalOrders = True

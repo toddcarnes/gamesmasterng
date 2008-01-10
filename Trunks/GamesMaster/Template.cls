@@ -40,12 +40,16 @@ Public RunTime As Date
 Public StartDate As Date
 Public ScheduleDays As Long
 Public FinalOrders As Boolean
-
 Public MaxPlanets As Long
 Public MaxPlanetSize As Long
 Public TotalPlanetSize As Long
+Public Description As String
+Public Message As String
+Public Finished As Boolean
 
 Private mcolRegistrations As Registrations
+
+Public IsNew As Boolean
 
 Public Enum Tech
     Drive = 0
@@ -107,6 +111,8 @@ Public Sub Load(Optional ByVal strFileName As String)
     Dim objHomeworld As HomeWorld
     Dim blnPlayersFound As Boolean
     
+    Description = ""
+    Message = ""
     If strFileName <> "" Then
         Filename = strFileName
     End If
@@ -144,6 +150,14 @@ Public Sub Load(Optional ByVal strFileName As String)
                 ScheduleDays = strFields(1)
             Case ";finalorders"
                 FinalOrders = strFields(1)
+            Case ";description"
+                If Description <> "" Then Description = Description & vbNewLine
+                Description = Description & Mid(strLine, 14)
+            Case ";message"
+                If Message <> "" Then Message = Message & vbNewLine
+                Message = Message & Mid(strLine, 10)
+            Case ";finished"
+                Finished = strFields(1)
             Case "name"
                 TemplateName = strFields(1)
             Case "size"
@@ -190,7 +204,7 @@ Public Sub Load(Optional ByVal strFileName As String)
                     With objHomeworld
                         .Size = strFields(1)
                         If UBound(strFields) = 3 Then
-                            .X = strFields(2)
+                            .x = strFields(2)
                             .Y = strFields(3)
                         End If
                     End With
@@ -204,23 +218,46 @@ Public Sub Load(Optional ByVal strFileName As String)
         End If
     Wend
     Close #intFN
-
+    IsNew = False
+    
 End Sub
 
-Public Function Clone(ByVal strTemplateName As String) As Template
+Public Function Clone() As Template
+    Dim i As Long
+    Dim strNo As String
+    
     Set Clone = New Template
     With Clone
-        .Filename = Options.GalaxyNGHome & strTemplateName & ".glx"
-        .ScheduleActive = ScheduleActive
+'        .IsNew = .IsNew
+'        .Filename = filename
+'        .ScheduleActive = ScheduleActive
+'        .FinalOrders = Finished
         .MaxPlanets = MaxPlanets
         .MaxPlanetSize = MaxPlanetSize
         .TotalPlanetSize = TotalPlanetSize
-        .MaxPlayers = MaxPlayers
         .MinPlayers = MinPlayers
-        .RegistrationOpen = RegistrationOpen
-        .RegistrationClose = RegistrationClose
+        .MaxPlayers = MaxPlayers
+'        .RegistrationOpen = RegistrationOpen
+'        .RegistrationClose = RegistrationClose
+        .RunTime = RunTime
+'        .StartDate = StartDate
+        .ScheduleDays = ScheduleDays
+        .FinalOrders = FinalOrders
+        .MaxPlanets = MaxPlanets
+        .MaxPlanetSize = MaxPlanetSize
+        .TotalPlanetSize = TotalPlanetSize
+        .Description = Description
+'        .Message = Message
         
-        .TemplateName = strTemplateName
+        i = Len(TemplateName)
+        Do
+            If Not IsNumeric(Mid(TemplateName, i)) Then
+                Exit Do
+            End If
+            strNo = Mid(TemplateName, i)
+            i = i - 1
+        Loop
+        .TemplateName = Left(TemplateName, i) & Val(strNo) + 1
         .Size = Size
         .race_spacing = race_spacing
         .core_sizes = core_sizes
@@ -232,31 +269,29 @@ Public Function Clone(ByVal strTemplateName As String) As Template
         .KeepProduction = KeepProduction
         .DontDropDead = DontDropDead
         .sphericalgalaxy = sphericalgalaxy
-        .RunTime = RunTime
-        .ScheduleDays = ScheduleDays
-        .FinalOrders = FinalOrders
     End With
 End Function
 
-Public Sub Save(Optional ByVal strFileName As String)
+Public Sub Save()
     Dim intFN As Integer
     Dim i As Long
     Dim objRegistration As Registration
     Dim objHomeworld As HomeWorld
+    Dim vData As Variant
     
-    If strFileName = vbNullString Then
-        strFileName = Filename
+    If Filename = vbNullString Then
+        Filename = Options.GalaxyNGHome & TemplateName & ".glx"
     End If
     
-    If Dir(strFileName) <> "" Then
-        If Dir(strFileName & ".bak") <> "" Then
-            Kill strFileName & ".bak"
+    If Dir(Filename) <> "" Then
+        If Dir(Filename & ".bak") <> "" Then
+            Kill Filename & ".bak"
         End If
-        Name strFileName As strFileName & ".bak"
+        Name Filename As Filename & ".bak"
     End If
     
     intFN = FreeFile
-    Open strFileName For Output As intFN
+    Open Filename For Output As intFN
     Print #intFN, ";ScheduleActive "; CStr(ScheduleActive)
     Print #intFN, ";MaxPlayers "; CStr(MaxPlayers)
     Print #intFN, ";MinPlayers "; CStr(MinPlayers)
@@ -269,6 +304,19 @@ Public Sub Save(Optional ByVal strFileName As String)
     Print #intFN, ";Startdate "; Format(StartDate, "dd-mmm-yyyy")
     Print #intFN, ";ScheduleDays "; CStr(ScheduleDays)
     Print #intFN, ";FinalOrders "; CStr(FinalOrders)
+    If Description <> "" Then
+        vData = Split(Description, vbNewLine)
+        For i = LBound(vData) To UBound(vData)
+            Print #intFN, ";Description "; vData(i)
+        Next i
+    End If
+    If Message <> "" Then
+        vData = Split(Message, vbNewLine)
+        For i = LBound(vData) To UBound(vData)
+            Print #intFN, ";Message "; vData(i)
+        Next i
+    End If
+    Print #intFN, ";Finished "; CStr(Finished)
     
     Print #intFN, "Name "; TemplateName
     
@@ -302,8 +350,8 @@ Public Sub Save(Optional ByVal strFileName As String)
         Print #intFN, "email "; objRegistration.EMail
         For Each objHomeworld In objRegistration.HomeWorlds
             Print #intFN, "homeworld "; CStr(objHomeworld.Size);
-            If objHomeworld.X <> 0 Or objHomeworld.Y <> 0 Then
-                Print #intFN, " "; CStr(objHomeworld.X);
+            If objHomeworld.x <> 0 Or objHomeworld.Y <> 0 Then
+                Print #intFN, " "; CStr(objHomeworld.x);
                 Print #intFN, " "; CStr(objHomeworld.Y);
             End If
             Print #intFN, ""
@@ -311,6 +359,7 @@ Public Sub Save(Optional ByVal strFileName As String)
         Print #intFN, "end_player"
     Next objRegistration
     Close #intFN
+    IsNew = False
 
 End Sub
 
@@ -327,4 +376,5 @@ Private Sub Class_Initialize()
     KeepProduction = False
     DontDropDead = False
     sphericalgalaxy = False
+    IsNew = True
 End Sub

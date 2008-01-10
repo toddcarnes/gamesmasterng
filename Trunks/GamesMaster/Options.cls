@@ -249,6 +249,7 @@ End Function
 Private Sub LoadMessages()
     Dim strMessage As String
     Dim lngNo As Long
+    Dim strCategory As String
     Dim strKey As String
     Dim intFN As Integer
     Dim i As Long
@@ -268,7 +269,7 @@ Private Sub LoadMessages()
             If strLine = "@" Then
                 blnText = False
                 Set objMessage = New Message
-                objMessage.Index = lngNo
+                objMessage.Category = strCategory
                 objMessage.Key = strKey
                 objMessage.Message = strMessage
                 Messages.Add objMessage
@@ -277,7 +278,7 @@ Private Sub LoadMessages()
             End If
         Else
             i = InStr(1, strLine, " ")
-            lngNo = Val(Left(strLine, i - 1))
+            strCategory = Val(Left(strLine, i - 1))
             strKey = Trim(Mid(strLine, i + 1))
             strMessage = ""
             blnText = True

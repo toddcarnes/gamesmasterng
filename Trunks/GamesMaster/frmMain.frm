@@ -50,7 +50,7 @@ Begin VB.MDIForm frmMain
             AutoSize        =   2
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "2/01/2008"
+            TextSave        =   "11/01/2008"
             Key             =   "Date"
          EndProperty
          BeginProperty Panel4 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
@@ -59,7 +59,7 @@ Begin VB.MDIForm frmMain
             AutoSize        =   2
             Object.Width           =   1402
             MinWidth        =   1411
-            TextSave        =   "5:42"
+            TextSave        =   "6:32"
             Key             =   "Time"
          EndProperty
       EndProperty
@@ -94,7 +94,7 @@ Begin VB.MDIForm frmMain
          Caption         =   "&Log File"
       End
    End
-   Begin VB.Menu mnuTemplate 
+   Begin VB.Menu mnutemplate 
       Caption         =   "&Template"
       Begin VB.Menu mnuTemplateCreate 
          Caption         =   "&Create"
@@ -104,6 +104,9 @@ Begin VB.MDIForm frmMain
       End
       Begin VB.Menu mnuTemplateEdit 
          Caption         =   "&Edit"
+      End
+      Begin VB.Menu mnuTemplateCopy 
+         Caption         =   "Co&py"
       End
       Begin VB.Menu mnuTemplateDelete 
          Caption         =   "&Delete"
@@ -117,6 +120,9 @@ Begin VB.MDIForm frmMain
       Begin VB.Menu mnuTemplateRefresh 
          Caption         =   "&Refresh"
          Shortcut        =   {F5}
+      End
+      Begin VB.Menu mnuTemplateShowAll 
+         Caption         =   "Show All"
       End
    End
    Begin VB.Menu mnuGame 
@@ -165,6 +171,9 @@ Begin VB.MDIForm frmMain
       End
       Begin VB.Menu mnuEditTemplate 
          Caption         =   "Edit Template"
+      End
+      Begin VB.Menu mnuCopyTemplate 
+         Caption         =   "Copy Template"
       End
       Begin VB.Menu mnuDeleteTemplate 
          Caption         =   "Delete Template"
@@ -283,6 +292,10 @@ Public Function SendMail() As SendMail
     End If
     Set SendMail = mobjSendMail
 End Function
+
+Private Sub mnuCopyTemplate_Click()
+    Call mnuTemplateCopy_Click
+End Sub
 
 Private Sub mnuGameEditMessage_Click()
     Dim strFileName As String
@@ -675,7 +688,7 @@ Public Sub mnuTemplate_Click()
     If objGame Is Nothing Then
         mnuTemplateDelete.Enabled = False
         mnuTemplateEdit.Enabled = False
-        mnuTemplateView.Enabled = False
+        mnuTemplateCopy.Enabled = False
         mnuTemplateView.Enabled = False
         mnuTemplateViewSourceFile.Enabled = False
         mnuTemplateRefresh.Enabled = (Not GamesForm Is Nothing)
@@ -685,11 +698,13 @@ Public Sub mnuTemplate_Click()
             mnuTemplateDelete.Enabled = False
             mnuTemplateEdit.Enabled = True
             mnuTemplateView.Enabled = True
+            mnuTemplateCopy.Enabled = True
             mnuTemplateViewSourceFile.Enabled = True
         Else
             mnuTemplateDelete.Enabled = True
             mnuTemplateEdit.Enabled = True
             mnuTemplateView.Enabled = True
+            mnuTemplateCopy.Enabled = True
             mnuTemplateViewSourceFile.Enabled = True
         End If
     End If
@@ -697,11 +712,16 @@ Public Sub mnuTemplate_Click()
     mnuDeleteTemplate.Visible = mnuTemplateDelete.Enabled And mnuTemplateDelete.Visible
     mnuViewTemplate.Visible = mnuTemplateView.Enabled And mnuTemplateView.Visible
     mnuEditTemplate.Visible = mnuTemplateEdit.Enabled And mnuTemplateEdit.Visible
+    mnuCopyTemplate.Visible = mnuTemplateCopy.Enabled And mnuTemplateCopy.Visible
     mnuRefreshTemplate.Visible = mnuTemplateRefresh.Enabled And mnuTemplateRefresh.Visible
     mnuViewTemplateSourceFile.Visible = mnuTemplateView.Enabled And mnuTemplateView.Visible
     
     Set objtemplate = Nothing
     Set objGame = Nothing
+End Sub
+
+Private Sub mnuTemplateCopy_Click()
+    Call TemplateCopy
 End Sub
 
 Private Sub mnuTemplateCreate_Click()
@@ -745,9 +765,9 @@ Private Sub mnuTemplateDelete_Click()
             "Cannot delete the template as it is required to run the game.", vbOKOnly + vbExclamation, "Delete Template"
     ElseIf vbYes = MsgBox("Are you sure that you wish to delete the template " & strTemplate & "?", vbYesNo + vbQuestion, "Delete Template") Then
         Kill objGame.TemplateFile
-        GalaxyNG.Games.Refresh
     End If
     Set objGame = Nothing
+    Call RefreshGamesForm
 End Sub
 
 Private Sub mnuTemplateEdit_Click()
@@ -756,6 +776,11 @@ End Sub
 
 Private Sub mnuTemplateRefresh_Click()
     Call GamesForm.LoadGames
+End Sub
+
+Private Sub mnuTemplateShowAll_Click()
+    mnuTemplateShowAll.Checked = Not (mnuTemplateShowAll.Checked)
+    RefreshGamesForm
 End Sub
 
 Public Sub mnuTemplateView_Click()
@@ -793,6 +818,18 @@ Private Sub GetTemplate(Optional ByVal blnReadOnly As Boolean = True)
     End If
     fTemplate.ReadOnly = blnReadOnly
     Set fForm = Nothing
+    Set fTemplate = Nothing
+End Sub
+
+Private Sub TemplateCopy()
+    Dim fTemplate As frmTemplate
+    
+    Set fTemplate = New frmTemplate
+    Load fTemplate
+    Set fTemplate.Template = GalaxyNG.Games(SelectedGame).Template.Clone
+    fTemplate.Show
+    
+    fTemplate.ReadOnly = False
     Set fTemplate = Nothing
 End Sub
 

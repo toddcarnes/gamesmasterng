@@ -278,4 +278,11 @@ message has been sent.
 33 GamesMasterMessage
 Your GalaxyNG Turn Report is attached to this EMail.
 
+** NEW **
+I have set up a forum for GalaxyNG. . . http://forums.mykoala.net
+
+Since I may not always be able to respond quickly to queries about
+GalaxyNG, new and existing players can assist each other and look
+up to see what problem others have also had.
+
 @

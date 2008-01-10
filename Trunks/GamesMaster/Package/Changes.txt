@@ -15,6 +15,10 @@ Fix Game Start to start at the appointed runtime not midnight
 	Ref:neophyte turn 0
 Remove Trailing spaces from the #galaxy Header Line
 	Was detecting an invalid finalorders parameter.
+	Corrected Program Crash when the turn is not numeric
+Added a "Finished" Option to the template so not alwas shown
+Option to view all games including finished games.
+Added option to Copy a template
 
 Installation Program
 --------------------

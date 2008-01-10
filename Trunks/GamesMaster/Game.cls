@@ -235,7 +235,7 @@ Public Sub Refresh()
             If vLines(l) = "@EShipTypes" Then Exit Do
             objShipType.ShipType = vLines(l)
             l = l + 1
-            objShipType.Drive = vLines(l)
+            objShipType.Drive = Val(vLines(l))
             l = l + 1
             objShipType.Attacks = 0 & vLines(l)
             l = l + 1
@@ -370,7 +370,7 @@ Public Sub Refresh()
             l = l + 1
             objGroup.Number = vLines(l)
             l = l + 1
-            objGroup.Drive = vLines(l)
+            objGroup.Drive = Val(vLines(l))
             l = l + 1
             objGroup.Weapons = 0 & vLines(l)
             l = l + 1
