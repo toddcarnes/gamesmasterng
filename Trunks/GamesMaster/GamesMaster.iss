@@ -1,4 +1,4 @@
-#define AppDate "31 December 2007"
+#define AppDate "13 January 2008"
 #define Source SourcePath
 #define HomePage "http://www.mykoala.net"
 #define vbFiles Source + "\VB60Files"
@@ -24,7 +24,7 @@ OutputDir={#Source}\Distributions
 SourceDir={#Source}
 OutputBaseFilename=GamesMasterSetupV{#AppVersion}
 MinVersion=4.1.1998,4.0.1381sp6
-AppCopyright=Copyright © Ian Llewelyn Evans 2007-2008
+AppCopyright=Copyright © Ian Llewelyn Evans 2007,2008
 UserInfoPage=false
 ChangesAssociations=true
 VersionInfoVersion={#FileVersion}
@@ -40,7 +40,7 @@ DisableDirPage=false
 DisableProgramGroupPage=false
 AllowRootDirectory=true
 AllowUNCPath=false
-VersionInfoCopyright=Copyright © Ian Llewelyn Evans 2007-2008
+VersionInfoCopyright=Copyright © Ian Llewelyn Evans 2007,2008
 AlwaysShowDirOnReadyPage=true
 AlwaysShowGroupOnReadyPage=true
 
@@ -91,4 +91,3 @@ Name: {app}\statistics
 [Run]
 Filename: {app}\GamesMaster.exe; Parameters: -showoptions; WorkingDir: {app}; Flags: postinstall unchecked
 Filename: {app}\Changes.txt; Description: View Changes included in this version; Flags: shellexec postinstall; WorkingDir: {app}
-
