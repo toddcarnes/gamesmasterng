@@ -1,3 +1,8 @@
+Games Master Version 0.0.3
+--------------------------
+Corrected Automatic run of games as when two game are run reports for second game
+	is delayed until an e-mail is received to trigger sending again.
+
 Games Master Version 0.0.2
 --------------------------
 Changed Forcast Report Subjectto include finalorders in subject.

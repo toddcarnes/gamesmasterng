@@ -50,7 +50,7 @@ Begin VB.MDIForm frmMain
             AutoSize        =   2
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "12/01/2008"
+            TextSave        =   "13/01/2008"
             Key             =   "Date"
          EndProperty
          BeginProperty Panel4 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
@@ -59,7 +59,7 @@ Begin VB.MDIForm frmMain
             AutoSize        =   2
             Object.Width           =   1402
             MinWidth        =   1411
-            TextSave        =   "10:05"
+            TextSave        =   "6:02"
             Key             =   "Time"
          EndProperty
       EndProperty
@@ -496,6 +496,9 @@ Private Sub mnuGameRun_Click()
     If MsgBox("Are you sure that you want to Run a Turn for " & _
             "the game " & SelectedGame & ".", vbYesNo, "Run Game") = vbYes Then
         Call RunGame(SelectedGame)
+        GalaxyNG.Games.Refresh
+        Call RefreshGamesForm
+        Call SendMail.Send
     End If
 End Sub
 

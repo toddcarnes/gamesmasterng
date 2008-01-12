@@ -141,6 +141,7 @@ registration using the same e-mail address and your registration
 will be updated.
 
 Mykoala Home Page: http://www.mykoala.net
+GalaxyNG Forum: http://forums.mykoala.net
 GalaxyNG Home Page: http://galaxyng.sourceforge.net/
 Player's Manual: http://galaxyng.sourceforge.net/manual.php
 Client Programs: http://galaxyview.sourceforge.net/tools.html
@@ -154,6 +155,12 @@ Your Planet sizes were UPDATED to be as follows.
 Should you wish to make further changes to your planet sizes, just submit 
 another registration using the same e-mail address and your registration 
 will be updated.
+
+Mykoala Home Page: http://www.mykoala.net
+GalaxyNG Forum: http://forums.mykoala.net
+GalaxyNG Home Page: http://galaxyng.sourceforge.net/
+Player's Manual: http://galaxyng.sourceforge.net/manual.php
+Client Programs: http://galaxyview.sourceforge.net/tools.html
 @
 24 InvalidOrdersEMail
 Major problems were encountered while attempting to process the 
@@ -277,12 +284,5 @@ message has been sent.
 @
 33 GamesMasterMessage
 Your GalaxyNG Turn Report is attached to this EMail.
-
-** NEW **
-I have set up a forum for GalaxyNG. . . http://forums.mykoala.net
-
-Since I may not always be able to respond quickly to queries about
-GalaxyNG, new and existing players can assist each other and look
-up to see what problem others have also had.
 
 @

@@ -248,7 +248,7 @@ Public Sub RunGame(ByVal strGame As String)
     
     Call RunCommandFile(strCommand)
     Call SendReports(strGame)
-    Call MainForm.SendMail.Send
+'    Call MainForm.SendMail.Send
 End Sub
 
 Public Sub ResendReports(ByVal strGame As String)
