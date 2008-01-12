@@ -79,17 +79,6 @@ Public Sub CheckOrders(ByVal strFrom As String, ByVal strEMail As String)
     strRace = varHeader(2)
     strPassword = varHeader(3)
     lngTurn = Val(varHeader(4))
-    If UBound(varHeader) = 5 Then
-        If varHeader(5) = "finalorders" Then
-            blnFinalOrders = True
-        Else
-            'Invalid Header
-            strMessage = Options.GetMessage("InvalidOrdersHeader", _
-                "A fifth header parameter was specified and it was not ""finalorders""", _
-                QuoteText(strOrders))
-            GoTo Error
-        End If
-    End If
     If UBound(varHeader) > 5 Then
         'Invalid Header
         strMessage = Options.GetMessage("InvalidOrdersHeader", _
@@ -127,12 +116,32 @@ Public Sub CheckOrders(ByVal strFrom As String, ByVal strEMail As String)
         GoTo Error
     End If
     
+    If lngTurn = 0 Then
+        'Invalid Header
+        strMessage = Options.GetMessage("InvalidOrdersHeader", _
+                "The turn number is missing from the #galaxy header line.", _
+                QuoteText(strOrders))
+        GoTo Error
+    End If
+    
     If lngTurn < objGame.NextTurn Then
         'Invalid Header
         strMessage = Options.GetMessage("InvalidOrdersHeader", _
                 "The turn number is for a turn that has already been processed.", _
                 QuoteText(strOrders))
         GoTo Error
+    End If
+    
+    If UBound(varHeader) = 5 Then
+        If varHeader(5) = "finalorders" Then
+            blnFinalOrders = True
+        Else
+            'Invalid Header
+            strMessage = Options.GetMessage("InvalidOrdersHeader", _
+                "A fifth header parameter was specified and it was not ""finalorders""", _
+                QuoteText(strOrders))
+            GoTo Error
+        End If
     End If
     
     If lngTurn > objGame.NextTurn Then

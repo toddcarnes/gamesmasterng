@@ -178,6 +178,9 @@ Public Sub SendReports(ByVal strGame As String)
     Dim objA As Attachment
     Dim objZip As Zip
     Dim strMessage As String
+    Dim blnCompress As Boolean
+    Dim blnAttach As Boolean
+    Dim blnText As Boolean
     
     GalaxyNG.Games.Refresh
     Set objGame = GalaxyNG.Games(strGame)
@@ -196,7 +199,20 @@ Public Sub SendReports(ByVal strGame As String)
     
     For Each objRace In objGame.Races
         If Not objRace.flag(R_DEAD) Then
+            'Choose which method to send the report/s
+            blnCompress = False
+            blnAttach = False
+            blnText = False
             If objRace.flag(R_COMPRESS) Then
+                blnCompress = True
+            ElseIf Options.AttachReports Then
+                blnAttach = True
+            Else
+                blnText = True
+            End If
+            
+            ' Send the reports compressed as a zip file
+            If blnCompress Then
                 Set objNE = New NewEMail
                 objNE.ToAddress = objRace.EMail
                 objNE.FromAddress = Options.SMTPFromAddress
@@ -235,14 +251,34 @@ Public Sub SendReports(ByVal strGame As String)
                 End If
                 objZip.MakeZipFile
                 
-                Set objA = New Attachment
+                ' Attach the Zip file.
                 strFileName = objZip.ZipFileName
-                strBody = GetFile(strFileName)
-                Call objA.Store(strBody, uefBinary, strFileName)
-                objNE.Attachments.Add objA
-                Call SendNewEMail(objNE.EMailData)
-                
-            ElseIf Options.AttachReports Then
+                If Dir(strFileName) <> "" Then
+                    strBody = GetFile(strFileName)
+                    Set objA = New Attachment
+                    Call objA.Store(strBody, uefBinary, strFileName)
+                    objNE.Attachments.Add objA
+                    Call SendNewEMail(objNE.EMailData)
+                Else ' Problem creating zip file so send as attachments
+                    Call LogError(-10001, "Zip File failed to be created", "ZIP", _
+                    "modProcessEMail", "SendReports", _
+                    "    Game: " & strGame & vbNewLine & _
+                    "    Race: " & objRace.RaceName & vbNewLine & _
+                    "    File: " & strFileName)
+                    Call SendEMail(Options.GamesMasterEMail, _
+                            "[GNG ERROR] " & objGame.GameName & " turn " & strTurn & _
+                            " Race " & objRace.RaceName, _
+                            "A zip file failed to generate." & vbNewLine & _
+                            "Reports were sent to the player as attachments." & _
+                            "    Game: " & strGame & vbNewLine & _
+                            "    Race: " & objRace.RaceName & vbNewLine & _
+                            "    File: " & strFileName)
+                    blnAttach = True
+                End If
+            End If
+            
+            ' Send the reports as attachments
+            If blnAttach Then
                 Set objNE = New NewEMail
                 objNE.ToAddress = objRace.EMail
                 objNE.FromAddress = Options.SMTPFromAddress
@@ -252,8 +288,14 @@ Public Sub SendReports(ByVal strGame As String)
                 
                 'EMail Body
                 Set objA = New Attachment
-                strMessage = Options.GetMessage("Header") & _
-                            Options.GetMessage("GamesMasterMessage") & _
+                strMessage = Options.GetMessage("Header")
+                If blnCompress Then 'The compress failed
+                    strMessage = strMessage & _
+                        "**** Trouble was encountered creating the ZIP file requested. " & vbNewLine & _
+                        "     Please notify the Games Master of the problem." & vbNewLine & _
+                        "**** Your text report is attached." & vbNewLine & vbNewLine
+                End If
+                strMessage = strMessage & Options.GetMessage("GamesMasterMessage") & _
                             GetFile(Options.GalaxyNGNotices & strGame & ".txt") & _
                             Options.GetMessage("Footer")
                 Call objA.Store(strMessage, uefText)
@@ -276,9 +318,12 @@ Public Sub SendReports(ByVal strGame As String)
                     Call objA.Store(strBody, uefText, strFileName)
                     objNE.Attachments.Add objA
                 End If
+                
                 Call SendNewEMail(objNE.EMailData)
+            End If
             
-            Else ' EMail reports seperately
+            ' Send the reports a pure text e-mails.
+            If blnText Then ' EMail reports seperately
                 'Text Report
                 strFileName = Options.RaceReport(strGame, objRace.RaceName, strTurn)
                 If Dir(strFileName) <> "" Then

@@ -257,6 +257,7 @@ Public Function Clone() As Template
             strNo = Mid(TemplateName, i)
             i = i - 1
         Loop
+        If Val(strNo) = 0 Then strNo = "1"
         .TemplateName = Left(TemplateName, i) & Val(strNo) + 1
         .Size = Size
         .race_spacing = race_spacing

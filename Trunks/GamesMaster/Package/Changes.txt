@@ -19,6 +19,8 @@ Remove Trailing spaces from the #galaxy Header Line
 Added a "Finished" Option to the template so not alwas shown
 Option to view all games including finished games.
 Added option to Copy a template
+Corrected Missing Turn number error. (wrong message reported).
+Monitor for failed Zip file creation. Send as attachments and notify games master.
 
 Installation Program
 --------------------
