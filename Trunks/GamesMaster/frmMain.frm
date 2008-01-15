@@ -50,7 +50,7 @@ Begin VB.MDIForm frmMain
             AutoSize        =   2
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "13/01/2008"
+            TextSave        =   "16/01/2008"
             Key             =   "Date"
          EndProperty
          BeginProperty Panel4 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
@@ -59,7 +59,7 @@ Begin VB.MDIForm frmMain
             AutoSize        =   2
             Object.Width           =   1402
             MinWidth        =   1411
-            TextSave        =   "6:02"
+            TextSave        =   "5:39"
             Key             =   "Time"
          EndProperty
       EndProperty
@@ -93,6 +93,12 @@ Begin VB.MDIForm frmMain
       Begin VB.Menu mnuViewLogFile 
          Caption         =   "&Log File"
       End
+      Begin VB.Menu mnuViewSep1 
+         Caption         =   "-"
+      End
+      Begin VB.Menu mnuTemplateShowAll 
+         Caption         =   "Show All Games"
+      End
    End
    Begin VB.Menu mnutemplate 
       Caption         =   "&Template"
@@ -120,9 +126,6 @@ Begin VB.MDIForm frmMain
       Begin VB.Menu mnuTemplateRefresh 
          Caption         =   "&Refresh"
          Shortcut        =   {F5}
-      End
-      Begin VB.Menu mnuTemplateShowAll 
-         Caption         =   "Show All"
       End
    End
    Begin VB.Menu mnuGame 
@@ -310,7 +313,6 @@ End Sub
 Private Sub MDIForm_Load()
     Set Systray.TrayIcon = Me.Icon
     mnuActions.Visible = False
-    mnuGameView.Visible = False
     mnuGameEdit.Visible = False
     mnuGameDelete.Visible = False
     With Me
@@ -346,11 +348,13 @@ Private Sub MDIForm_Load()
     If Options.ShowGetMail Then
         Call mnuMailShowGetMail_Click
     End If
-    If Options.AutoCheckMail Then
-        Call mnuMailAutoCheck_Click
-    End If
-    If Options.AutoRunGames Then
-        Call mnuAutoRun_Click
+    If Not InIDE Then
+        If Options.AutoCheckMail Then
+            Call mnuMailAutoCheck_Click
+        End If
+        If Options.AutoRunGames Then
+            Call mnuAutoRun_Click
+        End If
     End If
     mblnStarting = True
 End Sub
@@ -482,6 +486,8 @@ Private Sub mnuGameNotify_Click()
     If MsgBox("Are you sure that you want to Notify Users for " & _
             "the game " & SelectedGame & ".", vbYesNo, "Notify Users") = vbYes Then
         Call NotifyUsers(SelectedGame)
+        Call RefreshGamesForm
+        Call SendMail.Send
     End If
 End Sub
 
@@ -518,11 +524,47 @@ Private Sub mnuGameStart_Click()
     If MsgBox("Are you sure that you want to start " & _
             "the game " & SelectedGame & ".", vbYesNo, "Start Game") = vbYes Then
         Call StartGame(SelectedGame)
+        Call RefreshGamesForm
+        Call SendMail.Send
     End If
 End Sub
 
 Private Sub mnuGameView_Click()
-'
+    Call GetGame(True)
+End Sub
+
+Public Sub GetGame(ByVal blnReadOnly As Boolean)
+    Dim fForm As Form
+    Dim fGame As frmGame
+    Dim strGame As String
+    
+    strGame = SelectedGame
+    
+    For Each fForm In Forms
+        If fForm.Name = "frmGame" Then
+            Set fGame = fForm
+            If Not fGame.Game Is Nothing Then
+                If fGame.Game.GameName = strGame Then
+                    Exit For
+                End If
+            End If
+            Set fGame = Nothing
+        End If
+    Next fForm
+    
+    If fGame Is Nothing Then
+        Set fGame = New frmGame
+        Load fGame
+        Set fGame.Game = GalaxyNG.Games(strGame)
+        fGame.Show
+    Else
+        fGame.Visible = True
+        fGame.WindowState = vbNormal
+        fGame.SetFocus
+    End If
+    fGame.ReadOnly = blnReadOnly
+    Set fForm = Nothing
+    Set fGame = Nothing
 End Sub
 
 Private Sub mnuMailAutoCheck_Click()
@@ -625,7 +667,7 @@ Public Sub mnuGame_Click()
     Else
         objGame.Refresh
         If objGame.Created Then
-            mnuGameCreate.Enabled = False
+            mnuGameCreate.Enabled = Not objGame.Started
             mnuGameDelete.Enabled = True
             mnuGameView.Enabled = True
             mnuGameEdit.Enabled = True
@@ -635,7 +677,7 @@ Public Sub mnuGame_Click()
             mnuGameResend.Enabled = objGame.Started
             mnuGameNotify.Enabled = objGame.Started
         Else
-            mnuGameCreate.Enabled = (objGame.Template.Registrations.Count >= objGame.Template.MinPlayers)
+            mnuGameCreate.Enabled = True
             mnuGameDelete.Enabled = False
             mnuGameEdit.Enabled = False
             mnuGameView.Enabled = False
@@ -972,6 +1014,7 @@ Private Sub tmrGalaxyNG_Timer()
                 
                 If objGame.ReadyToStart Then
                     Call StartGame(objGame.GameName)
+                    blnProcessed = True
                 
                 ElseIf objGame.Started Then
                     

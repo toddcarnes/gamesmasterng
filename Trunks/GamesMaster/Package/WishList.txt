@@ -3,7 +3,6 @@ Requests and Wishlist
 
 Gamesmaster
 -----------
-View Game details
 View Player details
 Change Game Details
 Change Player Details
@@ -12,6 +11,8 @@ Option to Announce the opening of a game
 Option to upload Game Status webpage to a website each turn
 E-Mail Requests for list of games on the server.
 E-Mail Requests for a game's status (Description, player numbers, turn, score)
+View Game Map
+Edit Game Map
 
 Installation Program
 --------------------

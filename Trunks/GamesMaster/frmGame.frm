@@ -3,27 +3,28 @@ Object = "{0ECD9B60-23AA-11D0-B351-00A0C9055D8E}#6.0#0"; "mshflxgd.ocx"
 Begin VB.Form frmGame 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Game"
-   ClientHeight    =   6945
+   ClientHeight    =   7725
    ClientLeft      =   45
    ClientTop       =   435
    ClientWidth     =   7215
    LinkTopic       =   "Game"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   6945
+   ScaleHeight     =   7725
    ScaleWidth      =   7215
    StartUpPosition =   1  'CenterOwner
    Begin VB.Frame frInitialTechLevels 
       Caption         =   "Initial Tech Levels"
-      Height          =   915
+      Height          =   975
       Left            =   60
       TabIndex        =   28
-      Top             =   2100
+      Top             =   1980
       Width           =   3495
       Begin VB.TextBox txtInitialTechLevel 
          Height          =   315
          Index           =   3
          Left            =   2640
+         Locked          =   -1  'True
          TabIndex        =   32
          Tag             =   "7"
          Top             =   480
@@ -33,6 +34,7 @@ Begin VB.Form frmGame
          Height          =   315
          Index           =   2
          Left            =   1800
+         Locked          =   -1  'True
          TabIndex        =   31
          Tag             =   "7"
          Top             =   480
@@ -42,6 +44,7 @@ Begin VB.Form frmGame
          Height          =   315
          Index           =   1
          Left            =   960
+         Locked          =   -1  'True
          TabIndex        =   30
          Tag             =   "7"
          Top             =   480
@@ -51,6 +54,7 @@ Begin VB.Form frmGame
          Height          =   315
          Index           =   0
          Left            =   120
+         Locked          =   -1  'True
          TabIndex        =   29
          Tag             =   "7"
          Top             =   480
@@ -114,29 +118,30 @@ Begin VB.Form frmGame
       Height          =   435
       Left            =   2160
       TabIndex        =   25
-      Top             =   6420
+      Top             =   7140
       Width           =   1155
    End
    Begin VB.Frame frRunOptions 
       Caption         =   "Run Options"
-      Height          =   1335
-      Left            =   4200
+      Height          =   975
+      Left            =   3660
       TabIndex        =   22
-      Top             =   2100
-      Width           =   2955
+      Top             =   1980
+      Width           =   3495
       Begin VB.TextBox txtScheduleDays 
          Height          =   315
          Left            =   1560
+         Locked          =   -1  'True
          TabIndex        =   9
          Tag             =   "1"
-         Top             =   720
+         Top             =   540
          Width           =   555
       End
       Begin GamesMaster.DateBox dtRunTime 
          Height          =   315
          Left            =   1560
          TabIndex        =   8
-         Top             =   300
+         Top             =   180
          Width           =   555
          _ExtentX        =   979
          _ExtentY        =   556
@@ -151,6 +156,7 @@ Begin VB.Form frmGame
          EndProperty
          DateFormat      =   ""
          TimeFormat      =   "hh:nn"
+         Locked          =   -1  'True
       End
       Begin VB.Label Label 
          Alignment       =   1  'Right Justify
@@ -159,7 +165,7 @@ Begin VB.Form frmGame
          Index           =   21
          Left            =   300
          TabIndex        =   24
-         Top             =   780
+         Top             =   600
          Width           =   1155
       End
       Begin VB.Label Label 
@@ -169,25 +175,25 @@ Begin VB.Form frmGame
          Index           =   19
          Left            =   300
          TabIndex        =   23
-         Top             =   360
+         Top             =   240
          Width           =   1155
       End
    End
    Begin VB.Frame frRaces 
       Caption         =   "Races"
-      Height          =   2835
+      Height          =   3975
       Left            =   0
       TabIndex        =   16
-      Top             =   3480
+      Top             =   3060
       Width           =   7155
       Begin MSHierarchicalFlexGridLib.MSHFlexGrid grdRaces 
-         Height          =   2475
+         Height          =   3615
          Left            =   120
          TabIndex        =   10
          Top             =   240
          Width           =   6915
          _ExtentX        =   12197
-         _ExtentY        =   4366
+         _ExtentY        =   6376
          _Version        =   393216
          _NumberOfBands  =   1
          _Band(0).Cols   =   2
@@ -195,14 +201,39 @@ Begin VB.Form frmGame
    End
    Begin VB.Frame frGalaxy 
       Caption         =   "Galaxy Options"
-      Height          =   1575
+      Height          =   1455
       Left            =   60
       TabIndex        =   13
       Top             =   480
       Width           =   7095
+      Begin VB.TextBox txtTurn 
+         Height          =   315
+         Left            =   1440
+         Locked          =   -1  'True
+         TabIndex        =   41
+         Tag             =   "1"
+         Top             =   240
+         Width           =   495
+      End
+      Begin VB.CheckBox chkSaveCopy 
+         Height          =   315
+         Left            =   6360
+         TabIndex        =   39
+         Tag             =   "10"
+         Top             =   600
+         Width           =   255
+      End
+      Begin VB.CheckBox chkCircle 
+         Height          =   315
+         Left            =   4320
+         TabIndex        =   37
+         Tag             =   "10"
+         Top             =   960
+         Width           =   255
+      End
       Begin VB.CheckBox chkFullBombing 
          Height          =   315
-         Left            =   5220
+         Left            =   4320
          TabIndex        =   4
          Tag             =   "8"
          Top             =   240
@@ -210,50 +241,82 @@ Begin VB.Form frmGame
       End
       Begin VB.CheckBox chkKeepproduction 
          Height          =   315
-         Left            =   5220
+         Left            =   4320
          TabIndex        =   5
          Tag             =   "10"
-         Top             =   540
+         Top             =   600
          Width           =   255
       End
       Begin VB.CheckBox chkDontDropDead 
          Height          =   315
-         Left            =   5220
+         Left            =   6360
          TabIndex        =   6
          Tag             =   "11"
-         Top             =   840
+         Top             =   240
          Width           =   255
       End
       Begin VB.CheckBox chkSphericalGalaxy 
          Height          =   315
-         Left            =   5220
+         Left            =   6360
          TabIndex        =   7
          Tag             =   "12"
-         Top             =   1140
+         Top             =   960
          Width           =   255
       End
       Begin VB.TextBox txtPeace 
          Height          =   315
          Left            =   1440
+         Locked          =   -1  'True
          TabIndex        =   3
          Tag             =   "9"
-         Top             =   600
+         Top             =   960
          Width           =   495
       End
       Begin VB.TextBox txtSize 
          Height          =   315
          Left            =   1440
+         Locked          =   -1  'True
          TabIndex        =   2
          Tag             =   "1"
-         Top             =   240
+         Top             =   600
          Width           =   495
+      End
+      Begin VB.Label Label 
+         Alignment       =   1  'Right Justify
+         Caption         =   "Turn No:"
+         Height          =   255
+         Index           =   4
+         Left            =   420
+         TabIndex        =   42
+         Top             =   300
+         Width           =   915
+      End
+      Begin VB.Label Label 
+         Alignment       =   1  'Right Justify
+         Caption         =   "Save Copy:"
+         Height          =   255
+         Index           =   3
+         Left            =   4980
+         TabIndex        =   40
+         Top             =   660
+         Width           =   1275
+      End
+      Begin VB.Label Label 
+         Alignment       =   1  'Right Justify
+         Caption         =   "Create Circle:"
+         Height          =   255
+         Index           =   2
+         Left            =   2940
+         TabIndex        =   38
+         Top             =   1020
+         Width           =   1275
       End
       Begin VB.Label Label 
          Alignment       =   1  'Right Justify
          Caption         =   "Full Bombing:"
          Height          =   255
          Index           =   6
-         Left            =   4080
+         Left            =   3180
          TabIndex        =   21
          Top             =   300
          Width           =   1035
@@ -263,9 +326,9 @@ Begin VB.Form frmGame
          Caption         =   "Keep production:"
          Height          =   255
          Index           =   7
-         Left            =   3840
+         Left            =   2940
          TabIndex        =   20
-         Top             =   600
+         Top             =   660
          Width           =   1275
       End
       Begin VB.Label Label 
@@ -273,9 +336,9 @@ Begin VB.Form frmGame
          Caption         =   "Don't Drop Dead:"
          Height          =   255
          Index           =   8
-         Left            =   3840
+         Left            =   4980
          TabIndex        =   19
-         Top             =   900
+         Top             =   300
          Width           =   1275
       End
       Begin VB.Label Label 
@@ -283,9 +346,9 @@ Begin VB.Form frmGame
          Caption         =   "Spherical Galaxy:"
          Height          =   255
          Index           =   9
-         Left            =   3840
+         Left            =   4980
          TabIndex        =   18
-         Top             =   1200
+         Top             =   1020
          Width           =   1275
       End
       Begin VB.Label Label 
@@ -295,7 +358,7 @@ Begin VB.Form frmGame
          Index           =   12
          Left            =   780
          TabIndex        =   17
-         Top             =   660
+         Top             =   1020
          Width           =   555
       End
       Begin VB.Label Label 
@@ -305,13 +368,14 @@ Begin VB.Form frmGame
          Index           =   1
          Left            =   420
          TabIndex        =   14
-         Top             =   300
+         Top             =   660
          Width           =   915
       End
    End
    Begin VB.TextBox txtName 
       Height          =   315
       Left            =   720
+      Locked          =   -1  'True
       TabIndex        =   0
       Top             =   60
       Width           =   2355
@@ -321,7 +385,7 @@ Begin VB.Form frmGame
       Height          =   435
       Left            =   3660
       TabIndex        =   12
-      Top             =   6420
+      Top             =   7140
       Width           =   1155
    End
    Begin VB.Label Label 
@@ -415,8 +479,9 @@ End Sub
 
 Private Sub cmdClose_Click()
     If Not ReadOnly Then
-        Call Game.Save
-        Call MainForm.RefreshGamesForm
+        'Call Game.Template.Save
+        'Call Game.Save
+        'Call MainForm.RefreshGamesForm
     End If
     Unload Me
 End Sub
@@ -428,25 +493,24 @@ Private Sub LoadGame()
         txtName = .GameName
         chkScheduleActive = IIf(.Template.ScheduleActive, vbChecked, vbUnchecked)
         chkFinished = IIf(.Template.Finished, vbChecked, vbUnchecked)
-        txtSize = .Size
-        chkFullBombing = IIf(.FullBombing, vbChecked, vbUnchecked)
-        txtPeace = .Peace
-        chkKeepproduction = IIf(.KeepProduction, vbChecked, vbUnchecked)
-        chkDontDropDead = IIf(.DontDropDead, vbChecked, vbUnchecked)
-        chkSphericalGalaxy = IIf(.sphericalgalaxy, vbChecked, vbUnchecked)
+        txtTurn = .Turn
+        txtSize = .GalaxySize
+        txtPeace = .GalacticPeace
+        chkFullBombing = IIf(.flag(G_NONGBOMBING), vbChecked, vbUnchecked)
+        chkKeepproduction = IIf(.flag(G_KEEPPRODUCTION), vbChecked, vbUnchecked)
+        chkCircle = IIf(.flag(G_CREATECIRCLE), vbChecked, vbUnchecked)
+        chkDontDropDead = IIf(.flag(G_NODROP), vbChecked, vbUnchecked)
+        chkSaveCopy = IIf(.flag(G_SAVECOPY), vbChecked, vbUnchecked)
+        chkSphericalGalaxy = IIf(.flag(G_SPHERICALGALAXY), vbChecked, vbUnchecked)
         
-        txtInitialTechLevel(Tech.Drive) = .InitialTechLevels(Tech.Drive)
-        txtInitialTechLevel(Tech.Weapons) = .InitialTechLevels(Tech.Weapons)
-        txtInitialTechLevel(Tech.Shields) = .InitialTechLevels(Tech.Shields)
-        txtInitialTechLevel(Tech.Cargo) = .InitialTechLevels(Tech.Cargo)
-        dtRunTime.TimeStamp = .RunTime
-        txtScheduleDays = .ScheduleDays
+        txtInitialTechLevel(Tech.Drive) = .InitialDrive
+        txtInitialTechLevel(Tech.Weapons) = .InitialWeapons
+        txtInitialTechLevel(Tech.Shields) = .InitialShield
+        txtInitialTechLevel(Tech.Cargo) = .InitialCargo
+        dtRunTime.TimeStamp = .Template.RunTime
+        txtScheduleDays = .Template.ScheduleDays
     End With
     Call LoadRaces
-End Sub
-
-Private Sub dtRunTime_Change()
-    Game.RunTime = dtRunTime.TimeStamp
 End Sub
 
 Private Sub Form_Load()
@@ -457,7 +521,7 @@ Private Sub Form_Load()
     dtRunTime.TimeStamp = "00:00"
 End Sub
 
-Private Sub grdRaces_MouseDown(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub grdRaces_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
     If Button = vbRightButton And Not ReadOnly Then
         PopupMenu mnuAction
     End If
@@ -472,32 +536,6 @@ Private Sub mnuAction_Click()
     End With
 End Sub
 
-Private Sub mnuEdit_Click()
-    Dim objRace As Race
-    Dim fRace As frmRace
-    Dim i As Long
-    
-    i = grdRaces.Row
-    If i <= 1 Then Exit Sub
-    
-    Set objRace = mobjGame.Races(i - 1)
-    
-    Set fRace = New frmRace
-    Set fRace.Race = objRace
-    fRace.Show vbModal
-    Set fRace = Nothing
-    Set objRace = Nothing
-    Call LoadRaces
-End Sub
-
-Private Sub txtPeace_Change()
-    Game.Peace = Val(txtPeace.Text)
-End Sub
-
-Private Sub txtScheduleDays_Change()
-    Game.ScheduleDays = Val(txtScheduleDays.Text)
-End Sub
-
 Private Sub LoadRaces()
     Dim objRace As Race
     Dim i As Long
@@ -506,7 +544,7 @@ Private Sub LoadRaces()
     With grdRaces
         .Clear
         .Rows = mobjGame.Races.Count + 2
-        .Cols = 6
+        .Cols = 7
         .FixedRows = 1
         .FixedCols = 1
         .RowHeight(1) = 0
@@ -515,21 +553,40 @@ Private Sub LoadRaces()
         .FocusRect = flexFocusNone
         .ColSel = 5
         .ColWidth(0) = 16 * Screen.TwipsPerPixelX
-        .TextMatrix(0, 1) = "E-Mail Address"
-        .ColWidth(1) = 4000
-        .TextMatrix(0, 2) = "Size 1"
-        .ColWidth(2) = 600
-        .TextMatrix(0, 3) = "Size 2"
+        .TextMatrix(0, 1) = "Race"
+        .ColWidth(1) = 1200
+        .TextMatrix(0, 2) = "Player"
+        .ColWidth(2) = 1500
+        .TextMatrix(0, 3) = "Lst Ord"
         .ColWidth(3) = 600
-        .TextMatrix(0, 4) = "Size 3"
-        .ColWidth(4) = 600
-        .TextMatrix(0, 5) = "Size 4"
+        .ColAlignment(3) = flexAlignCenterCenter
+        .TextMatrix(0, 4) = "D/W/S/C"
+        .ColWidth(4) = 1500
+        .ColAlignment(4) = flexAlignLeftCenter
+        .TextMatrix(0, 5) = "Planets"
         .ColWidth(5) = 600
+        .ColAlignment(5) = flexAlignCenterCenter
+        .TextMatrix(0, 6) = "Prod/Lost"
+        .ColWidth(6) = 1000
+        .ColAlignment(6) = flexAlignLeftCenter
         i = 1
         For Each objRace In mobjGame.Races
             i = i + 1
+            .TextMatrix(i, 1) = objRace.RaceName
+            .TextMatrix(i, 2) = objRace.PlayerName
+            .TextMatrix(i, 3) = objRace.LastOrders
+            .TextMatrix(i, 4) = CStr(RoundTech(objRace.Drive)) & " / " & _
+                                CStr(RoundTech(objRace.Weapons)) & " / " & _
+                                CStr(RoundTech(objRace.Shields)) & " / " & _
+                                CStr(RoundTech(objRace.Cargo))
+            .TextMatrix(i, 5) = objRace.Planets.Count
+            .TextMatrix(i, 6) = CStr(Fix(0 & objRace.MassLost)) & " / " & _
+                                CStr(Fix(0 & objRace.MassProduced))
         Next objRace
     End With
 
 End Sub
 
+Private Function RoundTech(ByVal sngVal As Single) As Single
+    RoundTech = Fix(sngVal * 10) / 10
+End Function

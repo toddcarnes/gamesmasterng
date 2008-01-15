@@ -2,6 +2,9 @@ Games Master Version 0.0.3
 --------------------------
 Corrected Automatic run of games as when two game are run reports for second game
 	is delayed until an e-mail is received to trigger sending again.
+Fixed bug where reports are not e-mailed when  a notify was sent for a game.
+Enabled Create game option until game is started.
+Make the Registration Menu visible in the Template Form
 
 Games Master Version 0.0.2
 --------------------------

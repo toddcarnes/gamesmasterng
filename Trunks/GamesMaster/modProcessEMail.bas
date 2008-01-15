@@ -269,7 +269,7 @@ Public Sub SendReports(ByVal strGame As String)
                             "[GNG ERROR] " & objGame.GameName & " turn " & strTurn & _
                             " Race " & objRace.RaceName, _
                             "A zip file failed to generate." & vbNewLine & _
-                            "Reports were sent to the player as attachments." & _
+                            "Reports were sent to the player as attachments." & vbNewLine & _
                             "    Game: " & strGame & vbNewLine & _
                             "    Race: " & objRace.RaceName & vbNewLine & _
                             "    File: " & strFileName)
@@ -292,8 +292,8 @@ Public Sub SendReports(ByVal strGame As String)
                 If blnCompress Then 'The compress failed
                     strMessage = strMessage & _
                         "**** Trouble was encountered creating the ZIP file requested. " & vbNewLine & _
-                        "     Please notify the Games Master of the problem." & vbNewLine & _
-                        "**** Your text report is attached." & vbNewLine & vbNewLine
+                        "     The Games Master has been informed of the problem." & vbNewLine & _
+                        "**** Your report is attached as a text file." & vbNewLine & vbNewLine
                 End If
                 strMessage = strMessage & Options.GetMessage("GamesMasterMessage") & _
                             GetFile(Options.GalaxyNGNotices & strGame & ".txt") & _

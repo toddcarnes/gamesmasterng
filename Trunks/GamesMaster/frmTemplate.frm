@@ -5,7 +5,7 @@ Begin VB.Form frmTemplate
    Caption         =   "Template"
    ClientHeight    =   8205
    ClientLeft      =   45
-   ClientTop       =   435
+   ClientTop       =   735
    ClientWidth     =   7215
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
@@ -687,7 +687,6 @@ Begin VB.Form frmTemplate
    End
    Begin VB.Menu mnuAction 
       Caption         =   "&Registrations"
-      Visible         =   0   'False
       Begin VB.Menu mnuAdd 
          Caption         =   "&Add"
       End
@@ -881,7 +880,7 @@ Private Sub Form_Load()
     dtStartDate.TimeFormat = ""
 End Sub
 
-Private Sub grdRegistrations_MouseDown(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub grdRegistrations_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
     If Button = vbRightButton And Not ReadOnly Then
         PopupMenu mnuAction
     End If
@@ -1028,11 +1027,11 @@ Private Sub LoadRegistrations()
             .TextMatrix(i, 1) = objRegistration.EMail
             For c = 1 To objRegistration.HomeWorlds.Count
                 If c > 4 Then Exit For
-                If objRegistration.HomeWorlds(c).x = 0 Then
+                If objRegistration.HomeWorlds(c).X = 0 Then
                     .TextMatrix(i, c + 1) = objRegistration.HomeWorlds(c).Size
                 Else
                     .TextMatrix(i, c + 1) = objRegistration.HomeWorlds(c).Size _
-                                        & "/" & objRegistration.HomeWorlds(c).x _
+                                        & "/" & objRegistration.HomeWorlds(c).X _
                                         & "/" & objRegistration.HomeWorlds(c).Y
                 End If
             Next c

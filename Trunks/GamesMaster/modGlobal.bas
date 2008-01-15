@@ -226,9 +226,7 @@ Public Sub StartGame(ByVal strGame As String)
     strBuffer = GetFile(Options.GalaxyNGNextTurn(strGame))
     Call SaveFile(Options.GalaxyNGNextTurn(strGame), strBuffer)
     
-    Call MainForm.RefreshGamesForm
     Call SendReports(strGame)
-    Call MainForm.SendMail.Send
 
 End Sub
 
@@ -294,8 +292,6 @@ Public Sub NotifyUsers(ByVal strGame As String)
         End If
     Next objRace
 
-    Call MainForm.RefreshGamesForm
-    Call MainForm.SendMail.Send
 End Sub
 
 Public Function QuoteText(ByVal strText As String) As String
@@ -307,5 +303,14 @@ Public Function QuoteText(ByVal strText As String) As String
     QuoteText = strTemp
 End Function
 
+Public Function InIDE() As Boolean
+    On Error GoTo ErrorTag
+    
+    Debug.Print 1 / 0
+    InIDE = False
+    Exit Function
 
+ErrorTag:
+    InIDE = True
+End Function
 
