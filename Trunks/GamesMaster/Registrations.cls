@@ -17,37 +17,48 @@ Attribute VB_Ext_KEY = "Collection" ,"Registration"
 Attribute VB_Ext_KEY = "Member0" ,"Registration"
 Option Explicit
 
-Private mCol As Collection
+Private mcolRegistrations As Collection
 
 Public Function Add(objRegistration As Registration) As Registration
-    mCol.Add objRegistration, GetAddress(objRegistration.EMail)
+    mcolRegistrations.Add objRegistration
+    Set Add = objRegistration
 End Function
 
 Public Property Get Item(vntIndexKey As Variant) As Registration
 Attribute Item.VB_UserMemId = 0
+    Dim objRegistration As Registration
     On Error Resume Next
-    Set Item = mCol(vntIndexKey)
+    If IsNumeric(vntIndexKey) Then
+        Set Item = mcolRegistrations(vntIndexKey)
+    Else
+        For Each objRegistration In mcolRegistrations
+            If GetAddress(objRegistration.EMail) = vntIndexKey Then
+                Set Item = objRegistration
+                Exit For
+            End If
+        Next objRegistration
+    End If
 End Property
 
 Public Property Get Count() As Long
-    Count = mCol.Count
+    Count = mcolRegistrations.Count
 End Property
 
 Public Sub Remove(vntIndexKey As Variant)
-    mCol.Remove vntIndexKey
+    mcolRegistrations.Remove vntIndexKey
 End Sub
 
 Public Property Get NewEnum() As IUnknown
 Attribute NewEnum.VB_UserMemId = -4
 Attribute NewEnum.VB_MemberFlags = "40"
-    Set NewEnum = mCol.[_NewEnum]
+    Set NewEnum = mcolRegistrations.[_NewEnum]
 End Property
 
 Private Sub Class_Initialize()
-    Set mCol = New Collection
+    Set mcolRegistrations = New Collection
 End Sub
 
 Private Sub Class_Terminate()
-    Set mCol = Nothing
+    Set mcolRegistrations = Nothing
 End Sub
 

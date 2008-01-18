@@ -5,6 +5,11 @@ Corrected Automatic run of games as when two game are run reports for second gam
 Fixed bug where reports are not e-mailed when  a notify was sent for a game.
 Enabled Create game option until game is started.
 Make the Registration Menu visible in the Template Form
+Changed Templates so that the GM can register the same address more than once E-Mail 
+	registrations will only be able to have one so that it can be changed.
+Program will Restart on first game check between midnight and 1am if it has been 
+	running for more than 3 hours.
+Changes so the the Games can be seen refreshing for when there are a lot of games.
 
 Games Master Version 0.0.2
 --------------------------

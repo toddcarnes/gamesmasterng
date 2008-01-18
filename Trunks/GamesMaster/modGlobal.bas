@@ -6,6 +6,7 @@ Public GalaxyNG As GalaxyNG
 Public MainForm As frmMain
 Public INIFile As INIFile
 Public Options As Options
+Private mdtStartTime As Date
 
 Public Sub Main()
     Dim blnShowOptions As Boolean
@@ -25,6 +26,7 @@ Public Sub Main()
         Load fOptions
         fOptions.Show
     Else
+        mdtStartTime = Now
         Set GalaxyNG = New GalaxyNG
         Set MainForm = New frmMain
         MainForm.Show
@@ -314,3 +316,23 @@ ErrorTag:
     InIDE = True
 End Function
 
+Public Function CheckRestart() As Boolean
+' Restart the program at Midnight if it has been running for more than 3 hours
+    Dim objForm As Form
+    
+    CheckRestart = False
+    If CDate(Now - Int(Now)) > #1:00:00 AM# Then Exit Function
+    If CDate(Now - mdtStartTime) < #3:00:00 AM# Then Exit Function
+    
+    CheckRestart = True
+    ' Stop timers
+    MainForm.tmrGalaxyNG.Enabled = False
+    MainForm.tmrMail = False
+    
+    ' Start a new instance
+    Shell App.Path & "\" & App.EXEName & ".exe", vbNormalNoFocus
+    
+    ' Shutdown
+    Call MainForm.mnuExit_Click
+    
+End Function

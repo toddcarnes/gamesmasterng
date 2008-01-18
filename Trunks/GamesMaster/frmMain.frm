@@ -50,7 +50,7 @@ Begin VB.MDIForm frmMain
             AutoSize        =   2
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "16/01/2008"
+            TextSave        =   "19/01/2008"
             Key             =   "Date"
          EndProperty
          BeginProperty Panel4 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
@@ -59,7 +59,7 @@ Begin VB.MDIForm frmMain
             AutoSize        =   2
             Object.Width           =   1402
             MinWidth        =   1411
-            TextSave        =   "5:39"
+            TextSave        =   "5:59"
             Key             =   "Time"
          EndProperty
       EndProperty
@@ -999,8 +999,9 @@ Private Sub tmrGalaxyNG_Timer()
     
     tmrGalaxyNG.Interval = 30000
     If mdtNextRunCheck < Now Then
-        mdtNextRunCheck = DateAdd("n", 5, Now)
+        If CheckRestart Then Exit Sub ' Restart to stop memory leaks
         
+        mdtNextRunCheck = DateAdd("n", 5, Now)
         blnGalaxyNGTimer = tmrGalaxyNG.Enabled
         tmrGalaxyNG.Enabled = False
         Set objGames = New Games

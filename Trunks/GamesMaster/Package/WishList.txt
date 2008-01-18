@@ -3,6 +3,10 @@ Requests and Wishlist
 
 Gamesmaster
 -----------
+Implement Game Message and Game Description (in INI File)
+Setup Initial Planets (Circle, grid) orbit panets around primary)
+	Dummy player to position planets (like Isolation)
+
 View Player details
 Change Game Details
 Change Player Details

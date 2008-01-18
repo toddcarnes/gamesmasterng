@@ -85,9 +85,10 @@ Public Sub LoadGames()
         .ColWidth(c) = 1500
         .ColAlignment(c) = flexAlignLeftTop
         
-        .Visible = False
+'        .Visible = False
         lngRow = 1
         For Each objGame In Games
+            DoEvents
             objGame.Refresh
             If Not objGame.Template.Finished _
             Or (objGame.Template.Finished And MainForm.mnuTemplateShowAll.Checked) Then
@@ -171,7 +172,7 @@ Private Sub grdGames_DblClick()
     Call MainForm.mnuTemplateView_Click
 End Sub
 
-Private Sub grdGames_MouseDown(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub grdGames_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
     If Button = vbRightButton Then
         Call MainForm.mnuTemplate_Click
         Call MainForm.mnuGame_Click

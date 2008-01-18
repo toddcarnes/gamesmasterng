@@ -868,7 +868,6 @@ End Sub
 
 Private Sub Form_Load()
     Me.Icon = MainForm.Icon
-    Me.Top = 0
     dtRegOpen.DateFormat = "Short Date"
     dtRegOpen.TimeFormat = ""
     dtRegClose.DateFormat = "Short Date"
