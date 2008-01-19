@@ -302,7 +302,7 @@ Private Sub SaveEMail(ByVal strEMail As String)
     Dim strFileName As String
     
     Do
-        strFileName = Options.Inbox & Format(Now, "yyyymmddhhnnss") & "_" & Format(i, "0") & ".txt"
+        strFileName = Options.Inbox & Format(Now, "yyyymmddhhnnss") & "_" & Format(i, "0") & ".eml"
         If Dir(strFileName) = "" Then Exit Do
         i = i + 1
     Loop

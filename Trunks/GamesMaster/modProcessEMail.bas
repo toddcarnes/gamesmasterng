@@ -102,7 +102,7 @@ Private Function GetEMails() As Variant
     ReDim varFiles(100) As Variant
     i = -1
     
-    strFile = Dir(Options.Inbox & "\*.txt")
+    strFile = Dir(Options.Inbox & "\*.eml")
     While strFile <> ""
         i = i + 1
         If i > UBound(varFiles) Then
@@ -132,7 +132,7 @@ Public Function SendEMail(ByVal strTo As String, ByVal strSubject As String, ByV
     Set objTimeZone = Nothing
     
     Do
-        strFileName = Options.Outbox & Format(Now, "yyyymmddhhnnss") & "_" & Format(i, "0") & ".txt"
+        strFileName = Options.Outbox & Format(Now, "yyyymmddhhnnss") & "_" & Format(i, "0") & ".eml"
         If Dir(strFileName) = "" Then Exit Do
         i = i + 1
     Loop
@@ -156,7 +156,7 @@ Public Function SendNewEMail(ByVal strBody As String)
     Dim objTimeZone As CTimeZone
     
     Do
-        strFileName = Options.Outbox & Format(Now, "yyyymmddhhnnss") & "_" & Format(i, "0") & ".txt"
+        strFileName = Options.Outbox & Format(Now, "yyyymmddhhnnss") & "_" & Format(i, "0") & ".eml"
         If Dir(strFileName) = "" Then Exit Do
         i = i + 1
     Loop

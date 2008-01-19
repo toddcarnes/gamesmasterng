@@ -10,6 +10,8 @@ Changed Templates so that the GM can register the same address more than once E-
 Program will Restart on first game check between midnight and 1am if it has been 
 	running for more than 3 hours.
 Changes so the the Games can be seen refreshing for when there are a lot of games.
+Changed e-mail extensions to .eml
+Enabled Circle and Circle+Middle design options.
 
 Games Master Version 0.0.2
 --------------------------

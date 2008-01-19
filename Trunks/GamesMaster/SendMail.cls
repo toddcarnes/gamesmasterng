@@ -58,7 +58,7 @@ Public Sub Send()
     
     If Status = SM_CLOSE Then
         ' Abort if the outbox is empty
-        strFileName = Dir(Options.Outbox & "*.txt")
+        strFileName = Dir(Options.Outbox & "*.eml")
         If strFileName = "" Then Exit Sub
         ReDim mvarEMail(100)
         mlngEMail = 0

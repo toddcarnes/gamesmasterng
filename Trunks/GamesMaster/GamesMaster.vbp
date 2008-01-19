@@ -65,6 +65,7 @@ Class=Zip; ZipFiles.cls
 RelatedDoc=Package\WishList.txt
 RelatedDoc=Package\Changes.txt
 Form=frmGame.frm
+Module=modDesign; modDesign.bas
 IconForm="frmMain"
 Startup="Sub Main"
 HelpFile=""

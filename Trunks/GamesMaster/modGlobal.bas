@@ -207,10 +207,12 @@ End Function
 
 Public Sub CreateGame(ByVal strTemplate As String)
     Dim objGame As Game
-    Dim objtemplate As Template
+    Dim objTemplate As Template
     
     Set objGame = GalaxyNG.Games(strTemplate)
-    Set objtemplate = objGame.Template
+    Set objTemplate = objGame.Template
+    Call ApplyDesign(objTemplate)
+    Call objTemplate.Save
     Call RunGalaxyNG("-create """ & objGame.TemplateFile & """ >" & strTemplate & ".txt")
 End Sub
 
@@ -335,4 +337,16 @@ Public Function CheckRestart() As Boolean
     ' Shutdown
     Call MainForm.mnuExit_Click
     
+End Function
+
+Public Function PI() As Single
+    PI = Atn(1) * 4
+End Function
+
+Public Function Round(ByVal sngNo As Single, Optional ByVal lngPlaces As Long = 2)
+    Dim sngFactor As Single
+    
+    sngFactor = 10 ^ lngPlaces
+    Round = Int(sngNo * sngFactor) / sngFactor
+
 End Function

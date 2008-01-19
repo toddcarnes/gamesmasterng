@@ -59,7 +59,7 @@ Begin VB.MDIForm frmMain
             AutoSize        =   2
             Object.Width           =   1402
             MinWidth        =   1411
-            TextSave        =   "5:59"
+            TextSave        =   "12:13"
             Key             =   "Time"
          EndProperty
       EndProperty
@@ -724,7 +724,7 @@ End Sub
 Public Sub mnuTemplate_Click()
     Dim strTemplate As String
     Dim objGame As Game
-    Dim objtemplate As Template
+    Dim objTemplate As Template
     
     strTemplate = SelectedGame
     Set objGame = GalaxyNG.Games(strTemplate)
@@ -738,7 +738,7 @@ Public Sub mnuTemplate_Click()
         mnuTemplateViewSourceFile.Enabled = False
         mnuTemplateRefresh.Enabled = (Not GamesForm Is Nothing)
     Else
-        Set objtemplate = objGame.Template
+        Set objTemplate = objGame.Template
         If objGame.Created Then
             mnuTemplateDelete.Enabled = False
             mnuTemplateEdit.Enabled = True
@@ -761,7 +761,7 @@ Public Sub mnuTemplate_Click()
     mnuRefreshTemplate.Visible = mnuTemplateRefresh.Enabled And mnuTemplateRefresh.Visible
     mnuViewTemplateSourceFile.Visible = mnuTemplateView.Enabled And mnuTemplateView.Visible
     
-    Set objtemplate = Nothing
+    Set objTemplate = Nothing
     Set objGame = Nothing
 End Sub
 
@@ -880,11 +880,11 @@ End Sub
 
 Private Sub mnuTemplateViewSourceFile_Click()
     Dim strTemplate As String
-    Dim objtemplate As Template
+    Dim objTemplate As Template
     
     strTemplate = SelectedGame
-    Set objtemplate = GalaxyNG.Games(strTemplate).Template
-    ShellOpen objtemplate.Filename
+    Set objTemplate = GalaxyNG.Games(strTemplate).Template
+    ShellOpen objTemplate.Filename
 End Sub
 
 Private Sub mnuViewGame_Click()

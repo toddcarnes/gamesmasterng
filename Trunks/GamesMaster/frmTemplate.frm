@@ -3,38 +3,122 @@ Object = "{0ECD9B60-23AA-11D0-B351-00A0C9055D8E}#6.0#0"; "mshflxgd.ocx"
 Begin VB.Form frmTemplate 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Template"
-   ClientHeight    =   8205
+   ClientHeight    =   8220
    ClientLeft      =   45
    ClientTop       =   735
    ClientWidth     =   7215
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   8205
+   ScaleHeight     =   8220
    ScaleWidth      =   7215
    StartUpPosition =   1  'CenterOwner
+   Begin VB.CommandButton cmdDesign 
+      Caption         =   "Apply Design"
+      Height          =   435
+      Left            =   180
+      TabIndex        =   71
+      Top             =   7680
+      Width           =   1275
+   End
+   Begin VB.Frame frDesign 
+      Caption         =   "Design"
+      Height          =   1395
+      Left            =   60
+      TabIndex        =   67
+      Top             =   4380
+      Width           =   4095
+      Begin VB.TextBox txtOrbitDistance 
+         Height          =   315
+         Left            =   3420
+         TabIndex        =   23
+         Tag             =   "2"
+         Top             =   540
+         Width           =   495
+      End
+      Begin VB.CheckBox chkOrbitPlanets 
+         Alignment       =   1  'Right Justify
+         Caption         =   "Orbit Planets:"
+         Height          =   315
+         Left            =   120
+         TabIndex        =   22
+         Tag             =   "12"
+         Top             =   540
+         Width           =   1275
+      End
+      Begin VB.ComboBox cboSeed 
+         Height          =   315
+         Left            =   1200
+         Style           =   2  'Dropdown List
+         TabIndex        =   24
+         Top             =   900
+         Width           =   2715
+      End
+      Begin VB.ComboBox cboDesign 
+         Height          =   315
+         Left            =   1200
+         Style           =   2  'Dropdown List
+         TabIndex        =   21
+         Top             =   180
+         Width           =   2715
+      End
+      Begin VB.Label Label 
+         Alignment       =   1  'Right Justify
+         Caption         =   "Seed Type:"
+         Height          =   255
+         Index           =   31
+         Left            =   60
+         TabIndex        =   70
+         Top             =   960
+         Width           =   1035
+      End
+      Begin VB.Label Label 
+         Alignment       =   1  'Right Justify
+         Caption         =   "Orbit Distance:"
+         Height          =   255
+         Index           =   30
+         Left            =   2100
+         TabIndex        =   69
+         Top             =   600
+         Width           =   1215
+      End
+      Begin VB.Label Label 
+         Alignment       =   1  'Right Justify
+         Caption         =   "Design Type:"
+         Height          =   255
+         Index           =   28
+         Left            =   60
+         TabIndex        =   68
+         Top             =   240
+         Width           =   1035
+      End
+   End
    Begin VB.CheckBox chkFinished 
+      Alignment       =   1  'Right Justify
+      Caption         =   "Game Finished:"
       Height          =   315
-      Left            =   6480
-      TabIndex        =   33
+      Left            =   5340
+      TabIndex        =   37
       Tag             =   "12"
       Top             =   60
-      Width           =   255
+      Width           =   1395
    End
    Begin VB.CheckBox chkScheduleActive 
+      Alignment       =   1  'Right Justify
+      Caption         =   "Schedule Active:"
       Height          =   315
-      Left            =   4620
+      Left            =   3360
       TabIndex        =   1
       Tag             =   "12"
       Top             =   60
-      Width           =   255
+      Width           =   1515
    End
    Begin VB.CommandButton cmdCancel 
       Caption         =   "&Cancel"
       Height          =   435
-      Left            =   2160
-      TabIndex        =   64
-      Top             =   7620
+      Left            =   4380
+      TabIndex        =   63
+      Top             =   7680
       Width           =   1155
    End
    Begin VB.Frame frRunOptions 
@@ -47,7 +131,7 @@ Begin VB.Form frmTemplate
       Begin VB.TextBox txtTotalPlanetSize 
          Height          =   315
          Left            =   1560
-         TabIndex        =   25
+         TabIndex        =   29
          Tag             =   "1"
          Top             =   1680
          Width           =   495
@@ -55,7 +139,7 @@ Begin VB.Form frmTemplate
       Begin VB.TextBox txtMaxPlanetSize 
          Height          =   315
          Left            =   1560
-         TabIndex        =   24
+         TabIndex        =   28
          Tag             =   "1"
          Top             =   1320
          Width           =   495
@@ -63,23 +147,25 @@ Begin VB.Form frmTemplate
       Begin VB.TextBox txtMaxPlanets 
          Height          =   315
          Left            =   1560
-         TabIndex        =   23
+         TabIndex        =   27
          Tag             =   "1"
          Top             =   960
          Width           =   495
       End
       Begin VB.CheckBox chkFinalOrders 
+         Alignment       =   1  'Right Justify
+         Caption         =   "Final Orders:"
          Height          =   315
-         Left            =   1560
-         TabIndex        =   31
+         Left            =   540
+         TabIndex        =   35
          Tag             =   "12"
-         Top             =   3780
-         Width           =   255
+         Top             =   3840
+         Width           =   1215
       End
       Begin VB.TextBox txtScheduleDays 
          Height          =   315
          Left            =   1560
-         TabIndex        =   30
+         TabIndex        =   34
          Tag             =   "1"
          Top             =   3480
          Width           =   555
@@ -87,7 +173,7 @@ Begin VB.Form frmTemplate
       Begin GamesMaster.DateBox dtRegOpen 
          Height          =   315
          Left            =   1560
-         TabIndex        =   26
+         TabIndex        =   30
          Top             =   2040
          Width           =   1035
          _ExtentX        =   1826
@@ -107,7 +193,7 @@ Begin VB.Form frmTemplate
       Begin VB.TextBox txtMinPlayers 
          Height          =   315
          Left            =   1560
-         TabIndex        =   22
+         TabIndex        =   26
          Tag             =   "1"
          Top             =   600
          Width           =   495
@@ -115,7 +201,7 @@ Begin VB.Form frmTemplate
       Begin VB.TextBox txtMaxPlayers 
          Height          =   315
          Left            =   1560
-         TabIndex        =   21
+         TabIndex        =   25
          Tag             =   "1"
          Top             =   240
          Width           =   495
@@ -123,7 +209,7 @@ Begin VB.Form frmTemplate
       Begin GamesMaster.DateBox dtRegClose 
          Height          =   315
          Left            =   1560
-         TabIndex        =   27
+         TabIndex        =   31
          Top             =   2400
          Width           =   1035
          _ExtentX        =   1826
@@ -143,7 +229,7 @@ Begin VB.Form frmTemplate
       Begin GamesMaster.DateBox dtRunTime 
          Height          =   315
          Left            =   1560
-         TabIndex        =   28
+         TabIndex        =   32
          Top             =   2760
          Width           =   555
          _ExtentX        =   979
@@ -163,7 +249,7 @@ Begin VB.Form frmTemplate
       Begin GamesMaster.DateBox dtStartDate 
          Height          =   315
          Left            =   1560
-         TabIndex        =   29
+         TabIndex        =   33
          Top             =   3120
          Width           =   1035
          _ExtentX        =   1826
@@ -186,7 +272,7 @@ Begin VB.Form frmTemplate
          Height          =   255
          Index           =   25
          Left            =   60
-         TabIndex        =   67
+         TabIndex        =   66
          Top             =   1740
          Width           =   1395
       End
@@ -196,7 +282,7 @@ Begin VB.Form frmTemplate
          Height          =   255
          Index           =   24
          Left            =   240
-         TabIndex        =   66
+         TabIndex        =   65
          Top             =   1380
          Width           =   1215
       End
@@ -206,18 +292,8 @@ Begin VB.Form frmTemplate
          Height          =   255
          Index           =   23
          Left            =   300
-         TabIndex        =   65
+         TabIndex        =   64
          Top             =   1020
-         Width           =   1155
-      End
-      Begin VB.Label Label 
-         Alignment       =   1  'Right Justify
-         Caption         =   "Final Orders:"
-         Height          =   255
-         Index           =   22
-         Left            =   300
-         TabIndex        =   63
-         Top             =   3840
          Width           =   1155
       End
       Begin VB.Label Label 
@@ -295,13 +371,13 @@ Begin VB.Form frmTemplate
       Caption         =   "Registrations"
       Height          =   1755
       Left            =   0
-      TabIndex        =   49
+      TabIndex        =   53
       Top             =   5820
       Width           =   7155
       Begin MSHierarchicalFlexGridLib.MSHFlexGrid grdRegistrations 
          Height          =   1395
          Left            =   120
-         TabIndex        =   32
+         TabIndex        =   36
          Top             =   240
          Width           =   6915
          _ExtentX        =   12197
@@ -315,40 +391,48 @@ Begin VB.Form frmTemplate
       Caption         =   "Galaxy Options"
       Height          =   1035
       Left            =   60
-      TabIndex        =   45
+      TabIndex        =   49
       Top             =   480
       Width           =   7095
       Begin VB.CheckBox chkFullBombing 
+         Alignment       =   1  'Right Justify
+         Caption         =   "Full Bombing:"
          Height          =   315
-         Left            =   1440
+         Left            =   180
          TabIndex        =   5
          Tag             =   "8"
          Top             =   600
-         Width           =   255
+         Width           =   1275
       End
       Begin VB.CheckBox chkKeepproduction 
+         Alignment       =   1  'Right Justify
+         Caption         =   "Keep production:"
          Height          =   315
-         Left            =   3120
+         Left            =   1740
          TabIndex        =   6
          Tag             =   "10"
          Top             =   600
-         Width           =   255
+         Width           =   1515
       End
       Begin VB.CheckBox chkDontDropDead 
+         Alignment       =   1  'Right Justify
+         Caption         =   "Don't Drop Dead:"
          Height          =   315
-         Left            =   4740
+         Left            =   3540
          TabIndex        =   7
          Tag             =   "11"
          Top             =   600
-         Width           =   255
+         Width           =   1575
       End
       Begin VB.CheckBox chkSphericalGalaxy 
+         Alignment       =   1  'Right Justify
+         Caption         =   "Spherical Galaxy:"
          Height          =   315
-         Left            =   6360
+         Left            =   5400
          TabIndex        =   8
          Tag             =   "12"
          Top             =   600
-         Width           =   255
+         Width           =   1575
       End
       Begin VB.TextBox txtPeace 
          Height          =   315
@@ -360,7 +444,7 @@ Begin VB.Form frmTemplate
       End
       Begin VB.TextBox txtRaceSpacing 
          Height          =   315
-         Left            =   3300
+         Left            =   3060
          TabIndex        =   3
          Tag             =   "2"
          Top             =   240
@@ -368,7 +452,7 @@ Begin VB.Form frmTemplate
       End
       Begin VB.TextBox txtSize 
          Height          =   315
-         Left            =   1440
+         Left            =   1260
          TabIndex        =   2
          Tag             =   "1"
          Top             =   240
@@ -376,51 +460,11 @@ Begin VB.Form frmTemplate
       End
       Begin VB.Label Label 
          Alignment       =   1  'Right Justify
-         Caption         =   "Full Bombing:"
-         Height          =   255
-         Index           =   6
-         Left            =   300
-         TabIndex        =   54
-         Top             =   660
-         Width           =   1035
-      End
-      Begin VB.Label Label 
-         Alignment       =   1  'Right Justify
-         Caption         =   "Keep production:"
-         Height          =   255
-         Index           =   7
-         Left            =   1740
-         TabIndex        =   53
-         Top             =   660
-         Width           =   1275
-      End
-      Begin VB.Label Label 
-         Alignment       =   1  'Right Justify
-         Caption         =   "Don't Drop Dead:"
-         Height          =   255
-         Index           =   8
-         Left            =   3360
-         TabIndex        =   52
-         Top             =   660
-         Width           =   1275
-      End
-      Begin VB.Label Label 
-         Alignment       =   1  'Right Justify
-         Caption         =   "Spherical Galaxy:"
-         Height          =   255
-         Index           =   9
-         Left            =   4980
-         TabIndex        =   51
-         Top             =   660
-         Width           =   1275
-      End
-      Begin VB.Label Label 
-         Alignment       =   1  'Right Justify
          Caption         =   "Peace:"
          Height          =   255
          Index           =   12
          Left            =   4260
-         TabIndex        =   50
+         TabIndex        =   54
          Top             =   300
          Width           =   555
       End
@@ -429,8 +473,8 @@ Begin VB.Form frmTemplate
          Caption         =   "Race Spacing:"
          Height          =   255
          Index           =   2
-         Left            =   2040
-         TabIndex        =   47
+         Left            =   1800
+         TabIndex        =   51
          Top             =   300
          Width           =   1155
       End
@@ -439,8 +483,8 @@ Begin VB.Form frmTemplate
          Caption         =   "Galaxy Size:"
          Height          =   255
          Index           =   1
-         Left            =   420
-         TabIndex        =   46
+         Left            =   240
+         TabIndex        =   50
          Top             =   300
          Width           =   915
       End
@@ -454,17 +498,17 @@ Begin VB.Form frmTemplate
    End
    Begin VB.Frame frPlayer 
       Caption         =   "Player Options"
-      Height          =   3135
+      Height          =   2775
       Left            =   60
-      TabIndex        =   35
+      TabIndex        =   39
       Top             =   1560
       Width           =   4095
       Begin VB.Frame frCoreSizes 
          Caption         =   "Planet Core Sizes"
          Height          =   675
          Left            =   120
-         TabIndex        =   41
-         Top             =   1380
+         TabIndex        =   45
+         Top             =   1020
          Width           =   3855
          Begin VB.TextBox txtCoreSizes 
             Height          =   315
@@ -516,8 +560,8 @@ Begin VB.Form frmTemplate
          Caption         =   "Initial Tech Levels"
          Height          =   915
          Left            =   120
-         TabIndex        =   36
-         Top             =   2100
+         TabIndex        =   40
+         Top             =   1740
          Width           =   3495
          Begin VB.TextBox txtInitialTechLevel 
             Height          =   315
@@ -560,7 +604,7 @@ Begin VB.Form frmTemplate
             Height          =   255
             Index           =   11
             Left            =   120
-            TabIndex        =   40
+            TabIndex        =   44
             Top             =   240
             Width           =   675
          End
@@ -569,7 +613,7 @@ Begin VB.Form frmTemplate
             Height          =   255
             Index           =   13
             Left            =   960
-            TabIndex        =   39
+            TabIndex        =   43
             Top             =   240
             Width           =   855
          End
@@ -578,7 +622,7 @@ Begin VB.Form frmTemplate
             Height          =   255
             Index           =   14
             Left            =   1800
-            TabIndex        =   38
+            TabIndex        =   42
             Top             =   240
             Width           =   675
          End
@@ -587,7 +631,7 @@ Begin VB.Form frmTemplate
             Height          =   255
             Index           =   15
             Left            =   2640
-            TabIndex        =   37
+            TabIndex        =   41
             Top             =   240
             Width           =   675
          End
@@ -597,15 +641,15 @@ Begin VB.Form frmTemplate
          Left            =   1260
          TabIndex        =   11
          Tag             =   "6"
-         Top             =   960
+         Top             =   660
          Width           =   495
       End
       Begin VB.TextBox txtEmptyRadius 
          Height          =   315
-         Left            =   1260
+         Left            =   3300
          TabIndex        =   10
          Tag             =   "5"
-         Top             =   600
+         Top             =   240
          Width           =   495
       End
       Begin VB.TextBox txtEmptyPlanets 
@@ -622,8 +666,8 @@ Begin VB.Form frmTemplate
          Height          =   255
          Index           =   10
          Left            =   120
-         TabIndex        =   44
-         Top             =   1020
+         TabIndex        =   48
+         Top             =   720
          Width           =   975
       End
       Begin VB.Label Label 
@@ -631,9 +675,9 @@ Begin VB.Form frmTemplate
          Caption         =   "Empty Radius"
          Height          =   255
          Index           =   5
-         Left            =   120
-         TabIndex        =   43
-         Top             =   660
+         Left            =   2160
+         TabIndex        =   47
+         Top             =   300
          Width           =   1035
       End
       Begin VB.Label Label 
@@ -642,7 +686,7 @@ Begin VB.Form frmTemplate
          Height          =   255
          Index           =   4
          Left            =   120
-         TabIndex        =   42
+         TabIndex        =   46
          Top             =   300
          Width           =   1035
       End
@@ -650,30 +694,10 @@ Begin VB.Form frmTemplate
    Begin VB.CommandButton cmdClose 
       Caption         =   "Close"
       Height          =   435
-      Left            =   3660
-      TabIndex        =   34
-      Top             =   7620
+      Left            =   5880
+      TabIndex        =   38
+      Top             =   7680
       Width           =   1155
-   End
-   Begin VB.Label Label 
-      Alignment       =   1  'Right Justify
-      Caption         =   "Game Finished:"
-      Height          =   255
-      Index           =   27
-      Left            =   5100
-      TabIndex        =   69
-      Top             =   120
-      Width           =   1275
-   End
-   Begin VB.Label Label 
-      Alignment       =   1  'Right Justify
-      Caption         =   "Schedule Active:"
-      Height          =   255
-      Index           =   26
-      Left            =   3240
-      TabIndex        =   68
-      Top             =   120
-      Width           =   1275
    End
    Begin VB.Label Label 
       Alignment       =   1  'Right Justify
@@ -681,7 +705,7 @@ Begin VB.Form frmTemplate
       Height          =   255
       Index           =   0
       Left            =   60
-      TabIndex        =   48
+      TabIndex        =   52
       Top             =   120
       Width           =   555
    End
@@ -711,8 +735,8 @@ Public Property Get Template() As Template
     Set Template = mobjTemplate
 End Property
 
-Public Property Set Template(ByVal objtemplate As Template)
-    Set mobjTemplate = objtemplate
+Public Property Set Template(ByVal objTemplate As Template)
+    Set mobjTemplate = objTemplate
     Call LoadTemplate
 End Property
 
@@ -722,6 +746,7 @@ Public Property Let ReadOnly(ByVal blnReadOnly As Boolean)
     frGalaxy.Enabled = Not blnReadOnly
     frPlayer.Enabled = Not blnReadOnly
     frRunOptions.Enabled = Not blnReadOnly
+    frDesign.Enabled = Not blnReadOnly
     If blnReadOnly Then
         cmdClose.Caption = "Close"
         cmdCancel.Visible = False
@@ -734,6 +759,14 @@ End Property
 Public Property Get ReadOnly() As Boolean
     ReadOnly = mblnReadOnly
 End Property
+
+Private Sub cboDesign_Click()
+    Template.DesignType = cboDesign.ListIndex
+End Sub
+
+Private Sub cboSeed_Click()
+    Template.SeedType = cboSeed.ListIndex
+End Sub
 
 Private Sub chkDontDropDead_Click()
     Template.DontDropDead = (chkDontDropDead.Value = vbChecked)
@@ -753,6 +786,10 @@ End Sub
 
 Private Sub chkKeepproduction_Click()
     Template.KeepProduction = (chkKeepproduction.Value = vbChecked)
+End Sub
+
+Private Sub chkOrbitPlanets_Click()
+    Template.OrbitPlanets = (chkOrbitPlanets.Value = vbChecked)
 End Sub
 
 Private Sub chkScheduleActive_Click()
@@ -802,6 +839,10 @@ Private Sub LoadTemplate()
         txtInitialTechLevel(Tech.Weapons) = ""
         txtInitialTechLevel(Tech.Shields) = ""
         txtInitialTechLevel(Tech.Cargo) = ""
+        cboDesign.ListIndex = 0
+        chkOrbitPlanets = vbUnchecked
+        txtOrbitDistance = 0
+        cboSeed.ListIndex = 0
         With grdRegistrations
             .Clear
             .Rows = 0
@@ -834,6 +875,11 @@ Private Sub LoadTemplate()
             txtInitialTechLevel(Tech.Weapons) = .InitialTechLevels(Tech.Weapons)
             txtInitialTechLevel(Tech.Shields) = .InitialTechLevels(Tech.Shields)
             txtInitialTechLevel(Tech.Cargo) = .InitialTechLevels(Tech.Cargo)
+            cboDesign.ListIndex = .DesignType
+            chkOrbitPlanets = IIf(.OrbitPlanets, vbChecked, vbUnchecked)
+            txtOrbitDistance = .OrbitDistance
+            cboSeed.ListIndex = .SeedType
+            
             txtMaxPlayers = .MaxPlayers
             txtMinPlayers = .MinPlayers
             txtMaxPlanets = .MaxPlanets
@@ -848,6 +894,10 @@ Private Sub LoadTemplate()
         End With
         Call LoadRegistrations
     End If
+End Sub
+
+Private Sub cmdDesign_Click()
+    Call ApplyDesign(Template)
 End Sub
 
 Private Sub dtRegClose_Change()
@@ -877,6 +927,26 @@ Private Sub Form_Load()
     dtRunTime.TimeStamp = "00:00"
     dtStartDate.DateFormat = "Short Date"
     dtStartDate.TimeFormat = ""
+    
+    With cboDesign
+        .Clear
+        .AddItem "0 - Default"
+        .AddItem "1 - On Circle"
+        .AddItem "2 - On Circle+Middle"
+    End With
+    
+    With cboSeed
+        .Clear
+        .AddItem "0 - No Seeding"
+'        .AddItem "1 - Seed HomeWorld"
+'        .AddItem "2 - Seed Center of Circle"
+'        .AddItem "3 - Seed Home+Center"
+'        .AddItem "4 - Seed MidPoint"
+'        .AddItem "5 - Seed Home+Mid"
+'        .AddItem "6 - Seed Center+Mid"
+'        .AddItem "7 - Seed Home+Center+Mid"
+    End With
+    
 End Sub
 
 Private Sub grdRegistrations_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
@@ -945,48 +1015,143 @@ Private Sub txtCoreSizes_Change(Index As Integer)
     Template.core_sizes(Index) = Val(txtCoreSizes(Index))
 End Sub
 
+Private Sub txtCoreSizes_GotFocus(Index As Integer)
+    With txtCoreSizes(Index)
+        .SelStart = 0
+        .SelLength = Len(.Text)
+    End With
+End Sub
+
 Private Sub txtEmptyPlanets_Change()
     Template.empty_planets = Val(txtEmptyPlanets.Text)
+End Sub
+
+Private Sub txtEmptyPlanets_GotFocus()
+    With txtEmptyPlanets
+        .SelStart = 0
+        .SelLength = Len(.Text)
+    End With
 End Sub
 
 Private Sub txtEmptyRadius_Change()
     Template.empty_radius = Val(txtEmptyRadius.Text)
 End Sub
 
+Private Sub txtEmptyRadius_GotFocus()
+    With txtEmptyRadius
+        .SelStart = 0
+        .SelLength = Len(.Text)
+    End With
+End Sub
+
+Private Sub txtInitialTechLevel_GotFocus(Index As Integer)
+    With txtInitialTechLevel(Index)
+        .SelStart = 0
+        .SelLength = Len(.Text)
+    End With
+End Sub
+
 Private Sub txtMaxPlanets_Change()
     Template.MaxPlanets = Val(txtMaxPlanets.Text)
+End Sub
+
+Private Sub txtMaxPlanets_GotFocus()
+    With txtMaxPlanets
+        .SelStart = 0
+        .SelLength = Len(.Text)
+    End With
 End Sub
 
 Private Sub txtMaxPlanetSize_Change()
     Template.MaxPlanetSize = Val(txtMaxPlanetSize.Text)
 End Sub
 
+Private Sub txtMaxPlanetSize_GotFocus()
+    With txtMaxPlanetSize
+        .SelStart = 0
+        .SelLength = Len(.Text)
+    End With
+End Sub
+
 Private Sub txtMaxPlayers_Change()
     Template.MaxPlayers = Val(txtMaxPlayers.Text)
+End Sub
+
+Private Sub txtMaxPlayers_GotFocus()
+    With txtMaxPlayers
+        .SelStart = 0
+        .SelLength = Len(.Text)
+    End With
 End Sub
 
 Private Sub txtMinPlayers_Change()
     Template.MinPlayers = Val(txtMinPlayers.Text)
 End Sub
 
+Private Sub txtMinPlayers_GotFocus()
+    With txtMinPlayers
+        .SelStart = 0
+        .SelLength = Len(.Text)
+    End With
+End Sub
+
 Private Sub txtName_Change()
     Template.TemplateName = txtName.Text
+End Sub
+
+Private Sub txtOrbitDistance_Change()
+    Template.OrbitDistance = Val(txtOrbitDistance)
+End Sub
+
+Private Sub txtOrbitDistance_GotFocus()
+    With txtOrbitDistance
+        .SelStart = 0
+        .SelLength = Len(.Text)
+    End With
 End Sub
 
 Private Sub txtPeace_Change()
     Template.Peace = Val(txtPeace.Text)
 End Sub
 
+Private Sub txtPeace_GotFocus()
+    With txtPeace
+        .SelStart = 0
+        .SelLength = Len(.Text)
+    End With
+End Sub
+
 Private Sub txtRaceSpacing_Change()
     Template.race_spacing = Val(txtRaceSpacing.Text)
+End Sub
+
+Private Sub txtRaceSpacing_GotFocus()
+    With txtRaceSpacing
+        .SelStart = 0
+        .SelLength = Len(.Text)
+    End With
 End Sub
 
 Private Sub txtScheduleDays_Change()
     Template.ScheduleDays = Val(txtScheduleDays.Text)
 End Sub
 
+Private Sub txtScheduleDays_GotFocus()
+    With txtScheduleDays
+        .SelStart = 0
+        .SelLength = Len(.Text)
+    End With
+End Sub
+
 Private Sub txtSize_Change()
     Template.Size = Val(txtSize.Text)
+End Sub
+
+Private Sub txtSize_GotFocus()
+    With txtSize
+        .SelStart = 0
+        .SelLength = Len(.Text)
+    End With
 End Sub
 
 Private Sub txtStuffPlanets_Change()
@@ -1026,19 +1191,27 @@ Private Sub LoadRegistrations()
             .TextMatrix(i, 1) = objRegistration.EMail
             For c = 1 To objRegistration.HomeWorlds.Count
                 If c > 4 Then Exit For
-                If objRegistration.HomeWorlds(c).X = 0 Then
-                    .TextMatrix(i, c + 1) = objRegistration.HomeWorlds(c).Size
-                Else
-                    .TextMatrix(i, c + 1) = objRegistration.HomeWorlds(c).Size _
-                                        & "/" & objRegistration.HomeWorlds(c).X _
-                                        & "/" & objRegistration.HomeWorlds(c).Y
-                End If
+                .TextMatrix(i, c + 1) = objRegistration.HomeWorlds(c).Size
             Next c
         Next objRegistration
     End With
 
 End Sub
 
+Private Sub txtStuffPlanets_GotFocus()
+    With txtStuffPlanets
+        .SelStart = 0
+        .SelLength = Len(.Text)
+    End With
+End Sub
+
 Private Sub txtTotalPlanetSize_Change()
     Template.TotalPlanetSize = Val(txtTotalPlanetSize.Text)
+End Sub
+
+Private Sub txtTotalPlanetSize_GotFocus()
+    With txtTotalPlanetSize
+        .SelStart = 0
+        .SelLength = Len(.Text)
+    End With
 End Sub

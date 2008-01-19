@@ -47,9 +47,27 @@ Public Description As String
 Public Message As String
 Public Finished As Boolean
 
+Public DesignType As uDesignType
+Public OrbitPlanets As Boolean
+Public OrbitDistance As Single
+Public SeedType As uSeedType
+
 Private mcolRegistrations As Registrations
 
 Public IsNew As Boolean
+
+Public Enum uDesignType
+    DefaultDesign = 0
+    OnCircle = 1
+    OnCircleMiddle = 2
+End Enum
+
+Public Enum uSeedType
+    NoSeeding = 0
+    SeedHome = 1
+    SeedCenter = 2
+    SeedWaypoint = 4
+End Enum
 
 Public Enum Tech
     Drive = 0
@@ -158,6 +176,15 @@ Public Sub Load(Optional ByVal strFileName As String)
                 Message = Message & Mid(strLine, 10)
             Case ";finished"
                 Finished = strFields(1)
+            Case ";designtype"
+                DesignType = Val(strFields(1))
+            Case ";orbitplanets "
+                OrbitPlanets = strFields(1)
+            Case ";orbitdistance"
+                OrbitDistance = Val(strFields(1))
+            Case ";seedtype "
+                SeedType = Val(strFields(1))
+            
             Case "name"
                 TemplateName = strFields(1)
             Case "size"
@@ -204,7 +231,7 @@ Public Sub Load(Optional ByVal strFileName As String)
                     With objHomeworld
                         .Size = strFields(1)
                         If UBound(strFields) = 3 Then
-                            .x = strFields(2)
+                            .X = strFields(2)
                             .Y = strFields(3)
                         End If
                     End With
@@ -305,6 +332,11 @@ Public Sub Save()
     Print #intFN, ";Startdate "; Format(StartDate, "dd-mmm-yyyy")
     Print #intFN, ";ScheduleDays "; CStr(ScheduleDays)
     Print #intFN, ";FinalOrders "; CStr(FinalOrders)
+    Print #intFN, ";DesignType "; CStr(DesignType)
+    Print #intFN, ";OrbitPlanets "; CStr(OrbitPlanets)
+    Print #intFN, ";OrbitDistance "; CStr(OrbitDistance)
+    Print #intFN, ";SeedType "; CStr(SeedType)
+    
     If Description <> "" Then
         vData = Split(Description, vbNewLine)
         For i = LBound(vData) To UBound(vData)
@@ -351,8 +383,8 @@ Public Sub Save()
         Print #intFN, "email "; objRegistration.EMail
         For Each objHomeworld In objRegistration.HomeWorlds
             Print #intFN, "homeworld "; CStr(objHomeworld.Size);
-            If objHomeworld.x <> 0 Or objHomeworld.Y <> 0 Then
-                Print #intFN, " "; CStr(objHomeworld.x);
+            If objHomeworld.X <> 0 Or objHomeworld.Y <> 0 Then
+                Print #intFN, " "; CStr(objHomeworld.X);
                 Print #intFN, " "; CStr(objHomeworld.Y);
             End If
             Print #intFN, ""
