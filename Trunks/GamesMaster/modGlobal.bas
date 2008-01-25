@@ -8,6 +8,8 @@ Public INIFile As INIFile
 Public Options As Options
 Private mdtStartTime As Date
 
+Public Const gcStuffMaxSize = 200
+
 Public Sub Main()
     Dim blnShowOptions As Boolean
     Dim strINIFile As String
@@ -308,6 +310,7 @@ Public Function QuoteText(ByVal strText As String) As String
 End Function
 
 Public Function InIDE() As Boolean
+' Return whether the program is running live or in the development IDE
     On Error GoTo ErrorTag
     
     Debug.Print 1 / 0

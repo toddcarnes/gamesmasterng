@@ -50,7 +50,7 @@ Begin VB.MDIForm frmMain
             AutoSize        =   2
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "19/01/2008"
+            TextSave        =   "26/01/2008"
             Key             =   "Date"
          EndProperty
          BeginProperty Panel4 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
@@ -59,7 +59,7 @@ Begin VB.MDIForm frmMain
             AutoSize        =   2
             Object.Width           =   1402
             MinWidth        =   1411
-            TextSave        =   "12:13"
+            TextSave        =   "5:14"
             Key             =   "Time"
          EndProperty
       EndProperty
@@ -266,6 +266,12 @@ Begin VB.MDIForm frmMain
          Caption         =   "&Arrange Icons"
       End
    End
+   Begin VB.Menu mnuTest 
+      Caption         =   "Test"
+      Begin VB.Menu mnuTest1 
+         Caption         =   "1 - Show Map"
+      End
+   End
 End
 Attribute VB_Name = "frmMain"
 Attribute VB_GlobalNameSpace = False
@@ -312,6 +318,7 @@ End Sub
 
 Private Sub MDIForm_Load()
     Set Systray.TrayIcon = Me.Icon
+    mnuTest.Visible = InIDE()
     mnuActions.Visible = False
     mnuGameEdit.Visible = False
     mnuGameDelete.Visible = False
@@ -885,6 +892,15 @@ Private Sub mnuTemplateViewSourceFile_Click()
     strTemplate = SelectedGame
     Set objTemplate = GalaxyNG.Games(strTemplate).Template
     ShellOpen objTemplate.Filename
+End Sub
+
+Private Sub mnuTest1_Click()
+    Dim fMap As frmMap
+    
+    Set fMap = New frmMap
+    Load fMap
+    fMap.Show
+    Set fMap = Nothing
 End Sub
 
 Private Sub mnuViewGame_Click()

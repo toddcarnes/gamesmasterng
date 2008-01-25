@@ -188,13 +188,17 @@ Private Sub ProcessData(ByVal strData As String)
     
     Case SM_Command.SM_Sent
         If lngResponse = 250 Then
-            strFileName = mvarEMail(mlngEMail) & ".sav"
-            i = 0
-            While Dir(strFileName) <> ""
-                i = i + 1
-                strFileName = mvarEMail(mlngEMail) & "_" & CStr(i) & ".sav"
-            Wend
-            Name mvarEMail(mlngEMail) As strFileName
+            If Options.SaveEMail Then
+                strFileName = mvarEMail(mlngEMail) & ".sav"
+                i = 0
+                While Dir(strFileName) <> ""
+                    i = i + 1
+                    strFileName = mvarEMail(mlngEMail) & "_" & CStr(i) & ".sav"
+                Wend
+                Name mvarEMail(mlngEMail) As strFileName
+            Else
+                Kill mvarEMail(mlngEMail)
+            End If
             mlngEMail = mlngEMail + 1
             If mlngEMail > UBound(mvarEMail) Then
                 SendData c_QUIT

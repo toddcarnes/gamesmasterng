@@ -14,10 +14,11 @@ Attribute VB_Exposed = False
 Attribute VB_Description = "A Race in the GalaxyNG game"
 Attribute VB_Ext_KEY = "SavedWithClassBuilder6" ,"Yes"
 Attribute VB_Ext_KEY = "Top_Level" ,"No"
-Attribute VB_Ext_KEY = "Member0" ,"Fleets"
+Attribute VB_Ext_KEY = "Member0" ,"ShipTypes"
 Attribute VB_Ext_KEY = "Member1" ,"Groups"
-Attribute VB_Ext_KEY = "Member2" ,"ShipTypes"
-Attribute VB_Ext_KEY = "Member3" ,"EMail"
+Attribute VB_Ext_KEY = "Member2" ,"Fleets"
+Attribute VB_Ext_KEY = "Member3" ,"Planets"
+Attribute VB_Ext_KEY = "Member4" ,"EMail"
 Option Explicit
 
 Public RaceName As String
@@ -133,7 +134,7 @@ Public Sub Terminate()
 End Sub
 
 
-Public Property Get Flag(ByVal uFlag As RaceFlag) As Boolean
-    Flag = ((Flags And uFlag) = uFlag)
+Public Property Get flag(ByVal uFlag As RaceFlag) As Boolean
+    flag = ((Flags And uFlag) = uFlag)
 End Property
 

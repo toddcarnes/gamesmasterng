@@ -930,7 +930,7 @@ Private Sub Form_Load()
     
     With cboDesign
         .Clear
-        .AddItem "0 - Default"
+        .AddItem "0 - Do Nothing"
         .AddItem "1 - On Circle"
         .AddItem "2 - On Circle+Middle"
     End With
@@ -938,13 +938,13 @@ Private Sub Form_Load()
     With cboSeed
         .Clear
         .AddItem "0 - No Seeding"
-'        .AddItem "1 - Seed HomeWorld"
-'        .AddItem "2 - Seed Center of Circle"
-'        .AddItem "3 - Seed Home+Center"
-'        .AddItem "4 - Seed MidPoint"
-'        .AddItem "5 - Seed Home+Mid"
-'        .AddItem "6 - Seed Center+Mid"
-'        .AddItem "7 - Seed Home+Center+Mid"
+        .AddItem "1 - Seed HomeWorld"
+        .AddItem "2 - Seed Center of Circle"
+        .AddItem "3 - Seed Home+Center"
+        .AddItem "4 - Seed MidPoint"
+        .AddItem "5 - Seed Home+Mid"
+        .AddItem "6 - Seed Center+Mid"
+        .AddItem "7 - Seed Home+Center+Mid"
     End With
     
 End Sub

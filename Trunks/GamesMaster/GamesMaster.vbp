@@ -66,6 +66,7 @@ RelatedDoc=Package\WishList.txt
 RelatedDoc=Package\Changes.txt
 Form=frmGame.frm
 Module=modDesign; modDesign.bas
+Form=frmMap.frm
 IconForm="frmMain"
 Startup="Sub Main"
 HelpFile=""

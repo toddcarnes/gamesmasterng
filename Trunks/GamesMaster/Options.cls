@@ -54,6 +54,7 @@ Public SMTPServerPort  As Long
 Public SMTPFromAddress As String
 Public CheckMailInterval As Long
 Public AttachReports As Boolean
+Public SaveEMail As Boolean
 
 Public StartWithWindows As Boolean
 Public MinimizeatStartup As Boolean
@@ -147,6 +148,7 @@ Public Sub LoadSettings()
         SMTPServerPort = .GetSetting("EMail", "SMTPServerPort", "25")
         SMTPFromAddress = .GetSetting("EMail", "SMTPFromAddress", "")
         AttachReports = .GetSetting("EMail", "AttachReports", True)
+        SaveEMail = .GetSetting("EMail", "SaveEMail", True)
     
         NextTurnFile = .GetSetting("FileNames", "NextTurn", "next_turn")
         GamesMasterReportFile = .GetSetting("FileNames", "GamesMasterReport", "NG_GameMaster_" & TurnConstant & ".txt")
@@ -199,6 +201,7 @@ Public Sub SaveSettings()
         Call .SaveSetting("EMail", "SMTPServerPort", SMTPServerPort)
         Call .SaveSetting("EMail", "SMTPFromAddress", SMTPFromAddress)
         Call .SaveSetting("EMail", "AttachReports", AttachReports)
+        Call .SaveSetting("EMail", "SaveEMail", SaveEMail)
         
         Call .SaveSetting("FileNames", "NextTurn", NextTurnFile)
         Call .SaveSetting("FileNames", "GamesMasterReport", GamesMasterReportFile)

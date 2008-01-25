@@ -15,6 +15,8 @@ Attribute VB_Description = "Design Template for a Galaxy NG Game"
 Attribute VB_Ext_KEY = "SavedWithClassBuilder6" ,"Yes"
 Attribute VB_Ext_KEY = "Top_Level" ,"No"
 Attribute VB_Ext_KEY = "Member0" ,"Registrations"
+Attribute VB_Ext_KEY = "Member1" ,"Message"
+Attribute VB_Ext_KEY = "Member2" ,"Planets"
 Option Explicit
 
 Public Filename As String
@@ -53,13 +55,15 @@ Public OrbitDistance As Single
 Public SeedType As uSeedType
 
 Private mcolRegistrations As Registrations
+Private mcolPlanets As Planets
 
 Public IsNew As Boolean
 
 Public Enum uDesignType
-    DefaultDesign = 0
+    LeaveAlone = 0
     OnCircle = 1
     OnCircleMiddle = 2
+    GalaxyNGRandom = 3
 End Enum
 
 Public Enum uSeedType
@@ -76,6 +80,21 @@ Public Enum Tech
     Cargo = 3
     Count = 3
 End Enum
+
+Public Function Seed(ByVal uSeed As uSeedType) As Boolean
+    Seed = ((SeedType And uSeed) = uSeed)
+End Function
+
+Public Property Set Planets(ByVal colPlanets As Planets)
+    Set mcolPlanets = colPlanets
+End Property
+
+Public Property Get Planets() As Planets
+    If mcolPlanets Is Nothing Then
+        Set mcolPlanets = New Planets
+    End If
+    Set Planets = mcolPlanets
+End Property
 
 Public Function OpenForRegistrations() As Boolean
     ' Not Open
@@ -128,6 +147,8 @@ Public Sub Load(Optional ByVal strFileName As String)
     Dim objRegistration As Registration
     Dim objHomeworld As HomeWorld
     Dim blnPlayersFound As Boolean
+    Dim objPlanet As Planet
+    Dim blnPlanets As Boolean
     
     Description = ""
     Message = ""
@@ -178,7 +199,7 @@ Public Sub Load(Optional ByVal strFileName As String)
                 Finished = strFields(1)
             Case ";designtype"
                 DesignType = Val(strFields(1))
-            Case ";orbitplanets "
+            Case ";orbitplanets"
                 OrbitPlanets = strFields(1)
             Case ";orbitdistance"
                 OrbitDistance = Val(strFields(1))
@@ -240,6 +261,27 @@ Public Sub Load(Optional ByVal strFileName As String)
                 If InStr(1, objRegistration.EMail, "@their.address.tld") = 0 Then
                     Registrations.Add objRegistration
                     Set objHomeworld = Nothing
+                End If
+            Case "start_planets"
+                blnPlanets = True
+            Case "end_planets"
+                blnPlanets = False
+            Case Else
+                If blnPlanets Then
+                    Set objPlanet = New Planet
+                    objPlanet.X = Val(strFields(0))
+                    objPlanet.Y = Val(strFields(1))
+                    If UBound(strFields) < 2 Then
+                        objPlanet.Size = -1
+                    Else
+                        objPlanet.Size = Val(strFields(1))
+                    End If
+                    If UBound(strFields) < 3 Then
+                        objPlanet.Resources = -1
+                    Else
+                        objPlanet.Resources = Val(strFields(1))
+                    End If
+                    Planets.Add objPlanet
                 End If
             End Select
         End If
@@ -306,6 +348,7 @@ Public Sub Save()
     Dim objRegistration As Registration
     Dim objHomeworld As HomeWorld
     Dim vData As Variant
+    Dim objPlanet As Planet
     
     If Filename = vbNullString Then
         Filename = Options.GalaxyNGHome & TemplateName & ".glx"
@@ -378,6 +421,21 @@ Public Sub Save()
     If Not sphericalgalaxy Then Print #intFN, ";";
     Print #intFN, "SphericalGalaxy"
     
+    If Planets.Count > 0 Then
+        Print #intFN, "Start_Planets"
+        For Each objPlanet In Planets
+            Print #intFN, CStr(objPlanet.X); " "; CStr(objPlanet.Y);
+            If objPlanet.Size >= 0 Then
+                Print #intFN, " "; CStr(objPlanet.Size);
+                If objPlanet.Resources >= 0 Then
+                    Print #intFN, " "; CStr(objPlanet.Resources);
+                End If
+            End If
+            Print #intFN,
+        Next objPlanet
+        Print #intFN, "End_Planets"
+    End If
+    
     For Each objRegistration In Registrations
         Print #intFN, "start_player"
         Print #intFN, "email "; objRegistration.EMail
@@ -410,4 +468,9 @@ Private Sub Class_Initialize()
     DontDropDead = False
     sphericalgalaxy = False
     IsNew = True
+End Sub
+
+Private Sub Class_Terminate()
+    Set Planets = Nothing
+    Set Registrations = Nothing
 End Sub

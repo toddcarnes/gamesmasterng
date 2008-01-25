@@ -301,7 +301,7 @@ Public Sub Refresh()
             objPlanet.Owner.Planets.Add objPlanet
         End If
         l = l + 1
-        objPlanet.x = vLines(l)
+        objPlanet.X = vLines(l)
         l = l + 1
         objPlanet.Y = vLines(l)
         l = l + 1

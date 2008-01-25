@@ -41,7 +41,11 @@ Private Sub ProcessEMail(ByVal strPath As String)
         Case "report"
             Call SendReport(strFrom, strEMail)
         End Select
-        Name strPath As strPath & ".sav"
+        If Options.SaveEMail Then
+            Name strPath As strPath & ".sav"
+        Else
+            Kill strPath
+        End If
     Else
         Name strPath As strPath & ".err"
     End If
