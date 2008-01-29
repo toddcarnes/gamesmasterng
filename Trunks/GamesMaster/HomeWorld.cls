@@ -16,6 +16,9 @@ Attribute VB_Ext_KEY = "Top_Level" ,"No"
 Option Explicit
 
 Public Size As Single
-Public X As Single
+Public x As Single
 Public Y As Single
 
+Public Planet As String
+Public Owner As String
+Public Resources As Single

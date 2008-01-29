@@ -13,6 +13,14 @@ Begin VB.Form frmTemplate
    ScaleHeight     =   8220
    ScaleWidth      =   7215
    StartUpPosition =   1  'CenterOwner
+   Begin VB.CommandButton cmdViewMap 
+      Caption         =   "View Map"
+      Height          =   435
+      Left            =   1620
+      TabIndex        =   72
+      Top             =   7680
+      Width           =   915
+   End
    Begin VB.CommandButton cmdDesign 
       Caption         =   "Apply Design"
       Height          =   435
@@ -900,6 +908,44 @@ Private Sub cmdDesign_Click()
     Call ApplyDesign(Template)
 End Sub
 
+Private Sub cmdViewMap_Click()
+    Dim fMap As frmMap
+    Dim objReg As Registration
+    Dim objHomeworld As HomeWorld
+    Dim objPlanet As Planet
+    Dim colPlanets As Collection
+    Dim R As Long
+    Dim h As Long
+    
+    Set colPlanets = New Collection
+    Set fMap = New frmMap
+    Load fMap
+    fMap.GalaxySize = Template.Size
+    
+    R = 0
+    For Each objReg In Template.Registrations
+        R = R + 1
+        h = 0
+        For Each objHomeworld In objReg.HomeWorlds
+            h = h + 1
+            objHomeworld.Owner = "R" & CStr(R)
+            objHomeworld.Planet = objHomeworld.Owner & "_" & CStr(h)
+            objHomeworld.Resources = 10
+            colPlanets.Add objHomeworld
+        Next objHomeworld
+    Next objReg
+    
+    For Each objPlanet In Template.Planets
+        colPlanets.Add objPlanet
+    Next objPlanet
+    
+    Set fMap.Planets = colPlanets
+    
+    fMap.Show vbModal, Me
+    
+    Set fMap = Nothing
+End Sub
+
 Private Sub dtRegClose_Change()
     Template.RegistrationClose = dtRegClose.TimeStamp
 End Sub
@@ -949,7 +995,7 @@ Private Sub Form_Load()
     
 End Sub
 
-Private Sub grdRegistrations_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub grdRegistrations_MouseDown(Button As Integer, Shift As Integer, x As Single, Y As Single)
     If Button = vbRightButton And Not ReadOnly Then
         PopupMenu mnuAction
     End If

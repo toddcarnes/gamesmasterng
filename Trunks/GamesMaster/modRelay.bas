@@ -111,7 +111,7 @@ Public Sub RelayMessage(ByVal strTo As String, ByVal strFrom As String, ByVal st
     ' Send message to all races
     If strTo = strGame Then
         For Each objToRace In objGame.Races
-            If Not objToRace.Flag(R_DEAD) Then
+            If Not objToRace.flag(R_DEAD) Then
                 strSubject = "[GNG]" & strGame & " relay to " & objToRace.RaceName & " from " & strRace
                 Call SendEMail(objToRace.EMail, strSubject, strOrders)
             End If
@@ -120,7 +120,7 @@ Public Sub RelayMessage(ByVal strTo As String, ByVal strFrom As String, ByVal st
         Call SendEMail(Options.GamesMasterEMail, strSubject, strOrders)
     Else
         strSubject = "[GNG]" & strGame & " message relay " & strRace
-        If objRace Is Nothing Then
+        If objToRace Is Nothing Then
             strSubject = "[GNG]" & strGame & " relay to GamesMaster from " & strRace
             Call SendEMail(Options.GamesMasterEMail, strSubject, strOrders)
         Else

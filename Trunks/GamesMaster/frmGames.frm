@@ -89,9 +89,9 @@ Public Sub LoadGames()
         lngRow = 1
         For Each objGame In Games
             DoEvents
-            objGame.Refresh
             If Not objGame.Template.Finished _
             Or (objGame.Template.Finished And MainForm.mnuTemplateShowAll.Checked) Then
+                objGame.Refresh
                 lngRow = lngRow + 1
                 If lngRow + 1 > .Rows Then .Rows = lngRow + 1
                 Dim lngForeColour As Long

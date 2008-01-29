@@ -20,7 +20,11 @@ Option Explicit
 Private mcolPlanets As Collection
 
 Public Function Add(ByVal objPlanet As Planet) As Planet
-    mcolPlanets.Add objPlanet, objPlanet.Planet
+    If objPlanet.Planet = "" Then
+        mcolPlanets.Add objPlanet
+    Else
+        mcolPlanets.Add objPlanet, objPlanet.Planet
+    End If
 End Function
 
 Public Property Get Item(vntIndexKey As Variant) As Planet

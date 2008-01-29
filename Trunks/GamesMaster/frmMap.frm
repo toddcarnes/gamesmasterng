@@ -1,6 +1,6 @@
 VERSION 5.00
 Begin VB.Form frmMap 
-   Caption         =   "Form1"
+   Caption         =   "Map"
    ClientHeight    =   6330
    ClientLeft      =   60
    ClientTop       =   450
@@ -58,48 +58,62 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Private msngGalaxySize As Single
-Private mcolPlanets As Planets
 Private msngZoom As Single
+Private mcolPlanets As Collection
+Private maPlanets() As utPlanet
+Private Type utPlanet
+    Name As String
+    Race As String
+    Index As Long
+    x As Single
+    Y As Single
+    Size As Single
+    Resources As Single
+End Type
+
 
 Private Sub Form_Load()
-    Dim H As Single, W As Single, S As Single
+    Dim h As Single, W As Single, s As Single
     
+    Me.Icon = MainForm.Icon
     msngZoom = 1
     msngGalaxySize = 100
-    H = Me.ScaleWidth - vScroll.Width - (picOuter.Width - picOuter.ScaleWidth)
+    h = Me.ScaleWidth - vScroll.Width - (picOuter.Width - picOuter.ScaleWidth)
     W = Me.ScaleHeight - HScroll.Height - (picOuter.Height - picOuter.ScaleHeight)
-    If H < GalaxySize Then H = GalaxySize
+    If h < GalaxySize Then h = GalaxySize
     If W < GalaxySize Then W = GalaxySize
-    If H < W Then
-        S = H
+    If h < W Then
+        s = h
     Else
-        S = W
+        s = W
     End If
-    picInner.Move 0, 0, S, S
+    picInner.Move 0, 0, s, s
     vScroll.Min = 0
     vScroll.Value = 0
 '    vScroll.SmallChange = 10
     HScroll.Min = 0
     HScroll.Value = 0
     HScroll.SmallChange = 10
-    picInner.Line (0, 0)-(S, S)
-    picInner.Line (S, 0)-(0, S)
+    picInner.Line (0, 0)-(s, s)
+    picInner.Line (s, 0)-(0, s)
 End Sub
+
+Public Property Get Planets() As Collection
+    Set Planets = mcolPlanets
+End Property
+
+Public Property Set Planets(ByVal colPlanets As Collection)
+    Set mcolPlanets = colPlanets
+    Call LoadPlanets
+    Call DrawPlanets
+End Property
 
 Public Property Get GalaxySize() As Single
     GalaxySize = msngGalaxySize
 End Property
 
 Public Property Let GalaxySize(sngGalaxySize As Single)
-    sngGalaxySize = GalaxySize
-End Property
-
-Public Property Get Planets() As Planets
-    Set Planets = mcolPlanets
-End Property
-
-Public Property Set Planets(colPlanets As Planets)
-    Set mcolPlanets = colPlanets
+    msngGalaxySize = sngGalaxySize
 End Property
 
 Public Property Get Zoom() As Single
@@ -112,33 +126,33 @@ End Property
 
 Private Sub Form_Resize()
     Dim W As Single
-    Dim H As Single
-    Dim S As Single
+    Dim h As Single
+    Dim s As Single
     
     W = Me.ScaleWidth - vScroll.Width
-    H = Me.ScaleHeight - HScroll.Height
+    h = Me.ScaleHeight - HScroll.Height
     If W < 0 Then W = 0
-    If H < 0 Then H = 0
-    picOuter.Move 0, 0, W, H
+    If h < 0 Then h = 0
+    picOuter.Move 0, 0, W, h
     
-    vScroll.Move W, 0, vScroll.Width, H
-    S = picInner.Height - picOuter.ScaleHeight
-    If S <= 0 Then
-        S = 0
+    vScroll.Move W, 0, vScroll.Width, h
+    s = picInner.Height - picOuter.ScaleHeight
+    If s <= 0 Then
+        s = 0
         vScroll.Enabled = False
     Else
-        vScroll.Max = S
+        vScroll.Max = s
         vScroll.LargeChange = picOuter.ScaleHeight
         vScroll.Enabled = True
     End If
     
-    HScroll.Move 0, H, W
-    S = picInner.Width - picOuter.ScaleWidth
-    If S <= 0 Then
-        S = 0
+    HScroll.Move 0, h, W
+    s = picInner.Width - picOuter.ScaleWidth
+    If s <= 0 Then
+        s = 0
         HScroll.Enabled = False
     Else
-        HScroll.Max = S
+        HScroll.Max = s
         HScroll.LargeChange = picOuter.ScaleWidth
         HScroll.Enabled = True
     End If
@@ -146,15 +160,15 @@ Private Sub Form_Resize()
     With picInner
         If .Left < 0 _
         And .Left + .Width < picOuter.ScaleWidth Then
-            S = picOuter.ScaleWidth - .Width
-            If S > 0 Then S = 0
-            HScroll.Value = -S
+            s = picOuter.ScaleWidth - .Width
+            If s > 0 Then s = 0
+            HScroll.Value = -s
         End If
         If .Top < 0 _
         And .Top + .Height < picOuter.ScaleHeight Then
-            S = picOuter.ScaleHeight - .Height
-            If S > 0 Then S = 0
-            vScroll.Value = -S
+            s = picOuter.ScaleHeight - .Height
+            If s > 0 Then s = 0
+            vScroll.Value = -s
         End If
     End With
 End Sub
@@ -182,3 +196,70 @@ Private Sub vScroll_Scroll()
         .Move .Left, -vScroll.Value
     End With
 End Sub
+
+Private Sub LoadPlanets()
+    Dim objHP As Object
+    Dim P As Long
+    Dim uPlanet As utPlanet
+    
+    ReDim maPlanets(100)
+    For Each objHP In Planets
+        P = P + 1
+        uPlanet.Index = P
+        With objHP
+            uPlanet.Name = .Planet
+            If TypeName(objHP) = "Planet" Then
+                If .Owner Is Nothing Then
+                    uPlanet.Race = ""
+                Else
+                    uPlanet.Race = .Owner.RaceName
+                End If
+            Else
+                uPlanet.Race = .Owner
+            End If
+            uPlanet.x = .x
+            uPlanet.Y = .Y
+            uPlanet.Size = .Size
+            uPlanet.Resources = .Resources
+        End With
+        
+        If P > UBound(maPlanets) Then
+            ReDim Preserve maPlanets(P + 99)
+        End If
+        maPlanets(P) = uPlanet
+    Next objHP
+        
+    ReDim Preserve maPlanets(P)
+End Sub
+
+Private Sub DrawPlanets()
+    Dim P As Long
+    Dim i As Long
+    
+    picInner.Cls
+    picInner.ForeColor = vbWhite
+    For P = 1 To UBound(maPlanets)
+        With maPlanets(P)
+            For i = 0 To Rsize(.Size)
+                picInner.Circle (Xpos(.x), Ypos(.Y)), i
+            Next i
+        End With
+    Next P
+    
+End Sub
+
+Private Function Xpos(ByVal x As Single) As Single
+    Xpos = Fix(x / GalaxySize * picInner.ScaleWidth)
+End Function
+
+Private Function Ypos(ByVal Y As Single) As Single
+    Ypos = picInner.ScaleHeight - Fix(Y / GalaxySize * picInner.ScaleHeight)
+End Function
+
+Private Function Rsize(ByVal R As Single) As Single
+        
+    R = R / 200 + 1
+    If R > 10 Then R = 5
+    Rsize = R
+End Function
+

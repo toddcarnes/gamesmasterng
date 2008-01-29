@@ -41,23 +41,24 @@ Private Sub DesignCircle(ByVal objTemplate As Template)
     Dim rc As Long
     Dim a As Single
     Dim ao As Single
-    Dim r As Single
+    Dim R As Single
     Dim ro As Single
-    Dim S As Single
+    Dim s As Single
     Dim Px As Single
     Dim Py As Single
     Dim W As Long
     Dim wa As Single
     Dim wao As Single
+    Dim h As Long
     
     
     'calculate the radius of the circle
-    r = CalcRadius(objTemplate.Registrations.Count, objTemplate.race_spacing)
+    R = CalcRadius(objTemplate.Registrations.Count, objTemplate.race_spacing)
     
     'calculate the galaxy Size
-    S = Int(r + objTemplate.empty_radius)
-    If objTemplate.Size < S Then
-        objTemplate.Size = S
+    s = Int(R + objTemplate.empty_radius)
+    If objTemplate.Size < s Then
+        objTemplate.Size = s
     End If
     
     'Calculate the center of the circle
@@ -69,12 +70,26 @@ Private Sub DesignCircle(ByVal objTemplate As Template)
     ' calculate a random offset for the races
     ao = -a * Rnd(0)
 
+    'Create the Homeworlds where needed
+    For Each objRego In objTemplate.Registrations
+        If objRego.HomeWorlds.Count = 0 Then
+            For h = 1 To objTemplate.DefaultHomeWorlds.Count
+                Set objWorld = New HomeWorld
+                objWorld.Size = objTemplate.DefaultHomeWorlds(h)
+                objRego.HomeWorlds.Add objWorld
+            Next h
+        End If
+    Next objRego
+
     For rc = 1 To objTemplate.Registrations.Count
         Set objRego = objTemplate.Registrations(rc)
+        If objRego.HomeWorlds.Count = 0 Then
+'
+        End If
         Set objWorld = objRego.HomeWorlds(1)
         ao = ao + a
-        Px = Round(r * Cos(ao) + ro)
-        Py = Round(r * Sin(ao) + ro)
+        Px = Round(R * Cos(ao) + ro)
+        Py = Round(R * Sin(ao) + ro)
         objWorld.X = Px
         objWorld.Y = Py
     
@@ -102,23 +117,23 @@ Private Sub DesignCircleMiddle(ByVal objTemplate As Template)
     Dim rc As Long
     Dim a As Single
     Dim ao As Single
-    Dim r As Single
+    Dim R As Single
     Dim ro As Single
-    Dim S As Single
+    Dim s As Single
     Dim Px As Single
     Dim Py As Single
     Dim W As Long
     Dim wa As Single
     Dim wao As Single
-    
+    Dim h As Long
     
     'calculate the radius of the circle
-    r = CalcRadius(objTemplate.Registrations.Count - 1, objTemplate.race_spacing)
+    R = CalcRadius(objTemplate.Registrations.Count - 1, objTemplate.race_spacing)
     
     'calculate the galaxy Size
-    S = Int(r + objTemplate.empty_radius)
-    If objTemplate.Size < S Then
-        objTemplate.Size = S
+    s = Int(R + objTemplate.empty_radius)
+    If objTemplate.Size < s Then
+        objTemplate.Size = s
     End If
     
     'Calculate the center of the circle
@@ -129,14 +144,25 @@ Private Sub DesignCircleMiddle(ByVal objTemplate As Template)
     
     ' calculate a random offset for the races
     ao = -a * Rnd(0)
+    
+    'Create the Homeworlds where needed
+    For Each objRego In objTemplate.Registrations
+        If objRego.HomeWorlds.Count = 0 Then
+            For h = 1 To objTemplate.DefaultHomeWorlds.Count
+                Set objWorld = New HomeWorld
+                objWorld.Size = objTemplate.DefaultHomeWorlds(h)
+                objRego.HomeWorlds.Add objWorld
+            Next h
+        End If
+    Next objRego
 
     For rc = 1 To objTemplate.Registrations.Count
         Set objRego = objTemplate.Registrations(rc)
         Set objWorld = objRego.HomeWorlds(1)
         If rc < objTemplate.Registrations.Count Then
             ao = ao + a
-            Px = Round(r * Cos(ao) + ro)
-            Py = Round(r * Sin(ao) + ro)
+            Px = Round(R * Cos(ao) + ro)
+            Py = Round(R * Sin(ao) + ro)
         Else
             Px = Round(objTemplate.Size / 2)
             Py = Round(objTemplate.Size / 2)
@@ -170,9 +196,9 @@ Private Sub SeedCircle(ByVal objTemplate As Template)
     Dim rc1 As Long
     Dim a As Single
     Dim ao As Single
-    Dim r As Single
+    Dim R As Single
     Dim ro As Single
-    Dim S As Single
+    Dim s As Single
     Dim Px As Single
     Dim Py As Single
     Dim Px1 As Single
@@ -182,17 +208,18 @@ Private Sub SeedCircle(ByVal objTemplate As Template)
     Dim wao As Single
     Dim ws As Long
     Dim i As Long
+    Dim h As Long
     
     'Initialise
     Set objTemplate.Planets = Nothing
     
     'calculate the radius of the circle
-    r = CalcRadius(objTemplate.Registrations.Count, objTemplate.race_spacing)
+    R = CalcRadius(objTemplate.Registrations.Count, objTemplate.race_spacing)
     
     'calculate the galaxy Size
-    S = Int(r + objTemplate.empty_radius)
-    If objTemplate.Size < S Then
-        objTemplate.Size = S
+    s = Int(R + objTemplate.empty_radius)
+    If objTemplate.Size < s Then
+        objTemplate.Size = s
     End If
     
     'Calculate the center of the circle
@@ -204,12 +231,24 @@ Private Sub SeedCircle(ByVal objTemplate As Template)
     ' calculate a random offset for the races
     ao = -a * Rnd(0)
 
+    'Create the Homeworlds where needed
+    For Each objRego In objTemplate.Registrations
+        If objRego.HomeWorlds.Count = 0 Then
+            For h = 1 To objTemplate.DefaultHomeWorlds.Count
+                Set objWorld = New HomeWorld
+                objWorld.Size = objTemplate.DefaultHomeWorlds(h)
+                objRego.HomeWorlds.Add objWorld
+            Next h
+        End If
+    Next objRego
+    
     'Position the Home worlds
     For rc = 1 To objTemplate.Registrations.Count
         Set objRego = objTemplate.Registrations(rc)
+        ' Default the homeworlds if no nominated
         ao = ao + a
-        Px = Round(r * Cos(ao) + ro)
-        Py = Round(r * Sin(ao) + ro)
+        Px = Round(R * Cos(ao) + ro)
+        Py = Round(R * Sin(ao) + ro)
         If objTemplate.Seed(SeedHome) Then
             Set objPlanet = New Planet
             objPlanet.X = Px
@@ -246,7 +285,7 @@ Private Sub SeedCircle(ByVal objTemplate As Template)
         If rc = 1 Then
             rc1 = objTemplate.Registrations.Count
         Else
-            rc1 = rc + 1
+            rc1 = rc - 1
         End If
         
         ' get homeworld and next homeworld position
@@ -299,9 +338,9 @@ Private Sub SeedCircle(ByVal objTemplate As Template)
             Set objPlanet = New Planet
             With objPlanet
                 a = 2 * PI * Rnd(0)
-                r = objTemplate.empty_radius * Rnd(0)
-                .X = Cos(a) * r
-                .Y = Sin(a) * r
+                R = objTemplate.empty_radius * Rnd(0)
+                .X = Cos(a) * R + Px
+                .Y = Sin(a) * R + Py
                 .Size = Round(Rnd(0) * (objTemplate.MaxPlanetSize - gcStuffMaxSize) + gcStuffMaxSize)
                 .Resources = Round(Rnd(0) * 10)
             End With

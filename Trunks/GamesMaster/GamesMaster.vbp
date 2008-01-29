@@ -67,6 +67,7 @@ RelatedDoc=Package\Changes.txt
 Form=frmGame.frm
 Module=modDesign; modDesign.bas
 Form=frmMap.frm
+Form=frmPlanets.frm
 IconForm="frmMain"
 Startup="Sub Main"
 HelpFile=""
