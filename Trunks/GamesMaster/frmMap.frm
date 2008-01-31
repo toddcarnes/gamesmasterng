@@ -61,11 +61,14 @@ Private msngGalaxySize As Single
 Private msngZoom As Single
 Private mcolPlanets As Collection
 Private maPlanets() As utPlanet
+Private msngXDown As Single
+Private msngYDown As Single
+
 Private Type utPlanet
     Name As String
     Race As String
     Index As Long
-    x As Single
+    X As Single
     Y As Single
     Size As Single
     Resources As Single
@@ -73,7 +76,7 @@ End Type
 
 
 Private Sub Form_Load()
-    Dim h As Single, W As Single, s As Single
+    Dim h As Single, W As Single, S As Single
     
     Me.Icon = MainForm.Icon
     msngZoom = 1
@@ -83,19 +86,19 @@ Private Sub Form_Load()
     If h < GalaxySize Then h = GalaxySize
     If W < GalaxySize Then W = GalaxySize
     If h < W Then
-        s = h
+        S = h
     Else
-        s = W
+        S = W
     End If
-    picInner.Move 0, 0, s, s
+    picInner.Move 0, 0, S, S
     vScroll.Min = 0
     vScroll.Value = 0
 '    vScroll.SmallChange = 10
     HScroll.Min = 0
     HScroll.Value = 0
     HScroll.SmallChange = 10
-    picInner.Line (0, 0)-(s, s)
-    picInner.Line (s, 0)-(0, s)
+    picInner.Line (0, 0)-(S, S)
+    picInner.Line (S, 0)-(0, S)
 End Sub
 
 Public Property Get Planets() As Collection
@@ -121,13 +124,13 @@ Public Property Get Zoom() As Single
 End Property
 
 Public Property Let Zoom(sngZoom As Single)
-    sngZoom = Zoom
+    msngZoom = sngZoom
 End Property
 
 Private Sub Form_Resize()
     Dim W As Single
     Dim h As Single
-    Dim s As Single
+    Dim S As Single
     
     W = Me.ScaleWidth - vScroll.Width
     h = Me.ScaleHeight - HScroll.Height
@@ -136,41 +139,44 @@ Private Sub Form_Resize()
     picOuter.Move 0, 0, W, h
     
     vScroll.Move W, 0, vScroll.Width, h
-    s = picInner.Height - picOuter.ScaleHeight
-    If s <= 0 Then
-        s = 0
+    S = picInner.Height - picOuter.ScaleHeight
+    If picInner.Top = 0 And S <= 0 Then
+        S = 0
         vScroll.Enabled = False
     Else
-        vScroll.Max = s
+        vScroll.Max = picInner.ScaleHeight - picOuter.ScaleHeight
         vScroll.LargeChange = picOuter.ScaleHeight
         vScroll.Enabled = True
+        vScroll.Value = -picInner.Top
     End If
     
     HScroll.Move 0, h, W
-    s = picInner.Width - picOuter.ScaleWidth
-    If s <= 0 Then
-        s = 0
+    S = picInner.Width - picOuter.ScaleWidth
+    If picInner.Left = 0 And S <= 0 Then
+        S = 0
         HScroll.Enabled = False
     Else
-        HScroll.Max = s
+        HScroll.Max = picInner.ScaleWidth - picOuter.ScaleWidth
         HScroll.LargeChange = picOuter.ScaleWidth
         HScroll.Enabled = True
+        HScroll.Value = -picInner.Left
     End If
     
     With picInner
         If .Left < 0 _
         And .Left + .Width < picOuter.ScaleWidth Then
-            s = picOuter.ScaleWidth - .Width
-            If s > 0 Then s = 0
-            HScroll.Value = -s
+            S = picOuter.ScaleWidth - .Width
+            If S > 0 Then S = 0
+            HScroll.Value = -S
         End If
         If .Top < 0 _
         And .Top + .Height < picOuter.ScaleHeight Then
-            s = picOuter.ScaleHeight - .Height
-            If s > 0 Then s = 0
-            vScroll.Value = -s
+            S = picOuter.ScaleHeight - .Height
+            If S > 0 Then S = 0
+            vScroll.Value = -S
         End If
     End With
+    Call DrawPlanets
 End Sub
 
 Private Sub HScroll_Change()
@@ -182,6 +188,76 @@ End Sub
 Private Sub HScroll_Scroll()
     With picInner
         .Move -HScroll.Value
+    End With
+End Sub
+
+Private Sub picInner_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    If Shift = 0 Then
+        msngXDown = X
+        msngYDown = Y
+    Else
+        msngXDown = -1
+        msngYDown = -1
+    End If
+End Sub
+
+Private Sub picInner_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    Dim L As Single, T As Single
+    
+    If msngXDown > 0 Then
+        L = picInner.Left + X - msngXDown
+        T = picInner.Top + Y - msngYDown
+        If L + picInner.Width < picOuter.ScaleWidth Then
+            L = picOuter.ScaleWidth - picInner.Width
+        End If
+        If T + picInner.Height < picOuter.ScaleHeight Then
+            T = picOuter.ScaleHeight - picInner.Height
+        End If
+        If L > 0 Then L = 0
+        If T > 0 Then T = 0
+        picInner.Move L, T
+        vScroll.Value = -T
+        HScroll.Value = -L
+    End If
+End Sub
+
+Private Sub picInner_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    Dim L As Single, T As Single, S As Single, Z1 As Long
+    Dim X1 As Single, Y1 As Single
+    Dim f As Single
+    
+    With picInner
+        If msngXDown > 0 Then
+            msngXDown = -1
+            msngYDown = -1
+            Exit Sub
+        End If
+        
+        If Button = vbLeftButton Then
+            X1 = X + .Left
+            Y1 = Y + .Top
+            If (Shift And vbShiftMask) = vbShiftMask Then
+                Z1 = Zoom * 2
+                f = Z1 / Zoom
+            ElseIf (Shift And vbCtrlMask) = vbCtrlMask Then
+                Z1 = Zoom / 2
+                If Z1 < 1 Then Z1 = 1
+                f = Z1 / Zoom
+            Else
+                Z1 = Zoom
+                f = 1
+            End If
+            L = -X * f + X1
+            T = -Y * f + Y1
+            If L > 0 Then L = 0
+            If T > 0 Then T = 0
+            S = .Width * f
+            Zoom = Z1
+            picInner.Visible = False
+            .Move L, T, S, S
+            Call Form_Resize
+            picInner.Visible = True
+        End If
     End With
 End Sub
 
@@ -199,13 +275,13 @@ End Sub
 
 Private Sub LoadPlanets()
     Dim objHP As Object
-    Dim P As Long
+    Dim p As Long
     Dim uPlanet As utPlanet
     
     ReDim maPlanets(100)
     For Each objHP In Planets
-        P = P + 1
-        uPlanet.Index = P
+        p = p + 1
+        uPlanet.Index = p
         With objHP
             uPlanet.Name = .Planet
             If TypeName(objHP) = "Planet" Then
@@ -217,49 +293,58 @@ Private Sub LoadPlanets()
             Else
                 uPlanet.Race = .Owner
             End If
-            uPlanet.x = .x
+            uPlanet.X = .X
             uPlanet.Y = .Y
             uPlanet.Size = .Size
             uPlanet.Resources = .Resources
         End With
         
-        If P > UBound(maPlanets) Then
-            ReDim Preserve maPlanets(P + 99)
+        If p > UBound(maPlanets) Then
+            ReDim Preserve maPlanets(p + 99)
         End If
-        maPlanets(P) = uPlanet
+        maPlanets(p) = uPlanet
     Next objHP
         
-    ReDim Preserve maPlanets(P)
+    ReDim Preserve maPlanets(p)
 End Sub
 
 Private Sub DrawPlanets()
-    Dim P As Long
-    Dim i As Long
+    Dim p As Long
+    Dim S As Single
     
-    picInner.Cls
-    picInner.ForeColor = vbWhite
-    For P = 1 To UBound(maPlanets)
-        With maPlanets(P)
-            For i = 0 To Rsize(.Size)
-                picInner.Circle (Xpos(.x), Ypos(.Y)), i
-            Next i
+    With picInner
+        .Cls
+        .ForeColor = vbWhite
+        .FillColor = vbWhite
+        .FillStyle = vbFSSolid
+    End With
+    For p = 1 To UBound(maPlanets)
+        With maPlanets(p)
+        If .Race = "" Then
+            picInner.ForeColor = vbWhite
+            picInner.FillColor = vbWhite
+        Else
+            picInner.ForeColor = vbYellow
+            picInner.FillColor = vbYellow
+        End If
+            picInner.Circle (Xpos(.X), Ypos(.Y)), Rsize(.Size)
         End With
-    Next P
+    Next p
     
 End Sub
 
-Private Function Xpos(ByVal x As Single) As Single
-    Xpos = Fix(x / GalaxySize * picInner.ScaleWidth)
+Private Function Xpos(ByVal X As Single) As Single
+    Xpos = Fix(X / GalaxySize * picInner.ScaleWidth)
 End Function
 
 Private Function Ypos(ByVal Y As Single) As Single
-    Ypos = picInner.ScaleHeight - Fix(Y / GalaxySize * picInner.ScaleHeight)
+    Ypos = Fix(Y / GalaxySize * picInner.ScaleHeight)
 End Function
 
 Private Function Rsize(ByVal R As Single) As Single
         
-    R = R / 200 + 1
-    If R > 10 Then R = 5
+    R = R / 100 + 1
+    If R > 10 Then R = 10
     Rsize = R
 End Function
 

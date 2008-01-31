@@ -68,7 +68,7 @@ Private Sub DesignCircle(ByVal objTemplate As Template)
     a = 2 * PI / objTemplate.Registrations.Count
     
     ' calculate a random offset for the races
-    ao = -a * Rnd(0)
+    ao = -a * Rnd()
 
     'Create the Homeworlds where needed
     For Each objRego In objTemplate.Registrations
@@ -94,7 +94,7 @@ Private Sub DesignCircle(ByVal objTemplate As Template)
         objWorld.Y = Py
     
         wa = 2 * PI / (objRego.HomeWorlds.Count - 1)
-        wao = -wa * Rnd(0)
+        wao = -wa * Rnd()
         For W = 2 To objRego.HomeWorlds.Count
             Set objWorld = objRego.HomeWorlds(W)
             If objTemplate.OrbitPlanets Then
@@ -143,7 +143,7 @@ Private Sub DesignCircleMiddle(ByVal objTemplate As Template)
     a = 2 * PI / objTemplate.Registrations.Count
     
     ' calculate a random offset for the races
-    ao = -a * Rnd(0)
+    ao = -a * Rnd()
     
     'Create the Homeworlds where needed
     For Each objRego In objTemplate.Registrations
@@ -171,7 +171,7 @@ Private Sub DesignCircleMiddle(ByVal objTemplate As Template)
         objWorld.Y = Py
     
         wa = 2 * PI / (objRego.HomeWorlds.Count - 1)
-        wao = -wa * Rnd(0)
+        wao = -wa * Rnd()
         For W = 2 To objRego.HomeWorlds.Count
             Set objWorld = objRego.HomeWorlds(W)
             If objTemplate.OrbitPlanets Then
@@ -229,7 +229,7 @@ Private Sub SeedCircle(ByVal objTemplate As Template)
     a = 2 * PI / objTemplate.Registrations.Count
     
     ' calculate a random offset for the races
-    ao = -a * Rnd(0)
+    ao = -a * Rnd()
 
     'Create the Homeworlds where needed
     For Each objRego In objTemplate.Registrations
@@ -266,7 +266,7 @@ Private Sub SeedCircle(ByVal objTemplate As Template)
             ws = 2
         End If
 
-        wao = -wa * Rnd(0)
+        wao = -wa * Rnd()
         For W = ws To objRego.HomeWorlds.Count
             Set objWorld = objRego.HomeWorlds(W)
             If objTemplate.OrbitPlanets Then
@@ -308,27 +308,14 @@ Private Sub SeedCircle(ByVal objTemplate As Template)
                 Py1 = .Y
             End With
         End If
-        
         'Seed a waypoint
         If objTemplate.Seed(SeedWaypoint) Then
             Set objPlanet = New Planet
             With objPlanet
                 .X = (Px - Px1) / 2 + Px1
                 .Y = (Py - Py1) / 2 + Py1
-                .Size = Round(Rnd(0) * gcStuffMaxSize)
-                .Resources = Round(Rnd(0) * 10)
-            End With
-            objTemplate.Planets.Add objPlanet
-        End If
-        
-        'Seed the center of the galaxy
-        If objTemplate.Seed(SeedCenter) Then
-            Set objPlanet = New Planet
-            With objPlanet
-                .X = objTemplate.Size / 2
-                .Y = objTemplate.Size / 2
-                .Size = Round(Rnd(0) * gcStuffMaxSize)
-                .Resources = Round(Rnd(0) * 10)
+                .Size = Round(Rnd() * gcStuffMaxSize, 0)
+                .Resources = Round(Rnd() * 10)
             End With
             objTemplate.Planets.Add objPlanet
         End If
@@ -337,29 +324,43 @@ Private Sub SeedCircle(ByVal objTemplate As Template)
         For i = 1 To objTemplate.empty_planets
             Set objPlanet = New Planet
             With objPlanet
-                a = 2 * PI * Rnd(0)
-                R = objTemplate.empty_radius * Rnd(0)
+                a = 2 * PI * Rnd()
+                R = objTemplate.empty_radius * Rnd()
                 .X = Cos(a) * R + Px
                 .Y = Sin(a) * R + Py
-                .Size = Round(Rnd(0) * (objTemplate.MaxPlanetSize - gcStuffMaxSize) + gcStuffMaxSize)
-                .Resources = Round(Rnd(0) * 10)
+                .Size = Round(Rnd() * (objTemplate.MaxPlanetSize - gcStuffMaxSize) + gcStuffMaxSize, 0)
+                .Resources = Round(Rnd() * 10)
             End With
             objTemplate.Planets.Add objPlanet
         Next i
+    Next rc
         
+    For rc = 1 To objTemplate.Registrations.Count
         'Seed stuff planets around the galaxy
         For i = 1 To objTemplate.stuff_planets
             Set objPlanet = New Planet
             With objPlanet
-                .X = objTemplate.Size * Rnd(0)
-                .Y = objTemplate.Size * Rnd(0)
-                .Size = Round(Rnd(0) * gcStuffMaxSize)
-                .Resources = Round(Rnd(0) * 10)
+                .X = objTemplate.Size * Rnd()
+                .Y = objTemplate.Size * Rnd()
+                .Size = Round(Rnd() * gcStuffMaxSize, 0)
+                .Resources = Round(Rnd() * 10)
             End With
             objTemplate.Planets.Add objPlanet
         Next i
     Next rc
     
+    'Seed the center of the galaxy
+    If objTemplate.Seed(SeedCenter) Then
+        Set objPlanet = New Planet
+        With objPlanet
+            .X = objTemplate.Size / 2
+            .Y = objTemplate.Size / 2
+            .Size = Round(Rnd() * gcStuffMaxSize, 0)
+            .Resources = Round(Rnd() * 10)
+        End With
+        objTemplate.Planets.Add objPlanet
+    End If
+        
 End Sub
 
 

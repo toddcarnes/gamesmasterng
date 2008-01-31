@@ -50,7 +50,7 @@ Begin VB.MDIForm frmMain
             AutoSize        =   2
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "26/01/2008"
+            TextSave        =   "1/02/2008"
             Key             =   "Date"
          EndProperty
          BeginProperty Panel4 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
@@ -59,7 +59,7 @@ Begin VB.MDIForm frmMain
             AutoSize        =   2
             Object.Width           =   1402
             MinWidth        =   1411
-            TextSave        =   "5:14"
+            TextSave        =   "5:52"
             Key             =   "Time"
          EndProperty
       EndProperty
@@ -343,25 +343,23 @@ Private Sub MDIForm_Load()
         .Enabled = False
     End With
     Status = ""
-    If Options.MinimizeatStartup Then
+    If Options.MinimizeatStartup And Not InIDE Then
         Me.WindowState = vbMinimized
     End If
     If Options.ShowGames Then
         Call mnuViewGames_Click
     End If
-    If Options.ShowSendMail Then
+    If Options.ShowSendMail And Not InIDE Then
         Call mnuMailShowSendMail_Click
     End If
-    If Options.ShowGetMail Then
+    If Options.ShowGetMail And Not InIDE Then
         Call mnuMailShowGetMail_Click
     End If
-    If Not InIDE Then
-        If Options.AutoCheckMail Then
-            Call mnuMailAutoCheck_Click
-        End If
-        If Options.AutoRunGames Then
-            Call mnuAutoRun_Click
-        End If
+    If Options.AutoCheckMail And Not InIDE Then
+        Call mnuMailAutoCheck_Click
+    End If
+    If Options.AutoRunGames And Not InIDE Then
+        Call mnuAutoRun_Click
     End If
     mblnStarting = True
 End Sub

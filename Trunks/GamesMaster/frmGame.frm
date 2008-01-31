@@ -13,6 +13,14 @@ Begin VB.Form frmGame
    ScaleHeight     =   7725
    ScaleWidth      =   7215
    StartUpPosition =   1  'CenterOwner
+   Begin VB.CommandButton cmdViewMap 
+      Caption         =   "View Map"
+      Height          =   435
+      Left            =   180
+      TabIndex        =   43
+      Top             =   7140
+      Width           =   1095
+   End
    Begin VB.Frame frInitialTechLevels 
       Caption         =   "Initial Tech Levels"
       Height          =   975
@@ -116,7 +124,7 @@ Begin VB.Form frmGame
    Begin VB.CommandButton cmdCancel 
       Caption         =   "&Cancel"
       Height          =   435
-      Left            =   2160
+      Left            =   4380
       TabIndex        =   25
       Top             =   7140
       Width           =   1155
@@ -383,7 +391,7 @@ Begin VB.Form frmGame
    Begin VB.CommandButton cmdClose 
       Caption         =   "Close"
       Height          =   435
-      Left            =   3660
+      Left            =   5880
       TabIndex        =   12
       Top             =   7140
       Width           =   1155
@@ -511,6 +519,28 @@ Private Sub LoadGame()
         txtScheduleDays = .Template.ScheduleDays
     End With
     Call LoadRaces
+End Sub
+
+Private Sub cmdViewMap_Click()
+    Dim fMap As frmMap
+    Dim objPlanet As Planet
+    Dim colPlanets As Collection
+    
+    Set colPlanets = New Collection
+    Set fMap = New frmMap
+    Load fMap
+    fMap.GalaxySize = Game.GalaxySize
+    
+   
+    For Each objPlanet In Game.Planets
+        colPlanets.Add objPlanet
+    Next objPlanet
+    
+    Set fMap.Planets = colPlanets
+    
+    fMap.Show vbModal, Me
+    
+    Set fMap = Nothing
 End Sub
 
 Private Sub Form_Load()

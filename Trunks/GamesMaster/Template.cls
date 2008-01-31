@@ -203,7 +203,7 @@ Public Sub Load(Optional ByVal strFileName As String)
                 OrbitPlanets = strFields(1)
             Case ";orbitdistance"
                 OrbitDistance = Val(strFields(1))
-            Case ";seedtype "
+            Case ";seedtype"
                 SeedType = Val(strFields(1))
             
             Case "name"
@@ -274,12 +274,12 @@ Public Sub Load(Optional ByVal strFileName As String)
                     If UBound(strFields) < 2 Then
                         objPlanet.Size = -1
                     Else
-                        objPlanet.Size = Val(strFields(1))
+                        objPlanet.Size = Val(strFields(2))
                     End If
                     If UBound(strFields) < 3 Then
                         objPlanet.Resources = -1
                     Else
-                        objPlanet.Resources = Val(strFields(1))
+                        objPlanet.Resources = Val(strFields(3))
                     End If
                     Planets.Add objPlanet
                 End If

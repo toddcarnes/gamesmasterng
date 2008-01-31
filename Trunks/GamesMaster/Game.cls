@@ -102,7 +102,7 @@ Public Sub Refresh()
     Dim l As Long
     Dim i As Long
     Dim lngID As Long
-    Dim r As Long
+    Dim R As Long
     Dim lngAllie As Long
     Dim objRace As Race
     Dim objShipType As ShipType
@@ -339,12 +339,12 @@ Public Sub Refresh()
     
     ' Process the Routes
     For Each objPlanet In Planets
-        For r = 1 To 4
+        For R = 1 To 4
             l = l + 1
             lngID = 0 & vLines(l)
-            objPlanet.RouteIDs(r) = lngID
-            Set objPlanet.Routes(r) = Planets(lngID)
-        Next r
+            objPlanet.RouteIDs(R) = lngID
+            Set objPlanet.Routes(R) = Planets(lngID)
+        Next R
     Next objPlanet
     
     ' Process the Routes
@@ -451,17 +451,46 @@ Public Property Get Started() As Boolean
 End Property
 
 Public Function ReadyToCreate() As Boolean
-    ReadyToCreate = False
     
-    If Created Then Exit Function
+    
     With Template
-        If .RegistrationClose = 0 Then Exit Function
-        If .Registrations.Count = .MaxPlayers Then
-            ReadyToCreate = True
-        ElseIf .RegistrationClose <= Now _
-        And .Registrations.Count >= .MinPlayers Then
-            ReadyToCreate = True
+        'Already Created
+        If Created Then
+            ReadyToCreate = False
+            Exit Function
         End If
+        
+        ' No Close date specified
+        If .RegistrationClose = 0 Then
+            ReadyToCreate = False
+            Exit Function
+        End If
+            
+        ' Registrations not closed
+        If .RegistrationClose > Now Then
+            ReadyToCreate = False
+            Exit Function
+        End If
+        
+        'Minimum players met
+        If .Registrations.Count >= .MinPlayers Then
+            ReadyToCreate = True
+            Exit Function
+        End If
+        
+        'Not enough players.
+        If .Registrations.Count < .MinPlayers Then
+            'Extend the Close date and start date
+            .RegistrationClose = DateAdd("d", 1, .RegistrationClose)
+            If .StartDate <> 0 Then
+                .StartDate = DateAdd("d", 1, .StartDate)
+            End If
+            ReadyToCreate = False
+            .Save
+            Exit Function
+        End If
+        
+        ReadyToCreate = False
     End With
             
 End Function
