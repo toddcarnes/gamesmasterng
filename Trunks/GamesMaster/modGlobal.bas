@@ -353,3 +353,13 @@ Public Function Round(ByVal sngNo As Single, Optional ByVal lngPlaces As Long = 
     Round = Int(sngNo * sngFactor) / sngFactor
 
 End Function
+
+Public Sub DeleteGame(ByVal strGame As String)
+    On Error Resume Next
+    Kill Options.GalaxyNGNextTurn(strGame)
+    Kill Options.GalaxyNGData & strGame & "\0.New"
+    RmDir Options.GalaxyNGData & strGame
+    RmDir Options.GalaxyNGOrders & strGame
+    RmDir Options.GalaxyNGReports & strGame
+    RmDir Options.GalaxyNGStatistics & strGame
+End Sub

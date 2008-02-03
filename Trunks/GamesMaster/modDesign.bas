@@ -4,6 +4,7 @@ Option Compare Text
 
 Public Sub ApplyDesign(ByVal objTemplate As Template)
 
+    Randomize
     If objTemplate.DesignType = LeaveAlone Then
         '
     ElseIf objTemplate.SeedType = NoSeeding Then
@@ -44,22 +45,22 @@ Private Sub DesignCircle(ByVal objTemplate As Template)
     Dim ao As Single
     Dim R As Single
     Dim ro As Single
-    Dim s As Single
+    Dim S As Single
     Dim Px As Single
     Dim Py As Single
     Dim W As Long
     Dim wa As Single
     Dim wao As Single
-    Dim h As Long
+    Dim H As Long
     
     
     'calculate the radius of the circle
     R = CalcRadius(objTemplate.Registrations.Count, objTemplate.race_spacing)
     
     'calculate the galaxy Size
-    s = Int(R + objTemplate.empty_radius)
-    If objTemplate.Size < s Then
-        objTemplate.Size = s
+    S = Int(R + objTemplate.empty_radius)
+    If objTemplate.Size < S Then
+        objTemplate.Size = S
     End If
     
     'Calculate the center of the circle
@@ -74,11 +75,11 @@ Private Sub DesignCircle(ByVal objTemplate As Template)
     'Create the Homeworlds where needed
     For Each objRego In objTemplate.Registrations
         If objRego.HomeWorlds.Count = 0 Then
-            For h = 1 To objTemplate.DefaultHomeWorlds.Count
+            For H = 1 To objTemplate.DefaultHomeWorlds.Count
                 Set objWorld = New HomeWorld
-                objWorld.Size = objTemplate.DefaultHomeWorlds(h)
+                objWorld.Size = objTemplate.DefaultHomeWorlds(H)
                 objRego.HomeWorlds.Add objWorld
-            Next h
+            Next H
         End If
     Next objRego
 
@@ -120,21 +121,21 @@ Private Sub DesignCircleMiddle(ByVal objTemplate As Template)
     Dim ao As Single
     Dim R As Single
     Dim ro As Single
-    Dim s As Single
+    Dim S As Single
     Dim Px As Single
     Dim Py As Single
     Dim W As Long
     Dim wa As Single
     Dim wao As Single
-    Dim h As Long
+    Dim H As Long
     
     'calculate the radius of the circle
     R = CalcRadius(objTemplate.Registrations.Count - 1, objTemplate.race_spacing)
     
     'calculate the galaxy Size
-    s = Int(R + objTemplate.empty_radius)
-    If objTemplate.Size < s Then
-        objTemplate.Size = s
+    S = Int(R + objTemplate.empty_radius)
+    If objTemplate.Size < S Then
+        objTemplate.Size = S
     End If
     
     'Calculate the center of the circle
@@ -149,11 +150,11 @@ Private Sub DesignCircleMiddle(ByVal objTemplate As Template)
     'Create the Homeworlds where needed
     For Each objRego In objTemplate.Registrations
         If objRego.HomeWorlds.Count = 0 Then
-            For h = 1 To objTemplate.DefaultHomeWorlds.Count
+            For H = 1 To objTemplate.DefaultHomeWorlds.Count
                 Set objWorld = New HomeWorld
-                objWorld.Size = objTemplate.DefaultHomeWorlds(h)
+                objWorld.Size = objTemplate.DefaultHomeWorlds(H)
                 objRego.HomeWorlds.Add objWorld
-            Next h
+            Next H
         End If
     Next objRego
 
@@ -199,7 +200,7 @@ Private Sub SeedCircle(ByVal objTemplate As Template)
     Dim ao As Single
     Dim R As Single
     Dim ro As Single
-    Dim s As Single
+    Dim S As Single
     Dim Px As Single
     Dim Py As Single
     Dim Px1 As Single
@@ -209,7 +210,7 @@ Private Sub SeedCircle(ByVal objTemplate As Template)
     Dim wao As Single
     Dim ws As Long
     Dim i As Long
-    Dim h As Long
+    Dim H As Long
     
     'Initialise
     Set objTemplate.Planets = Nothing
@@ -218,9 +219,9 @@ Private Sub SeedCircle(ByVal objTemplate As Template)
     R = CalcRadius(objTemplate.Registrations.Count, objTemplate.race_spacing)
     
     'calculate the galaxy Size
-    s = Int(R + objTemplate.empty_radius)
-    If objTemplate.Size < s Then
-        objTemplate.Size = s
+    S = Int(R + objTemplate.empty_radius)
+    If objTemplate.Size < S Then
+        objTemplate.Size = S
     End If
     
     'Calculate the center of the circle
@@ -235,11 +236,11 @@ Private Sub SeedCircle(ByVal objTemplate As Template)
     'Create the Homeworlds where needed
     For Each objRego In objTemplate.Registrations
         If objRego.HomeWorlds.Count = 0 Then
-            For h = 1 To objTemplate.DefaultHomeWorlds.Count
+            For H = 1 To objTemplate.DefaultHomeWorlds.Count
                 Set objWorld = New HomeWorld
-                objWorld.Size = objTemplate.DefaultHomeWorlds(h)
+                objWorld.Size = objTemplate.DefaultHomeWorlds(H)
                 objRego.HomeWorlds.Add objWorld
-            Next h
+            Next H
         End If
     Next objRego
     

@@ -59,7 +59,7 @@ Begin VB.MDIForm frmMain
             AutoSize        =   2
             Object.Width           =   1402
             MinWidth        =   1411
-            TextSave        =   "8:06"
+            TextSave        =   "11:02"
             Key             =   "Time"
          EndProperty
       EndProperty
@@ -321,7 +321,6 @@ Private Sub MDIForm_Load()
     mnuTest.Visible = InIDE()
     mnuActions.Visible = False
     mnuGameEdit.Visible = False
-    mnuGameDelete.Visible = False
     With Me
         .Top = GetSetting(App.EXEName, .Name, "Top", Me.Top)
         .Left = GetSetting(App.EXEName, .Name, "Left", Me.Left)
@@ -474,12 +473,22 @@ Private Sub mnuGameCreate_Click()
     If MsgBox("Are you sure that you want to Create " & _
             "the game " & SelectedGame & ".", vbYesNo, "Create Game") = vbYes Then
         Call CreateGame(SelectedGame)
+        Call RefreshGamesForm
     End If
 End Sub
 
 Private Sub mnuGameDelete_Click()
+    Dim objGame As Game
+    Dim strGame As String
+    
+    strGame = SelectedGame
+    Set objGame = GalaxyNG.Games(strGame)
+    objGame.Refresh
+    
     If MsgBox("Are you sure that you want to Delete " & _
-            "the game " & SelectedGame & ".", vbYesNo, "Delete Game") = vbYes Then
+            "the game " & SelectedGame & ".", vbQuestion + vbYesNo, "Delete Game") = vbYes Then
+        Call DeleteGame(strGame)
+        Call RefreshGamesForm
     End If
 End Sub
 
@@ -489,7 +498,7 @@ End Sub
 
 Private Sub mnuGameNotify_Click()
     If MsgBox("Are you sure that you want to Notify Users for " & _
-            "the game " & SelectedGame & ".", vbYesNo, "Notify Users") = vbYes Then
+            "the game " & SelectedGame & ".", vbQuestion + vbYesNo, "Notify Users") = vbYes Then
         Call NotifyUsers(SelectedGame)
         Call RefreshGamesForm
         Call SendMail.Send
@@ -664,6 +673,7 @@ Public Sub mnuGame_Click()
         mnuGameView.Enabled = False
         mnuGameEdit.Enabled = False
         mnuGameEditMessage.Enabled = False
+        mnuGameDelete.Enabled = False
         mnuGameStart.Enabled = False
         mnuGameRun.Enabled = False
         mnuGameResend.Enabled = False
@@ -677,6 +687,7 @@ Public Sub mnuGame_Click()
             mnuGameView.Enabled = True
             mnuGameEdit.Enabled = True
             mnuGameEditMessage.Enabled = True
+            mnuGameDelete.Enabled = Not objGame.Started
             mnuGameStart.Enabled = Not objGame.Started
             mnuGameRun.Enabled = objGame.Started
             mnuGameResend.Enabled = objGame.Started
@@ -687,6 +698,7 @@ Public Sub mnuGame_Click()
             mnuGameEdit.Enabled = False
             mnuGameView.Enabled = False
             mnuGameEditMessage.Enabled = True
+            mnuGameDelete.Enabled = False
             mnuGameStart.Enabled = False
             mnuGameRun.Enabled = False
             mnuGameResend.Enabled = False
@@ -699,6 +711,7 @@ Public Sub mnuGame_Click()
     mnuEditGame.Visible = mnuGameEdit.Enabled And mnuGameEdit.Visible
     mnuDeleteGame.Visible = mnuGameDelete.Enabled And mnuGameDelete.Visible
     mnuViewGame.Visible = mnuGameView.Enabled And mnuGameView.Visible
+    mnuDeleteGame.Visible = mnuGameDelete.Enabled And mnuGameDelete.Visible
     mnuActionSeperator1.Visible = (mnuCreateGame.Visible Or mnuViewGame.Visible)
     mnuEditGameMessage.Visible = mnuGameEditMessage.Enabled And mnuGameEditMessage.Visible
     mnuActionSeperator3.Visible = mnuEditGameMessage.Visible
