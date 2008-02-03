@@ -50,7 +50,7 @@ Begin VB.MDIForm frmMain
             AutoSize        =   2
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "1/02/2008"
+            TextSave        =   "3/02/2008"
             Key             =   "Date"
          EndProperty
          BeginProperty Panel4 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
@@ -59,7 +59,7 @@ Begin VB.MDIForm frmMain
             AutoSize        =   2
             Object.Width           =   1402
             MinWidth        =   1411
-            TextSave        =   "5:52"
+            TextSave        =   "8:06"
             Key             =   "Time"
          EndProperty
       EndProperty
@@ -534,7 +534,7 @@ Private Sub mnuGameStart_Click()
     End If
 End Sub
 
-Private Sub mnuGameView_Click()
+Public Sub mnuGameView_Click()
     Call GetGame(True)
 End Sub
 

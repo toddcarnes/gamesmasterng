@@ -916,6 +916,7 @@ Private Sub cmdViewMap_Click()
     Dim colPlanets As Collection
     Dim R As Long
     Dim h As Long
+    Dim p As Long
     
     Set colPlanets = New Collection
     Set fMap = New frmMap
@@ -935,7 +936,10 @@ Private Sub cmdViewMap_Click()
         Next objHomeworld
     Next objReg
     
+    p = 0
     For Each objPlanet In Template.Planets
+        p = p + 1
+        objPlanet.Planet = "P" & CStr(p)
         colPlanets.Add objPlanet
     Next objPlanet
     
@@ -976,9 +980,10 @@ Private Sub Form_Load()
     
     With cboDesign
         .Clear
-        .AddItem "0 - Do Nothing"
+        .AddItem "0 - Leave Alone"
         .AddItem "1 - On Circle"
         .AddItem "2 - On Circle+Middle"
+        .AddItem "3 - GalaxyNG Random"
     End With
     
     With cboSeed
@@ -995,7 +1000,7 @@ Private Sub Form_Load()
     
 End Sub
 
-Private Sub grdRegistrations_MouseDown(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub grdRegistrations_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
     If Button = vbRightButton And Not ReadOnly Then
         PopupMenu mnuAction
     End If

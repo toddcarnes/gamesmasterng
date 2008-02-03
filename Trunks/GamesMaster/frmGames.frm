@@ -169,7 +169,14 @@ Private Sub Form_Resize()
 End Sub
 
 Private Sub grdGames_DblClick()
-    Call MainForm.mnuTemplateView_Click
+    Dim strGame As String
+    
+    strGame = MainForm.SelectedGame
+    If GalaxyNG.Games(strGame).Created Then
+        Call MainForm.mnuGameView_Click
+    Else
+        Call MainForm.mnuTemplateView_Click
+    End If
 End Sub
 
 Private Sub grdGames_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)

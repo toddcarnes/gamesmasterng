@@ -4,10 +4,10 @@ Option Compare Text
 
 Public Sub ApplyDesign(ByVal objTemplate As Template)
 
-    If objTemplate.SeedType = NoSeeding Then
-        If objTemplate.DesignType = LeaveAlone Then
-            '
-        ElseIf objTemplate.DesignType = OnCircle Then
+    If objTemplate.DesignType = LeaveAlone Then
+        '
+    ElseIf objTemplate.SeedType = NoSeeding Then
+        If objTemplate.DesignType = OnCircle Then
             Call DesignCircle(objTemplate)
         ElseIf objTemplate.DesignType = OnCircleMiddle Then
             Call DesignCircleMiddle(objTemplate)
@@ -25,6 +25,7 @@ Private Sub DesignDefault(ByVal objTemplate As Template)
     Dim objRego As Registration
     Dim objWorld As HomeWorld
     
+    Set objTemplate.Planets = Nothing
     For Each objRego In objTemplate.Registrations
         For Each objWorld In objRego.HomeWorlds
             objWorld.X = 0
