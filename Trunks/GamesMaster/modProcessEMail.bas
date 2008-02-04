@@ -236,6 +236,7 @@ Public Sub SendReports(ByVal strGame As String)
                 'EMail Zip File Attachment
                 Set objZip = New Zip
                 objZip.RootDirectory = Options.GalaxyNGReports & strGame & "\"
+                ChDir objZip.RootDirectory
                 
                 objZip.ZipFileName = Options.GalaxyNGReports & strGame & "\" & objRace.RaceName & "_" & strTurn & ".zip"
                 If Dir(objZip.ZipFileName) <> "" Then
@@ -254,6 +255,7 @@ Public Sub SendReports(ByVal strGame As String)
                     objZip.AddFile GetFullFileName(strFileName)
                 End If
                 objZip.MakeZipFile
+                ChDir App.Path
                 
                 ' Attach the Zip file.
                 strFileName = objZip.ZipFileName
@@ -268,7 +270,8 @@ Public Sub SendReports(ByVal strGame As String)
                     "modProcessEMail", "SendReports", _
                     "    Game: " & strGame & vbNewLine & _
                     "    Race: " & objRace.RaceName & vbNewLine & _
-                    "    File: " & strFileName)
+                    "    File: " & strFileName & vbNewLine & _
+                    "     Msg: " & objZip.GetLastMessage)
                     Call SendEMail(Options.GamesMasterEMail, _
                             "[GNG ERROR] " & objGame.GameName & " turn " & strTurn & _
                             " Race " & objRace.RaceName, _
@@ -276,7 +279,8 @@ Public Sub SendReports(ByVal strGame As String)
                             "Reports were sent to the player as attachments." & vbNewLine & _
                             "    Game: " & strGame & vbNewLine & _
                             "    Race: " & objRace.RaceName & vbNewLine & _
-                            "    File: " & strFileName)
+                            "    File: " & strFileName & vbNewLine & _
+                            "     Msg: " & objZip.GetLastMessage)
                     blnAttach = True
                 End If
             End If
