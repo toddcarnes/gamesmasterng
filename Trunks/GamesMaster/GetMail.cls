@@ -220,11 +220,12 @@ Private Sub ProcessData(ByVal strData As String)
     End If
     
     If blnSaveEMail Then
-        Call SaveEMail(mstrEMail)
         ' Check Email
-        If Len(mstrEMail) < 15 Then
+        If Not ValidEMail(mstrEMail) Then
+            Call SaveEMail(mstrEMail, True)
             blnNextEMail = True
         Else
+            Call SaveEMail(mstrEMail)
             SendData c_DETE & " " & CStr(mlngCurrentMessage)
             muStatus = GM_DELE
         End If
@@ -297,12 +298,16 @@ Private Sub mobjSocket_DataArrival(ByVal bytesTotal As Long)
     Call ProcessData(strData)
 End Sub
 
-Private Sub SaveEMail(ByVal strEMail As String)
+Private Sub SaveEMail(ByVal strEMail As String, Optional ByVal blnError As Boolean = False)
     Dim i As Long
     Dim strFileName As String
     
     Do
-        strFileName = Options.Inbox & Format(Now, "yyyymmddhhnnss") & "_" & Format(i, "0") & ".eml"
+        If blnError Then
+            strFileName = Options.Inbox & Format(Now, "yyyymmddhhnnss") & "_invalid_" & Format(i, "0") & ".txt"
+        Else
+            strFileName = Options.Inbox & Format(Now, "yyyymmddhhnnss") & "_" & Format(i, "0") & ".eml"
+        End If
         If Dir(strFileName) = "" Then Exit Do
         i = i + 1
     Loop
@@ -310,4 +315,18 @@ Private Sub SaveEMail(ByVal strEMail As String)
     Call SaveFile(strFileName, strEMail)
 End Sub
 
+Private Function ValidEMail(ByVal strEMail As String) As Boolean
+    Dim lngHeaderEnd As Long
+    Dim strHeader As String
+    
+    'Validate the EMail
+    lngHeaderEnd = InStr(1, strEMail, vbCrLf & vbCrLf)
+    strHeader = Left(strEMail, lngHeaderEnd)
+    
+    If InStr(1, strEMail, vbCrLf & "subject:", vbTextCompare) = 0 Then Exit Function
+    If InStr(1, strEMail, vbCrLf & "from:", vbTextCompare) = 0 Then Exit Function
+    If InStr(1, strEMail, vbCrLf & "to:", vbTextCompare) = 0 Then Exit Function
+    ValidEMail = True
+    
+End Function
 
