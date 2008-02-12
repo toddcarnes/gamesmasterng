@@ -454,6 +454,73 @@ Public Sub Save()
 
 End Sub
 
+Public Function Details() As String
+    Dim strDetails As String
+    Dim i As Long
+    
+    strDetails = strDetails & "Name: " & TemplateName & vbNewLine
+    strDetails = strDetails & "Active: " & CStr(ScheduleActive) & vbNewLine
+    strDetails = strDetails & "Game Ended: " & CStr(Finished) & vbNewLine
+    
+    strDetails = strDetails & vbNewLine
+    strDetails = strDetails & "Registrations" & vbNewLine
+    strDetails = strDetails & "-------------" & vbNewLine
+    strDetails = strDetails & "Open: " & Format(RegistrationOpen, "dd-mmm-yyyy") & vbNewLine
+    strDetails = strDetails & "Close: " & Format(RegistrationClose, "dd-mmm-yyyy") & vbNewLine
+    strDetails = strDetails & "Maximum Players: " & CStr(MaxPlayers) & vbNewLine
+    strDetails = strDetails & "Minimum Players: " & CStr(MinPlayers) & vbNewLine
+    strDetails = strDetails & "Maximum Planets: " & CStr(MaxPlanets) & vbNewLine
+    strDetails = strDetails & "Maximum Planet Size: " & CStr(MaxPlanetSize) & vbNewLine
+    strDetails = strDetails & "Total Planet Size: " & CStr(TotalPlanetSize) & vbNewLine
+    strDetails = strDetails & "Core Sizes:"
+    For i = 0 To UBound(core_sizes)
+        strDetails = strDetails & " " & CStr(core_sizes(i))
+    Next i
+    strDetails = strDetails & vbNewLine
+    
+    strDetails = strDetails & vbNewLine
+    strDetails = strDetails & "Running Details" & vbNewLine
+    strDetails = strDetails & "---------------" & vbNewLine
+    strDetails = strDetails & "Run Time: " & Format(RunTime, "hh:nn:ss") & vbNewLine
+    strDetails = strDetails & "Start Date: " & Format(StartDate, "dd-mmm-yyyy") & vbNewLine
+    strDetails = strDetails & "Schedule Days: " & CStr(ScheduleDays) & vbNewLine
+    strDetails = strDetails & "Final Orders: " & CStr(FinalOrders) & vbNewLine
+    
+    strDetails = strDetails & vbNewLine
+    strDetails = strDetails & "Galaxy Design Details" & vbNewLine
+    strDetails = strDetails & "---------------------" & vbNewLine
+    strDetails = strDetails & "Size: " & CStr(Size) & vbNewLine
+    strDetails = strDetails & "Race Spacing: " & CStr(race_spacing) & vbNewLine
+    strDetails = strDetails & "Empty Planets: " & CStr(empty_planets) & vbNewLine
+    strDetails = strDetails & "Empty Radius: " & CStr(empty_radius) & vbNewLine
+    strDetails = strDetails & "Stuff Planets: " & CStr(stuff_planets) & vbNewLine
+    
+    strDetails = strDetails & "Design Type: " & Options.DesignDescriptions(DesignType) & vbNewLine
+    strDetails = strDetails & "Orbit Planets: " & CStr(OrbitPlanets) & vbNewLine
+    strDetails = strDetails & "Orbit Distance: " & CStr(OrbitDistance) & vbNewLine
+    strDetails = strDetails & "Seeding Type: " & Options.SeedDescriptions(SeedType) & vbNewLine
+    
+    strDetails = strDetails & vbNewLine
+    strDetails = strDetails & "Game Details" & vbNewLine
+    strDetails = strDetails & "------------" & vbNewLine
+    strDetails = strDetails & "Initial Tech Levels: Drive:   " & CStr(InitialTechLevels(Tech.Drive)) & vbNewLine
+    strDetails = strDetails & "                     Weapons: " & CStr(InitialTechLevels(Tech.Weapons)) & vbNewLine
+    strDetails = strDetails & "                     Shields: " & CStr(InitialTechLevels(Tech.Shields)) & vbNewLine
+    strDetails = strDetails & "                     Cargo:   " & CStr(InitialTechLevels(Tech.Cargo)) & vbNewLine
+    
+    strDetails = strDetails & "Full Bombing: " & CStr(FullBombing) & vbNewLine
+    strDetails = strDetails & "Enforced Peace: "
+    If Peace = 0 Then
+        strDetails = strDetails & "False" & vbNewLine
+    Else
+        strDetails = strDetails & CStr(Peace) & " Turns" & vbNewLine
+    End If
+    strDetails = strDetails & "Keep Production: " & CStr(KeepProduction) & vbNewLine
+    strDetails = strDetails & "Dont Drop Dead: " & CStr(DontDropDead) & vbNewLine
+    strDetails = strDetails & "Spherical Galaxy: " & CStr(sphericalgalaxy) & vbNewLine
+    Details = strDetails
+End Function
+
 Private Sub Class_Initialize()
     ReDim core_sizes(0)
     core_sizes(0) = 1000

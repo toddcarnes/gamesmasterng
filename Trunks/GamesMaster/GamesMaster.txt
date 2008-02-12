@@ -286,3 +286,41 @@ message has been sent.
 Your GalaxyNG Turn Report is attached to this EMail.
 
 @
+34 Help
+Welcome to the [servername] galaxyng gameserver. Listed below are the 
+valid e-mail commands that will be processed by the gameserver.
+
+General Subjects
+----------------
+The following subjects can be sent to the games server by anyone
+
+Help		- Get this message
+Help Games	- Request Details about active games on the server
+Help All Games	- Request Details about all games on the server
+Help <game>	- Request Details about a specific game
+Join <game>	- Apply to join a game
+		  #planets n n n
+
+Games Specific Subjects
+-----------------------
+The following subjects can only be sent to the game server by
+people that are enrolled into a game that is under way.
+
+Orders		- Submit orders for a game
+		  #galaxy <game> <race> <password> <turn> [finalorders]
+		  ... orders ...
+		  #end
+Relay <game>	- Send a message to all players of a game
+		  #galaxy <game> <race> <password>
+		  ... message ...
+		  #end
+Relay <race>	- Send a message to one specific player
+		  #galaxy <game> <race> <password>
+		  ... message ...
+		  #end
+Relay GM	- Send a message to the Games Master
+		  #galaxy <game> <race> <password>
+		  ... message ...
+		  #end
+
+@

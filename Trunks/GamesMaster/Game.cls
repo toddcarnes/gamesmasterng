@@ -99,7 +99,7 @@ Public Sub Refresh()
     Dim lngSize As Long
     Dim strBuffer As String
     Dim vLines As Variant
-    Dim l As Long
+    Dim L As Long
     Dim i As Long
     Dim lngID As Long
     Dim R As Long
@@ -131,134 +131,134 @@ Public Sub Refresh()
     If UBound(vLines) = 0 Then
         vLines = Split(strBuffer, vbLf)
     End If
-    l = 0
+    L = 0
     
     ' GalaxyNG Version
-    VersionString = vLines(l)
+    VersionString = vLines(L)
     i = InStr(1, VersionString, "release-")
     VersionNumber = Replace(Mid(VersionString, i + 8, 3), "-", ".")
     i = InStr(1, VersionString, ", ")
     VersionDate = Mid(VersionString, i + 2)
     
     ' Turn Number
-    l = l + 1
-    If vLines(l) = "" Then
+    L = L + 1
+    If vLines(L) = "" Then
         Turn = 0
     Else
-        Turn = vLines(l)
+        Turn = vLines(L)
     End If
     
     ' Galaxy Size
-    l = l + 1
-    GalaxySize = vLines(l)
+    L = L + 1
+    GalaxySize = vLines(L)
     
     '------------------------------------------------------------
     'Find The start of the game options
     Do
-        If Left(vLines(l), 12) = "@GameOptions" Then Exit Do
-        l = l + 1
+        If Left(vLines(L), 12) = "@GameOptions" Then Exit Do
+        L = L + 1
     Loop
     
     ' Game Options
-    l = l + 1
-    Flags = 0 & vLines(l)
-    l = l + 1
-    GalacticPeace = Val(vLines(l))
-    l = l + 1
-    InitialDrive = vLines(l)
-    l = l + 1
-    InitialWeapons = vLines(l)
-    l = l + 1
-    InitialShield = vLines(l)
-    l = l + 1
-    InitialCargo = vLines(l)
+    L = L + 1
+    Flags = 0 & vLines(L)
+    L = L + 1
+    GalacticPeace = Val(vLines(L))
+    L = L + 1
+    InitialDrive = vLines(L)
+    L = L + 1
+    InitialWeapons = vLines(L)
+    L = L + 1
+    InitialShield = vLines(L)
+    L = L + 1
+    InitialCargo = vLines(L)
     
     '------------------------------------------------------------
     'Find The start of the Players section
     Do
-        If Left(vLines(l), 8) = "@Players" Then Exit Do
-        l = l + 1
+        If Left(vLines(L), 8) = "@Players" Then Exit Do
+        L = L + 1
     Loop
     ' Process the Player Details
     Do
-        l = l + 1
-        If Left(vLines(l), 9) = "@EPlayers" Then Exit Do
+        L = L + 1
+        If Left(vLines(L), 9) = "@EPlayers" Then Exit Do
         Set objRace = New Race
-        objRace.RaceName = vLines(l)
-        l = l + 1
-        objRace.EMail = vLines(l)
-        l = l + 1
-        objRace.Password = vLines(l)
-        l = l + 1
-        objRace.Drive = vLines(l)
-        l = l + 1
-        objRace.Weapons = vLines(l)
-        l = l + 1
-        objRace.Shields = vLines(l)
-        l = l + 1
-        objRace.Cargo = vLines(l)
-        l = l + 1
-        objRace.mX = 0 & vLines(l)
-        l = l + 1
-        objRace.mY = 0 & vLines(l)
-        l = l + 1
-        objRace.mSize = 0 & vLines(l)
-        l = l + 1
-        objRace.PlayerName = vLines(l)
-        l = l + 1
-        objRace.TeamName = vLines(l)
-        l = l + 1
-        objRace.Unused3 = vLines(l)
-        l = l + 1
-        objRace.Unused4 = vLines(l)
-        l = l + 1
-        objRace.Unused5 = vLines(l)
-        l = l + 1
-        objRace.MassLost = vLines(l)
-        l = l + 1
-        objRace.MassProduced = vLines(l)
-        l = l + 1
-        objRace.LastOrders = Val(vLines(l))
-        l = l + 1
-        objRace.Flags = vLines(l)
+        objRace.RaceName = vLines(L)
+        L = L + 1
+        objRace.EMail = vLines(L)
+        L = L + 1
+        objRace.Password = vLines(L)
+        L = L + 1
+        objRace.Drive = vLines(L)
+        L = L + 1
+        objRace.Weapons = vLines(L)
+        L = L + 1
+        objRace.Shields = vLines(L)
+        L = L + 1
+        objRace.Cargo = vLines(L)
+        L = L + 1
+        objRace.mX = 0 & vLines(L)
+        L = L + 1
+        objRace.mY = 0 & vLines(L)
+        L = L + 1
+        objRace.mSize = 0 & vLines(L)
+        L = L + 1
+        objRace.PlayerName = vLines(L)
+        L = L + 1
+        objRace.TeamName = vLines(L)
+        L = L + 1
+        objRace.Unused3 = vLines(L)
+        L = L + 1
+        objRace.Unused4 = vLines(L)
+        L = L + 1
+        objRace.Unused5 = vLines(L)
+        L = L + 1
+        objRace.MassLost = vLines(L)
+        L = L + 1
+        objRace.MassProduced = vLines(L)
+        L = L + 1
+        objRace.LastOrders = Val(vLines(L))
+        L = L + 1
+        objRace.Flags = vLines(L)
         
         '------------------------------------------------------------
         ' Find the Player Ship types
         Do
-            l = l + 1
-            If vLines(l) = "@ShipTypes" Then Exit Do
+            L = L + 1
+            If vLines(L) = "@ShipTypes" Then Exit Do
         Loop
         ' Process the Ship Types
         Do
             Set objShipType = New ShipType
-            l = l + 1
-            If vLines(l) = "@EShipTypes" Then Exit Do
-            objShipType.ShipType = vLines(l)
-            l = l + 1
-            objShipType.Drive = Val(vLines(l))
-            l = l + 1
-            objShipType.Attacks = 0 & vLines(l)
-            l = l + 1
-            objShipType.Weapons = 0 & vLines(l)
-            l = l + 1
-            objShipType.Shields = 0 & vLines(l)
-            l = l + 1
-            objShipType.Cargo = 0 & vLines(l)
+            L = L + 1
+            If vLines(L) = "@EShipTypes" Then Exit Do
+            objShipType.ShipType = vLines(L)
+            L = L + 1
+            objShipType.Drive = Val(vLines(L))
+            L = L + 1
+            objShipType.Attacks = 0 & vLines(L)
+            L = L + 1
+            objShipType.Weapons = 0 & vLines(L)
+            L = L + 1
+            objShipType.Shields = 0 & vLines(L)
+            L = L + 1
+            objShipType.Cargo = 0 & vLines(L)
             objRace.ShipTypes.Add objShipType
         Loop
         
         '------------------------------------------------------------
         ' Find the Player Fleets
         Do
-            l = l + 1
-            If vLines(l) = "@Fleets" Then Exit Do
+            L = L + 1
+            If vLines(L) = "@Fleets" Then Exit Do
         Loop
         ' Process the Player Fleets
         Do
             Set objFleet = New Fleet
-            l = l + 1
-            If vLines(l) = "@EFleets" Then Exit Do
-            objFleet.Fleet = vLines(l)  'Fleet name
+            L = L + 1
+            If vLines(L) = "@EFleets" Then Exit Do
+            objFleet.Fleet = vLines(L)  'Fleet name
             
             objRace.Fleets.Add objFleet
         Loop
@@ -270,14 +270,14 @@ Public Sub Refresh()
     For Each objRace In Races
         ' Find the Allies
         Do
-            l = l + 1
-            If vLines(l) = "@Allies" Then Exit Do
+            L = L + 1
+            If vLines(L) = "@Allies" Then Exit Do
         Loop
         ' Process the Allies
         Do
-            l = l + 1
-            If vLines(l) = "@EAllies" Then Exit Do
-            lngAllie = vLines(l) 'Allie Pointer
+            L = L + 1
+            If vLines(L) = "@EAllies" Then Exit Do
+            lngAllie = vLines(L) 'Allie Pointer
             Set objAllie = Races(lngAllie)
             objRace.Allies.Add objAllie, objAllie.RaceName
         Loop
@@ -285,47 +285,47 @@ Public Sub Refresh()
     '------------------------------------------------------------
     ' Find the Planets
     Do
-        l = l + 1
-        If vLines(l) = "@Planets" Then Exit Do
+        L = L + 1
+        If vLines(L) = "@Planets" Then Exit Do
     Loop
     ' Process the Planets
     Do
         Set objPlanet = New Planet
-        l = l + 1
-        If vLines(l) = "@EPlanets" Then Exit Do
-        objPlanet.Planet = vLines(l)
-        l = l + 1
-        objPlanet.OwnerID = 0 & vLines(l)
+        L = L + 1
+        If vLines(L) = "@EPlanets" Then Exit Do
+        objPlanet.Planet = vLines(L)
+        L = L + 1
+        objPlanet.OwnerID = 0 & vLines(L)
         Set objPlanet.Owner = Races(objPlanet.OwnerID)
         If Not objPlanet.Owner Is Nothing Then
             objPlanet.Owner.Planets.Add objPlanet
         End If
-        l = l + 1
-        objPlanet.X = vLines(l)
-        l = l + 1
-        objPlanet.Y = vLines(l)
-        l = l + 1
-        objPlanet.Size = vLines(l)
-        l = l + 1
-        objPlanet.Resources = vLines(l)
-        l = l + 1
-        objPlanet.Pop = 0 & vLines(l)
-        l = l + 1
-        objPlanet.Ind = 0 & vLines(l)
-        l = l + 1
-        objPlanet.Producing = vLines(l)
-        l = l + 1
-        objPlanet.Cap = 0 & vLines(l)
-        l = l + 1
-        objPlanet.Mat = 0 & vLines(l)
-        l = l + 1
-        objPlanet.Col = 0 & vLines(l)
-        l = l + 1
-        objPlanet.InProgress = vLines(l)
-        l = l + 1
-        objPlanet.Spent = 0 & vLines(l)
-        l = l + 1
-        objPlanet.Flags = 0 & vLines(l)
+        L = L + 1
+        objPlanet.X = vLines(L)
+        L = L + 1
+        objPlanet.Y = vLines(L)
+        L = L + 1
+        objPlanet.Size = vLines(L)
+        L = L + 1
+        objPlanet.Resources = vLines(L)
+        L = L + 1
+        objPlanet.Pop = 0 & vLines(L)
+        L = L + 1
+        objPlanet.Ind = 0 & vLines(L)
+        L = L + 1
+        objPlanet.Producing = vLines(L)
+        L = L + 1
+        objPlanet.Cap = 0 & vLines(L)
+        L = L + 1
+        objPlanet.Mat = 0 & vLines(L)
+        L = L + 1
+        objPlanet.Col = 0 & vLines(L)
+        L = L + 1
+        objPlanet.InProgress = vLines(L)
+        L = L + 1
+        objPlanet.Spent = 0 & vLines(L)
+        L = L + 1
+        objPlanet.Flags = 0 & vLines(L)
         
         Planets.Add objPlanet
     Loop
@@ -333,15 +333,15 @@ Public Sub Refresh()
     '------------------------------------------------------------
     ' Find the Routes
     Do
-        l = l + 1
-        If vLines(l) = "@Routes" Then Exit Do
+        L = L + 1
+        If vLines(L) = "@Routes" Then Exit Do
     Loop
     
     ' Process the Routes
     For Each objPlanet In Planets
         For R = 1 To 4
-            l = l + 1
-            lngID = 0 & vLines(l)
+            L = L + 1
+            lngID = 0 & vLines(L)
             objPlanet.RouteIDs(R) = lngID
             Set objPlanet.Routes(R) = Planets(lngID)
         Next R
@@ -349,56 +349,56 @@ Public Sub Refresh()
     
     ' Process the Routes
     Do
-        l = l + 1
-        If vLines(l) = "@ERoutes" Then Exit Do
+        L = L + 1
+        If vLines(L) = "@ERoutes" Then Exit Do
     Loop
     
     '------------------------------------------------------------
     ' Find the Player groups
     For Each objRace In Races
         Do
-            l = l + 1
-            If vLines(l) = "@PGroups" Then Exit Do
+            L = L + 1
+            If vLines(L) = "@PGroups" Then Exit Do
         Loop
         
         ' Process the Player Groups
         Do
             Set objGroup = New Group
-            l = l + 1
-            If vLines(l) = "@EPGroups" Then Exit Do
-            objGroup.ShipTypeID = vLines(l)
-            l = l + 1
-            objGroup.Number = vLines(l)
-            l = l + 1
-            objGroup.Drive = Val(vLines(l))
-            l = l + 1
-            objGroup.Weapons = 0 & vLines(l)
-            l = l + 1
-            objGroup.Shields = 0 & vLines(l)
-            l = l + 1
-            objGroup.Cargo = 0 & vLines(l)
-            l = l + 1
-            objGroup.LoadType = vLines(l)
-            l = l + 1
-            objGroup.Load = 0 & vLines(l)
-            l = l + 1
-            objGroup.FromPlanetID = vLines(l)
+            L = L + 1
+            If vLines(L) = "@EPGroups" Then Exit Do
+            objGroup.ShipTypeID = vLines(L)
+            L = L + 1
+            objGroup.Number = vLines(L)
+            L = L + 1
+            objGroup.Drive = Val(vLines(L))
+            L = L + 1
+            objGroup.Weapons = 0 & vLines(L)
+            L = L + 1
+            objGroup.Shields = 0 & vLines(L)
+            L = L + 1
+            objGroup.Cargo = 0 & vLines(L)
+            L = L + 1
+            objGroup.LoadType = vLines(L)
+            L = L + 1
+            objGroup.Load = 0 & vLines(L)
+            L = L + 1
+            objGroup.FromPlanetID = vLines(L)
             Set objGroup.FromPlanet = Planets(objGroup.FromPlanetID)
-            l = l + 1
-            objGroup.WherePlanetID = vLines(l)
+            L = L + 1
+            objGroup.WherePlanetID = vLines(L)
             Set objGroup.WherePlanet = Planets(objGroup.WherePlanetID)
-            l = l + 1
-            objGroup.Dist = 0 & vLines(l)
-            l = l + 1
-            objGroup.Ships = vLines(l)
-            l = l + 1
-            objGroup.FleetID = 0 & vLines(l)
+            L = L + 1
+            objGroup.Dist = 0 & vLines(L)
+            L = L + 1
+            objGroup.Ships = vLines(L)
+            L = L + 1
+            objGroup.FleetID = 0 & vLines(L)
             objRace.Groups.Add objGroup
         Loop
     Next objRace
     Do
-        l = l + 1
-        If l > UBound(vLines) Then Exit Do
+        L = L + 1
+        If L > UBound(vLines) Then Exit Do
         ' Save data at the end of the file
     Loop
         
@@ -664,10 +664,51 @@ Public Function NextNotifyDate() As Date
     NextNotifyDate = Int(LastRunDate) + Template.ScheduleDays - 1 + Template.RunTime
 End Function
 
-
 Public Function LastRunDate() As Date
     If Created Then
         LastRunDate = FileDateTime(Options.GalaxyNGNextTurn(GameName))
         LastRunDate = CDate(Format(LastRunDate, "dd-mmm-yyyy hh:nn:ss"))
     End If
+End Function
+
+Public Function Score() As String
+    Score = GetFile(Options.GalaxyNGNotices & GameName & ".score")
+End Function
+
+Public Function Status() As String
+    Dim strStatus As String
+    With Template
+        If .Finished Then
+            ' Game Finished
+            strStatus = "Finished " & Format(LastRunDate, "d-mmm-yyyy")
+        
+        ElseIf Not Template.ScheduleActive Then
+            ' Game Inactive
+            strStatus = "Inactive."
+        
+        ElseIf Started Then
+            ' Game underway
+            strStatus = "Running, Next Turn: " & NextTurn & _
+                        " due by " & _
+                        Format(NextRunDate, "d-mmm-yyyy hh:nn")
+        ElseIf Created Then
+            ' Pending
+            strStatus = "Registrations Closed."
+            
+        ElseIf .OpenForRegistrations Then
+            ' Game open for registrations
+            If .Registrations.Count >= .MaxPlayers Then
+                strStatus = "Full, " & .Registrations.Count & " of " & .MaxPlayers & " players have registered."
+            Else
+                strStatus = "Open, " & .Registrations.Count & " of " & .MaxPlayers & " players have registered."
+            End If
+            
+        ElseIf .RegistrationOpen > Now Then
+            strStatus = "Openning for registrations " & _
+                        Format(.RegistrationOpen, "d-mmm-yyyy")
+        Else
+            strStatus = "Under Development."
+        End If
+    End With
+    Status = strStatus
 End Function

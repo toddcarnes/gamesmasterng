@@ -717,6 +717,15 @@ Begin VB.Form frmTemplate
       Top             =   120
       Width           =   555
    End
+   Begin VB.Menu mnuEdit1 
+      Caption         =   "&Edit"
+      Begin VB.Menu mnuEditDescription 
+         Caption         =   "Description"
+      End
+      Begin VB.Menu mnuEditMessage 
+         Caption         =   "Message"
+      End
+   End
    Begin VB.Menu mnuAction 
       Caption         =   "&Registrations"
       Begin VB.Menu mnuAdd 
@@ -915,7 +924,7 @@ Private Sub cmdViewMap_Click()
     Dim objPlanet As Planet
     Dim colPlanets As Collection
     Dim R As Long
-    Dim h As Long
+    Dim H As Long
     Dim p As Long
     
     Set colPlanets = New Collection
@@ -926,11 +935,11 @@ Private Sub cmdViewMap_Click()
     R = 0
     For Each objReg In Template.Registrations
         R = R + 1
-        h = 0
+        H = 0
         For Each objHomeworld In objReg.HomeWorlds
-            h = h + 1
+            H = H + 1
             objHomeworld.Owner = "R" & CStr(R)
-            objHomeworld.Planet = objHomeworld.Owner & "_" & CStr(h)
+            objHomeworld.Planet = objHomeworld.Owner & "_" & CStr(H)
             objHomeworld.Resources = 10
             colPlanets.Add objHomeworld
         Next objHomeworld
@@ -967,6 +976,9 @@ Private Sub dtStartDate_Change()
 End Sub
 
 Private Sub Form_Load()
+    Dim i As Long
+    Dim vData As Variant
+    
     Me.Icon = MainForm.Icon
     dtRegOpen.DateFormat = "Short Date"
     dtRegOpen.TimeFormat = ""
@@ -980,22 +992,18 @@ Private Sub Form_Load()
     
     With cboDesign
         .Clear
-        .AddItem "0 - Leave Alone"
-        .AddItem "1 - On Circle"
-        .AddItem "2 - On Circle+Middle"
-        .AddItem "3 - GalaxyNG Random"
+        vData = Options.DesignDescriptions
+        For i = LBound(vData) To UBound(vData)
+            .AddItem vData(i)
+        Next i
     End With
     
     With cboSeed
         .Clear
-        .AddItem "0 - No Seeding"
-        .AddItem "1 - Seed HomeWorld"
-        .AddItem "2 - Seed Center of Circle"
-        .AddItem "3 - Seed Home+Center"
-        .AddItem "4 - Seed MidPoint"
-        .AddItem "5 - Seed Home+Mid"
-        .AddItem "6 - Seed Center+Mid"
-        .AddItem "7 - Seed Home+Center+Mid"
+        vData = Options.SeedDescriptions
+        For i = LBound(vData) To UBound(vData)
+            .AddItem vData(i)
+        Next i
     End With
     
 End Sub
@@ -1060,6 +1068,38 @@ Private Sub mnuEdit_Click()
     Set fRegistration = Nothing
     Set objRegistration = Nothing
     Call LoadRegistrations
+End Sub
+
+Private Sub mnuEditDescription_Click()
+    Dim fNote As frmNote
+    
+    Set fNote = New frmNote
+    Load fNote
+    fNote.Caption = Template.TemplateName & " Description"
+    fNote.Text = Template.Description
+    fNote.Show vbModal, Me
+    If Not fNote.Cancelled Then
+        Template.Description = fNote.Text
+    End If
+    Unload fNote
+    Set fNote = Nothing
+    
+End Sub
+
+Private Sub mnuEditMessage_Click()
+    Dim fNote As frmNote
+    
+    Set fNote = New frmNote
+    Load fNote
+    fNote.Caption = Template.TemplateName & " Message"
+    fNote.Text = Template.Message
+    fNote.Show vbModal, Me
+    If Not fNote.Cancelled Then
+        Template.Message = fNote.Text
+    End If
+    Unload fNote
+    Set fNote = Nothing
+    
 End Sub
 
 Private Sub txtCoreSizes_Change(Index As Integer)

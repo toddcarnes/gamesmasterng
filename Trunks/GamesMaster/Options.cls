@@ -290,9 +290,30 @@ Private Sub LoadMessages()
     Close #intFN
 End Sub
 
+Public Function DesignDescriptions() As Variant
+    DesignDescriptions = Array( _
+        "0 - Leave Alone", _
+        "1 - On Circle", _
+        "2 - On Circle+Middle", _
+        "3 - GalaxyNG Random")
+End Function
+
+Public Function SeedDescriptions() As Variant
+    SeedDescriptions = Array( _
+        "0 - No Seeding", _
+        "1 - Seed HomeWorld", _
+        "2 - Seed Center of Circle", _
+        "3 - Seed Home+Center", _
+        "4 - Seed MidPoint", _
+        "5 - Seed Home+Mid", _
+        "6 - Seed Center+Mid", _
+        "7 - Seed Home+Center+Mid")
+End Function
+
 Private Sub Class_Initialize()
     Set INIFile = New INIFile
     With INIFile
         .File = App.Path & "\" & App.EXEName & ".ini"
     End With
 End Sub
+

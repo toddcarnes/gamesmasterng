@@ -40,6 +40,8 @@ Private Sub ProcessEMail(ByVal strPath As String)
             Call RelayMessage(varSubject(1), strFrom, strEMail)
         Case "report"
             Call SendReport(strFrom, strEMail)
+        Case "help"
+            Call HelpEmail(strSubject, strFrom, strEMail)
         End Select
         If Options.SaveEMail Then
             Name strPath As strPath & ".sav"
