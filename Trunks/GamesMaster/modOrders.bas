@@ -13,6 +13,7 @@ Public Sub CheckOrders(ByVal strFrom As String, ByVal strEMail As String)
     Dim strRace As String
     Dim strPassword As String
     Dim lngTurn As Long
+    Dim strFinalOrders As String
     Dim blnFinalOrders As Boolean
     Dim objGame As Game
     Dim objRace As Race
@@ -61,13 +62,7 @@ Public Sub CheckOrders(ByVal strFrom As String, ByVal strEMail As String)
     strSubject = "Major Problems Processing your orders"
     'Split the header by arguements
     varHeader = Split(strHeader, " ")
-    If UBound(varHeader) < 4 Then
-        'Invalid Header
-        strMessage = Options.GetMessage("InvalidOrdersHeader", _
-                "An invalid number of header parameters were specified", _
-                QuoteText(strOrders))
-        GoTo Error
-    End If
+    ReDim Preserve varHeader(6)
     If varHeader(0) <> "#galaxy" Then
         'Invalid Header
         strMessage = Options.GetMessage("InvalidOrdersHeader", _
@@ -79,13 +74,7 @@ Public Sub CheckOrders(ByVal strFrom As String, ByVal strEMail As String)
     strRace = varHeader(2)
     strPassword = varHeader(3)
     lngTurn = Val(varHeader(4))
-    If UBound(varHeader) > 5 Then
-        'Invalid Header
-        strMessage = Options.GetMessage("InvalidOrdersHeader", _
-                "Too many header parameters were specified", _
-                QuoteText(strOrders))
-        GoTo Error
-    End If
+    strFinalOrders = varHeader(5)
     
     'Validate the Game
     Set objGame = GalaxyNG.Games(strGame)
@@ -132,16 +121,14 @@ Public Sub CheckOrders(ByVal strFrom As String, ByVal strEMail As String)
         GoTo Error
     End If
     
-    If UBound(varHeader) = 5 Then
-        If varHeader(5) = "finalorders" Then
-            blnFinalOrders = True
-        Else
-            'Invalid Header
-            strMessage = Options.GetMessage("InvalidOrdersHeader", _
-                "A fifth header parameter was specified and it was not ""finalorders""", _
-                QuoteText(strOrders))
-            GoTo Error
-        End If
+    If strFinalOrders = "finalorders" Then
+        blnFinalOrders = True
+    Else
+        'Invalid Header
+        strMessage = Options.GetMessage("InvalidOrdersHeader", _
+            "The Finalorders parameter was specified but it is not ""finalorders""", _
+            QuoteText(strOrders))
+        GoTo Error
     End If
     
     If lngTurn > objGame.NextTurn Then

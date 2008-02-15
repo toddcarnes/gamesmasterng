@@ -1,144 +1,53 @@
-1 Galaxy Size
-The size is only approximately right.
-You probably want to experiment with different sizes to get
-a galaxy that looks right. It should not be too crowded nor
-too sparse. The size should be a multiple of ten.
+1 Header
+
 @
-2 Race Spacing 
-The engine will make sure that distance between the
-primary homeworlds are at least these light years apart.
-@
-3 Core Sizes 
-The sizes of the homeworlds for each race.
-The following would give each race 3 homeworlds of sizes
-1000 250 350. The first one is the primary homeworld.
-You have to define these before any of the player definitions.
-@
-4 Empty Planets
-Within a radius [2,r] from the primary homeworld the engine
-allocates a this number of empty planets, size 200 - 1,000 for the
-race to colonize. 
-@
-5 Empty Radius
-Within a radius [2,r] from the primary homeworld the engine
-allocates a this number of empty planets, size 200 - 1,000 for the
-race to colonize. Empty_Planets and Empty_Radius define how
-many there are per race and within what radius. A number
-between 4 and 10 and a radius of  race_spacing/2.0 is a
-good guess.
-@
-6 Stuff Planets
-It is possible to add a number of 'stuff' planets. These are
-useless planets, all of size 200 or less, that are use to
-fill up the empty space between the home worlds. They make it
-possible for a players to approach (attack) other players by
-different routes. The following parameter specifies how many
-there are per race.
-@
-7 Initial tech levels
-Initial tech levels can't be lower than 1. By default any Initial 
-tech level less than 1 will be changed to 1.
-Drive - Propulsion
-Weapons - Fire power
-Shields - Defense
-Cargo - Transports
-@
-8 Full bombing
-Bombed planets are completely bombed and all population,
-industry, capital, colonists, and materials are gone.
-Normally the population and industry is reduced to 25% of
-its original value. Uncomment the next line if you want
-this option.
-@
-9 Pax Galactica
-You can enforce global peace just by putting in the number
-of turns you want to disallow players to declare war
-on each other. For example, Peace 20 means players cannot
-declare war until turn 21. (Note that players can load cargo
-at other players planets. If you do not wish to allow this
-you must make it a house rule. It cannot be prevented by the
-GalaxyNG server program.) Uncomment the next line if you
-want this option.
-@
-10 Keep Production
-If keep production is set, the production points spent
-on the previous product are preserved, otherwise all points
-are lost. Uncomment the next line if you want this option.
-@
-11 Don't kill off players
-Don't remove idle races from a game. Normally if players do
-not send in orders for a couple of turns their race self
-destructs. Uncomment the next line if you want this option.
-@
-12 Make the Galaxy a Sphere
-The galaxy can be (roughly) mapped on a sphere
-This way, the gap between x (or y) coordinates of two
-planets is computed with border lines crossing and
-reappearing on the other side. Uncomment the next line
-if you want this option.
-@
-13 Header
-@
-14 Footer
+2 Footer
 
 ---------------------------------------
 [servername] Games Master
 E-Mail: [gamesmasteremail]
 
-This e-mail has been generated automatically by the GalaxyNG game server 
-called [servername] and should not be replied to.
+This e-mail has been generated automatically by the GalaxyNG game server called [servername] and should not be replied to.
 @
-15 NoGame
-Your request to join the GalaxyNG game "[1]" has FAILED 
-because the game does not exist. 
+3 NoGame
+Your request to join the GalaxyNG game "[1]" has FAILED because the game does not exist.
 
-Please check the name of the game that you wish to join 
-and try registering again.
+Please check the name of the game that you wish to join and try registering again.
 @
-16 GameStarted
-Your request to join GalaxyNG game "[1]" has FAILED
-because the game is currently underway.
+4 GameStarted
+Your request to join GalaxyNG game "[1]" has FAILED because the game is currently underway.
 @
-17 NotOpen
-Your request to join GalaxyNG game "[1]" has FAILED 
-because the game is not currently accepting registrations. 
+5 NotOpen
+Your request to join GalaxyNG game "[1]" has FAILED because the game is not currently accepting registrations.
 @
-18 GameFull
-Your request to join GalaxyNG game "[1]" has FAILED due to 
-the [2] positions already having been filled.
-@ 
-19 TooManyPlanets
-Your request to join GalaxyNG game "[1]" has encountered an error 
-due to [2] planets being specified in the registration but 
-only [3] are allowed.
+6 GameFull
+Your request to join GalaxyNG game "[1]" has FAILED due to the [2] positions already having been filled.
+@
+7 TooManyPlanets
+Your request to join GalaxyNG game "[1]" has encountered an error due to [2] planets being specified in the registration but only [3] are allowed.
 
-Your Registration will be processed using the games default planet sizes. 
+Your Registration will be processed using the games default planet sizes.
 ------------------------------------------------------------
 @
-20 PlanetTooLarge
-Your request to join GalaxyNG game "[1]" has encountered an error 
-due to a planet's size of [2] being requested but the maximum 
-size cannot exceed [3].
+8 PlanetTooLarge
+Your request to join GalaxyNG game "[1]" has encountered an error due to a planet's size of [2] being requested but the maximum size cannot exceed [3].
 
-Your Registration will be processed using the games default planet sizes. 
+Your Registration will be processed using the games default planet sizes.
 ------------------------------------------------------------
 @
-21 TotalPlanets
-Your request to join GalaxyNG game "[1]" as encountered an error 
-due to the total planet size ([2]) not being equal to [3].
+9 TotalPlanets
+Your request to join GalaxyNG game "[1]" as encountered an error due to the total planet size ([2]) not being equal to [3].
 
-Your Registration will be processed using the games default planet sizes. 
+Your Registration will be processed using the games default planet sizes.
 ------------------------------------------------------------
 @
-22 RegistrationAccepted
-Your registration to join GalaxyNG game "[1]" was successful. 
+10 RegistrationAccepted
+Your registration to join GalaxyNG game "[1]" was successful.
 Your Planets have been recorded as follows.
 
 [2]
 
-Should you wish to change your planet sizes, just submit another 
-registration using the same e-mail address and your registration 
-will be updated.
+Should you wish to change your planet sizes, just submit another registration using the same e-mail address and your registration will be updated.
 
 Mykoala Home Page: http://www.mykoala.net
 GalaxyNG Forum: http://forums.mykoala.net
@@ -146,15 +55,13 @@ GalaxyNG Home Page: http://galaxyng.sourceforge.net/
 Player's Manual: http://galaxyng.sourceforge.net/manual.php
 Client Programs: http://galaxyview.sourceforge.net/tools.html
 @
-23 RegistrationUpdated
+11 RegistrationUpdated
 The Registration change for the GalaxyNG game "[1]" was successful.
 Your Planet sizes were UPDATED to be as follows.
 
 [2]
 
-Should you wish to make further changes to your planet sizes, just submit 
-another registration using the same e-mail address and your registration 
-will be updated.
+Should you wish to make further changes to your planet sizes, just submit another registration using the same e-mail address and your registration will be updated.
 
 Mykoala Home Page: http://www.mykoala.net
 GalaxyNG Forum: http://forums.mykoala.net
@@ -162,12 +69,10 @@ GalaxyNG Home Page: http://galaxyng.sourceforge.net/
 Player's Manual: http://galaxyng.sourceforge.net/manual.php
 Client Programs: http://galaxyview.sourceforge.net/tools.html
 @
-24 InvalidOrdersEMail
-Major problems were encountered while attempting to process the 
-orders submitted.
+12 InvalidOrdersEMail
+Major problems were encountered while attempting to process the orders submitted.
 
-The EMail was incorrectly formed. The orders must be submitted in
-the following format with a subject of "orders".
+The EMail was incorrectly formed. The orders must be submitted in the following format with a subject of "orders".
 
 #galaxy <game> <race> <password> <turn> [finalorders]
 .... orders ....
@@ -176,14 +81,12 @@ the following format with a subject of "orders".
 ------------------------------------------------------------
 [1]
 @
-25 InvalidOrdersHeader
-Major problems were encountered while attempting to process the 
-orders submitted.
+13 InvalidOrdersHeader
+Major problems were encountered while attempting to process the orders submitted.
 
 [1]
 
-The orders must be submitted in the following format 
-with a subject of "orders".
+The orders must be submitted in the following format with a subject of "orders".
 
 #galaxy <game> <race> <password> <turn> [finalorders]
 .... orders ....
@@ -192,13 +95,12 @@ with a subject of "orders".
 ------------------------------------------------------------
 [2]
 @
-26 FutureOrders
-Your orders have been received for turn [1] and will be stored for
-future processing.
+14 FutureOrders
+Your orders have been received for turn [1] and will be stored for future processing.
 
 [2]
 @
-27 run_game
+15 run_game
 rem Merge the Orders
 cd "[galaxynghome]orders\[game]"
 copy /y *.[turn] [turn].all
@@ -214,47 +116,40 @@ cd "[galaxynghome]"
 set GALAXYNGHOME=.
 "[galaxyngexe]" -run [game] "orders\[game]\[turn].all" [turn]
 "[galaxyngexe]" -score [game] >[game].html
-
 @
-28 NotifyUser
+16 NotifyUser
 Turn [turn] for GalaxyNG game "[game]" is due to run in [1].
 
 Orders have not been received for your race "[2]".
 
 Please submit your orders for processing.
 @
-29 InvalidReportEMail
-Major problems were encountered while attempting to process the 
-report request.
+17 InvalidReportEMail
+Major problems were encountered while attempting to process the report request.
 
-The EMail was incorrectly formed. The orders must be submitted in
-the following format with a subject of "report".
+The EMail was incorrectly formed. The orders must be submitted in the following format with a subject of "report".
 
 #galaxy <game> <race> <password> <turn>
 
 ------------------------------------------------------------
 [1]
 @
-29 InvalidReportHeader
-Major problems were encountered while attempting to process the 
-report request.
+18 InvalidReportHeader
+Major problems were encountered while attempting to process the report request.
 
 [1]
 
-The orders must be submitted in the following format 
-with a subject of "report".
+The orders must be submitted in the following format with a subject of "report".
 
 #galaxy <game> <race> <password> <turn>
 
 ------------------------------------------------------------
 [2]
 @
-30 InvalidRelayEMail
-Major problems were encountered while attempting to process the 
-relay request.
+19 InvalidRelayEMail
+Major problems were encountered while attempting to process the relay request.
 
-The EMail was incorrectly formed. The orders must be submitted in
-the following format with a subject of "relay <race>".
+The EMail was incorrectly formed. The orders must be submitted in the following format with a subject of "relay <race>".
 
 #galaxy <game> <race> <password>
 .... message ....
@@ -262,14 +157,12 @@ the following format with a subject of "relay <race>".
 ------------------------------------------------------------
 [1]
 @
-31 InvalidRelayHeader
-Major problems were encountered while attempting to process the 
-relay request.
+20 InvalidRelayHeader
+Major problems were encountered while attempting to process the relay request.
 
 [1]
 
-The EMail must be submitted in the following format 
-with a subject of "relay <race>".
+The EMail must be submitted in the following format with a subject of "relay <race>".
 
 #galaxy <game> <race> <password>
 .... message ....
@@ -278,17 +171,14 @@ with a subject of "relay <race>".
 ------------------------------------------------------------
 [2]
 @
-32 RelaySent
-Your message relay request to "[1]" has been processed and your
-message has been sent.
+21 RelaySent
+Your message relay request to "[1]" has been processed and your message has been sent.
 @
-33 GamesMasterMessage
+22 GamesMasterMessage
 Your GalaxyNG Turn Report is attached to this EMail.
-
 @
-34 Help
-Welcome to the [servername] galaxyng gameserver. Listed below are the 
-valid e-mail commands that will be processed by the gameserver.
+23 Help
+Welcome to the [servername] galaxyng gameserver. Listed below are the valid e-mail commands that will be processed by the gameserver.
 
 General Subjects
 ----------------
@@ -322,5 +212,4 @@ Relay GM	- Send a message to the Games Master
 		  #galaxy <game> <race> <password>
 		  ... message ...
 		  #end
-
 @

@@ -70,6 +70,7 @@ Form=frmMap.frm
 Form=frmPlanets.frm
 Module=modHelp; modHelp.bas
 Form=frmNote.frm
+Form=frmMessages.frm
 IconForm="frmMain"
 Startup="Sub Main"
 HelpFile=""

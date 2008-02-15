@@ -22,7 +22,7 @@ Private NextTurnFile As String
 Private GamesMasterReportFile As String
 Private RaceReportFile As String
 Private RaceMachineFile As String
-Private Messages As Messages
+Private mcolMessages As Messages
 
 Public TurnConstant As String
 Public RaceConstant As String
@@ -66,6 +66,18 @@ Public AutoRunGames As Boolean
 Public LogErrors As Boolean
 
 Public INIFile As INIFile
+
+Public Property Get Messages() As Messages
+    If mcolMessages Is Nothing Then
+        Set mcolMessages = New Messages
+        Call mcolMessages.Load
+    End If
+    Set Messages = mcolMessages
+End Property
+
+Public Property Set Messages(ByVal colMessages As Messages)
+    Set mcolMessages = colMessages
+End Property
 
 Public Property Get INIFileName() As String
     INIFileName = INIFile.File
@@ -227,10 +239,6 @@ Public Function GetMessage(ByVal strKey As String, ParamArray Parm() As Variant)
     Dim i As Long
     Dim objMessage As Message
     
-    If Messages Is Nothing Then
-        Call LoadMessages
-    End If
-    
     On Error Resume Next
     Set objMessage = Messages(strKey)
     strMessage = objMessage.Message
@@ -248,47 +256,6 @@ Public Function GetMessage(ByVal strKey As String, ParamArray Parm() As Variant)
     End If
     GetMessage = strMessage
 End Function
-
-Private Sub LoadMessages()
-    Dim strMessage As String
-    Dim lngNo As Long
-    Dim strCategory As String
-    Dim strKey As String
-    Dim intFN As Integer
-    Dim i As Long
-    Dim strLine As String
-    Dim blnText As Boolean
-    Dim objMessage As Message
-    
-    Set Messages = New Messages
-    intFN = FreeFile
-    Open App.Path & "\" & App.EXEName & ".txt" For Input As intFN
-    blnText = False
-    
-    While Not EOF(intFN)
-        Line Input #intFN, strLine
-        strLine = Trim(strLine)
-        If blnText Then
-            If strLine = "@" Then
-                blnText = False
-                Set objMessage = New Message
-                objMessage.Category = strCategory
-                objMessage.Key = strKey
-                objMessage.Message = strMessage
-                Messages.Add objMessage
-            Else
-                strMessage = strMessage & strLine & vbNewLine
-            End If
-        Else
-            i = InStr(1, strLine, " ")
-            strCategory = Val(Left(strLine, i - 1))
-            strKey = Trim(Mid(strLine, i + 1))
-            strMessage = ""
-            blnText = True
-        End If
-    Wend
-    Close #intFN
-End Sub
 
 Public Function DesignDescriptions() As Variant
     DesignDescriptions = Array( _

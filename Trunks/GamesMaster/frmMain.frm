@@ -50,7 +50,7 @@ Begin VB.MDIForm frmMain
             AutoSize        =   2
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "13/02/2008"
+            TextSave        =   "16/02/2008"
             Key             =   "Date"
          EndProperty
          BeginProperty Panel4 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
@@ -59,7 +59,7 @@ Begin VB.MDIForm frmMain
             AutoSize        =   2
             Object.Width           =   1402
             MinWidth        =   1411
-            TextSave        =   "6:38"
+            TextSave        =   "4:04"
             Key             =   "Time"
          EndProperty
       EndProperty
@@ -89,6 +89,9 @@ Begin VB.MDIForm frmMain
       End
       Begin VB.Menu mnuFileOptions 
          Caption         =   "Options"
+      End
+      Begin VB.Menu mnuViewMessages 
+         Caption         =   "Messages"
       End
       Begin VB.Menu mnuViewLogFile 
          Caption         =   "&Log File"
@@ -144,6 +147,9 @@ Begin VB.MDIForm frmMain
       End
       Begin VB.Menu mnuGameSep1 
          Caption         =   "-"
+      End
+      Begin VB.Menu mnuGameEditDescription 
+         Caption         =   "Edit Description"
       End
       Begin VB.Menu mnuGameEditMessage 
          Caption         =   "Edit Message"
@@ -204,6 +210,9 @@ Begin VB.MDIForm frmMain
       End
       Begin VB.Menu mnuActionSeperator2 
          Caption         =   "-"
+      End
+      Begin VB.Menu mnuEditGameDescription 
+         Caption         =   "Edit Game Description"
       End
       Begin VB.Menu mnuEditGameMessage 
          Caption         =   "Edit Game Message"
@@ -269,7 +278,7 @@ Begin VB.MDIForm frmMain
    Begin VB.Menu mnuTest 
       Caption         =   "Test"
       Begin VB.Menu mnuTest1 
-         Caption         =   "1 - Show Map"
+         Caption         =   "1 - Test"
       End
    End
 End
@@ -306,14 +315,56 @@ Private Sub mnuCopyTemplate_Click()
     Call mnuTemplateCopy_Click
 End Sub
 
-Private Sub mnuGameEditMessage_Click()
-    Dim strFileName As String
+Private Sub mnuEditGameDescription_Click()
+    Call mnuGameEditDescription_Click
+End Sub
+
+Private Sub mnuGameEditDescription_Click()
+    Dim strGame As String
+    Dim objGame As Game
+    Dim fNote As frmNote
     
-    strFileName = Options.GalaxyNGNotices & SelectedGame & ".txt"
-    If Dir(strFileName) = "" Then
-        Call SaveFile(strFileName, "")
+    strGame = SelectedGame
+    Set objGame = GalaxyNG.Games(strGame)
+    If objGame Is Nothing Then Exit Sub
+    objGame.Template.Load
+    
+    Set fNote = New frmNote
+    Load fNote
+    fNote.Caption = objGame.Template.TemplateName & " Description"
+    fNote.Text = objGame.Template.Description
+    fNote.Show vbModal, Me
+    If Not fNote.Cancelled Then
+        objGame.Template.Description = fNote.Text
+        objGame.Template.Save
     End If
-    ShellOpen strFileName
+    Unload fNote
+    Set fNote = Nothing
+    
+End Sub
+
+Private Sub mnuGameEditMessage_Click()
+    Dim strGame As String
+    Dim objGame As Game
+    Dim fNote As frmNote
+    
+    strGame = SelectedGame
+    Set objGame = GalaxyNG.Games(strGame)
+    If objGame Is Nothing Then Exit Sub
+    objGame.Template.Load
+    
+    Set fNote = New frmNote
+    Load fNote
+    fNote.Caption = objGame.Template.TemplateName & " Message"
+    fNote.Text = objGame.Template.Message
+    fNote.Show vbModal, Me
+    If Not fNote.Cancelled Then
+        objGame.Template.Message = fNote.Text
+        objGame.Template.Save
+    End If
+    Unload fNote
+    Set fNote = Nothing
+    
 End Sub
 
 Private Sub MDIForm_Load()
@@ -598,6 +649,7 @@ Private Sub mnuMailProcess_Click()
 End Sub
 
 Private Sub mnuMailRetreive_Click()
+    mdtNextMailCheck = DateAdd("n", Options.CheckMailInterval, Now)
     GetMail.GetMail
 End Sub
 
@@ -672,6 +724,7 @@ Public Sub mnuGame_Click()
         mnuGameDelete.Enabled = False
         mnuGameView.Enabled = False
         mnuGameEdit.Enabled = False
+        mnuGameEditDescription.Enabled = False
         mnuGameEditMessage.Enabled = False
         mnuGameDelete.Enabled = False
         mnuGameStart.Enabled = False
@@ -686,6 +739,7 @@ Public Sub mnuGame_Click()
             mnuGameDelete.Enabled = True
             mnuGameView.Enabled = True
             mnuGameEdit.Enabled = True
+            mnuGameEditDescription.Enabled = True
             mnuGameEditMessage.Enabled = True
             mnuGameDelete.Enabled = Not objGame.Started
             mnuGameStart.Enabled = Not objGame.Started
@@ -697,6 +751,7 @@ Public Sub mnuGame_Click()
             mnuGameDelete.Enabled = False
             mnuGameEdit.Enabled = False
             mnuGameView.Enabled = False
+            mnuGameEditDescription.Enabled = True
             mnuGameEditMessage.Enabled = True
             mnuGameDelete.Enabled = False
             mnuGameStart.Enabled = False
@@ -713,6 +768,7 @@ Public Sub mnuGame_Click()
     mnuViewGame.Visible = mnuGameView.Enabled And mnuGameView.Visible
     mnuDeleteGame.Visible = mnuGameDelete.Enabled And mnuGameDelete.Visible
     mnuActionSeperator1.Visible = (mnuCreateGame.Visible Or mnuViewGame.Visible)
+    mnuEditGameDescription.Visible = mnuGameEditDescription.Enabled And mnuGameEditDescription.Visible
     mnuEditGameMessage.Visible = mnuGameEditMessage.Enabled And mnuGameEditMessage.Visible
     mnuActionSeperator3.Visible = mnuEditGameMessage.Visible
     mnuStartGame.Visible = mnuGameStart.Enabled And mnuGameStart.Visible
@@ -906,12 +962,12 @@ Private Sub mnuTemplateViewSourceFile_Click()
 End Sub
 
 Private Sub mnuTest1_Click()
-    Dim fMap As frmMap
+    Dim fMessages As frmMessages
     
-    Set fMap = New frmMap
-    Load fMap
-    fMap.Show
-    Set fMap = Nothing
+    Set fMessages = New frmMessages
+    Load fMessages
+    fMessages.Show
+    Set fMessages = Nothing
 End Sub
 
 Private Sub mnuViewGame_Click()
@@ -945,6 +1001,15 @@ End Sub
 
 Private Sub mnuViewLogFile_Click()
     ShellOpen LogFilename
+End Sub
+
+Private Sub mnuViewMessages_Click()
+    Dim fMessages As frmMessages
+    
+    Set fMessages = New frmMessages
+    Load fMessages
+    fMessages.Show , Me
+    Set fMessages = Nothing
 End Sub
 
 Private Sub mnuViewTemplate_Click()

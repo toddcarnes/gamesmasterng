@@ -22,3 +22,14 @@ Public Category As String
 Public Key As String
 Public Heading As String
 Public Message As String
+
+Public Function Clone() As Message
+    Set Clone = New Message
+    With Clone
+        .Index = Index
+        .Category = Category
+        .Key = Key
+        .Heading = Heading
+        .Message = Message
+    End With
+End Function

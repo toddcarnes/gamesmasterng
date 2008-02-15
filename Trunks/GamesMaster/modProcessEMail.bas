@@ -230,7 +230,7 @@ Public Sub SendReports(ByVal strGame As String)
                 Set objA = New Attachment
                 strMessage = Options.GetMessage("Header") & _
                             Options.GetMessage("GamesMasterMessage") & _
-                            GetFile(Options.GalaxyNGNotices & strGame & ".txt") & _
+                            objGame.Template.Message & _
                             Options.GetMessage("Footer")
                 Call objA.Store(strMessage, uefText)
                 objNE.Attachments.Add objA
@@ -306,7 +306,7 @@ Public Sub SendReports(ByVal strGame As String)
                         "**** Your report is attached as a text file." & vbNewLine & vbNewLine
                 End If
                 strMessage = strMessage & Options.GetMessage("GamesMasterMessage") & _
-                            GetFile(Options.GalaxyNGNotices & strGame & ".txt") & _
+                            objGame.Template.Message & _
                             Options.GetMessage("Footer")
                 Call objA.Store(strMessage, uefText)
                 objNE.Attachments.Add objA

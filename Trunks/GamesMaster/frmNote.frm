@@ -86,6 +86,10 @@ Private Sub cmdClose_Click()
     Me.Hide
 End Sub
 
+Private Sub Form_Load()
+    Me.Icon = MainForm.Icon
+End Sub
+
 Private Sub Form_Resize()
     Dim L As Single, T As Single, H As Single, W As Single
     
@@ -95,8 +99,9 @@ Private Sub Form_Resize()
     H = Me.ScaleHeight - frFooter.Height
     txtNote.Move L, T, W, H
     
-    T = H
-    H = frFooter.Height
     L = (Me.ScaleWidth - frFooter.Width) / 2
+    T = H
+    W = frFooter.Width
+    H = frFooter.Height
     frFooter.Move L, T, W, H
 End Sub
