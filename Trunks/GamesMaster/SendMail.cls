@@ -129,6 +129,8 @@ Private Sub ProcessData(ByVal strData As String)
     Dim strSource As String
     Dim lngState As Long
     Dim strFileName As String
+    Dim blnNext As Boolean
+    Dim blnError As Boolean
     
     On Error GoTo ErrorTag
     
@@ -169,9 +171,19 @@ Private Sub ProcessData(ByVal strData As String)
         End If
         
     Case SM_Command.SM_RCPT
-        If lngResponse = 250 Then
+        If lngResponse = 250 _
+        Or lngResponse = 251 Then
             SendData c_DATA
             muStatus = SM_DATA
+        ElseIf lngResponse = 550 _
+        Or lngResponse = 551 _
+        Or lngResponse = 552 _
+        Or lngResponse = 553 _
+        Or lngResponse = 450 _
+        Or lngResponse = 451 _
+        Or lngResponse = 452 Then
+            blnNext = True
+            blnError = True
         Else
             SendData c_QUIT
             muStatus = SM_QUIT
@@ -188,28 +200,7 @@ Private Sub ProcessData(ByVal strData As String)
     
     Case SM_Command.SM_Sent
         If lngResponse = 250 Then
-            If Options.SaveEMail Then
-                strFileName = mvarEMail(mlngEMail) & ".sav"
-                i = 0
-                While Dir(strFileName) <> ""
-                    i = i + 1
-                    strFileName = mvarEMail(mlngEMail) & "_" & CStr(i) & ".sav"
-                Wend
-                Name mvarEMail(mlngEMail) As strFileName
-            Else
-                Kill mvarEMail(mlngEMail)
-            End If
-            mlngEMail = mlngEMail + 1
-            If mlngEMail > UBound(mvarEMail) Then
-                SendData c_QUIT
-                muStatus = SM_QUIT
-            Else
-                RaiseEvent Sending(mlngEMail, mlngMessages)
-                Set mobjEMail = New EMail
-                mobjEMail.Load mvarEMail(mlngEMail)
-                SendData c_MAIL & " " & mobjEMail.From
-                muStatus = SM_MAIL
-            End If
+            blnNext = True
         Else
             SendData c_QUIT
             muStatus = SM_QUIT
@@ -220,6 +211,52 @@ Private Sub ProcessData(ByVal strData As String)
     Case Else
     
     End Select
+    
+    ' Process the next e-mail
+    If blnNext Then
+        'Save the Erroreous e-mail
+        If blnError Then
+            strFileName = mvarEMail(mlngEMail) & ".err"
+            i = 0
+            While Dir(strFileName) <> ""
+                i = i + 1
+                strFileName = mvarEMail(mlngEMail) & "_" & CStr(i) & ".err"
+            Wend
+            Name mvarEMail(mlngEMail) As strFileName
+            blnError = False
+            
+        'Save the e-mail
+        ElseIf Options.SaveEMail Then
+            strFileName = mvarEMail(mlngEMail) & ".sav"
+            i = 0
+            While Dir(strFileName) <> ""
+                i = i + 1
+                strFileName = mvarEMail(mlngEMail) & "_" & CStr(i) & ".sav"
+            Wend
+            Name mvarEMail(mlngEMail) As strFileName
+        
+        'Delete the email
+        Else
+            Kill mvarEMail(mlngEMail)
+        End If
+        
+        mlngEMail = mlngEMail + 1
+        ' No more e-mail
+        If mlngEMail > UBound(mvarEMail) Then
+            SendData c_QUIT
+            muStatus = SM_QUIT
+        
+        'Process the next email
+        Else
+            RaiseEvent Sending(mlngEMail, mlngMessages)
+            Set mobjEMail = New EMail
+            mobjEMail.Load mvarEMail(mlngEMail)
+            SendData c_MAIL & mobjEMail.From
+            muStatus = SM_MAIL
+        End If
+        blnNext = False
+    End If
+    
     Exit Sub
     
 ErrorTag:
