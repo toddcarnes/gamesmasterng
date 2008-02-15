@@ -15,6 +15,10 @@ Enabled Circle and Circle+Middle design options.
 View design Map or Game Map
 Fixed Zip bug that occasionally appeared.
 Validated E-Mail header before deleting from Server. Leave on server if invalid.
+Implemented Game Message and Game Description (in Template)
+E-Mail Requests for list of games on the server.
+E-Mail Requests for a game's status (Description, player numbers, turn, score)
+Added facility to exit Game Error Messages and the Game Run Batch File
 
 Games Master Version 0.0.2
 --------------------------

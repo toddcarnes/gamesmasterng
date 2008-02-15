@@ -143,7 +143,7 @@ End Type
 Private Sub Form_Load()
     Dim H As Single, W As Single, S As Single
     
-    Me.Icon = MainForm.Icon
+    Set Me.Icon = MainForm.Icon
     msngZoom = 1
     msngGalaxySize = 100
     H = Me.ScaleWidth - vScroll.Width - (picOuter.Width - picOuter.ScaleWidth)
@@ -480,9 +480,21 @@ Private Function Ypos(ByVal Y As Single) As Single
 End Function
 
 Private Function Rsize(ByVal R As Single) As Single
+    Select Case R
+    Case Is < 251
+        R = 1
+    Case Is < 351
+        R = 2
+    Case Is < 600
+        R = 4
+    Case Is < 1000
+        R = 6
+    Case Is < 1500
+        R = 8
+    Case Else
+        R = 10
+    End Select
         
-    R = R / 100 + 1
-    If R > 10 Then R = 10
     Rsize = R
 End Function
 
