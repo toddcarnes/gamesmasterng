@@ -1,4 +1,4 @@
-#define AppDate "13 January 2008"
+#define AppDate "19 February 2008"
 #define Source SourcePath
 #define HomePage "http://www.mykoala.net"
 #define vbFiles Source + "\VB60Files"

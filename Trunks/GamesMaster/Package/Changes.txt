@@ -18,7 +18,9 @@ Validated E-Mail header before deleting from Server. Leave on server if invalid.
 Implemented Game Message and Game Description (in Template)
 E-Mail Requests for list of games on the server.
 E-Mail Requests for a game's status (Description, player numbers, turn, score)
-Added facility to exit Game Error Messages and the Game Run Batch File
+Added facility to edit Game Error Messages and the Game Run Batch File
+Corrected #Galaxy Error Messages.
+Fixed But in finalorders error detection
 
 Games Master Version 0.0.2
 --------------------------

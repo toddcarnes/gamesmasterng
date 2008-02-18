@@ -121,7 +121,9 @@ Public Sub CheckOrders(ByVal strFrom As String, ByVal strEMail As String)
         GoTo Error
     End If
     
-    If strFinalOrders = "finalorders" Then
+    If strFinalOrders = "" Then
+        blnFinalOrders = False
+    ElseIf strFinalOrders = "finalorders" Then
         blnFinalOrders = True
     Else
         'Invalid Header
