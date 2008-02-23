@@ -21,6 +21,7 @@ E-Mail Requests for a game's status (Description, player numbers, turn, score)
 Added facility to edit Game Error Messages and the Game Run Batch File
 Corrected #Galaxy Error Messages.
 Fixed But in finalorders error detection
+Added fields to the Race List for Games. Including Order Status.
 
 Games Master Version 0.0.2
 --------------------------

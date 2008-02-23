@@ -568,49 +568,82 @@ End Sub
 
 Private Sub LoadRaces()
     Dim objRace As Race
-    Dim i As Long
+    Dim r As Long
     Dim c As Long
     
     With grdRaces
         .Clear
         .Rows = mobjGame.Races.Count + 2
-        .Cols = 7
+        .Cols = 9
         .FixedRows = 1
-        .FixedCols = 1
+        .FixedCols = 3
         .RowHeight(1) = 0
         .AllowUserResizing = flexResizeColumns
         .SelectionMode = flexSelectionByRow
         .FocusRect = flexFocusNone
-        .ColSel = 5
-        .ColWidth(0) = 16 * Screen.TwipsPerPixelX
-        .TextMatrix(0, 1) = "Race"
-        .ColWidth(1) = 1200
-        .TextMatrix(0, 2) = "Player"
-        .ColWidth(2) = 1500
-        .TextMatrix(0, 3) = "Lst Ord"
-        .ColWidth(3) = 600
-        .ColAlignment(3) = flexAlignCenterCenter
-        .TextMatrix(0, 4) = "D/W/S/C"
-        .ColWidth(4) = 1500
-        .ColAlignment(4) = flexAlignLeftCenter
-        .TextMatrix(0, 5) = "Planets"
-        .ColWidth(5) = 600
-        .ColAlignment(5) = flexAlignCenterCenter
-        .TextMatrix(0, 6) = "Prod/Lost"
-        .ColWidth(6) = 1000
-        .ColAlignment(6) = flexAlignLeftCenter
-        i = 1
+        .ColSel = 7
+        c = 0     '------------------------------
+        .ColWidth(c) = 16 * Screen.TwipsPerPixelX
+        c = c + 1 '------------------------------ Status
+        .TextMatrix(0, c) = "S"
+        .ColWidth(c) = 16 * Screen.TwipsPerPixelX
+        .ColAlignment(c) = flexAlignCenterCenter
+        c = c + 1 '------------------------------ Race
+        .TextMatrix(0, c) = "Race"
+        .ColWidth(c) = 1200
+        c = c + 1 '------------------------------ E-Mail
+        .TextMatrix(0, c) = "E-Mail"
+        .ColWidth(c) = 1 * Screen.TwipsPerPixelX
+        c = c + 1 '------------------------------ Player
+        .TextMatrix(0, c) = "Player"
+        .ColWidth(c) = 1200
+        c = c + 1 '------------------------------ last Orders
+        .TextMatrix(0, c) = "Lst Ord"
+        .ColWidth(c) = 600
+        .ColAlignment(c) = flexAlignCenterCenter
+        c = c + 1 '------------------------------ Technology
+        .TextMatrix(0, c) = "D/W/S/C"
+        .ColWidth(c) = 1400
+        .ColAlignment(c) = flexAlignLeftCenter
+        c = c + 1 '------------------------------ Planets
+        .TextMatrix(0, c) = "Planets"
+        .ColWidth(c) = 600
+        .ColAlignment(c) = flexAlignCenterCenter
+        c = c + 1 '------------------------------ Production
+        .TextMatrix(0, c) = "Prod L/T"
+        .ColWidth(c) = 1000
+        .ColAlignment(c) = flexAlignLeftCenter
+        
+        r = 1
         For Each objRace In mobjGame.Races
-            i = i + 1
-            .TextMatrix(i, 1) = objRace.RaceName
-            .TextMatrix(i, 2) = objRace.PlayerName
-            .TextMatrix(i, 3) = objRace.LastOrders
-            .TextMatrix(i, 4) = CStr(RoundTech(objRace.Drive)) & " / " & _
+            r = r + 1
+            c = 1 '------------------------------ Status
+            If objRace.flag(R_DEAD) Then
+                .TextMatrix(r, c) = "X"
+            ElseIf mobjGame.FinalOrdersReceived(objRace.RaceName) Then
+                .TextMatrix(r, c) = "F"
+            ElseIf mobjGame.OrdersReceived(objRace.RaceName) Then
+                .TextMatrix(r, c) = "O"
+            Else
+                .TextMatrix(r, c) = ""
+            End If
+            c = c + 1 '------------------------------ Race Name
+            .TextMatrix(r, c) = objRace.RaceName
+            c = c + 1 '------------------------------ EMail Address
+            .TextMatrix(r, c) = objRace.EMail
+            c = c + 1 '------------------------------ Player Name
+            .TextMatrix(r, c) = objRace.PlayerName
+            c = c + 1 '------------------------------ Last Orders
+            .TextMatrix(r, c) = objRace.LastOrders
+            c = c + 1 '------------------------------ Technology
+            .TextMatrix(r, c) = CStr(RoundTech(objRace.Drive)) & " / " & _
                                 CStr(RoundTech(objRace.Weapons)) & " / " & _
                                 CStr(RoundTech(objRace.Shields)) & " / " & _
                                 CStr(RoundTech(objRace.Cargo))
-            .TextMatrix(i, 5) = objRace.Planets.Count
-            .TextMatrix(i, 6) = CStr(Fix(0 & objRace.MassLost)) & " / " & _
+            c = c + 1 '------------------------------ Planets
+            .TextMatrix(r, c) = objRace.Planets.Count
+            c = c + 1 '------------------------------ Production
+            .TextMatrix(r, c) = CStr(Fix(0 & objRace.MassLost)) & " / " & _
                                 CStr(Fix(0 & objRace.MassProduced))
         Next objRace
     End With
