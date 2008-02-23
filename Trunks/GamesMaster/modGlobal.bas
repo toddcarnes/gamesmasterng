@@ -363,3 +363,38 @@ Public Sub DeleteGame(ByVal strGame As String)
     RmDir Options.GalaxyNGReports & strGame
     RmDir Options.GalaxyNGStatistics & strGame
 End Sub
+
+Public Sub SaveGridSettings(ByVal Grid As MSHFlexGrid, Optional ByVal ID As String = "")
+    Dim c As Long
+    
+    
+    With Grid
+        ID = ID & "." & Grid.Name
+        For c = 0 To .Cols - 1
+            Call SaveSetting(App.Title, ID, "Col" & CStr(c), .ColWidth(c))
+        Next c
+    End With
+End Sub
+
+Public Sub LoadGridSettings(ByVal Grid As MSHFlexGrid, Optional ByVal ID As String = "")
+    Dim c As Long
+    
+    With Grid
+        ID = ID & "." & Grid.Name
+        For c = 0 To .Cols - 1
+            .ColWidth(c) = GetSetting(App.Title, ID, "Col" & CStr(c), .ColWidth(c))
+        Next c
+    End With
+End Sub
+
+Public Sub DeleteGridSettings(ByVal Grid As MSHFlexGrid, Optional ByVal ID As String = "")
+    Dim c As Long
+    
+    With Grid
+        ID = ID & "." & Grid.Name
+        For c = 0 To .Cols - 1
+            Call DeleteSetting(App.Title, ID, "Col" & CStr(c))
+        Next c
+    End With
+End Sub
+

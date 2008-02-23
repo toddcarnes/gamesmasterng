@@ -551,6 +551,10 @@ Private Sub Form_Load()
     dtRunTime.TimeStamp = "00:00"
 End Sub
 
+Private Sub Form_Unload(Cancel As Integer)
+    Call SaveGridSettings(grdRaces, Me.Name)
+End Sub
+
 Private Sub grdRaces_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
     If Button = vbRightButton And Not ReadOnly Then
         PopupMenu mnuAction
@@ -568,7 +572,7 @@ End Sub
 
 Private Sub LoadRaces()
     Dim objRace As Race
-    Dim r As Long
+    Dim R As Long
     Dim c As Long
     
     With grdRaces
@@ -614,36 +618,38 @@ Private Sub LoadRaces()
         .ColWidth(c) = 1000
         .ColAlignment(c) = flexAlignLeftCenter
         
-        r = 1
+        Call LoadGridSettings(grdRaces, Me.Name)
+        
+        R = 1
         For Each objRace In mobjGame.Races
-            r = r + 1
+            R = R + 1
             c = 1 '------------------------------ Status
             If objRace.flag(R_DEAD) Then
-                .TextMatrix(r, c) = "X"
+                .TextMatrix(R, c) = "X"
             ElseIf mobjGame.FinalOrdersReceived(objRace.RaceName) Then
-                .TextMatrix(r, c) = "F"
+                .TextMatrix(R, c) = "F"
             ElseIf mobjGame.OrdersReceived(objRace.RaceName) Then
-                .TextMatrix(r, c) = "O"
+                .TextMatrix(R, c) = "O"
             Else
-                .TextMatrix(r, c) = ""
+                .TextMatrix(R, c) = ""
             End If
             c = c + 1 '------------------------------ Race Name
-            .TextMatrix(r, c) = objRace.RaceName
+            .TextMatrix(R, c) = objRace.RaceName
             c = c + 1 '------------------------------ EMail Address
-            .TextMatrix(r, c) = objRace.EMail
+            .TextMatrix(R, c) = objRace.EMail
             c = c + 1 '------------------------------ Player Name
-            .TextMatrix(r, c) = objRace.PlayerName
+            .TextMatrix(R, c) = objRace.PlayerName
             c = c + 1 '------------------------------ Last Orders
-            .TextMatrix(r, c) = objRace.LastOrders
+            .TextMatrix(R, c) = objRace.LastOrders
             c = c + 1 '------------------------------ Technology
-            .TextMatrix(r, c) = CStr(RoundTech(objRace.Drive)) & " / " & _
+            .TextMatrix(R, c) = CStr(RoundTech(objRace.Drive)) & " / " & _
                                 CStr(RoundTech(objRace.Weapons)) & " / " & _
                                 CStr(RoundTech(objRace.Shields)) & " / " & _
                                 CStr(RoundTech(objRace.Cargo))
             c = c + 1 '------------------------------ Planets
-            .TextMatrix(r, c) = objRace.Planets.Count
+            .TextMatrix(R, c) = objRace.Planets.Count
             c = c + 1 '------------------------------ Production
-            .TextMatrix(r, c) = CStr(Fix(0 & objRace.MassLost)) & " / " & _
+            .TextMatrix(R, c) = CStr(Fix(0 & objRace.MassLost)) & " / " & _
                                 CStr(Fix(0 & objRace.MassProduced))
         Next objRace
     End With

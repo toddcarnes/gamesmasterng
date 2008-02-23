@@ -85,6 +85,8 @@ Public Sub LoadGames()
         .ColWidth(c) = 1500
         .ColAlignment(c) = flexAlignLeftTop
         
+        Call LoadGridSettings(grdGames, Me.Name)
+
 '        .Visible = False
         lngRow = 1
         For Each objGame In Games
@@ -166,6 +168,10 @@ Private Sub Form_Resize()
         .Width = Me.ScaleWidth
         .Height = Me.ScaleHeight
     End With
+End Sub
+
+Private Sub Form_Unload(Cancel As Integer)
+    Call SaveGridSettings(grdGames, Me.Name)
 End Sub
 
 Private Sub grdGames_DblClick()

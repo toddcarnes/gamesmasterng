@@ -1008,6 +1008,10 @@ Private Sub Form_Load()
     
 End Sub
 
+Private Sub Form_Unload(Cancel As Integer)
+    Call SaveGridSettings(grdRegistrations, Me.Name)
+End Sub
+
 Private Sub grdRegistrations_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
     If Button = vbRightButton And Not ReadOnly Then
         PopupMenu mnuAction
@@ -1276,6 +1280,9 @@ Private Sub LoadRegistrations()
         .ColWidth(4) = 600
         .TextMatrix(0, 5) = "Size 4"
         .ColWidth(5) = 600
+        
+        Call SaveGridSettings(grdRegistrations, Me.Name)
+        
         i = 1
         For Each objRegistration In mobjTemplate.Registrations
             i = i + 1
