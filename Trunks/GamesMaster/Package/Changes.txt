@@ -24,6 +24,8 @@ Fixed But in finalorders error detection
 Added fields to the Race List for Games. Including Order Status.
 Saved Column Widths for lists.
 Added Reset Column Widths to the Options.
+Saved and Restore Window Positions and Size as appropriate.
+Make all config files based on EXE File Name.
 
 Games Master Version 0.0.2
 --------------------------

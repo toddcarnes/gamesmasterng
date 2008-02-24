@@ -191,7 +191,7 @@ Public Sub LogError(ByVal lngError As Long, _
     If Options.LogErrors Then
         Call WriteLogFile(strMessage)
     End If
-'    MsgBox strMessage, vbCritical + vbOKOnly, App.Title & " Error"
+'    MsgBox strMessage, vbCritical + vbOKOnly, app.exename & " Error"
 End Sub
 
 Public Sub WriteLogFile(ByVal strData As String)
@@ -364,37 +364,68 @@ Public Sub DeleteGame(ByVal strGame As String)
     RmDir Options.GalaxyNGStatistics & strGame
 End Sub
 
-Public Sub SaveGridSettings(ByVal Grid As MSHFlexGrid, Optional ByVal ID As String = "")
+Public Sub SaveGridSettings(ByVal Grid As MSHFlexGrid, Optional ByVal ID As String = "Defaults")
     Dim c As Long
     
     
     With Grid
-        ID = ID & "." & Grid.Name
         For c = 0 To .Cols - 1
-            Call SaveSetting(App.Title, ID, "Col" & CStr(c), .ColWidth(c))
+            Call SaveSetting(App.EXEName, ID, Grid.Name & ".Col" & CStr(c), .ColWidth(c))
         Next c
     End With
 End Sub
 
-Public Sub LoadGridSettings(ByVal Grid As MSHFlexGrid, Optional ByVal ID As String = "")
+Public Sub LoadGridSettings(ByVal Grid As MSHFlexGrid, Optional ByVal ID As String = "Defaults")
     Dim c As Long
     
     With Grid
-        ID = ID & "." & Grid.Name
         For c = 0 To .Cols - 1
-            .ColWidth(c) = GetSetting(App.Title, ID, "Col" & CStr(c), .ColWidth(c))
+            .ColWidth(c) = GetSetting(App.EXEName, ID, Grid.Name & ".Col" & CStr(c), .ColWidth(c))
         Next c
     End With
 End Sub
 
-Public Sub DeleteGridSettings(ByVal Grid As MSHFlexGrid, Optional ByVal ID As String = "")
+Public Sub DeleteGridSettings(ByVal Grid As MSHFlexGrid, Optional ByVal ID As String = "Defaults")
     Dim c As Long
     
     With Grid
-        ID = ID & "." & Grid.Name
         For c = 0 To .Cols - 1
-            Call DeleteSetting(App.Title, ID, "Col" & CStr(c))
+            Call DeleteSetting(App.EXEName, ID, Grid.Name & ".Col" & CStr(c))
         Next c
+    End With
+End Sub
+
+Public Sub SaveFormSettings(ByVal objForm As Form, Optional ByVal PositionOnly As Boolean = False)
+    With objForm
+        If .WindowState = vbNormal Then
+            Call SaveSetting(App.EXEName, .Name, "Top", .Top)
+            Call SaveSetting(App.EXEName, .Name, "Left", .Left)
+            If Not PositionOnly Then
+                Call SaveSetting(App.EXEName, .Name, "Width", .Width)
+                Call SaveSetting(App.EXEName, .Name, "Height", .Height)
+            End If
+        End If
+    End With
+End Sub
+
+Public Sub LoadFormSettings(ByVal objForm As Form, Optional ByVal PositionOnly As Boolean = False)
+    Dim T As Single, L As Single, W As Single, H As Single
+    With objForm
+        T = GetSetting(App.EXEName, .Name, "Top", .Top)
+        L = GetSetting(App.EXEName, .Name, "Left", .Left)
+        If PositionOnly Then
+            .Move L, T
+        Else
+            W = GetSetting(App.EXEName, .Name, "Width", .Width)
+            H = GetSetting(App.EXEName, .Name, "Height", .Height)
+            If (T + H) > Screen.Height Then
+                T = Screen.Height - H
+            End If
+            If (L + W) > Screen.Width Then
+                L = Screen.Width - W
+            End If
+            .Move L, T, W, H
+        End If
     End With
 End Sub
 

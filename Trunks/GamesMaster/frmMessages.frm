@@ -8,7 +8,7 @@ Begin VB.Form frmMessages
    LinkTopic       =   "Form1"
    ScaleHeight     =   5835
    ScaleWidth      =   10905
-   StartUpPosition =   1  'CenterOwner
+   StartUpPosition =   3  'Windows Default
    Begin VB.Frame frFooter 
       BorderStyle     =   0  'None
       Caption         =   "Frame1"
@@ -86,6 +86,7 @@ Private Sub Form_Load()
     Dim objMessage As Message
     
     Me.Icon = MainForm.Icon
+    Call LoadFormSettings(Me)
     Set mcolMessages = Options.Messages.Clone
     
     With lstMessages
@@ -124,6 +125,10 @@ Private Sub Form_Resize()
         If H < 0 Then H = 0
         .Move L, T, W, H
     End With
+End Sub
+
+Private Sub Form_Unload(Cancel As Integer)
+    Call SaveFormSettings(Me)
 End Sub
 
 Private Sub lstMessages_Click()

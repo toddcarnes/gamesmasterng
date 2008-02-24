@@ -12,7 +12,7 @@ Begin VB.Form frmGame
    MinButton       =   0   'False
    ScaleHeight     =   7725
    ScaleWidth      =   7215
-   StartUpPosition =   1  'CenterOwner
+   StartUpPosition =   3  'Windows Default
    Begin VB.CommandButton cmdViewMap 
       Caption         =   "View Map"
       Height          =   435
@@ -545,13 +545,14 @@ End Sub
 
 Private Sub Form_Load()
     Me.Icon = MainForm.Icon
-    Me.Top = 0
+    Call LoadFormSettings(Me, True)
     dtRunTime.DateFormat = ""
     dtRunTime.TimeFormat = "hh:nn"
     dtRunTime.TimeStamp = "00:00"
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
+    Call SaveFormSettings(Me, True)
     Call SaveGridSettings(grdRaces, Me.Name)
 End Sub
 

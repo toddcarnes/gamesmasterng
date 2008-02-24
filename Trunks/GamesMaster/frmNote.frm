@@ -8,7 +8,7 @@ Begin VB.Form frmNote
    LinkTopic       =   "Form1"
    ScaleHeight     =   5175
    ScaleWidth      =   6135
-   StartUpPosition =   1  'CenterOwner
+   StartUpPosition =   3  'Windows Default
    Begin VB.Frame frFooter 
       BorderStyle     =   0  'None
       Height          =   615
@@ -88,6 +88,7 @@ End Sub
 
 Private Sub Form_Load()
     Me.Icon = MainForm.Icon
+    Call LoadFormSettings(Me)
 End Sub
 
 Private Sub Form_Resize()
@@ -104,4 +105,8 @@ Private Sub Form_Resize()
     W = frFooter.Width
     H = frFooter.Height
     frFooter.Move L, T, W, H
+End Sub
+
+Private Sub Form_Unload(Cancel As Integer)
+    Call SaveFormSettings(Me)
 End Sub

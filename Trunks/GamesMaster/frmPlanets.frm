@@ -10,7 +10,7 @@ Begin VB.Form frmPlanets
    ScaleHeight     =   3090
    ScaleWidth      =   4680
    StartUpPosition =   3  'Windows Default
-   Begin MSHierarchicalFlexGridLib.MSHFlexGrid MSHFlexGrid1 
+   Begin MSHierarchicalFlexGridLib.MSHFlexGrid grdPlanets 
       Height          =   1335
       Left            =   300
       TabIndex        =   0
@@ -32,4 +32,10 @@ Option Explicit
 
 Private Sub Form_Load()
     Me.Icon = MainForm.Icon
+    Call LoadFormSettings(Me)
+End Sub
+
+Private Sub Form_Unload(Cancel As Integer)
+    Call SaveFormSettings(Me)
+    Call SaveGridSettings(grdPlanets, Me.Name)
 End Sub

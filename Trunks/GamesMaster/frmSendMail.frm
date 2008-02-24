@@ -34,6 +34,7 @@ Attribute mobjSendMail.VB_VarHelpID = -1
 Private Sub Form_Load()
     Me.Icon = MainForm.Icon
     Set mobjSendMail = MainForm.SendMail
+    Call LoadFormSettings(Me)
 End Sub
 
 Private Sub Form_Resize()
@@ -43,6 +44,7 @@ End Sub
 Private Sub Form_Unload(Cancel As Integer)
     Set mobjSendMail = Nothing
     MainForm.mnuMailShowSendMail.Checked = False
+    Call SaveFormSettings(Me)
 End Sub
 
 Private Sub mobjSendMail_Connecting(ByVal strServer As String)

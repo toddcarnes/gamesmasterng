@@ -12,6 +12,7 @@ Begin VB.Form frmNewTemplate
    ScaleHeight     =   1080
    ScaleWidth      =   6030
    ShowInTaskbar   =   0   'False
+   StartUpPosition =   1  'CenterOwner
    Begin VB.TextBox txtMaxPlayers 
       Height          =   315
       Left            =   1560

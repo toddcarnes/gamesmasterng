@@ -34,6 +34,7 @@ Attribute mobjGetMail.VB_VarHelpID = -1
 Private Sub Form_Load()
     Me.Icon = MainForm.Icon
     Set mobjGetMail = MainForm.GetMail
+    Call LoadFormSettings(Me)
 End Sub
 
 Private Sub Form_Resize()
@@ -43,6 +44,7 @@ End Sub
 Private Sub Form_Unload(Cancel As Integer)
     Set mobjGetMail = Nothing
     MainForm.mnuMailShowGetMail.Checked = False
+    Call SaveFormSettings(Me)
 End Sub
 
 Private Sub mobjGetMail_Connecting(ByVal strServer As String)

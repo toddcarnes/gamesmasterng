@@ -319,4 +319,9 @@ End Sub
 
 Private Sub Form_Load()
     Me.Icon = MainForm.Icon
+    Call LoadFormSettings(Me)
+End Sub
+
+Private Sub Form_Unload(Cancel As Integer)
+    Call SaveFormSettings(Me)
 End Sub

@@ -4,15 +4,15 @@ Begin VB.Form frmTemplate
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Template"
    ClientHeight    =   8220
-   ClientLeft      =   45
-   ClientTop       =   735
+   ClientLeft      =   150
+   ClientTop       =   840
    ClientWidth     =   7215
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
    ScaleHeight     =   8220
    ScaleWidth      =   7215
-   StartUpPosition =   1  'CenterOwner
+   StartUpPosition =   3  'Windows Default
    Begin VB.CommandButton cmdViewMap 
       Caption         =   "View Map"
       Height          =   435
@@ -979,6 +979,7 @@ Private Sub Form_Load()
     Dim i As Long
     Dim vData As Variant
     
+    Call LoadFormSettings(Me, True)
     Me.Icon = MainForm.Icon
     dtRegOpen.DateFormat = "Short Date"
     dtRegOpen.TimeFormat = ""
@@ -1009,6 +1010,7 @@ Private Sub Form_Load()
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
+    Call SaveFormSettings(Me, True)
     Call SaveGridSettings(grdRegistrations, Me.Name)
 End Sub
 

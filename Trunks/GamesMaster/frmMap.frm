@@ -10,7 +10,7 @@ Begin VB.Form frmMap
    ScaleHeight     =   422
    ScaleMode       =   3  'Pixel
    ScaleWidth      =   582
-   StartUpPosition =   1  'CenterOwner
+   StartUpPosition =   3  'Windows Default
    Begin MSComctlLib.StatusBar sbMap 
       Align           =   2  'Align Bottom
       Height          =   300
@@ -166,6 +166,7 @@ Private Sub Form_Load()
     HScroll.SmallChange = 100
     picInner.Line (0, 0)-(S, S)
     picInner.Line (S, 0)-(0, S)
+    Call LoadFormSettings(Me)
 End Sub
 
 Public Property Get Planets() As Collection
@@ -261,7 +262,12 @@ Private Sub Form_Resize()
     On Error GoTo 0
     
     mblnResizing = False
+    On Error Resume Next
     Call DrawPlanets
+End Sub
+
+Private Sub Form_Unload(Cancel As Integer)
+    Call SaveFormSettings(Me)
 End Sub
 
 Private Sub HScroll_Change()

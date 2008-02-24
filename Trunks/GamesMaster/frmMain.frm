@@ -50,7 +50,7 @@ Begin VB.MDIForm frmMain
             AutoSize        =   2
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "16/02/2008"
+            TextSave        =   "24/02/2008"
             Key             =   "Date"
          EndProperty
          BeginProperty Panel4 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
@@ -59,7 +59,7 @@ Begin VB.MDIForm frmMain
             AutoSize        =   2
             Object.Width           =   1402
             MinWidth        =   1411
-            TextSave        =   "4:04"
+            TextSave        =   "11:02"
             Key             =   "Time"
          EndProperty
       EndProperty
@@ -369,20 +369,13 @@ End Sub
 
 Private Sub MDIForm_Load()
     Set Systray.TrayIcon = Me.Icon
+    Systray.TrayTip = "GalaxyNG - " & App.EXEName
     mnuTest.Visible = InIDE()
     mnuActions.Visible = False
     mnuGameEdit.Visible = False
     With Me
-        .Top = GetSetting(App.EXEName, .Name, "Top", Me.Top)
-        .Left = GetSetting(App.EXEName, .Name, "Left", Me.Left)
-        .Width = GetSetting(App.EXEName, .Name, "Width", Me.Width)
-        .Height = GetSetting(App.EXEName, .Name, "Height", Me.Height)
-        If (.Top + .Height) > Screen.Height Then
-            .Top = Screen.Height - .Height
-        End If
-        If (.Left + .Width) > Screen.Width Then
-            .Left = Screen.Width - .Width
-        End If
+        .Caption = "GalaxyNG - " & App.EXEName
+        Call LoadFormSettings(Me)
     End With
     With tmrMail
         .Interval = 150
@@ -442,14 +435,7 @@ Private Sub MDIForm_Unload(Cancel As Integer)
     Systray.InTray = False
     tmrMail.Interval = 0
     tmrGalaxyNG.Interval = 0
-    With Me
-        If Me.WindowState = vbNormal Then
-            Call SaveSetting(App.EXEName, .Name, "Top", .Top)
-            Call SaveSetting(App.EXEName, .Name, "Left", .Left)
-            Call SaveSetting(App.EXEName, .Name, "Width", .Width)
-            Call SaveSetting(App.EXEName, .Name, "Height", .Height)
-        End If
-    End With
+    Call SaveFormSettings(Me)
 End Sub
 
 Private Sub mnuAutoRun_Click()

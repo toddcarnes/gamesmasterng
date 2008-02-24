@@ -158,6 +158,7 @@ End Sub
 
 Private Sub Form_Load()
     Me.Icon = MainForm.Icon
+    Call LoadFormSettings(Me)
 End Sub
 
 Private Sub Form_Resize()
@@ -171,6 +172,7 @@ Private Sub Form_Resize()
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
+    Call SaveFormSettings(Me)
     Call SaveGridSettings(grdGames, Me.Name)
 End Sub
 
@@ -189,7 +191,6 @@ Private Sub grdGames_MouseDown(Button As Integer, Shift As Integer, X As Single,
     If Button = vbRightButton Then
         Call MainForm.mnuTemplate_Click
         Call MainForm.mnuGame_Click
-        'Call MainForm.mnuActions_Click
         PopupMenu MainForm.mnuActions
     End If
 End Sub

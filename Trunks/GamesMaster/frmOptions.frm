@@ -14,7 +14,7 @@ Begin VB.Form frmOptions
    ScaleHeight     =   6360
    ScaleWidth      =   7800
    ShowInTaskbar   =   0   'False
-   StartUpPosition =   1  'CenterOwner
+   StartUpPosition =   3  'Windows Default
    Begin VB.CommandButton cmdSave 
       Caption         =   "&Save"
       Height          =   375
@@ -79,23 +79,23 @@ Begin VB.Form frmOptions
       TabCaption(1)   =   "E-Mail"
       TabPicture(1)   =   "frmOptions.frx":0CE6
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "Label(10)"
-      Tab(1).Control(1)=   "Label(11)"
-      Tab(1).Control(2)=   "frPopServer"
-      Tab(1).Control(3)=   "frSMTPServer"
-      Tab(1).Control(4)=   "txtInbox"
-      Tab(1).Control(5)=   "txtOutBox"
+      Tab(1).Control(0)=   "txtOutBox"
+      Tab(1).Control(1)=   "txtInbox"
+      Tab(1).Control(2)=   "frSMTPServer"
+      Tab(1).Control(3)=   "frPopServer"
+      Tab(1).Control(4)=   "Label(11)"
+      Tab(1).Control(5)=   "Label(10)"
       Tab(1).ControlCount=   6
       TabCaption(2)   =   "Startup"
       TabPicture(2)   =   "frmOptions.frx":0D02
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "chkAutoRunGames"
-      Tab(2).Control(1)=   "chkAutoCheckMail"
-      Tab(2).Control(2)=   "chkShowGetMail"
+      Tab(2).Control(0)=   "chkStartWithWindows"
+      Tab(2).Control(1)=   "chkMinimizeAtStartup"
+      Tab(2).Control(2)=   "chkShowGames"
       Tab(2).Control(3)=   "chkShowSendMail"
-      Tab(2).Control(4)=   "chkShowGames"
-      Tab(2).Control(5)=   "chkMinimizeAtStartup"
-      Tab(2).Control(6)=   "chkStartWithWindows"
+      Tab(2).Control(4)=   "chkShowGetMail"
+      Tab(2).Control(5)=   "chkAutoCheckMail"
+      Tab(2).Control(6)=   "chkAutoRunGames"
       Tab(2).ControlCount=   7
       Begin VB.CommandButton cmdReset 
          Caption         =   "Reset"
@@ -531,7 +531,7 @@ Private Sub cmdRefresh_Click()
 End Sub
 
 Private Sub cmdReset_Click()
-    Call DeleteSetting(App.Title)
+    Call DeleteSetting(App.EXEName)
 End Sub
 
 Private Sub cmdSave_Click()
@@ -551,6 +551,10 @@ End Sub
 
 Private Sub Form_Load()
     tabOptions.Tab = 0
+    Call LoadFormSettings(Me, True)
     Call LoadOptions
 End Sub
 
+Private Sub Form_Unload(Cancel As Integer)
+    Call SaveFormSettings(Me, True)
+End Sub
