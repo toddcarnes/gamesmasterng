@@ -176,6 +176,12 @@ Your message relay request to "[1]" has been processed and your message has been
 @
 22 GamesMasterMessage
 Your GalaxyNG Turn Report is attached to this EMail.
+
+** NEW E-Mail COMMANDS **
+There are new e-mail commands available. Information can be obtained about status and details of games that are or have taken place on the games server. Send an e-mail as follows to learn about the commands available. 
+
+To: wombat@mykoala.net
+Subject: help
 @
 23 Help
 Welcome to the [servername] galaxyng gameserver. Listed below are the valid e-mail commands that will be processed by the gameserver.
@@ -200,15 +206,21 @@ Orders		- Submit orders for a game
 		  #galaxy <game> <race> <password> <turn> [finalorders]
 		  ... orders ...
 		  #end
-Relay <game>	- Send a message to all players of a game
-		  #galaxy <game> <race> <password>
-		  ... message ...
-		  #end
 Relay <race>	- Send a message to one specific player
 		  #galaxy <game> <race> <password>
 		  ... message ...
 		  #end
+Relay <game>	- Send a message to all players of a game
+		  #galaxy <game> <race> <password>
+		  ... message ...
+		  #end
 Relay GM	- Send a message to the Games Master
+		  #galaxy <game> <race> <password>
+		  ... message ...
+		  #end
+re: [GNG] <game> message relay <to>
+		- Replying to a relay message that is received
+		  will also be an acceptable subject
 		  #galaxy <game> <race> <password>
 		  ... message ...
 		  #end

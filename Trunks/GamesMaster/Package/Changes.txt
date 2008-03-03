@@ -1,3 +1,6 @@
+Games Master Version 0.0.4
+--------------------------
+
 Games Master Version 0.0.3
 --------------------------
 Corrected Automatic run of games as when two game are run reports for second game
@@ -26,6 +29,7 @@ Saved Column Widths for lists.
 Added Reset Column Widths to the Options.
 Saved and Restore Window Positions and Size as appropriate.
 Make all config files based on EXE File Name.
+Changed Relay processing to allow for direct reply.
 
 Games Master Version 0.0.2
 --------------------------

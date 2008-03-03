@@ -42,6 +42,13 @@ Private Sub ProcessEMail(ByVal strPath As String)
             Call SendReport(strFrom, strEMail)
         Case "help"
             Call HelpEmail(strSubject, strFrom, strEMail)
+        Case "re:"
+            ReDim Preserve varSubject(5)
+            If varSubject(1) = "[gng]" _
+            And varSubject(3) = "message" _
+            And varSubject(4) = "relay" Then
+                Call RelayMessage(varSubject(5), strFrom, strEMail)
+            End If
         End Select
         If Options.SaveEMail Then
             Name strPath As strPath & ".sav"

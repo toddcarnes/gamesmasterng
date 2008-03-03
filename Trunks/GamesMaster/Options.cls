@@ -29,6 +29,7 @@ Public RaceConstant As String
 Public GalaxyNGHomeConstant As String
 Public GalaxyngExeConstant As String
 Public GamesMasterEMailConstant As String
+Public GamesMasterPassword As String
 Public ServerNameConstant As String
 
 Public GamesMasterEMail As String
@@ -177,9 +178,9 @@ Public Sub LoadSettings()
         AutoRunGames = .GetSetting("Startup", "AutoRunGames", False)
         
         LogErrors = .GetSetting("Settings", "LogErrors", False)
-    
-    
+        GamesMasterPassword = .GetSetting("Settings", "GamesMasterPassword", Format(Rnd(Now) * 10000, "0000"))
     End With
+    
     If Dir(Inbox, vbDirectory) = "" Then
         MkDir Inbox
     End If
@@ -230,6 +231,7 @@ Public Sub SaveSettings()
         Call .SaveSetting("Startup", "AutoRunGames", AutoRunGames)
         
         Call .SaveSetting("Settings", "LogErrors", LogErrors)
+        Call .SaveSetting("Settings", "GamesMasterPassword", GamesMasterPassword)
     
     End With
 End Sub

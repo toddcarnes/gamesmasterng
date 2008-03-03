@@ -364,33 +364,33 @@ Public Sub DeleteGame(ByVal strGame As String)
     RmDir Options.GalaxyNGStatistics & strGame
 End Sub
 
-Public Sub SaveGridSettings(ByVal Grid As MSHFlexGrid, Optional ByVal ID As String = "Defaults")
+Public Sub SaveGridSettings(ByVal Grid As MSHFlexGrid, Optional ByVal Id As String = "Defaults")
     Dim c As Long
     
     
     With Grid
         For c = 0 To .Cols - 1
-            Call SaveSetting(App.EXEName, ID, Grid.Name & ".Col" & CStr(c), .ColWidth(c))
+            Call SaveSetting(App.EXEName, Id, Grid.Name & ".Col" & CStr(c), .ColWidth(c))
         Next c
     End With
 End Sub
 
-Public Sub LoadGridSettings(ByVal Grid As MSHFlexGrid, Optional ByVal ID As String = "Defaults")
+Public Sub LoadGridSettings(ByVal Grid As MSHFlexGrid, Optional ByVal Id As String = "Defaults")
     Dim c As Long
     
     With Grid
         For c = 0 To .Cols - 1
-            .ColWidth(c) = GetSetting(App.EXEName, ID, Grid.Name & ".Col" & CStr(c), .ColWidth(c))
+            .ColWidth(c) = GetSetting(App.EXEName, Id, Grid.Name & ".Col" & CStr(c), .ColWidth(c))
         Next c
     End With
 End Sub
 
-Public Sub DeleteGridSettings(ByVal Grid As MSHFlexGrid, Optional ByVal ID As String = "Defaults")
+Public Sub DeleteGridSettings(ByVal Grid As MSHFlexGrid, Optional ByVal Id As String = "Defaults")
     Dim c As Long
     
     With Grid
         For c = 0 To .Cols - 1
-            Call DeleteSetting(App.EXEName, ID, Grid.Name & ".Col" & CStr(c))
+            Call DeleteSetting(App.EXEName, Id, Grid.Name & ".Col" & CStr(c))
         Next c
     End With
 End Sub
@@ -428,4 +428,15 @@ Public Sub LoadFormSettings(ByVal objForm As Form, Optional ByVal PositionOnly A
         End If
     End With
 End Sub
+
+Public Function GMRace() As Race
+    Dim objRace As Race
+    Set objRace = New Race
+    With objRace
+        .RaceName = "GamesMaster"
+        .Password = Options.GamesMasterPassword
+        .EMail = Options.GamesMasterEMail
+    End With
+    Set GMRace = objRace
+End Function
 

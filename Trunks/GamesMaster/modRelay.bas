@@ -19,6 +19,7 @@ Public Sub RelayMessage(ByVal strTo As String, ByVal strFrom As String, ByVal st
     Dim strMessage As String
     Dim strFileName As String
     Dim strFileName1 As String
+    Dim strSendData As String
     
     strSubject = "Major Problems Processing your orders email"
     
@@ -83,6 +84,11 @@ Public Sub RelayMessage(ByVal strTo As String, ByVal strFrom As String, ByVal st
     
     objGame.Refresh
     Set objRace = objGame.Races(strRace)
+    If objRace Is Nothing _
+    And (strRace = "GM") Then
+        Set objRace = GMRace
+    End If
+    
     If objRace Is Nothing Then
         'Invalid Header
         strMessage = Options.GetMessage("InvalidRelayHeader", _
@@ -100,7 +106,12 @@ Public Sub RelayMessage(ByVal strTo As String, ByVal strFrom As String, ByVal st
     End If
     
     Set objToRace = objGame.Races(strTo)
-    If objToRace Is Nothing And strTo <> "gm" And strTo <> "gamesmaster" And strTo <> strGame Then
+    If objToRace Is Nothing _
+    And (strTo = "gm") Then
+        Set objToRace = GMRace
+    End If
+    
+    If objToRace Is Nothing And strTo <> strGame Then
         'Invalid race
         strMessage = Options.GetMessage("InvalidRelayHeader", _
                 "An invalid race name was specified to receive the message.", _
@@ -112,21 +123,33 @@ Public Sub RelayMessage(ByVal strTo As String, ByVal strFrom As String, ByVal st
     If strTo = strGame Then
         For Each objToRace In objGame.Races
             If Not objToRace.flag(R_DEAD) Then
-                strSubject = "[GNG]" & strGame & " relay to " & objToRace.RaceName & " from " & strRace
-                Call SendEMail(objToRace.EMail, strSubject, strOrders)
+                strSubject = "[GNG]" & strGame & " message relay " & strRace
+                strSendData = "#GALAXY " & strGame & " " & objToRace.RaceName & " " & objToRace.Password & vbNewLine & _
+                            vbNewLine & _
+                            "-*- Message follows -*-" & vbNewLine & _
+                            vbNewLine & vbNewLine & _
+                            strOrders
+                Call SendEMail(objToRace.EMail, strSubject, strSendData)
             End If
         Next objToRace
-        strSubject = "[GNG]" & strGame & " relay to GM from " & strRace
-        Call SendEMail(Options.GamesMasterEMail, strSubject, strOrders)
+        
+        Set objToRace = GMRace
+        strSubject = "[GNG]" & strGame & " message relay " & strRace
+        strSendData = "#GALAXY " & strGame & " " & objToRace.RaceName & " " & objToRace.Password & vbNewLine & _
+                    vbNewLine & _
+                    "-*- Message follows -*-" & vbNewLine & _
+                    vbNewLine & vbNewLine & _
+                    strOrders
+        Call SendEMail(objToRace.EMail, strSubject, strSendData)
+        
     Else
         strSubject = "[GNG]" & strGame & " message relay " & strRace
-        If objToRace Is Nothing Then
-            strSubject = "[GNG]" & strGame & " relay to GamesMaster from " & strRace
-            Call SendEMail(Options.GamesMasterEMail, strSubject, strOrders)
-        Else
-            strSubject = "[GNG]" & strGame & " relay to " & objToRace.RaceName & " from " & strRace
-            Call SendEMail(objToRace.EMail, strSubject, strOrders)
-        End If
+        strSendData = "#GALAXY " & strGame & " " & objToRace.RaceName & " " & objToRace.Password & vbNewLine & _
+                    vbNewLine & _
+                    "-*- Message follows -*-" & vbNewLine & _
+                    vbNewLine & vbNewLine & _
+                    strOrders
+        Call SendEMail(objToRace.EMail, strSubject, strSendData)
     End If
     
     strSubject = "[GNG]" & strGame & " relay sent to " & strTo
@@ -141,5 +164,4 @@ Send:
     Call SendEMail(strFrom, strSubject, strMessage)
 
 End Sub
-
 
