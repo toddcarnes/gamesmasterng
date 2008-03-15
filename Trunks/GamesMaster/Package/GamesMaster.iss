@@ -1,4 +1,4 @@
-#define AppDate "1 March 2008"
+#define AppDate "16 March 2008"
 #define Source SourcePath
 #define HomePage "http://www.mykoala.net"
 #define vbFiles Source + "\VB60Files"
@@ -91,3 +91,9 @@ Name: {app}\statistics
 [Run]
 Filename: {app}\GamesMaster.exe; Parameters: -showoptions; WorkingDir: {app}; Flags: postinstall unchecked
 Filename: {app}\Changes.txt; Description: View Changes included in this version; Flags: shellexec postinstall; WorkingDir: {app}
+
+[_ISToolPreCompile]
+Name: {#Source}\Package\signcode.exe; Parameters: " -cn ""Ian Evans"" -s ""TrustedPeople"" -n ""GamesMaster Version {#AppVersion} ({#AppDate})"" -sp chain -t http://timestamp.verisign.com/scripts/timstamp.dll GamesMaster.exe -i http://www.mykoala.net"
+
+[_ISToolPostCompile]
+Name: {#Source}\Package\signcode.exe; Parameters: " -cn ""Ian Evans"" -s ""TrustedPeople"" -n ""GamesMasterSetup Version {#AppVersion} ({#AppDate})"" -sp chain -t http://timestamp.verisign.com/scripts/timstamp.dll GamesMasterSetupV{#AppVersion}.exe -i http://www.mykoala.net"
