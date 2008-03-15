@@ -93,7 +93,7 @@ Filename: {app}\GamesMaster.exe; Parameters: -showoptions; WorkingDir: {app}; Fl
 Filename: {app}\Changes.txt; Description: View Changes included in this version; Flags: shellexec postinstall; WorkingDir: {app}
 
 [_ISToolPreCompile]
-Name: {#Source}\Package\signcode.exe; Parameters: " -cn ""Ian Evans"" -s ""TrustedPeople"" -n ""GamesMaster Version {#AppVersion} ({#AppDate})"" -sp chain -t http://timestamp.verisign.com/scripts/timstamp.dll GamesMaster.exe -i http://www.mykoala.net"
+Name: {#Source}\Package\signcode.exe; Parameters: " -cn ""Ian Evans"" -s ""TrustedPeople"" -n ""GamesMaster Version {#AppVersion} ({#AppDate})"" -sp chain -t http://timestamp.verisign.com/scripts/timstamp.dll ""{#Source}\GamesMaster.exe"" -i {#HomePage}"
 
 [_ISToolPostCompile]
-Name: {#Source}\Package\signcode.exe; Parameters: " -cn ""Ian Evans"" -s ""TrustedPeople"" -n ""GamesMasterSetup Version {#AppVersion} ({#AppDate})"" -sp chain -t http://timestamp.verisign.com/scripts/timstamp.dll GamesMasterSetupV{#AppVersion}.exe -i http://www.mykoala.net"
+Name: {#Source}\Package\signcode.exe; Parameters: " -cn ""Ian Evans"" -s ""TrustedPeople"" -n ""GamesMasterSetup Version {#AppVersion} ({#AppDate})"" -sp chain -t http://timestamp.verisign.com/scripts/timstamp.dll ""{#Source}\Distributions\GamesMasterSetupV{#AppVersion}.exe"" -i {#HomePage}"; Flags: abortonerror
