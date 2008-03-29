@@ -1,7 +1,7 @@
 Attribute VB_Name = "modSocketMaster"
 '**************************************************************************************
 '
-'modSocketMaster module 1.1
+'modSocketMaster module 1.3
 'Copyright (c) 2004 by Emiliano Scavuzzo <anshoku@yahoo.com>
 '
 'Rosario, Argentina
@@ -16,18 +16,21 @@ Option Explicit
 'API FUNCTIONS
 '==============================================================================
 
+'Public Declare Function api_WSAGetLastError Lib "ws2_32.dll" Alias "WSAGetLastError" () As Long
 Public Declare Sub api_CopyMemory Lib "kernel32" Alias "RtlMoveMemory" (Destination As Any, Source As Any, ByVal Length As Long)
-Public Declare Function api_WSAGetLastError Lib "ws2_32.dll" Alias "WSAGetLastError" () As Long
 Public Declare Function api_GlobalAlloc Lib "kernel32" Alias "GlobalAlloc" (ByVal wFlags As Long, ByVal dwBytes As Long) As Long
 Public Declare Function api_GlobalFree Lib "kernel32" Alias "GlobalFree" (ByVal hMem As Long) As Long
 Private Declare Function api_WSAStartup Lib "ws2_32.dll" Alias "WSAStartup" (ByVal wVersionRequired As Long, lpWSADATA As WSAData) As Long
 Private Declare Function api_WSACleanup Lib "ws2_32.dll" Alias "WSACleanup" () As Long
 Private Declare Function api_WSAAsyncGetHostByName Lib "ws2_32.dll" Alias "WSAAsyncGetHostByName" (ByVal hwnd As Long, ByVal wMsg As Long, ByVal strHostName As String, buf As Any, ByVal buflen As Long) As Long
-Private Declare Function api_WSAAsyncSelect Lib "wsock32.dll" Alias "WSAAsyncSelect" (ByVal s As Long, ByVal hwnd As Long, ByVal wMsg As Long, ByVal lEvent As Long) As Long
+Private Declare Function api_WSAAsyncSelect Lib "ws2_32.dll" Alias "WSAAsyncSelect" (ByVal s As Long, ByVal hwnd As Long, ByVal wMsg As Long, ByVal lEvent As Long) As Long
 Private Declare Function api_CreateWindowEx Lib "user32" Alias "CreateWindowExA" (ByVal dwExStyle As Long, ByVal lpClassName As String, ByVal lpWindowName As String, ByVal dwStyle As Long, ByVal x As Long, ByVal y As Long, ByVal nWidth As Long, ByVal nHeight As Long, ByVal hWndParent As Long, ByVal hMenu As Long, ByVal hInstance As Long, lpParam As Any) As Long
 Private Declare Function api_DestroyWindow Lib "user32" Alias "DestroyWindow" (ByVal hwnd As Long) As Long
 Private Declare Function api_lstrlen Lib "kernel32" Alias "lstrlenA" (ByVal lpString As Any) As Long
 Private Declare Function api_lstrcpy Lib "kernel32" Alias "lstrcpyA" (ByVal lpString1 As String, ByVal lpString2 As Long) As Long
+Private Declare Function api_LoadLibrary Lib "kernel32" Alias "LoadLibraryA" (ByVal lpLibFileName As String) As Long
+Private Declare Function api_SetTimer Lib "user32" Alias "SetTimer" (ByVal hwnd As Long, ByVal nIDEvent As Long, ByVal uElapse As Long, ByVal lpTimerFunc As Long) As Long
+Private Declare Function api_KillTimer Lib "user32" Alias "KillTimer" (ByVal hwnd As Long, ByVal nIDEvent As Long) As Long
 
 
 '==============================================================================
@@ -46,7 +49,7 @@ Private Enum WinsockVersion
     SOCKET_VERSION_22 = &H202
 End Enum
 
-Public Const MAXGETHOSTSTRUCT = 1024
+Public Const MAXGETHOSTSTRUCT As Long = 1024
 
 Public Const AF_INET        As Long = 2
 Public Const SOCK_STREAM    As Long = 1
@@ -54,16 +57,16 @@ Public Const SOCK_DGRAM     As Long = 2
 Public Const IPPROTO_TCP    As Long = 6
 Public Const IPPROTO_UDP    As Long = 17
 
-Public Const FD_READ = &H1&
-Public Const FD_WRITE = &H2&
-Public Const FD_ACCEPT = &H8&
-Public Const FD_CONNECT = &H10&
-Public Const FD_CLOSE = &H20&
+Public Const FD_READ    As Integer = &H1&
+Public Const FD_WRITE   As Integer = &H2&
+Public Const FD_ACCEPT  As Integer = &H8&
+Public Const FD_CONNECT As Integer = &H10&
+Public Const FD_CLOSE   As Integer = &H20&
 
-Private Const OFFSET_2 = 65536
-Private Const MAXINT_2 = 32767
+Private Const OFFSET_2 As Long = 65536
+Private Const MAXINT_2 As Long = 32767
 
-Public Const GMEM_FIXED = &H0
+Public Const GMEM_FIXED As Integer = &H0
 Public Const LOCAL_HOST_BUFF As Integer = 256
 
 Public Const SOL_SOCKET         As Long = 65535
@@ -123,11 +126,11 @@ Public Const WSANO_DATA         As Long = (WSABASEERR + 1004)
 'WINSOCK CONTROL ERROR CODES
 '==============================================================================
 
-Public Const sckOutOfMemory = 7
-Public Const sckBadState = 40006
-Public Const sckInvalidArg = 40014
-Public Const sckUnsupported = 40018
-Public Const sckInvalidOp = 40020
+Public Const sckOutOfMemory As Long = 7
+Public Const sckBadState    As Long = 40006
+Public Const sckInvalidArg  As Long = 40014
+Public Const sckUnsupported As Long = 40018
+Public Const sckInvalidOp   As Long = 40020
 
 '==============================================================================
 'STRUCTURES
@@ -178,15 +181,17 @@ Private Declare Function api_SetWindowLong Lib "user32" Alias "SetWindowLongA" (
 Private Declare Function api_GetModuleHandle Lib "kernel32" Alias "GetModuleHandleA" (ByVal lpModuleName As String) As Long
 Private Declare Function api_GetProcAddress Lib "kernel32" Alias "GetProcAddress" (ByVal hModule As Long, ByVal lpProcName As String) As Long
 
-Private Const PATCH_06 As Long = 106
-Private Const PATCH_09 As Long = 137
+Private Const PATCH_09 As Long = 119
+Private Const PATCH_0C As Long = 150
 
-Private Const GWL_WNDPROC = (-4)
+Private Const GWL_WNDPROC As Long = (-4)
 
-Private Const WM_USER = &H400
+Private Const WM_APP As Long = 32768 '0x8000
 
-Public Const RESOLVE_MESSAGE As Long = WM_USER + &H400
-Public Const SOCKET_MESSAGE  As Long = WM_USER + &H401
+Public Const RESOLVE_MESSAGE As Long = WM_APP
+Public Const SOCKET_MESSAGE  As Long = WM_APP + 1
+
+Private Const TIMER_TIMEOUT As Long = 200   'control timer time out, in milliseconds
 
 Private lngMsgCntA      As Long     'TableA entry count
 Private lngMsgCntB      As Long     'TableB entry count
@@ -197,6 +202,7 @@ Private lngTableB2()    As Long     'TableB2: list of sockets owners
 Private hWndSub         As Long     'window handle subclassed
 Private nAddrSubclass   As Long     'address of our WndProc
 Private nAddrOriginal   As Long     'address of original WndProc
+Private hTimer          As Long     'control timer handle
 
 
 'This function initiates the processes needed to keep
@@ -536,17 +542,6 @@ Public Sub UnregisterResolution(ByVal lngAsynHandle As Long)
 Subclass_DelResolveMessage lngAsynHandle
 End Sub
 
-'It turns a CSocketMaster instance pointer into an actual instance.
-Private Function SocketObjectFromPointer(ByVal lngPointer As Long) As CSocketMaster
-
-Dim objSocket As CSocketMaster
-
-api_CopyMemory objSocket, lngPointer, 4&
-Set SocketObjectFromPointer = objSocket
-api_CopyMemory objSocket, 0&, 4&
-
-End Function
-
 'Assing a temporal instance of CSocketMaster to a
 'socket and register this socket to the accept list.
 Public Sub RegisterAccept(ByVal lngSocket As Long)
@@ -596,22 +591,29 @@ End Function
 '==============================================================================
 
 Private Sub Subclass_Initialize()
-Const PATCH_01 As Long = 15                                 'Code buffer offset to the location of the relative address to EbMode
-Const PATCH_03 As Long = 76                                 'Relative address of SetWindowsLong
-Const PATCH_05 As Long = 100                                 'Relative address of CallWindowProc
+Const PATCH_01 As Long = 16                                 'Code buffer offset to the location of the relative address to EbMode
+Const PATCH_03 As Long = 72                                 'Relative address of SetWindowsLong
+Const PATCH_04 As Long = 77                                 'Relative address of WSACleanup
+Const PATCH_06 As Long = 89                                 'Relative address of KillTimer
+Const PATCH_08 As Long = 113                                'Relative address of CallWindowProc
 Const FUNC_EBM As String = "EbMode"                         'VBA's EbMode function allows the machine code thunk to know if the IDE has stopped or is on a breakpoint
 Const FUNC_SWL As String = "SetWindowLongA"                 'SetWindowLong allows the cSubclasser machine code thunk to unsubclass the subclasser itself if it detects via the EbMode function that the IDE has stopped
 Const FUNC_CWP As String = "CallWindowProcA"                'We use CallWindowProc to call the original WndProc
+Const FUNC_WCU As String = "WSACleanup"                     'closesocket is called when the program is closed to release the sockets
+Const FUNC_KTM As String = "KillTimer"                      'KillTimer destroys the control timer
 Const MOD_VBA5 As String = "vba5"                           'Location of the EbMode function if running VB5
 Const MOD_VBA6 As String = "vba6"                           'Location of the EbMode function if running VB6
 Const MOD_USER As String = "user32"                         'Location of the SetWindowLong & CallWindowProc functions
+Const MOD_WS   As String = "ws2_32"                         'Location of the closesocket function
   Dim i        As Long                                      'Loop index
   Dim nLen     As Long                                      'String lengths
   Dim sHex     As String                                    'Hex code string
   Dim sCode    As String                                    'Binary code string
   
+  
+  
   'Store the hex pair machine code representation in sHex
-  sHex = "5850505589E55753515231C0EB0EE8xxxxx01x83F802742285C074258B45103D0008000074433D01080000745BE8200000005A595B5FC9C21400E813000000EBF168xxxxx02x6AFCFF750CE8xxxxx03xEBE0FF7518FF7514FF7510FF750C68xxxxx04xE8xxxxx05xC3BBxxxxx06x8B4514BFxxxxx07x89D9F2AF75B629CB4B8B1C9Dxxxxx08xEB1DBBxxxxx09x8B4514BFxxxxx0Ax89D9F2AF759729CB4B8B1C9Dxxxxx0Bx895D088B1B8B5B1C89D85A595B5FC9FFE0"
+  sHex = "5850505589E55753515231C0FCEB09E8xxxxx01x85C074258B45103D0080000074543D01800000746CE8310000005A595B5FC9C21400E824000000EBF168xxxxx02x6AFCFF750CE8xxxxx03xE8xxxxx04x68xxxxx05x6A00E8xxxxx06xEBCFFF7518FF7514FF7510FF750C68xxxxx07xE8xxxxx08xC3BBxxxxx09x8B4514BFxxxxx0Ax89D9F2AF75A529CB4B8B1C9Dxxxxx0BxEB1DBBxxxxx0Cx8B4514BFxxxxx0Dx89D9F2AF758629CB4B8B1C9Dxxxxx0Ex895D088B1B8B5B1C89D85A595B5FC9FFE0"
   nLen = Len(sHex)                                          'Length of hex pair string
   
   'Convert the string from hex pairs to bytes and store in the ASCII string opcode buffer
@@ -628,7 +630,7 @@ Const MOD_USER As String = "user32"                         'Location of the Set
 
   If Subclass_InIDE Then
     'Patch the jmp (EB0E) with two nop's (90) enabling the IDE breakpoint/stop checking code
-    Call api_CopyMemory(ByVal nAddrSubclass + 12, &H9090, 2)
+    Call api_CopyMemory(ByVal nAddrSubclass + 13, &H9090, 2)
     
     i = Subclass_AddrFunc(MOD_VBA6, FUNC_EBM)               'Get the address of EbMode in vba6.dll
     If i = 0 Then                                           'Found?
@@ -639,8 +641,12 @@ Const MOD_USER As String = "user32"                         'Location of the Set
     Call Subclass_PatchRel(PATCH_01, i)                     'Patch the relative address to the EbMode api function
   End If
   
+  Call api_LoadLibrary(MOD_WS)                              'Ensure ws_32.dll is loaded before getting WSACleanup address
+  
   Call Subclass_PatchRel(PATCH_03, Subclass_AddrFunc(MOD_USER, FUNC_SWL))     'Address of the SetWindowLong api function
-  Call Subclass_PatchRel(PATCH_05, Subclass_AddrFunc(MOD_USER, FUNC_CWP))     'Address of the CallWindowProc api function
+  Call Subclass_PatchRel(PATCH_04, Subclass_AddrFunc(MOD_WS, FUNC_WCU))       'Address of the WSACleanup api function
+  Call Subclass_PatchRel(PATCH_06, Subclass_AddrFunc(MOD_USER, FUNC_KTM))     'Address of the KillTimer api function
+  Call Subclass_PatchRel(PATCH_08, Subclass_AddrFunc(MOD_USER, FUNC_CWP))     'Address of the CallWindowProc api function
 End Sub
 
 'UnSubclass and release the allocated memory
@@ -662,8 +668,9 @@ End Function
 
 'Set the window subclass
 Private Function Subclass_Subclass(ByVal hwnd As Long) As Boolean
-Const PATCH_02 As Long = 66                                'Address of the previous WndProc
-Const PATCH_04 As Long = 95                                'Address of the previous WndProc
+Const PATCH_02 As Long = 62                                'Address of the previous WndProc
+Const PATCH_05 As Long = 82                                'Control timer handle
+Const PATCH_07 As Long = 108                               'Address of the previous WndProc
   
   If hWndSub = 0 Then
     Debug.Assert api_IsWindow(hwnd)                         'Invalid window handle
@@ -672,16 +679,20 @@ Const PATCH_04 As Long = 95                                'Address of the previ
     'Get the original window proc
     nAddrOriginal = api_GetWindowLong(hwnd, GWL_WNDPROC)
     Call Subclass_PatchVal(PATCH_02, nAddrOriginal)                  'Original WndProc address for CallWindowProc, call the original WndProc
-    Call Subclass_PatchVal(PATCH_04, nAddrOriginal)                  'Original WndProc address for SetWindowLong, unsubclass on IDE stop
+    Call Subclass_PatchVal(PATCH_07, nAddrOriginal)                  'Original WndProc address for SetWindowLong, unsubclass on IDE stop
     
     'Set our WndProc in place of the original
     nAddrOriginal = api_SetWindowLong(hwnd, GWL_WNDPROC, nAddrSubclass)
     If nAddrOriginal <> 0 Then
-      nAddrOriginal = 0
       Subclass_Subclass = True                                       'Success
     End If
   End If
   
+  If Subclass_InIDE Then
+    hTimer = api_SetTimer(0, 0, TIMER_TIMEOUT, nAddrSubclass)        'Create the control timer
+    Call Subclass_PatchVal(PATCH_05, hTimer)                         'Patch the control timer handle
+  End If
+
   Debug.Assert Subclass_Subclass
 End Function
 
@@ -690,11 +701,16 @@ Private Function Subclass_UnSubclass() As Boolean
   If hWndSub <> 0 Then
     lngMsgCntA = 0
     lngMsgCntB = 0
-    Call Subclass_PatchVal(PATCH_06, lngMsgCntA)                              'Patch the TableA entry count to ensure no further Proc callbacks
-    Call Subclass_PatchVal(PATCH_09, lngMsgCntB)                              'Patch the TableB entry count to ensure no further Proc callbacks
+    Call Subclass_PatchVal(PATCH_09, lngMsgCntA)                              'Patch the TableA entry count to ensure no further Proc callbacks
+    Call Subclass_PatchVal(PATCH_0C, lngMsgCntB)                              'Patch the TableB entry count to ensure no further Proc callbacks
     
     'Restore the original WndProc
     Call api_SetWindowLong(hWndSub, GWL_WNDPROC, nAddrOriginal)
+    
+    If hTimer <> 0 Then
+        Call api_KillTimer(0&, hTimer)                           'Destroy control timer
+        hTimer = 0
+    End If
     
     hWndSub = 0                                             'Indicate the subclasser is inactive
 
@@ -808,21 +824,21 @@ Next Count
 End Sub
 
 Private Sub Subclass_PatchTableA()
-Const PATCH_07 As Long = 114
-Const PATCH_08 As Long = 130
+Const PATCH_0A As Long = 127
+Const PATCH_0B As Long = 143
 
-Call Subclass_PatchVal(PATCH_06, lngMsgCntA)
-Call Subclass_PatchVal(PATCH_07, Subclass_AddrMsgTbl(lngTableA1))
-Call Subclass_PatchVal(PATCH_08, Subclass_AddrMsgTbl(lngTableA2))
+Call Subclass_PatchVal(PATCH_09, lngMsgCntA)
+Call Subclass_PatchVal(PATCH_0A, Subclass_AddrMsgTbl(lngTableA1))
+Call Subclass_PatchVal(PATCH_0B, Subclass_AddrMsgTbl(lngTableA2))
 End Sub
 
 Private Sub Subclass_PatchTableB()
-Const PATCH_0A As Long = 145
-Const PATCH_0B As Long = 161
+Const PATCH_0D As Long = 158
+Const PATCH_0E As Long = 174
 
-Call Subclass_PatchVal(PATCH_09, lngMsgCntB)
-Call Subclass_PatchVal(PATCH_0A, Subclass_AddrMsgTbl(lngTableB1))
-Call Subclass_PatchVal(PATCH_0B, Subclass_AddrMsgTbl(lngTableB2))
+Call Subclass_PatchVal(PATCH_0C, lngMsgCntB)
+Call Subclass_PatchVal(PATCH_0D, Subclass_AddrMsgTbl(lngTableB1))
+Call Subclass_PatchVal(PATCH_0E, Subclass_AddrMsgTbl(lngTableB2))
 End Sub
 
 Public Sub Subclass_ChangeOwner(ByVal lngSocket As Long, ByVal lngObjectPointer As Long)

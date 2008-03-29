@@ -128,6 +128,8 @@ Private Sub ProcessData(ByVal strData As String)
     Dim strError As String
     Dim strSource As String
     Dim lngState As Long
+    Dim strFN As String
+    Dim lngPart As Long
     
     On Error GoTo ErrorTag
     DoEvents
@@ -175,6 +177,7 @@ Private Sub ProcessData(ByVal strData As String)
     
     Case GM_Command.GM_RETR
         If blnOK Then
+            strFN = ""
             'ignore this line and receive the message
         ElseIf blnError Then
             blnAbort = True
@@ -183,8 +186,22 @@ Private Sub ProcessData(ByVal strData As String)
         ElseIf Right(strData, 5) = vbCrLf & "." & vbCrLf Then
             mstrEMail = mstrEMail & Left(strData, Len(strData) - 5)
             blnSaveEMail = True
+            If strFN = "" Then
+                lngPart = 1
+                strFN = SavePartEMail(mstrEMail)
+            Else
+                lngPart = lngPart + 1
+                Call SavePartEMail(Left(strData, Len(strData) - 5), strFN, lngPart)
+            End If
         Else
             mstrEMail = mstrEMail & strData
+            If strFN = "" Then
+                lngPart = 1
+                strFN = SavePartEMail(mstrEMail)
+            Else
+                lngPart = lngPart + 1
+                Call SavePartEMail(strData, strFN, lngPart)
+            End If
         End If
     
     Case GM_Command.GM_DELE
@@ -328,5 +345,24 @@ Private Function ValidEMail(ByVal strEMail As String) As Boolean
     If InStr(1, strEMail, vbCrLf & "to:", vbTextCompare) = 0 Then Exit Function
     ValidEMail = True
     
+End Function
+
+Private Function SavePartEMail(ByVal strEMail As String, Optional ByVal strFileName As String = "", Optional ByVal lngPart As Long = 1) As String
+    Dim i As Long
+    Dim strFN As String
+    Const cSuffix = "ABCDEFGHIJKLMNOPQRSTUVWZYZ"
+    
+    If Not InIDE Then Exit Function
+    
+    If strFileName = "" Then
+        Do
+            strFileName = Options.Inbox & Format(Now, "yyyymmddhhnnss") & "_" & Format(i, "0")
+            If Dir(strFileName & "A.part") = "" Then Exit Do
+            i = i + 1
+        Loop
+    End If
+    strFN = strFileName & Mid(cSuffix, lngPart, 1) & ".part"
+    Call SaveFile(strFN, strEMail)
+    SavePartEMail = strFileName
 End Function
 
