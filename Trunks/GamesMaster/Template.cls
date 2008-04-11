@@ -23,11 +23,11 @@ Public Filename As String
 Public TemplateName As String
 Public Size As Single
 Public race_spacing As Single
-Public core_sizes As Variant
+Public mcore_sizes As Variant
 Public empty_planets As Long
 Public empty_radius As Single
 Public stuff_planets As Long
-Public InitialTechLevels As Variant
+Public mInitialTechLevels As Variant
 Public FullBombing As Boolean
 Public Peace As Long
 Public KeepProduction As Boolean
@@ -42,7 +42,7 @@ Public RunTime As Date
 Public StartDate As Date
 Public ScheduleDays As Long
 Public FinalOrders As Boolean
-Public MaxPlanets As Long
+Public mMaxPlanets As Long
 Public MaxPlanetSize As Long
 Public TotalPlanetSize As Long
 Public Description As String
@@ -53,6 +53,7 @@ Public DesignType As uDesignType
 Public OrbitPlanets As Boolean
 Public OrbitDistance As Single
 Public SeedType As uSeedType
+Public SeedSizes As String
 
 Private mcolRegistrations As Registrations
 Private mcolPlanets As Planets
@@ -64,6 +65,7 @@ Public Enum uDesignType
     OnCircle = 1
     OnCircleMiddle = 2
     GalaxyNGRandom = 3
+    GenerateRandom = 4
 End Enum
 
 Public Enum uSeedType
@@ -80,6 +82,44 @@ Public Enum Tech
     Cargo = 3
     Count = 3
 End Enum
+
+Public Property Get MaxPlanets() As Long
+    MaxPlanets = mMaxPlanets
+End Property
+
+Public Property Let MaxPlanets(ByVal lngMaxPlanets As Long)
+    mMaxPlanets = lngMaxPlanets
+    On Error Resume Next
+    ReDim Preserve mcore_sizes(mMaxPlanets)
+End Property
+
+Public Property Get core_sizes() As Variant
+    Dim i As Long
+    
+    For i = UBound(mcore_sizes) To 1 Step -1
+        If mcore_sizes(i) <> "" Then Exit For
+    Next i
+    ReDim Preserve mcore_sizes(i)
+    core_sizes = mcore_sizes
+End Property
+
+Public Property Let core_sizes(ByVal vcore_sizes As Variant)
+    Dim i As Long
+    
+    For i = UBound(vcore_sizes) To 1 Step -1
+        If vcore_sizes(i) <> "" Then Exit For
+    Next i
+    ReDim Preserve vcore_sizes(i)
+    mcore_sizes = vcore_sizes
+End Property
+
+Public Property Get InitialTechlevels() As Variant
+    InitialTechlevels = mInitialTechLevels
+End Property
+
+Public Property Let InitialTechlevels(ByVal vInitialTechlevels As Variant)
+    mInitialTechLevels = vInitialTechlevels
+End Property
 
 Public Function Seed(ByVal uSeed As uSeedType) As Boolean
     Seed = ((SeedType And uSeed) = uSeed)
@@ -131,9 +171,9 @@ Public Property Get DefaultHomeWorlds() As HomeWorlds
     Dim i As Long
     
     Set objHomeWorlds = New HomeWorlds
-    For i = 0 To UBound(core_sizes)
+    For i = 0 To UBound(mcore_sizes)
         Set objHomeworld = New HomeWorld
-        objHomeworld.Size = core_sizes(i)
+        objHomeworld.Size = mcore_sizes(i)
         objHomeWorlds.Add objHomeworld
     Next i
     Set DefaultHomeWorlds = objHomeWorlds
@@ -206,6 +246,8 @@ Public Sub Load(Optional ByVal strFileName As String)
                 OrbitDistance = Val(strFields(1))
             Case ";seedtype"
                 SeedType = Val(strFields(1))
+            Case ";seedsizes"
+                SeedSizes = Mid(strLine, 12)
             
             Case "name"
                 TemplateName = strFields(1)
@@ -214,9 +256,9 @@ Public Sub Load(Optional ByVal strFileName As String)
             Case "race_spacing"
                 race_spacing = strFields(1)
             Case "core_sizes"
-                ReDim core_sizes(UBound(strFields) - 1)
+                ReDim mcore_sizes(UBound(strFields) - 1)
                 For i = 1 To UBound(strFields)
-                    core_sizes(i - 1) = strFields(i)
+                    mcore_sizes(i - 1) = strFields(i)
                 Next i
             Case "empty_planets"
                 empty_planets = strFields(1)
@@ -225,10 +267,10 @@ Public Sub Load(Optional ByVal strFileName As String)
             Case "stuff_planets"
                 stuff_planets = strFields(1)
             Case "initialtechlevels"
-                InitialTechLevels(Tech.Drive) = strFields(1)
-                InitialTechLevels(Tech.Weapons) = strFields(2)
-                InitialTechLevels(Tech.Shields) = strFields(3)
-                InitialTechLevels(Tech.Cargo) = strFields(4)
+                mInitialTechLevels(Tech.Drive) = strFields(1)
+                mInitialTechLevels(Tech.Weapons) = strFields(2)
+                mInitialTechLevels(Tech.Shields) = strFields(3)
+                mInitialTechLevels(Tech.Cargo) = strFields(4)
             Case "fullbombing"
                 FullBombing = True
             Case "peace"
@@ -334,7 +376,7 @@ Public Function Clone() As Template
         .core_sizes = core_sizes
         .empty_planets = empty_planets
         .empty_radius = empty_radius
-        .InitialTechLevels = InitialTechLevels
+        .InitialTechlevels = InitialTechlevels
         .FullBombing = FullBombing
         .Peace = Peace
         .KeepProduction = KeepProduction
@@ -380,6 +422,7 @@ Public Sub Save()
     Print #intFN, ";OrbitPlanets "; CStr(OrbitPlanets)
     Print #intFN, ";OrbitDistance "; CStr(OrbitDistance)
     Print #intFN, ";SeedType "; CStr(SeedType)
+    Print #intFN, ";SeedSizes "; SeedSizes
     
     If Description <> "" Then
         vData = Split(Description, vbNewLine)
@@ -400,17 +443,17 @@ Public Sub Save()
     Print #intFN, "Size "; CStr(Size)
     Print #intFN, "race_spacing "; CStr(race_spacing)
     Print #intFN, "Core_Sizes";
-    For i = 0 To UBound(core_sizes)
-        Print #intFN, " "; CStr(core_sizes(i));
+    For i = 0 To UBound(mcore_sizes)
+        Print #intFN, " "; CStr(mcore_sizes(i));
     Next i
     Print #intFN, ""
     Print #intFN, "empty_planets "; CStr(empty_planets)
     Print #intFN, "empty_radius "; CStr(empty_radius)
     Print #intFN, "stuff_planets "; CStr(stuff_planets)
-    Print #intFN, "InitialTechLevels "; CStr(InitialTechLevels(Tech.Drive)) & _
-                                    " "; CStr(InitialTechLevels(Tech.Weapons)) & _
-                                    " "; CStr(InitialTechLevels(Tech.Shields)) & _
-                                    " "; CStr(InitialTechLevels(Tech.Cargo))
+    Print #intFN, "InitialTechLevels "; CStr(mInitialTechLevels(Tech.Drive)) & _
+                                    " "; CStr(mInitialTechLevels(Tech.Weapons)) & _
+                                    " "; CStr(mInitialTechLevels(Tech.Shields)) & _
+                                    " "; CStr(mInitialTechLevels(Tech.Cargo))
     If Not FullBombing Then Print #intFN, ";";
     Print #intFN, "FullBombing"
     If Peace = 0 Then Print #intFN, ";";
@@ -466,24 +509,36 @@ Public Function Details() As String
     strDetails = strDetails & vbNewLine
     strDetails = strDetails & "Registrations" & vbNewLine
     strDetails = strDetails & "-------------" & vbNewLine
-    strDetails = strDetails & "Open: " & Format(RegistrationOpen, "dd-mmm-yyyy") & vbNewLine
-    strDetails = strDetails & "Close: " & Format(RegistrationClose, "dd-mmm-yyyy") & vbNewLine
+    If RegistrationOpen = 0 Then
+        strDetails = strDetails & "Open: N/A" & vbNewLine
+    Else
+        strDetails = strDetails & "Open: " & Format(RegistrationOpen, "dd-mmm-yyyy") & vbNewLine
+    End If
+    If RegistrationClose = 0 Then
+        strDetails = strDetails & "Close: N/A" & vbNewLine
+    Else
+        strDetails = strDetails & "Close: " & Format(RegistrationClose, "dd-mmm-yyyy") & vbNewLine
+    End If
     strDetails = strDetails & "Maximum Players: " & CStr(MaxPlayers) & vbNewLine
     strDetails = strDetails & "Minimum Players: " & CStr(MinPlayers) & vbNewLine
     strDetails = strDetails & "Maximum Planets: " & CStr(MaxPlanets) & vbNewLine
     strDetails = strDetails & "Maximum Planet Size: " & CStr(MaxPlanetSize) & vbNewLine
     strDetails = strDetails & "Total Planet Size: " & CStr(TotalPlanetSize) & vbNewLine
     strDetails = strDetails & "Core Sizes:"
-    For i = 0 To UBound(core_sizes)
-        strDetails = strDetails & " " & CStr(core_sizes(i))
+    For i = 0 To UBound(mcore_sizes)
+        strDetails = strDetails & " " & CStr(mcore_sizes(i))
     Next i
     strDetails = strDetails & vbNewLine
     
     strDetails = strDetails & vbNewLine
     strDetails = strDetails & "Running Details" & vbNewLine
     strDetails = strDetails & "---------------" & vbNewLine
-    strDetails = strDetails & "Run Time: " & Format(RunTime, "hh:nn:ss") & vbNewLine
-    strDetails = strDetails & "Start Date: " & Format(StartDate, "dd-mmm-yyyy") & vbNewLine
+    strDetails = strDetails & "Run Time: " & Format(RunTime, "hh:nn") & vbNewLine
+    If StartDate = 0 Then
+        strDetails = strDetails & "Start Date: N/A" & vbNewLine
+    Else
+        strDetails = strDetails & "Start Date: " & Format(StartDate, "dd-mmm-yyyy") & vbNewLine
+    End If
     strDetails = strDetails & "Schedule Days: " & CStr(ScheduleDays) & vbNewLine
     strDetails = strDetails & "Final Orders: " & CStr(FinalOrders) & vbNewLine
     
@@ -496,18 +551,18 @@ Public Function Details() As String
     strDetails = strDetails & "Empty Radius: " & CStr(empty_radius) & vbNewLine
     strDetails = strDetails & "Stuff Planets: " & CStr(stuff_planets) & vbNewLine
     
-    strDetails = strDetails & "Design Type: " & Options.DesignDescriptions(DesignType) & vbNewLine
-    strDetails = strDetails & "Orbit Planets: " & CStr(OrbitPlanets) & vbNewLine
-    strDetails = strDetails & "Orbit Distance: " & CStr(OrbitDistance) & vbNewLine
-    strDetails = strDetails & "Seeding Type: " & Options.SeedDescriptions(SeedType) & vbNewLine
+'    strDetails = strDetails & "Design Type: " & Options.DesignDescriptions(DesignType) & vbNewLine
+'    strDetails = strDetails & "Orbit Planets: " & CStr(OrbitPlanets) & vbNewLine
+'    strDetails = strDetails & "Orbit Distance: " & CStr(OrbitDistance) & vbNewLine
+'    strDetails = strDetails & "Seeding Type: " & Options.SeedDescriptions(SeedType) & vbNewLine
     
     strDetails = strDetails & vbNewLine
     strDetails = strDetails & "Game Details" & vbNewLine
     strDetails = strDetails & "------------" & vbNewLine
-    strDetails = strDetails & "Initial Tech Levels: Drive:   " & CStr(InitialTechLevels(Tech.Drive)) & vbNewLine
-    strDetails = strDetails & "                     Weapons: " & CStr(InitialTechLevels(Tech.Weapons)) & vbNewLine
-    strDetails = strDetails & "                     Shields: " & CStr(InitialTechLevels(Tech.Shields)) & vbNewLine
-    strDetails = strDetails & "                     Cargo:   " & CStr(InitialTechLevels(Tech.Cargo)) & vbNewLine
+    strDetails = strDetails & "Initial Tech Levels: Drive:   " & CStr(mInitialTechLevels(Tech.Drive)) & vbNewLine
+    strDetails = strDetails & "                     Weapons: " & CStr(mInitialTechLevels(Tech.Weapons)) & vbNewLine
+    strDetails = strDetails & "                     Shields: " & CStr(mInitialTechLevels(Tech.Shields)) & vbNewLine
+    strDetails = strDetails & "                     Cargo:   " & CStr(mInitialTechLevels(Tech.Cargo)) & vbNewLine
     
     strDetails = strDetails & "Full Bombing: " & CStr(FullBombing) & vbNewLine
     strDetails = strDetails & "Enforced Peace: "
@@ -522,15 +577,32 @@ Public Function Details() As String
     Details = strDetails
 End Function
 
-Private Sub Class_Initialize()
-    ReDim core_sizes(0)
-    core_sizes(0) = 1000
+Public Function SeedSize(ByVal Index As uSeedType) As Long
+    Dim vSizes As Variant
+    Dim i As Long
     
-    ReDim InitialTechLevels(Tech.Count)
-    InitialTechLevels(Tech.Drive) = 1
-    InitialTechLevels(Tech.Weapons) = 1
-    InitialTechLevels(Tech.Shields) = 1
-    InitialTechLevels(Tech.Cargo) = 1
+    If Index = SeedHome Then
+        i = 0
+    ElseIf Index = SeedCenter Then
+        i = 1
+    ElseIf Index = SeedWaypoint Then
+        i = 2
+    End If
+    
+    vSizes = Split(SeedSizes, " ")
+    On Error Resume Next
+    SeedSize = vSizes(i)
+End Function
+
+Private Sub Class_Initialize()
+    ReDim mcore_sizes(0)
+    mcore_sizes(0) = 1000
+    
+    ReDim mInitialTechLevels(Tech.Count)
+    mInitialTechLevels(Tech.Drive) = 1
+    mInitialTechLevels(Tech.Weapons) = 1
+    mInitialTechLevels(Tech.Shields) = 1
+    mInitialTechLevels(Tech.Cargo) = 1
     FullBombing = False
     KeepProduction = False
     DontDropDead = False

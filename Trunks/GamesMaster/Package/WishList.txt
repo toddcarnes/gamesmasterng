@@ -3,8 +3,6 @@ Requests and Wishlist
 
 Gamesmaster
 -----------
-GamesMaster Password in the options.
-
 View Player details
 Change Game Details
 Change Player Details

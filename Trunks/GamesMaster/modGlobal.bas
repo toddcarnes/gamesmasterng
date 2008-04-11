@@ -9,6 +9,11 @@ Public Options As Options
 Private mdtStartTime As Date
 
 Public Const gcStuffMaxSize = 200
+Public Const gcMinimumPlanetDistance = 2
+Public Const gcMaximumSecondaryRadius = 10
+Public Const gcSeededHomeSize = 2000
+Public Const gcSeededHomeResources = 10
+Public Const gcMaxTries = 100
 
 Public Sub Main()
     Dim blnShowOptions As Boolean
@@ -409,22 +414,22 @@ Public Sub SaveFormSettings(ByVal objForm As Form, Optional ByVal PositionOnly A
 End Sub
 
 Public Sub LoadFormSettings(ByVal objForm As Form, Optional ByVal PositionOnly As Boolean = False)
-    Dim T As Single, L As Single, W As Single, H As Single
+    Dim T As Single, L As Single, w As Single, H As Single
     With objForm
         T = GetSetting(App.EXEName, .Name, "Top", .Top)
         L = GetSetting(App.EXEName, .Name, "Left", .Left)
         If PositionOnly Then
             .Move L, T
         Else
-            W = GetSetting(App.EXEName, .Name, "Width", .Width)
+            w = GetSetting(App.EXEName, .Name, "Width", .Width)
             H = GetSetting(App.EXEName, .Name, "Height", .Height)
             If (T + H) > Screen.Height Then
                 T = Screen.Height - H
             End If
-            If (L + W) > Screen.Width Then
-                L = Screen.Width - W
+            If (L + w) > Screen.Width Then
+                L = Screen.Width - w
             End If
-            .Move L, T, W, H
+            .Move L, T, w, H
         End If
     End With
 End Sub

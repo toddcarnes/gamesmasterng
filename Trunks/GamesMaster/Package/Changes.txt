@@ -1,5 +1,7 @@
 Games Master Version 0.0.4
 --------------------------
+Fixed template Core_Sizes, InitialTechLevels
+Added Editing of GamesMaster Password
 
 Games Master Version 0.0.3
 --------------------------

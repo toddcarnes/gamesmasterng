@@ -264,7 +264,8 @@ Public Function DesignDescriptions() As Variant
         "0 - Leave Alone", _
         "1 - On Circle", _
         "2 - On Circle+Middle", _
-        "3 - GalaxyNG Random")
+        "3 - GalaxyNG Random", _
+        "4 - Generate Randomly")
 End Function
 
 Public Function SeedDescriptions() As Variant

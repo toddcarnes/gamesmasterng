@@ -21,6 +21,9 @@ Public EMail As String
 Public RaceName As String
 Private mvarHomeWorlds As HomeWorlds
 
+Public X As Single
+Public Y As Single
+
 Public Property Get HomeWorlds() As HomeWorlds
     If mvarHomeWorlds Is Nothing Then
         Set mvarHomeWorlds = New HomeWorlds

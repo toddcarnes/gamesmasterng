@@ -178,7 +178,7 @@ Your message relay request to "[1]" has been processed and your message has been
 Your GalaxyNG Turn Report is attached to this EMail.
 
 ** NEW E-Mail COMMANDS **
-There are new e-mail commands available. Information can be obtained about status and details of games that are or have taken place on the games server. Send an e-mail as follows to learn about the commands available. 
+There are new e-mail commands available. Information can be obtained about status and details of games that are or have taken place on the games server. Send an e-mail as follows to learn about the commands available.
 
 To: wombat@mykoala.net
 Subject: help
@@ -206,6 +206,10 @@ Orders		- Submit orders for a game
 		  #galaxy <game> <race> <password> <turn> [finalorders]
 		  ... orders ...
 		  #end
+
+Report		- Request a copy of a previous turn report
+		  #galaxy <game> <race> <password> <turn> 
+
 Relay <race>	- Send a message to one specific player
 		  #galaxy <game> <race> <password>
 		  ... message ...
