@@ -85,7 +85,7 @@ Public Sub RelayMessage(ByVal strTo As String, ByVal strFrom As String, ByVal st
     objGame.Refresh
     Set objRace = objGame.Races(strRace)
     If objRace Is Nothing _
-    And (strRace = "GM") Then
+    And (strRace = "GM" Or strRace = "GamesMaster") Then
         Set objRace = GMRace
     End If
     
@@ -123,7 +123,7 @@ Public Sub RelayMessage(ByVal strTo As String, ByVal strFrom As String, ByVal st
     If strTo = strGame Then
         For Each objToRace In objGame.Races
             If Not objToRace.flag(R_DEAD) Then
-                strSubject = "[GNG]" & strGame & " message relay " & strRace
+                strSubject = "[GNG] " & strGame & " message relay " & strRace
                 strSendData = "#GALAXY " & strGame & " " & objToRace.RaceName & " " & objToRace.Password & vbNewLine & _
                             vbNewLine & _
                             "-*- Message follows -*-" & vbNewLine & _
@@ -134,7 +134,7 @@ Public Sub RelayMessage(ByVal strTo As String, ByVal strFrom As String, ByVal st
         Next objToRace
         
         Set objToRace = GMRace
-        strSubject = "[GNG]" & strGame & " message relay " & strRace
+        strSubject = "[GNG] " & strGame & " message relay " & strRace
         strSendData = "#GALAXY " & strGame & " " & objToRace.RaceName & " " & objToRace.Password & vbNewLine & _
                     vbNewLine & _
                     "-*- Message follows -*-" & vbNewLine & _
@@ -143,7 +143,7 @@ Public Sub RelayMessage(ByVal strTo As String, ByVal strFrom As String, ByVal st
         Call SendEMail(objToRace.EMail, strSubject, strSendData)
         
     Else
-        strSubject = "[GNG]" & strGame & " message relay " & strRace
+        strSubject = "[GNG] " & strGame & " message relay " & strRace
         strSendData = "#GALAXY " & strGame & " " & objToRace.RaceName & " " & objToRace.Password & vbNewLine & _
                     vbNewLine & _
                     "-*- Message follows -*-" & vbNewLine & _
@@ -152,7 +152,7 @@ Public Sub RelayMessage(ByVal strTo As String, ByVal strFrom As String, ByVal st
         Call SendEMail(objToRace.EMail, strSubject, strSendData)
     End If
     
-    strSubject = "[GNG]" & strGame & " relay sent to " & strTo
+    strSubject = "[GNG] " & strGame & " relay sent to " & strTo
     strMessage = Options.GetMessage("RelaySent", strTo)
 
 

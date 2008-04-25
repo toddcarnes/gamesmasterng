@@ -31,7 +31,7 @@ Private Sub ProcessEMail(ByVal strPath As String)
     
     varSubject = Split(strSubject, " ")
     If UBound(varSubject) >= 0 Then
-        Select Case varSubject(0)
+        Select Case LCase(varSubject(0))
         Case "join"
             Call JoinGame(varSubject(1), strFrom, varBody)
         Case "orders", "order"
@@ -44,9 +44,7 @@ Private Sub ProcessEMail(ByVal strPath As String)
             Call HelpEmail(strSubject, strFrom, strEMail)
         Case "re:"
             ReDim Preserve varSubject(5)
-            If varSubject(1) = "[gng]" _
-            And varSubject(3) = "message" _
-            And varSubject(4) = "relay" Then
+            If varSubject(4) = "relay" Then
                 Call RelayMessage(varSubject(5), strFrom, strEMail)
             End If
         End Select

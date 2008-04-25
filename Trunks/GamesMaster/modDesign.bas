@@ -743,7 +743,7 @@ Private Function EmptyWorld(ByVal X As Single, ByVal Y As Single, Optional ByVal
             .Y = Round(Sin(a) * R + Y)
             If NearestPlanet(.X, .Y) >= gcMinimumPlanetDistance _
             Or c <= 0 Then
-                .Size = Round(Rnd() * (mobjTemplate.MaxPlanetSize - gcStuffMaxSize) + gcStuffMaxSize, 0)
+                .Size = Round(Rnd() * (gcSecondaryPlanetMaxSize - gcStuffMaxSize) + gcStuffMaxSize, 0)
                 .Resources = Round(Rnd() * 10)
                 Set EmptyWorld = objPlanet
                 Exit Do

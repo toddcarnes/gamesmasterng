@@ -376,6 +376,7 @@ Public Function Clone() As Template
         .core_sizes = core_sizes
         .empty_planets = empty_planets
         .empty_radius = empty_radius
+        .stuff_planets = stuff_planets
         .InitialTechlevels = InitialTechlevels
         .FullBombing = FullBombing
         .Peace = Peace

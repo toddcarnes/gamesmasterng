@@ -1,7 +1,11 @@
 Games Master Version 0.0.4
 --------------------------
-Fixed template Core_Sizes, InitialTechLevels
+Fixed template Core_Sizes, InitialTechLevels 
 Added Editing of GamesMaster Password
+Fixed replies to relay messages.
+Re-wrote the Design Algorithims.
+* minimum spacing between planets is now 2Ly
+* Will grow the galaxy if needed (1/4Ly increments)
 
 Games Master Version 0.0.3
 --------------------------
