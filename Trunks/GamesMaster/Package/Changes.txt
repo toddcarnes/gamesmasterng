@@ -2,6 +2,7 @@ Games Master Version 0.0.4
 --------------------------
 Fixed template Core_Sizes, InitialTechLevels 
 Added Editing of GamesMaster Password
+Added Help e-mail command for information acquisition.
 Fixed replies to relay messages.
 Re-wrote the Design Algorithims.
 * minimum spacing between planets is now 2Ly
@@ -18,7 +19,7 @@ Changed Templates so that the GM can register the same address more than once E-
 	registrations will only be able to have one so that it can be changed.
 Program will Restart on first game check between midnight and 1am if it has been 
 	running for more than 3 hours.
-Changes so the the Games can be seen refreshing for when there are a lot of games.
+Changed so the the Games can be seen refreshing for when there are a lot of games.
 Changed e-mail extensions to .eml
 Enabled Circle and Circle+Middle design options.
 View design Map or Game Map
@@ -29,7 +30,7 @@ E-Mail Requests for list of games on the server.
 E-Mail Requests for a game's status (Description, player numbers, turn, score)
 Added facility to edit Game Error Messages and the Game Run Batch File
 Corrected #Galaxy Error Messages.
-Fixed But in finalorders error detection
+Fixed Bug in finalorders error detection
 Added fields to the Race List for Games. Including Order Status.
 Saved Column Widths for lists.
 Added Reset Column Widths to the Options.
