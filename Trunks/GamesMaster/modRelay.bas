@@ -33,9 +33,10 @@ Public Sub RelayMessage(ByVal strTo As String, ByVal strFrom As String, ByVal st
     
     lngEnd = InStr(lngStart, strEMail, "#end", vbTextCompare)
     If lngEnd = 0 Then
+        lngEnd = Len(strEMail) + 1
         'Invalid EMail
-        strMessage = Options.GetMessage("InvalidRelayEMail", strEMail)
-        GoTo Error
+'        strMessage = Options.GetMessage("InvalidRelayEMail", strEMail)
+'        GoTo Error
     End If
     strOrders = Mid(strEMail, lngStart, lngEnd - lngStart)
     
@@ -107,7 +108,7 @@ Public Sub RelayMessage(ByVal strTo As String, ByVal strFrom As String, ByVal st
     
     Set objToRace = objGame.Races(strTo)
     If objToRace Is Nothing _
-    And (strTo = "gm") Then
+    And (strTo = "GM" Or strTo = "GamesMaster") Then
         Set objToRace = GMRace
     End If
     

@@ -7,6 +7,7 @@ Fixed replies to relay messages.
 Re-wrote the Design Algorithims.
 * minimum spacing between planets is now 2Ly
 * Will grow the galaxy if needed (1/4Ly increments)
+Made #END optional for Relay Messages
 
 Games Master Version 0.0.3
 --------------------------
