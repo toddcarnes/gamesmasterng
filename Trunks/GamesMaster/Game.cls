@@ -323,7 +323,7 @@ Public Sub Refresh()
         L = L + 1
         objPlanet.InProgress = vLines(L)
         L = L + 1
-        objPlanet.Spent = 0 & vLines(L)
+        objPlanet.Spent = 0 & Format(vLines(L), "#.000000")
         L = L + 1
         objPlanet.Flags = 0 & vLines(L)
         

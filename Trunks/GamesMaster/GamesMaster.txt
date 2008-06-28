@@ -182,6 +182,7 @@ There are new e-mail commands available. Information can be obtained about statu
 
 To: wombat@mykoala.net
 Subject: help
+
 @
 23 Help
 Welcome to the [servername] galaxyng gameserver. Listed below are the valid e-mail commands that will be processed by the gameserver.
@@ -208,7 +209,7 @@ Orders		- Submit orders for a game
 		  #end
 
 Report		- Request a copy of a previous turn report
-		  #galaxy <game> <race> <password> <turn> 
+		  #galaxy <game> <race> <password> <turn>
 
 Relay <race>	- Send a message to one specific player
 		  #galaxy <game> <race> <password>
