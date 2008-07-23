@@ -238,14 +238,14 @@ Private Sub ProcessData(ByVal strData As String)
     
     If blnSaveEMail Then
         ' Check Email
-        If Not ValidEMail(mstrEMail) Then
-            Call SaveEMail(mstrEMail, True)
-            blnNextEMail = True
-        Else
+'        If Not ValidEMail(mstrEMail) Then
+'            Call SaveEMail(mstrEMail, True)
+'            blnNextEMail = True
+'        Else
             Call SaveEMail(mstrEMail)
             SendData c_DETE & " " & CStr(mlngCurrentMessage)
             muStatus = GM_DELE
-        End If
+'        End If
         blnSaveEMail = False
     End If
     

@@ -103,6 +103,7 @@ Your orders have been received for turn [1] and will be stored for future proces
 15 run_game
 rem Merge the Orders
 cd "[galaxynghome]orders\[game]"
+echo\ >>[turn].all
 copy /y *.[turn] [turn].all
 del /q *.[turn]
 del /q *.notify
