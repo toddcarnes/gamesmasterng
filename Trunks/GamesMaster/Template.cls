@@ -570,7 +570,7 @@ Public Function Details() As String
     If Peace = 0 Then
         strDetails = strDetails & "False" & vbNewLine
     Else
-        strDetails = strDetails & CStr(Peace) & " Turns" & vbNewLine
+        strDetails = strDetails & "Until Turn " & CStr(Peace) & vbNewLine
     End If
     strDetails = strDetails & "Keep Production: " & CStr(KeepProduction) & vbNewLine
     strDetails = strDetails & "Dont Drop Dead: " & CStr(DontDropDead) & vbNewLine

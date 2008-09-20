@@ -296,7 +296,9 @@ Public Sub Refresh()
         objPlanet.Planet = vLines(L)
         L = L + 1
         objPlanet.OwnerID = 0 & vLines(L)
-        Set objPlanet.Owner = Races(objPlanet.OwnerID)
+        If objPlanet.OwnerID <> 0 Then
+            Set objPlanet.Owner = Races(objPlanet.OwnerID)
+        End If
         If Not objPlanet.Owner Is Nothing Then
             objPlanet.Owner.Planets.Add objPlanet
         End If
@@ -305,9 +307,9 @@ Public Sub Refresh()
         L = L + 1
         objPlanet.Y = vLines(L)
         L = L + 1
-        objPlanet.Size = vLines(L)
+        objPlanet.Size = 0 & vLines(L)
         L = L + 1
-        objPlanet.Resources = vLines(L)
+        objPlanet.Resources = 0 & vLines(L)
         L = L + 1
         objPlanet.Pop = 0 & vLines(L)
         L = L + 1
