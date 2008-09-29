@@ -52,8 +52,11 @@ Public Sub SendReport(ByVal strFrom As String, ByVal strEMail As String)
     strGame = varHeader(1)
     strRace = varHeader(2)
     strPassword = varHeader(3)
-    lngTurn = varHeader(4)
-    
+    If IsNumeric(varHeader(4)) Then
+        lngTurn = varHeader(4)
+    Else
+        lngTurn = -1
+    End If
     'Validate the Game
     Set objGames = New Games
     objGames.Refresh
@@ -81,6 +84,14 @@ Public Sub SendReport(ByVal strFrom As String, ByVal strEMail As String)
         'Invalid Header
         strMessage = Options.GetMessage("InvalidReportHeader", _
                 "An invalid password was specified for the selected race.", _
+                QuoteText(strHeader))
+        GoTo Error
+    End If
+    
+    If lngTurn < 0 Then
+        'Invalid Header
+        strMessage = Options.GetMessage("InvalidReportHeader", _
+                "The turn number is not numeric.", _
                 QuoteText(strHeader))
         GoTo Error
     End If

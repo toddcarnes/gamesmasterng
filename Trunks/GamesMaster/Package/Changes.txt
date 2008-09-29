@@ -1,5 +1,6 @@
 Games Master Version 0.0.4
 --------------------------
+Reported non numeric Turn Number on Report Requests
 Fixed template Core_Sizes, InitialTechLevels 
 Added Editing of GamesMaster Password
 Added Help e-mail command for information acquisition.
