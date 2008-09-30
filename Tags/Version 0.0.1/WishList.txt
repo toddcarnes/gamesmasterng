@@ -1,0 +1,6 @@
+Wishlist Requests
+=================
+View Game details
+Change Game Details
+Send reports as attachments
+Zip reports as attachment
