@@ -1,0 +1,148 @@
+**Explanation of all menu options**
+File
+	Exit	Will Close the Program, stopping all automatic options
+View
+	Games	Display a window with the games/templates. Will display games
+		flagged as finished is the Show All Games option has been ckecked
+	Options	Display the Options Window
+	Messages	Display the Games messages. These include themessages
+			send in outgoing e-mails and the batch files for 
+			running a galaxyng game
+	Log File	Display the program log file where arrors are recorded
+	Show All Games	Toggle switch to displaying Active Game or All Games in 
+			the games window
+Template
+	Create	Create a New template. You will be prompted for a Name.
+	View	View the Template for the selected Game
+	Edit	Edit the Template for the Selected Game
+	Copy	Create a new Template based upon the Template for the Selected Game
+	Delete	Delete the Template for the Selected Game
+	Show Source File	Show the Template Source File for the Selected Game
+	Refresh	Refresh the Games Window (F5)
+Game
+	Create	Create the Selected Game
+	View	View the Selected Game
+	Delete	Delete the Selected Game
+	Edit Description	Edit the Game description for the Selected Game
+	Edit Message	Edit the Games Master Message that will be send to players
+			of the Selected Game
+	Start	Start the Selected Game by Sending Turn 0 Reports to the Players
+	Run Turn	Run the Next Turn for the Selected Game. All orders that
+			have been received will be processed.
+	ReSend Turns	Send the Turn Reports that have already been generated to
+			The players of the Selected Game
+	Notify Users	Send Notification to the Players of the Selected Game that
+			have not submitted orders that the games next turn will be 
+			run soon.
+Mail
+	Show Get Mail	Display the Window that monitors checking for new e-mails
+	Retreive	Retreive E-mails from the configured POP Server
+	Process		Process all E-Mails that are in the InBox
+	Show Send Mail	Display the Window that monitors the sending of e-mails
+	Send		Send all E-Mails that are in the Outbox
+	Auto Check Mail	Automatically check for E-Mail on the POP Server
+	Auto RunGames	Automatically process Games marked as Scheduled.
+Window
+	Cascade		Cascade the currently Open windows
+	Tile Horizontal	Tile the currently Open windows Horizontally
+	Tile Vertical	Tile the currently Open windows Vertically
+	Arrange Icons	Arrange the minimised windows
+Popup
+	Create Template	See Template/Create
+	View Template	See Tempalte/View
+	Edit Template	See Template/Edit
+	Copy Template	See Template/Copy
+	Delete Template	See Template/Delete
+	View Template Source File	See Template/Show Source File
+	Refresh Templtes	See Template/Refresh
+	Create Game	See Game/Create
+	View Game	See Game/View
+	Delete Game	See Game/Delete
+	Edit Game Description	See Game/Edit Description
+	Edit Game Message	See Game/Edit Message
+	Start Game	See Game/Start
+	Run Turn	See Game/Run Turn
+	ReSend Reports	See Game/ReSend Reports
+
+**Explanation of each window**
+Games Master Window
+	The GamesMaster window is for holding the currently open windows.
+	The "X" Close button acts in two ways.
+		1. Closed the Window is no Automated processing is enabled
+		2. Minimises the window to the System tray if there are 
+			Automated processes running.
+Get Mail Window
+	Displays the communications between the GamesMaster program and the 
+	E-Mail POP Server when the program received e-mail.
+	Commands Sent are prefixed with ">"
+	Information received is prefixed with "S:"
+Send Mail Window
+	Displays the communications between the GamesMaster program and the 
+	E-Mail SMTP Server when the program sends e-mail.
+	Commands Sent are prefixed with ">"
+	Information received is prefixed with "S:"
+Template Window
+Game Window
+Game Description Window
+GameMessage Window
+Map Window
+Options Window
+Messages Window
+LogFile Window
+
+**Procedure to building a template then a game. **
+Create Template
+Edit Template
+Create Game
+Start Game
+
+**How Scheduling works**
+Registrations Open - Accept E-Mail Registrations
+Registrations Close - Create Game
+Game Start - Start Game (Send Move 0)
+
+**E-Mail processing explained, how it works, what it does and doesn't do.**
+Received to Disk File in Inbox
+	Cannot decypher multipart e-mails.
+	Can only decypher plain text email
+Processed and saved/deleted
+Written to Disk File in Outbox
+Send and saved/deleted
+
+**All distribution files explained.**
+GamesMaster.exe
+GamesMaster.ini
+GamesMaster.txt
+GamesMaster.log
+GalayNG.exe
+Zip.dll
+Changes.txt
+License.rtf
+gpl-3.0.txt
+Info-Zip License.txt
+ASYCFILT.DLL
+COMCAT.DLL
+COMDLG32.OCX
+MSBIND.DLL
+MSCOMCTL.OCX
+MSDBRPTR.DLL
+MSDERUN.DLL
+MSHFLXGD.OCX
+MSSTDFMT.DLL
+msvbvm60.dll
+OLEAUT32.DLL
+OLEPRO32.DLL
+STDOLE2.TLB
+TABCTL32.OCX
+VB5DB.DLL
+ws2_32.dll
+
+**Folder Structure Explained.**
+Data
+InBox
+log
+notices
+orders
+Outbox
+reports
+statistics
