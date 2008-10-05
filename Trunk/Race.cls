@@ -19,6 +19,11 @@ Attribute VB_Ext_KEY = "Member1" ,"Groups"
 Attribute VB_Ext_KEY = "Member2" ,"Fleets"
 Attribute VB_Ext_KEY = "Member3" ,"Planets"
 Attribute VB_Ext_KEY = "Member4" ,"EMail"
+'********************************************************
+'   Copyright 2007,2008 Ian Evans.                      *
+'   This program is distributed under the terms of the  *
+'       GNU General Public License.                     *
+'********************************************************
 Option Explicit
 
 Public RaceName As String

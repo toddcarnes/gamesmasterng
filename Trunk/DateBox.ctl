@@ -20,6 +20,11 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
+'********************************************************
+'   Copyright 2007,2008 Ian Evans.                      *
+'   This program is distributed under the terms of the  *
+'       GNU General Public License.                     *
+'********************************************************
 Option Explicit
 'Default Property Values:
 'Const m_def_TimeStamp = 0
@@ -46,11 +51,11 @@ Event KeyPress(KeyAscii As Integer) 'MappingInfo=txtDate,txtDate,-1,KeyPress
 Attribute KeyPress.VB_Description = "Occurs when the user presses and releases an ANSI key."
 Event KeyUp(KeyCode As Integer, Shift As Integer) 'MappingInfo=txtDate,txtDate,-1,KeyUp
 Attribute KeyUp.VB_Description = "Occurs when the user releases a key while an object has the focus."
-Event MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single) 'MappingInfo=txtDate,txtDate,-1,MouseDown
+Event MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single) 'MappingInfo=txtDate,txtDate,-1,MouseDown
 Attribute MouseDown.VB_Description = "Occurs when the user presses the mouse button while an object has the focus."
-Event MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single) 'MappingInfo=txtDate,txtDate,-1,MouseMove
+Event MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single) 'MappingInfo=txtDate,txtDate,-1,MouseMove
 Attribute MouseMove.VB_Description = "Occurs when the user moves the mouse."
-Event MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single) 'MappingInfo=txtDate,txtDate,-1,MouseUp
+Event MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single) 'MappingInfo=txtDate,txtDate,-1,MouseUp
 Attribute MouseUp.VB_Description = "Occurs when the user releases the mouse button while an object has the focus."
 
 Private Sub txtDate_GotFocus()
@@ -61,7 +66,7 @@ Private Sub txtDate_GotFocus()
 End Sub
 
 Private Sub txtDate_Validate(Cancel As Boolean)
-    Dim s As Integer
+    Dim S As Integer
     Dim dtNew As Date
     Dim strInput As String
     Dim strDate As String
@@ -82,10 +87,10 @@ Private Sub txtDate_Validate(Cancel As Boolean)
             strTime = "00:00:00"
         Else
             strInput = txtDate
-            s = InStr(1, strInput, " ")
-            If s > 0 Then
-                strDate = Trim(Left(strInput, s - 1))
-                strTime = Trim(Mid(strInput, s + 1))
+            S = InStr(1, strInput, " ")
+            If S > 0 Then
+                strDate = Trim(Left(strInput, S - 1))
+                strTime = Trim(Mid(strInput, S + 1))
             Else
                 strDate = strInput
                 strTime = ""
@@ -251,7 +256,7 @@ Private Sub txtDate_KeyDown(KeyCode As Integer, Shift As Integer)
 End Sub
 
 Private Sub txtDate_KeyPress(KeyAscii As Integer)
-    Dim C As String
+    Dim c As String
     Dim a As Integer
     Dim blncancel As Boolean
     Dim dtLast As Date
@@ -262,8 +267,8 @@ Private Sub txtDate_KeyPress(KeyAscii As Integer)
     dtActual = Format(dtLast, "dd-mmm-yyyy hh:nn")
     RaiseEvent KeyPress(KeyAscii)
     a = 0
-    C = Chr(KeyAscii)
-    Select Case C
+    c = Chr(KeyAscii)
+    Select Case c
     Case Chr$(vbKeyReturn)
         txtDate_Validate blncancel
     Case "="
@@ -323,7 +328,7 @@ Private Sub txtDate_KeyPress(KeyAscii As Integer)
     Case "N"
         m_TimeStamp = DateAdd("n", -1, dtActual)
     Case Else
-        If InStr(1, "0123456789 /:" & Chr$(vbKeyBack), C) > 0 Then
+        If InStr(1, "0123456789 /:" & Chr$(vbKeyBack), c) > 0 Then
             a = KeyAscii
         End If
     End Select
@@ -354,16 +359,16 @@ Private Sub txtDate_KeyUp(KeyCode As Integer, Shift As Integer)
     RaiseEvent KeyUp(KeyCode, Shift)
 End Sub
 
-Private Sub txtDate_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
-    RaiseEvent MouseDown(Button, Shift, x, y)
+Private Sub txtDate_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    RaiseEvent MouseDown(Button, Shift, X, Y)
 End Sub
 
-Private Sub txtDate_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
-    RaiseEvent MouseMove(Button, Shift, x, y)
+Private Sub txtDate_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    RaiseEvent MouseMove(Button, Shift, X, Y)
 End Sub
 
-Private Sub txtDate_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
-    RaiseEvent MouseUp(Button, Shift, x, y)
+Private Sub txtDate_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    RaiseEvent MouseUp(Button, Shift, X, Y)
 End Sub
 
 'WARNING! DO NOT REMOVE OR MODIFY THE FOLLOWING COMMENTED LINES!

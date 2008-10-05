@@ -16,6 +16,11 @@ Attribute VB_Ext_KEY = "Top_Level" ,"No"
 Attribute VB_Ext_KEY = "Member0" ,"Planets"
 Attribute VB_Ext_KEY = "Member1" ,"Races"
 Attribute VB_Ext_KEY = "Member2" ,"Template"
+'********************************************************
+'   Copyright 2007,2008 Ian Evans.                      *
+'   This program is distributed under the terms of the  *
+'       GNU General Public License.                     *
+'********************************************************
 Option Explicit
 
 Public GameName As String

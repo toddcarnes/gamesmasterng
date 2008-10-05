@@ -1,4 +1,9 @@
 Attribute VB_Name = "mSysTray"
+'********************************************************
+'   Copyright 2007,2008 Ian Evans.                      *
+'   This program is distributed under the terms of the  *
+'       GNU General Public License.                     *
+'********************************************************
 Option Explicit
 
 '-------------------------------------------------------
@@ -70,7 +75,7 @@ Public Function SubWndProc(ByVal hwnd As Long, ByVal MSG As Long, ByVal wParam A
 '------------------------------------------------------------
 ' This is the control subclassed window proc.
 '------------------------------------------------------------
-    Dim SysTray As cSysTray                         ' SysTray class variable
+    Dim Systray As cSysTray                         ' SysTray class variable
     Dim ClassAddr As Long                           ' long pointer to class object
 '------------------------------------------------------------
     Select Case MSG                                 ' Determine
@@ -78,11 +83,11 @@ Public Function SubWndProc(ByVal hwnd As Long, ByVal MSG As Long, ByVal wParam A
         ' Retrieve long pointer to class object, this was saved in the _
           USERDATA of the window struct. after the user control was subclassed...
         ClassAddr = GetWindowLong(hwnd, GWL_USERDATA) ' get pointer to object
-        CopyMemory SysTray, ClassAddr, 4            ' Copy an unreferenced pointer to object into variable
+        CopyMemory Systray, ClassAddr, 4            ' Copy an unreferenced pointer to object into variable
         
-        SysTray.SendEvent lParam, wParam            ' Send windows message\user event to control
+        Systray.SendEvent lParam, wParam            ' Send windows message\user event to control
         
-        CopyMemory SysTray, 0&, 4                   ' Nullify object pointer
+        CopyMemory Systray, 0&, 4                   ' Nullify object pointer
     End Select
    
     ' Forward all messages to previous window procedure...(This must be done)

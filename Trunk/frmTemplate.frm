@@ -763,6 +763,11 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+'********************************************************
+'   Copyright 2007,2008 Ian Evans.                      *
+'   This program is distributed under the terms of the  *
+'       GNU General Public License.                     *
+'********************************************************
 Option Explicit
 Public mobjTemplate As Template
 Private mblnReadOnly As Boolean
@@ -1130,19 +1135,19 @@ Private Sub mnuEditMessage_Click()
     
 End Sub
 
-Private Sub txtCoreSizes_Change(index As Integer)
+Private Sub txtCoreSizes_Change(Index As Integer)
     Dim vcore_sizes As Variant
     
     vcore_sizes = Template.core_sizes
-    If index > UBound(vcore_sizes) Then
+    If Index > UBound(vcore_sizes) Then
         ReDim Preserve vcore_sizes(Template.MaxPlanets)
     End If
-    vcore_sizes(index) = Val(txtCoreSizes(index))
+    vcore_sizes(Index) = Val(txtCoreSizes(Index))
     Template.core_sizes = vcore_sizes
 End Sub
 
-Private Sub txtCoreSizes_GotFocus(index As Integer)
-    With txtCoreSizes(index)
+Private Sub txtCoreSizes_GotFocus(Index As Integer)
+    With txtCoreSizes(Index)
         .SelStart = 0
         .SelLength = Len(.Text)
     End With
@@ -1171,17 +1176,17 @@ Private Sub txtEmptyRadius_GotFocus()
 End Sub
 
 
-Private Sub txtInitialTechLevel_Change(index As Integer)
+Private Sub txtInitialTechLevel_Change(Index As Integer)
     Dim vInitialTechlevels As Variant
     
     vInitialTechlevels = Template.InitialTechlevels
     On Error Resume Next
-    vInitialTechlevels(index) = Val(txtInitialTechLevel(index))
+    vInitialTechlevels(Index) = Val(txtInitialTechLevel(Index))
     Template.InitialTechlevels = vInitialTechlevels
 End Sub
 
-Private Sub txtInitialTechLevel_GotFocus(index As Integer)
-    With txtInitialTechLevel(index)
+Private Sub txtInitialTechLevel_GotFocus(Index As Integer)
+    With txtInitialTechLevel(Index)
         .SelStart = 0
         .SelLength = Len(.Text)
     End With

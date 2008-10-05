@@ -15,6 +15,11 @@ Attribute VB_Ext_KEY = "SavedWithClassBuilder6" ,"Yes"
 Attribute VB_Ext_KEY = "Top_Level" ,"No"
 Attribute VB_Ext_KEY = "Collection" ,"Registration"
 Attribute VB_Ext_KEY = "Member0" ,"Registration"
+'********************************************************
+'   Copyright 2007,2008 Ian Evans.                      *
+'   This program is distributed under the terms of the  *
+'       GNU General Public License.                     *
+'********************************************************
 Option Explicit
 
 Private mcolRegistrations As Collection

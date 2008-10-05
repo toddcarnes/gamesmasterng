@@ -1,46 +1,46 @@
-#define AppDate "16 March 2008"
+#define AppDate "5 October 2008"
 #define Source SourcePath
-#define HomePage "http://www.mykoala.net"
+#define HomePage "http://sourceforge.net/projects/gamesmasterng/"
 #define vbFiles Source + "\VB60Files"
 
 #define FileVersion GetFileVersion(Source+"\GamesMaster.exe")
 #define AppVersion Copy(FileVersion,1,rpos(".",Copy(FileVersion,1,rpos(".",FileVersion)-1))-1)+Copy(FileVersion,rpos(".",FileVersion))
 
 [Setup]
-AppID=GalaxyNGGamesMaster
-AppName=Games Master
+AppID=GamesMasterNG
+AppName=Games Master NG
 AppVersion={#AppVersion}
-AppVerName=Games Master {#AppVersion}
+AppVerName=Games Master NG {#AppVersion}
 AppPublisher=Ian Evans
 AppPublisherURL={#HomePage}
 AppSupportURL={#HomePage}
 AppUpdatesURL={#HomePage}
-DefaultDirName={pf}\GalaxyNG
-DefaultGroupName=GalaxyNG
-LicenseFile={#Source}\package\License.rtf
+DefaultDirName={pf}\GamesMasterNG
+DefaultGroupName=GamesMasterNG
+LicenseFile={#Source}\Package\COPYING.txt
 InfoBeforeFile={#Source}\package\Before.rtf
 InfoAfterFile={#Source}\package\After.rtf
 OutputDir={#Source}\Distributions
 SourceDir={#Source}
-OutputBaseFilename=GamesMasterSetupV{#AppVersion}
+OutputBaseFilename=GamesMasterNG_SetupV{#AppVersion}
 MinVersion=4.1.1998,4.0.1381sp6
-AppCopyright=Copyright © Ian Llewelyn Evans 2007,2008
+AppCopyright=Copyright 2007, 2008 Ian Evans
 UserInfoPage=false
 ChangesAssociations=true
 VersionInfoVersion={#FileVersion}
-VersionInfoTextVersion=Games Master V{#AppVersion}
+VersionInfoTextVersion=Games Master NG V{#AppVersion}
 VersionInfoCompany=Ian Evans
-VersionInfoDescription=Games Master Installation V{#AppVersion}
+VersionInfoDescription=Games Master NG Installation V{#AppVersion}
 ShowLanguageDialog=no
 UninstallDisplayIcon={app}\GamesMaster.exe
-UninstallDisplayName=Games Master Version {#AppVersion}
+UninstallDisplayName=Games Master NG Version {#AppVersion}
 AppReadmeFile=
 UsePreviousUserInfo=false
 DisableDirPage=false
 DisableProgramGroupPage=false
 AllowRootDirectory=true
 AllowUNCPath=false
-VersionInfoCopyright=Copyright © Ian Llewelyn Evans 2007,2008
+VersionInfoCopyright=Copyright 2007, 2008 Ian Evans
 AlwaysShowDirOnReadyPage=true
 AlwaysShowGroupOnReadyPage=true
 
@@ -56,7 +56,7 @@ Source: {#Source}\Package\GamesMaster.ini; DestDir: {app}; DestName: GamesMaster
 Source: {#Source}\Package\License.rtf; DestDir: {app}; Flags: comparetimestamp
 ;GalaxyNG
 Source: {#Source}\Package\galaxyng.exe; DestDir: {app}; Flags: comparetimestamp
-Source: {#Source}\Package\gpl-3.0.txt; DestDir: {app}; Flags: comparetimestamp
+Source: {#Source}\Package\COPYING.txt; DestDir: {app}; Flags: comparetimestamp
 ;Info-Zip
 Source: {#Source}\Package\zip32.dll; DestDir: {app}; Flags: comparetimestamp
 Source: {#Source}\Package\Info-Zip License.txt; DestDir: {app}; Flags: comparetimestamp
@@ -93,7 +93,7 @@ Filename: {app}\GamesMaster.exe; Parameters: -showoptions; WorkingDir: {app}; Fl
 Filename: {app}\Changes.txt; Description: View Changes included in this version; Flags: shellexec postinstall; WorkingDir: {app}
 
 [_ISToolPreCompile]
-Name: {#Source}\Package\signcode.exe; Parameters: " -cn ""Ian Evans"" -s ""TrustedPeople"" -n ""GamesMaster Version {#AppVersion} ({#AppDate})"" -sp chain -t http://timestamp.verisign.com/scripts/timstamp.dll ""{#Source}\GamesMaster.exe"" -i {#HomePage}"
+Name: {#Source}\Package\signcode.exe; Parameters: " -cn ""Ian Evans"" -s ""TrustedPeople"" -n ""Games Master NG Version {#AppVersion} ({#AppDate})"" -sp chain -t http://timestamp.verisign.com/scripts/timstamp.dll ""{#Source}\GamesMaster.exe"" -i {#HomePage}"
 
 [_ISToolPostCompile]
-Name: {#Source}\Package\signcode.exe; Parameters: " -cn ""Ian Evans"" -s ""TrustedPeople"" -n ""GamesMasterSetup Version {#AppVersion} ({#AppDate})"" -sp chain -t http://timestamp.verisign.com/scripts/timstamp.dll ""{#Source}\Distributions\GamesMasterSetupV{#AppVersion}.exe"" -i {#HomePage}"; Flags: abortonerror
+Name: {#Source}\Package\signcode.exe; Parameters: " -cn ""Ian Evans"" -s ""TrustedPeople"" -n ""Games Master NG Setup Version {#AppVersion} ({#AppDate})"" -sp chain -t http://timestamp.verisign.com/scripts/timstamp.dll ""{#Source}\Distributions\GamesMasterNGSetupV{#AppVersion}.exe"" -i {#HomePage}"; Flags: abortonerror

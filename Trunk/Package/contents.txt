@@ -3,19 +3,18 @@
 
  Directory of C:\My Documents\Visual Studio Projects\GamesMaster\Package
 
-06/01/2008  06:45    <DIR>          .
-06/01/2008  06:45    <DIR>          ..
-31/12/2007  07:33             1,161 After.rtf
-31/12/2007  08:03            12,130 Before.rtf
-13/01/2008  05:51             1,393 Changes.txt
-13/01/2008  05:52                 0 contents.txt
-05/07/2007  23:37           400,562 galaxyng.exe
-06/01/2008  06:45            69,654 galaxyng.png
-01/01/2008  16:51                 0 GamesMaster.ini
-31/12/2007  07:42            35,147 gpl-3.0.txt
-31/12/2007  08:02             3,412 Info-Zip License.txt
-31/12/2007  07:09             9,898 License.rtf
-02/01/2008  06:12               458 WishList.txt
+05/10/2008  07:53    <DIR>          .
+05/10/2008  07:53    <DIR>          ..
+05/10/2008  07:34             8,173 After.rtf
+05/10/2008  07:35            24,918 Before.rtf
+30/09/2008  20:54             3,429 Changes.txt
+05/10/2008  07:54                 0 contents.txt
+30/09/2008  20:54            35,147 COPYING.txt
+25/04/2008  16:08           227,067 galaxyng.exe
+30/09/2008  20:54            69,654 galaxyng.png
+30/09/2008  20:54                 0 GamesMaster.ini
+30/09/2008  20:54             3,412 Info-Zip License.txt
+30/09/2008  20:54               324 WishList.txt
 31/01/1998  13:25           133,120 zip32.dll
-              12 File(s)        666,935 bytes
-               2 Dir(s)  10,292,621,312 bytes free
+              13 File(s)      1,132,873 bytes
+               2 Dir(s)  41,627,156,480 bytes free

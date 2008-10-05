@@ -83,23 +83,23 @@ Begin VB.Form frmOptions
       TabCaption(1)   =   "E-Mail"
       TabPicture(1)   =   "frmOptions.frx":0CE6
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "txtOutBox"
-      Tab(1).Control(1)=   "txtInbox"
-      Tab(1).Control(2)=   "frSMTPServer"
-      Tab(1).Control(3)=   "frPopServer"
-      Tab(1).Control(4)=   "Label(11)"
-      Tab(1).Control(5)=   "Label(10)"
+      Tab(1).Control(0)=   "Label(10)"
+      Tab(1).Control(1)=   "Label(11)"
+      Tab(1).Control(2)=   "frPopServer"
+      Tab(1).Control(3)=   "frSMTPServer"
+      Tab(1).Control(4)=   "txtInbox"
+      Tab(1).Control(5)=   "txtOutBox"
       Tab(1).ControlCount=   6
       TabCaption(2)   =   "Startup"
       TabPicture(2)   =   "frmOptions.frx":0D02
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "chkAutoRunGames"
-      Tab(2).Control(1)=   "chkAutoCheckMail"
-      Tab(2).Control(2)=   "chkShowGetMail"
+      Tab(2).Control(0)=   "chkStartWithWindows"
+      Tab(2).Control(1)=   "chkMinimizeAtStartup"
+      Tab(2).Control(2)=   "chkShowGames"
       Tab(2).Control(3)=   "chkShowSendMail"
-      Tab(2).Control(4)=   "chkShowGames"
-      Tab(2).Control(5)=   "chkMinimizeAtStartup"
-      Tab(2).Control(6)=   "chkStartWithWindows"
+      Tab(2).Control(4)=   "chkShowGetMail"
+      Tab(2).Control(5)=   "chkAutoCheckMail"
+      Tab(2).Control(6)=   "chkAutoRunGames"
       Tab(2).ControlCount=   7
       Begin VB.TextBox txtGamesMasterPassword 
          Height          =   315
@@ -478,6 +478,11 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+'********************************************************
+'   Copyright 2007,2008 Ian Evans.                      *
+'   This program is distributed under the terms of the  *
+'       GNU General Public License.                     *
+'********************************************************
 Option Explicit
 
 Public Sub LoadOptions()

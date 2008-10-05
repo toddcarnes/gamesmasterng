@@ -1,4 +1,9 @@
 Attribute VB_Name = "modZip"
+'********************************************************
+'   Copyright 2007,2008 Ian Evans.                      *
+'   This program is distributed under the terms of the  *
+'       GNU General Public License.                     *
+'********************************************************
 Option Explicit
 
 '-- C Style argv
@@ -75,7 +80,7 @@ Private Declare Sub UzpVersion2 Lib "unzip32.dll" (uzpv As UZPVER)
 
 'argv
 Public Type ZIPnames
-    s(0 To 99) As String
+    S(0 To 99) As String
 End Type
 
 'ZPOPT is used to set options in the zip32.dll
@@ -163,14 +168,14 @@ Function FnPtr(ByVal lp As Long) As Long
 End Function
 
 ' Callback for zip32.dll
-Function DLLPrnt(ByRef fname As CBChar, ByVal x As Long) As Long
+Function DLLPrnt(ByRef fname As CBChar, ByVal X As Long) As Long
     Dim s0$, xx As Long
     Dim sVbZipInf As String
     
     ' always put this in callback routines!
     On Error Resume Next
     s0 = ""
-    For xx = 0 To x
+    For xx = 0 To X
         If fname.ch(xx) = 0 Then xx = 99999 Else s0 = s0 + Chr(fname.ch(xx))
     Next xx
     
@@ -185,7 +190,7 @@ Function DLLPrnt(ByRef fname As CBChar, ByVal x As Long) As Long
 End Function
 
 ' Callback for Zip32.dll ?
-Function DllServ(ByRef fname As CBChar, ByVal x As Long) As Long
+Function DllServ(ByRef fname As CBChar, ByVal X As Long) As Long
     
     Dim s0 As String
     Dim xx As Long
@@ -194,7 +199,7 @@ Function DllServ(ByRef fname As CBChar, ByVal x As Long) As Long
     
     s0 = ""
     
-    For xx = 0 To x - 1
+    For xx = 0 To X - 1
         If fname.ch(xx) = 0 Then Exit For
         s0 = s0 & Chr$(fname.ch(xx))
     Next
@@ -203,7 +208,7 @@ Function DllServ(ByRef fname As CBChar, ByVal x As Long) As Long
 End Function
 
 ' Callback for zip32.dll
-Function DllPass(ByRef s1 As Byte, x As Long, _
+Function DllPass(ByRef s1 As Byte, X As Long, _
     ByRef s2 As Byte, _
     ByRef s3 As Byte) As Long
 
@@ -376,7 +381,7 @@ Public Sub UZReceiveDLLMessage(ByVal ucsize As Long, _
 End Sub
 
 '-- Callback For UNZIP32.DLL - Print Message Function
-Public Function UZDLLPrnt(ByRef fname As UNZIPCBChar, ByVal x As Long) As Long
+Public Function UZDLLPrnt(ByRef fname As UNZIPCBChar, ByVal X As Long) As Long
 
   Dim s0 As String
   Dim xx As Long
@@ -387,7 +392,7 @@ Public Function UZDLLPrnt(ByRef fname As UNZIPCBChar, ByVal x As Long) As Long
   s0 = ""
 
   '-- Gets The UNZIP32.DLL Message For Displaying.
-  For xx = 0 To x - 1
+  For xx = 0 To X - 1
     If fname.ch(xx) = 0 Then Exit For
     s0 = s0 & Chr(fname.ch(xx))
   Next
@@ -403,7 +408,7 @@ msOutput = uZipInfo
 End Function
 
 '-- Callback For UNZIP32.DLL - DLL Service Function
-Public Function UZDLLServ(ByRef mname As UNZIPCBChar, ByVal x As Long) As Long
+Public Function UZDLLServ(ByRef mname As UNZIPCBChar, ByVal X As Long) As Long
 
     Dim s0 As String
     Dim xx As Long
@@ -413,7 +418,7 @@ Public Function UZDLLServ(ByRef mname As UNZIPCBChar, ByVal x As Long) As Long
     
     s0 = ""
     '-- Get Zip32.DLL Message For processing
-    For xx = 0 To x - 1
+    For xx = 0 To X - 1
         If mname.ch(xx) = 0 Then Exit For
         s0 = s0 + Chr(mname.ch(xx))
     Next

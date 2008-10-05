@@ -13,6 +13,11 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 Attribute VB_Ext_KEY = "SavedWithClassBuilder6" ,"Yes"
 Attribute VB_Ext_KEY = "Top_Level" ,"Yes"
+'********************************************************
+'   Copyright 2007,2008 Ian Evans.                      *
+'   This program is distributed under the terms of the  *
+'       GNU General Public License.                     *
+'********************************************************
 Option Explicit
 '
 '
@@ -201,7 +206,7 @@ On Error GoTo vbErrorHandler
     lFileCount = 0
     
     For Each sFileName In mCollection
-        zFileArray.s(lFileCount) = sFileName
+        zFileArray.S(lFileCount) = sFileName
         lFileCount = lFileCount + 1
     Next
 
