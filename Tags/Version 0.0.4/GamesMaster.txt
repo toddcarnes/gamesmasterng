@@ -1,0 +1,233 @@
+1 Header
+
+@
+2 Footer
+
+---------------------------------------
+[servername] Games Master
+E-Mail: [gamesmasteremail]
+
+This e-mail has been generated automatically by the GalaxyNG game server called [servername] and should not be replied to.
+@
+3 NoGame
+Your request to join the GalaxyNG game "[1]" has FAILED because the game does not exist.
+
+Please check the name of the game that you wish to join and try registering again.
+@
+4 GameStarted
+Your request to join GalaxyNG game "[1]" has FAILED because the game is currently underway.
+@
+5 NotOpen
+Your request to join GalaxyNG game "[1]" has FAILED because the game is not currently accepting registrations.
+@
+6 GameFull
+Your request to join GalaxyNG game "[1]" has FAILED due to the [2] positions already having been filled.
+@
+7 TooManyPlanets
+Your request to join GalaxyNG game "[1]" has encountered an error due to [2] planets being specified in the registration but only [3] are allowed.
+
+Your Registration will be processed using the games default planet sizes.
+------------------------------------------------------------
+@
+8 PlanetTooLarge
+Your request to join GalaxyNG game "[1]" has encountered an error due to a planet's size of [2] being requested but the maximum size cannot exceed [3].
+
+Your Registration will be processed using the games default planet sizes.
+------------------------------------------------------------
+@
+9 TotalPlanets
+Your request to join GalaxyNG game "[1]" as encountered an error due to the total planet size ([2]) not being equal to [3].
+
+Your Registration will be processed using the games default planet sizes.
+------------------------------------------------------------
+@
+10 RegistrationAccepted
+Your registration to join GalaxyNG game "[1]" was successful.
+Your Planets have been recorded as follows.
+
+[2]
+
+Should you wish to change your planet sizes, just submit another registration using the same e-mail address and your registration will be updated.
+
+Mykoala Home Page: http://www.mykoala.net
+GalaxyNG Forum: http://forums.mykoala.net
+GalaxyNG Home Page: http://galaxyng.sourceforge.net/
+Player's Manual: http://galaxyng.sourceforge.net/manual.php
+Client Programs: http://galaxyview.sourceforge.net/tools.html
+@
+11 RegistrationUpdated
+The Registration change for the GalaxyNG game "[1]" was successful.
+Your Planet sizes were UPDATED to be as follows.
+
+[2]
+
+Should you wish to make further changes to your planet sizes, just submit another registration using the same e-mail address and your registration will be updated.
+
+Mykoala Home Page: http://www.mykoala.net
+GalaxyNG Forum: http://forums.mykoala.net
+GalaxyNG Home Page: http://galaxyng.sourceforge.net/
+Player's Manual: http://galaxyng.sourceforge.net/manual.php
+Client Programs: http://galaxyview.sourceforge.net/tools.html
+@
+12 InvalidOrdersEMail
+Major problems were encountered while attempting to process the orders submitted.
+
+The EMail was incorrectly formed. The orders must be submitted in the following format with a subject of "orders".
+
+#galaxy <game> <race> <password> <turn> [finalorders]
+.... orders ....
+#end
+
+------------------------------------------------------------
+[1]
+@
+13 InvalidOrdersHeader
+Major problems were encountered while attempting to process the orders submitted.
+
+[1]
+
+The orders must be submitted in the following format with a subject of "orders".
+
+#galaxy <game> <race> <password> <turn> [finalorders]
+.... orders ....
+#end
+
+------------------------------------------------------------
+[2]
+@
+14 FutureOrders
+Your orders have been received for turn [1] and will be stored for future processing.
+
+[2]
+@
+15 run_game
+rem Merge the Orders
+cd "[galaxynghome]orders\[game]"
+echo\ >>[turn].all
+copy /y *.[turn] [turn].all
+del /q *.[turn]
+del /q *.notify
+
+rem Delete the old reports
+cd "[galaxynghome]reports\[game]"
+del /q *.*
+
+rem Run the Game
+cd "[galaxynghome]"
+set GALAXYNGHOME=.
+"[galaxyngexe]" -run [game] "orders\[game]\[turn].all" [turn]
+"[galaxyngexe]" -score [game] >[game].html
+@
+16 NotifyUser
+Turn [turn] for GalaxyNG game "[game]" is due to run in [1].
+
+Orders have not been received for your race "[2]".
+
+Please submit your orders for processing.
+@
+17 InvalidReportEMail
+Major problems were encountered while attempting to process the report request.
+
+The EMail was incorrectly formed. The orders must be submitted in the following format with a subject of "report".
+
+#galaxy <game> <race> <password> <turn>
+
+------------------------------------------------------------
+[1]
+@
+18 InvalidReportHeader
+Major problems were encountered while attempting to process the report request.
+
+[1]
+
+The orders must be submitted in the following format with a subject of "report".
+
+#galaxy <game> <race> <password> <turn>
+
+------------------------------------------------------------
+[2]
+@
+19 InvalidRelayEMail
+Major problems were encountered while attempting to process the relay request.
+
+The EMail was incorrectly formed. The orders must be submitted in the following format with a subject of "relay <race>".
+
+#galaxy <game> <race> <password>
+.... message ....
+#end
+------------------------------------------------------------
+[1]
+@
+20 InvalidRelayHeader
+Major problems were encountered while attempting to process the relay request.
+
+[1]
+
+The EMail must be submitted in the following format with a subject of "relay <race>".
+
+#galaxy <game> <race> <password>
+.... message ....
+#end
+
+------------------------------------------------------------
+[2]
+@
+21 RelaySent
+Your message relay request to "[1]" has been processed and your message has been sent.
+@
+22 GamesMasterMessage
+Your GalaxyNG Turn Report is attached to this EMail.
+
+** NEW E-Mail COMMANDS **
+There are new e-mail commands available. Information can be obtained about status and details of games that are or have taken place on the games server. Send an e-mail as follows to learn about the commands available.
+
+To: wombat@mykoala.net
+Subject: help
+
+@
+23 Help
+Welcome to the [servername] galaxyng gameserver. Listed below are the valid e-mail commands that will be processed by the gameserver.
+
+General Subjects
+----------------
+The following subjects can be sent to the games server by anyone
+
+Help		- Get this message
+Help Games	- Request Details about active games on the server
+Help All Games	- Request Details about all games on the server
+Help <game>	- Request Details about a specific game
+Join <game>	- Apply to join a game
+		  #planets n n n
+
+Games Specific Subjects
+-----------------------
+The following subjects can only be sent to the game server by
+people that are enrolled into a game that is under way.
+
+Orders		- Submit orders for a game
+		  #galaxy <game> <race> <password> <turn> [finalorders]
+		  ... orders ...
+		  #end
+
+Report		- Request a copy of a previous turn report
+		  #galaxy <game> <race> <password> <turn>
+
+Relay <race>	- Send a message to one specific player
+		  #galaxy <game> <race> <password>
+		  ... message ...
+		  #end
+Relay <game>	- Send a message to all players of a game
+		  #galaxy <game> <race> <password>
+		  ... message ...
+		  #end
+Relay GM	- Send a message to the Games Master
+		  #galaxy <game> <race> <password>
+		  ... message ...
+		  #end
+re: [GNG] <game> message relay <to>
+		- Replying to a relay message that is received
+		  will also be an acceptable subject
+		  #galaxy <game> <race> <password>
+		  ... message ...
+		  #end
+@

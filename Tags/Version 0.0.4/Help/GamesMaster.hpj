@@ -1,0 +1,11 @@
+; This file is maintained by HCW. Do not modify this file directly.
+
+[OPTIONS]
+ERRORLOG=GamesMaster.log
+LCID=0xc09 0x0 0x0 ; English (Australian)
+REPORT=Yes
+TITLE=GamesMaster
+HLP=GamesMaster.hlp
+
+[FILES]
+GamesMaster.rtf
