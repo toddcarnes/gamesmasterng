@@ -1,4 +1,4 @@
-#define AppDate "5 October 2008"
+#define AppDate "11 October 2008"
 #define Source SourcePath
 #define HomePage "http://sourceforge.net/projects/gamesmasterng/"
 #define vbFiles Source + "\VB60Files"
@@ -53,7 +53,6 @@ Name: {commondesktop}\Games Master; Filename: {app}\GamesMaster.exe
 Source: {#Source}\GamesMaster.exe; DestDir: {app}; Flags: comparetimestamp
 Source: {#Source}\GamesMaster.txt; DestDir: {app}; Flags: comparetimestamp
 Source: {#Source}\Package\GamesMaster.ini; DestDir: {app}; DestName: GamesMaster.ini; Flags: onlyifdoesntexist
-Source: {#Source}\Package\License.rtf; DestDir: {app}; Flags: comparetimestamp
 ;GalaxyNG
 Source: {#Source}\Package\galaxyng.exe; DestDir: {app}; Flags: comparetimestamp
 Source: {#Source}\Package\COPYING.txt; DestDir: {app}; Flags: comparetimestamp
@@ -96,4 +95,4 @@ Filename: {app}\Changes.txt; Description: View Changes included in this version;
 Name: {#Source}\Package\signcode.exe; Parameters: " -cn ""Ian Evans"" -s ""TrustedPeople"" -n ""Games Master NG Version {#AppVersion} ({#AppDate})"" -sp chain -t http://timestamp.verisign.com/scripts/timstamp.dll ""{#Source}\GamesMaster.exe"" -i {#HomePage}"
 
 [_ISToolPostCompile]
-Name: {#Source}\Package\signcode.exe; Parameters: " -cn ""Ian Evans"" -s ""TrustedPeople"" -n ""Games Master NG Setup Version {#AppVersion} ({#AppDate})"" -sp chain -t http://timestamp.verisign.com/scripts/timstamp.dll ""{#Source}\Distributions\GamesMasterNGSetupV{#AppVersion}.exe"" -i {#HomePage}"; Flags: abortonerror
+Name: {#Source}\Package\signcode.exe; Parameters: " -cn ""Ian Evans"" -s ""TrustedPeople"" -n ""Games Master NG Setup Version {#AppVersion} ({#AppDate})"" -sp chain -t http://timestamp.verisign.com/scripts/timstamp.dll ""{#Source}\Distributions\GamesMasterNG_SetupV{#AppVersion}.exe"" -i {#HomePage}"; Flags: abortonerror
