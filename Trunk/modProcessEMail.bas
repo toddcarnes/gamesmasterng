@@ -26,6 +26,8 @@ Private Sub ProcessEMail(ByVal strPath As String)
     Dim strSubject As String
     Dim varBody As Variant
     Dim varSubject As Variant
+    Dim strSubject1 As String
+    Dim strSubject5 As String
 
     strEMail = GetFile(strPath)
     Call AnalyseEMail(strEMail, strFrom, strSubject, varBody)
@@ -36,6 +38,7 @@ Private Sub ProcessEMail(ByVal strPath As String)
     
     varSubject = Split(strSubject, " ")
     If UBound(varSubject) >= 0 Then
+        ReDim Preserve varSubject(5)
         Select Case LCase(varSubject(0))
         Case "join"
             Call JoinGame(varSubject(1), strFrom, varBody)
@@ -48,7 +51,6 @@ Private Sub ProcessEMail(ByVal strPath As String)
         Case "help"
             Call HelpEmail(strSubject, strFrom, strEMail)
         Case "re:"
-            ReDim Preserve varSubject(5)
             If varSubject(4) = "relay" Then
                 Call RelayMessage(varSubject(5), strFrom, strEMail)
             End If
