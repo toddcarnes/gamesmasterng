@@ -190,8 +190,10 @@ Private Sub ProcessData(ByVal strData As String)
             blnNext = True
             blnError = True
         Else
-            SendData c_QUIT
-            muStatus = SM_QUIT
+            blnNext = True
+            blnError = True
+'            SendData c_QUIT
+'            muStatus = SM_QUIT
         End If
         
     Case SM_Command.SM_DATA

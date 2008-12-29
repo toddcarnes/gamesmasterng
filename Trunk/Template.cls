@@ -365,6 +365,11 @@ Public Function Clone() As Template
         .TotalPlanetSize = TotalPlanetSize
         .Description = Description
 '        .Message = Message
+        .DesignType = DesignType
+        .OrbitPlanets = Me.OrbitPlanets
+        .OrbitDistance = OrbitDistance
+        .SeedType = SeedType
+        .SeedSizes = SeedSizes
         
         i = Len(TemplateName)
         Do
