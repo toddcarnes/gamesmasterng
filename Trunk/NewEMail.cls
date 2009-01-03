@@ -60,6 +60,10 @@ Public Sub MakeEMail()
                     "--" & strSeperator & vbNewLine & _
                     objAttachment.EMailData & vbNewLine
     Next objAttachment
+    
+    ' Add an attachment termination as done by Thunderbird
+    mstrEMail = mstrEMail & _
+                "--" & strSeperator & "--" & vbNewLine
 End Sub
 
 Public Property Get Attachments() As Attachments
