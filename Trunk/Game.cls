@@ -318,7 +318,7 @@ Public Sub Refresh()
         L = L + 1
         objPlanet.Pop = 0 & vLines(L)
         L = L + 1
-        objPlanet.Ind = 0 & vLines(L)
+        objPlanet.Ind = IIf(IsNumeric(vLines(L)), vLines(L), 0)
         L = L + 1
         objPlanet.Producing = vLines(L)
         L = L + 1
