@@ -1142,7 +1142,9 @@ Private Sub txtCoreSizes_Change(Index As Integer)
     If Index > UBound(vcore_sizes) Then
         ReDim Preserve vcore_sizes(Template.MaxPlanets)
     End If
-    vcore_sizes(Index) = Val(txtCoreSizes(Index))
+    If Index <= UBound(vcore_sizes) Then
+        vcore_sizes(Index) = Val(txtCoreSizes(Index))
+    End If
     Template.core_sizes = vcore_sizes
 End Sub
 

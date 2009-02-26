@@ -631,7 +631,11 @@ Private Sub SetSecondaryWorlds(ByVal objRego As Registration)
             wa = 2 * PI / (.HomeWorlds.Count)
             ws = 1
         Else
-            wa = 2 * PI / (.HomeWorlds.Count - 1)
+            If .HomeWorlds.Count > 1 Then
+                wa = 2 * PI / (.HomeWorlds.Count - 1)
+            Else
+                wa = 0
+            End If
             ws = 2
         End If
         
