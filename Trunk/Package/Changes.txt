@@ -9,6 +9,8 @@ Re-wrote the Design Algorithims.
 * minimum spacing between planets is now 2Ly
 * Will grow the galaxy if needed (1/4Ly increments)
 Made #END optional for Relay Messages
+Fixed Bug when generating game with single planet player
+Stopped crash when entering template planet size greater than maximum planets.
 
 Games Master Version 0.0.3
 --------------------------
