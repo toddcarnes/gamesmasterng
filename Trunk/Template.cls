@@ -196,6 +196,7 @@ Public Sub Load(Optional ByVal strFileName As String)
     Dim blnPlanets As Boolean
     
     Set Registrations = New Registrations
+    Set Planets = New Planets
     Description = ""
     Message = ""
     If strFileName <> "" Then
