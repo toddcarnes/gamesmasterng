@@ -1,3 +1,12 @@
+Games Master Version 0.0.5
+--------------------------
+Fixed Bug when generating game with single planet player
+Stopped crash when entering template planet size greater than maximum planets.
+Stopped Template Bloat caused by duplicated planets. 
+	Gamesmaster generated planets tended to duplicate in the template file.
+	Search for a duplicate of the first generated planet and delete to the
+	end of the planets section in the template.
+
 Games Master Version 0.0.4
 --------------------------
 Report non numeric Turn Number on Report Requests
