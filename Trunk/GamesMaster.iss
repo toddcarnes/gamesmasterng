@@ -1,4 +1,4 @@
-#define AppDate "11 October 2008"
+#define AppDate "28 February 2009"
 #define Source SourcePath
 #define HomePage "http://sourceforge.net/projects/gamesmasterng/"
 #define vbFiles Source + "\VB60Files"
@@ -24,7 +24,7 @@ OutputDir={#Source}\Distributions
 SourceDir={#Source}
 OutputBaseFilename=GamesMasterNG_SetupV{#AppVersion}
 MinVersion=4.1.1998,4.0.1381sp6
-AppCopyright=Copyright 2007, 2008 Ian Evans
+AppCopyright=Copyright 2007, 2008, 2009 Ian Evans
 UserInfoPage=false
 ChangesAssociations=true
 VersionInfoVersion={#FileVersion}
