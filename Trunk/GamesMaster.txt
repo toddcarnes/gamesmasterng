@@ -178,12 +178,7 @@ Your message relay request to "[1]" has been processed and your message has been
 22 GamesMasterMessage
 Your GalaxyNG Turn Report is attached to this EMail.
 
-** NEW E-Mail COMMANDS **
-There are new e-mail commands available. Information can be obtained about status and details of games that are or have taken place on the games server. Send an e-mail as follows to learn about the commands available.
-
-To: wombat@mykoala.net
-Subject: help
-
+*************************************************************
 @
 23 Help
 Welcome to the [servername] galaxyng gameserver. Listed below are the valid e-mail commands that will be processed by the gameserver.
