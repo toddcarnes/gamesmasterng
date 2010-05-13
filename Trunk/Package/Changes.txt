@@ -6,6 +6,7 @@ Stopped Template Bloat caused by duplicated planets.
 	Gamesmaster generated planets tended to duplicate in the template file.
 	Search for a duplicate of the first generated planet and delete to the
 	end of the planets section in the template.
+Change Winsock Control to use the Windows version rather than API
 
 Games Master Version 0.0.4
 --------------------------

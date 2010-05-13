@@ -1,5 +1,6 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.ocx"
+Object = "{248DD890-BB45-11CF-9ABC-0080C7E7B78D}#1.0#0"; "mswinsck.ocx"
 Begin VB.MDIForm frmMain 
    BackColor       =   &H8000000C&
    Caption         =   "GalaxyNG Games Master"
@@ -10,6 +11,20 @@ Begin VB.MDIForm frmMain
    Icon            =   "frmMain.frx":0000
    LinkTopic       =   "MDIForm1"
    StartUpPosition =   2  'CenterScreen
+   Begin MSWinsockLib.Winsock wsSend 
+      Left            =   2220
+      Top             =   120
+      _ExtentX        =   741
+      _ExtentY        =   741
+      _Version        =   393216
+   End
+   Begin MSWinsockLib.Winsock wsGet 
+      Left            =   1620
+      Top             =   120
+      _ExtentX        =   741
+      _ExtentY        =   741
+      _Version        =   393216
+   End
    Begin GamesMaster.cSysTray Systray 
       Left            =   0
       Top             =   0
@@ -50,7 +65,7 @@ Begin VB.MDIForm frmMain
             AutoSize        =   2
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "4/01/2009"
+            TextSave        =   "29/08/2009"
             Key             =   "Date"
          EndProperty
          BeginProperty Panel4 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
@@ -59,7 +74,7 @@ Begin VB.MDIForm frmMain
             AutoSize        =   2
             Object.Width           =   1402
             MinWidth        =   1411
-            TextSave        =   "6:24"
+            TextSave        =   "12:03"
             Key             =   "Time"
          EndProperty
       EndProperty

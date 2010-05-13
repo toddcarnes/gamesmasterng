@@ -1,14 +1,14 @@
- Volume in drive C has no label.
- Volume Serial Number is B877-ADE1
+ Volume in drive C is System
+ Volume Serial Number is F84D-65CF
 
  Directory of C:\My Documents\Visual Studio Projects\GamesMaster\VB60Files
 
-13/12/2007  05:59    <DIR>          .
-13/12/2007  05:59    <DIR>          ..
+14/05/2010  07:35    <DIR>          .
+14/05/2010  07:35    <DIR>          ..
 08/03/1999  00:00           147,728 ASYCFILT.DLL
 31/05/1998  00:00            22,288 COMCAT.DLL
 22/05/2000  00:00           140,488 COMDLG32.OCX
-13/12/2007  05:59                 0 contents.txt
+14/05/2010  07:48                 0 contents.txt
 15/07/2000  00:00            77,824 MSBIND.DLL
 20/12/2002  14:02         1,077,336 MSCOMCTL.OCX
 15/07/2000  00:00           299,008 MSDBRPTR.DLL
@@ -16,11 +16,12 @@
 22/05/2000  00:00           438,976 MSHFLXGD.OCX
 15/07/2000  00:00           118,784 MSSTDFMT.DLL
 21/08/2000  11:22         1,388,544 msvbvm60.dll
+13/11/2008  10:25           128,840 MSWINSCK.ocx
 12/04/2000  00:00           598,288 OLEAUT32.DLL
 08/03/1999  00:00           164,112 OLEPRO32.DLL
 03/06/1999  00:00            17,920 STDOLE2.TLB
 09/03/2004  04:00           224,016 TABCTL32.OCX
 18/06/1998  00:00            89,360 VB5DB.DLL
 04/08/2004  00:56            82,944 ws2_32.dll
-              17 File(s)      5,023,808 bytes
-               2 Dir(s)  20,147,662,848 bytes free
+              18 File(s)      5,152,648 bytes
+               2 Dir(s)  935,532,924,928 bytes free

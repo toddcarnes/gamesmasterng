@@ -29,7 +29,8 @@ Public Event Receiving(ByVal lngEMail As Long, ByVal lngTotal As Long)
 Public Event Closing()
 Public Event Disconnected()
 
-Private WithEvents mobjSocket As CSocketMaster
+'Private WithEvents mobjSocket As CSocketMaster
+Private WithEvents mobjSocket As Winsock
 Attribute mobjSocket.VB_VarHelpID = -1
 
 Private muStatus As GM_Command
@@ -88,12 +89,13 @@ Private Sub Connect()
     RaiseEvent Connecting(Options.POPServer)
     RaiseEvent LogData("> open " & Options.POPServer & ":" & Options.POPServerPort & vbNewLine)
     If mobjSocket Is Nothing Then
-        Set mobjSocket = New CSocketMaster
+        'Set mobjSocket = New CSocketMaster
+        Set mobjSocket = MainForm.wsGet
     End If
     If mobjSocket.State <> sckClosed Then
         RaiseEvent LogData("GetMail.GetMail - mobjSocket.State is NOT Closed. Closing" & vbNewLine)
         Call WriteLogFile("GetMail.GetMail - mobjSocket.State is NOT Closed. Closing")
-        mobjSocket.CloseSck
+        mobjSocket.Close
         While mobjSocket.State <> sckClosed
             DoEvents
         Wend
@@ -111,7 +113,7 @@ Private Sub Disconnect()
     RaiseEvent LogData("> closed ")
     RaiseEvent Closing
     With mobjSocket
-        .CloseSck
+        .Close
     End With
 '    Set mobjSocket = Nothing
     muStatus = GM_CLOSE
@@ -307,7 +309,7 @@ End Sub
 
 Private Sub Class_Terminate()
     If Status <> GM_CLOSE Then
-        mobjSocket.CloseSck
+        mobjSocket.Close
     End If
     muStatus = GM_CLOSE
     Set mobjSocket = Nothing

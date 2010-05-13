@@ -26,8 +26,9 @@ Public Event Connecting(ByVal strServer As String)
 Public Event Sending(ByVal lngEMail As Long, ByVal lngTotal As Long)
 Public Event Closing()
 Public Event Disconnected()
-Private WithEvents mobjSocket As CSocketMaster
+Private WithEvents mobjSocket As Winsock
 Attribute mobjSocket.VB_VarHelpID = -1
+'Private WithEvents mobjSocket As CSocketMaster
 
 Private muStatus As SM_Command
 Public Enum SM_Command
@@ -95,12 +96,13 @@ Private Sub Connect()
     RaiseEvent Connecting(Options.SMTPServer)
     RaiseEvent LogData("> open " & Options.SMTPServer & ":" & Options.SMTPServerPort & vbNewLine)
     If mobjSocket Is Nothing Then
-        Set mobjSocket = New CSocketMaster
+        'Set mobjSocket = New CSocketMaster
+        Set mobjSocket = MainForm.wsSend
     End If
     If mobjSocket.State <> sckClosed Then
         RaiseEvent LogData("SendMail.Send - mobjSocket.State is NOT Closed. Closing" & vbNewLine)
         Call WriteLogFile("SendMail.Send - mobjSocket.State is NOT Closed. Closing")
-        mobjSocket.CloseSck
+        mobjSocket.Close
         While mobjSocket.State <> sckClosed
             DoEvents
         Wend
@@ -118,7 +120,7 @@ Private Sub Disconnect()
     RaiseEvent Closing
     RaiseEvent LogData("> closed ")
     With mobjSocket
-        .CloseSck
+        .Close
     End With
     muStatus = SM_CLOSE
 '    Set mobjSocket = Nothing
@@ -291,7 +293,7 @@ End Sub
 
 Private Sub Class_Terminate()
     If Status <> SM_CLOSE Then
-        mobjSocket.CloseSck
+        mobjSocket.Close
     End If
     muStatus = GM_CLOSE
     Set mobjSocket = Nothing

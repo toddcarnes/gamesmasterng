@@ -1,4 +1,4 @@
-#define AppDate "28 February 2009"
+#define AppDate "14 May 2010"
 #define Source SourcePath
 #define HomePage "http://sourceforge.net/projects/gamesmasterng/"
 #define vbFiles Source + "\VB60Files"
@@ -65,11 +65,13 @@ Source: {#vbFiles}\stdole2.tlb; DestDir: {sys}; Flags: restartreplace uninsnever
 Source: {#vbFiles}\msvbvm60.dll; DestDir: {sys}; Flags: restartreplace uninsneveruninstall sharedfile regserver
 Source: {#vbFiles}\oleaut32.dll; DestDir: {sys}; Flags: restartreplace uninsneveruninstall sharedfile regserver
 Source: {#vbFiles}\olepro32.dll; DestDir: {sys}; Flags: restartreplace uninsneveruninstall sharedfile regserver
+Source: {#vbFiles}\comcat.dll; DestDir: {sys}; Flags: restartreplace uninsneveruninstall sharedfile regserver
 Source: {#vbFiles}\asycfilt.dll; DestDir: {sys}; Flags: restartreplace uninsneveruninstall sharedfile
 ;VB6 Controls
 Source: {#vbFiles}\mshflxgd.OCX; DestDir: {sys}; Flags: restartreplace sharedfile uninsneveruninstall regserver
 Source: {#vbFiles}\tabctl32.OCX; DestDir: {sys}; Flags: restartreplace sharedfile uninsneveruninstall regserver
 Source: {#vbFiles}\mscomctl.OCX; DestDir: {sys}; Flags: restartreplace sharedfile uninsneveruninstall regserver
+Source: {#vbFiles}\MSWinSck.ocx; DestDir: {sys}; Flags: restartreplace sharedfile uninsneveruninstall regserver
 Source: {#vbFiles}\ws2_32.dll; DestDir: {sys}; Flags: restartreplace sharedfile uninsneveruninstall
 
 [INI]
