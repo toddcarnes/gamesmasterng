@@ -1,4 +1,4 @@
-#define AppDate "14 May 2010"
+#define AppDate "16 May 2010"
 #define Source SourcePath
 #define HomePage "http://sourceforge.net/projects/gamesmasterng/"
 #define vbFiles Source + "\VB60Files"
