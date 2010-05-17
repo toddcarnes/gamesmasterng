@@ -3,6 +3,7 @@ Requests and Wishlist
 
 Gamesmaster
 -----------
+Schedule by Set Days IE: MON/THU
 View Player details
 Change Game Details
 Change Player Details
