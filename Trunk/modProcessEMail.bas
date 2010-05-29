@@ -91,6 +91,7 @@ Private Sub AnalyseEMail(ByVal strEMail As String, _
             End If
             varBody(B) = strLine
         Else
+            strLine = Replace(strLine, vbTab, " ")
             j = InStr(1, strLine, " ")
             If j > 0 Then
                 strWord = Left(strLine, j - 1)
