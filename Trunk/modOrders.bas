@@ -26,9 +26,13 @@ Public Sub CheckOrders(ByVal strFrom As String, ByVal strEMail As String)
     Dim strMessage As String
     Dim strFileName As String
     Dim strFileName1 As String
+    Dim strDiag As String
     
+    On Error GoTo ErrorTag
+    strDiag = "Start"
     strSubject = "Major Problems Processing your orders email"
     
+    strDiag = "Extract Orders"
     ' extract just the orders
     lngStart = InStr(1, strEMail, "#galaxy", vbTextCompare)
     If lngStart = 0 Then
@@ -50,6 +54,7 @@ Public Sub CheckOrders(ByVal strFrom As String, ByVal strEMail As String)
         strOrders = Mid(strEMail, lngStart, lngEOL + 2 - lngStart)
     End If
     
+    strDiag = "Extract Header"
     ' Extract the header
     lngEOL = InStr(1, strOrders, vbCrLf)
     If lngEOL = 0 Then
@@ -138,6 +143,7 @@ Public Sub CheckOrders(ByVal strFrom As String, ByVal strEMail As String)
         GoTo Error
     End If
     
+    strDiag = "Process Orders"
     If lngTurn > objGame.NextTurn Then
         strSubject = "[GNG] " & objGame.GameName & _
                     " turn " & CStr(lngTurn) & _
@@ -154,10 +160,19 @@ Public Sub CheckOrders(ByVal strFrom As String, ByVal strEMail As String)
                     IIf(blnFinalOrders, " finalorders", "") & _
                     " forecast for " & objRace.RaceName
         ' check it
+        If Dir(Options.GalaxyNGHome & Options.OrdersFileName) <> "" Then
+            strDiag = "Initial Kill Orders File"
+            Kill Options.GalaxyNGHome & Options.OrdersFileName
+        End If
+        strDiag = "Save Orders File"
         Call SaveFile(Options.GalaxyNGHome & Options.OrdersFileName, strOrders)
+        strDiag = "RunGalaxyNG"
         Call RunGalaxyNG("-check " & strGame & " " & strRace & "<" & Options.OrdersFileName & " >" & Options.ForecastFileName)
+        strDiag = "Get Forecast"
         strMessage = GetFile(Options.GalaxyNGHome & Options.ForecastFileName)
+        strDiag = "Clean up Kill Orders File"
         Kill Options.GalaxyNGHome & Options.OrdersFileName
+        strDiag = "Clean up Kill Forecast File"
         Kill Options.GalaxyNGHome & Options.ForecastFileName
     End If
 
@@ -165,16 +180,27 @@ Public Sub CheckOrders(ByVal strFrom As String, ByVal strEMail As String)
     strFileName = Options.GalaxyNGOrders & strGame & "\" & strRace & "." & CStr(lngTurn)
     strFileName1 = Options.GalaxyNGOrders & strGame & "\" & strRace & "_final" & "." & CStr(lngTurn)
     
+    strDiag = "Kill Orders"
     If Dir(strFileName) <> "" Then Kill strFileName
+    strDiag = "Kill Final OrdersOrders"
     If Dir(strFileName1) <> "" Then Kill strFileName1
     If blnFinalOrders Then
+        strDiag = "Save Final Orders"
         Call SaveFile(strFileName1, strOrders)
     Else
+        strDiag = "Save Orders"
         Call SaveFile(strFileName, strOrders)
     End If
 
     GoTo Send
 
+ErrorTag:
+    Call WriteLogFile("Unexpected Error " & CStr(Err.Number) & " " & Err.Description & vbNewLine & _
+                        "in modOrders.CheckOrders(" & strDiag & ")")
+    MsgBox "Error " & CStr(Err.Number) & " " & Err.Description & vbNewLine & _
+            "in modOrders.CheckOrders(" & strDiag & ")", vbCritical + vbOKOnly, "Unexpected Error"
+    Stop
+    
 Error:
     strMessage = Options.GetMessage("Header") & _
                     strMessage & _

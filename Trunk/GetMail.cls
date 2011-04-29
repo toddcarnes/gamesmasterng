@@ -71,6 +71,7 @@ Private mlngMessages As Long
 Private mlngCurrentMessage As Long
 Private mstrEMail As String
 
+
 Public Property Get Status() As GM_Command
     Status = muStatus
 End Property
@@ -135,8 +136,8 @@ Private Sub ProcessData(ByVal strData As String)
     Dim strError As String
     Dim strSource As String
     Dim lngState As Long
-    Dim strFN As String
-    Dim lngPart As Long
+    Static strFN As String
+    Static lngPart As Long
     
     On Error GoTo ErrorTag
     DoEvents

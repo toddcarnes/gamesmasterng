@@ -106,7 +106,7 @@ Public Function ReportFileName() As String
 End Function
 
 Public Function CommandFileName() As String
-    CommandFileName = App.EXEName & "_execute.cmd"
+    CommandFileName = App.EXEName & "_execute_XX.cmd"
 End Function
 
 Public Function GalaxyNGNextTurn(ByVal Game As String) As String

@@ -24,7 +24,7 @@ OutputDir={#Source}\Distributions
 SourceDir={#Source}
 OutputBaseFilename=GamesMasterNG_SetupV{#AppVersion}
 MinVersion=4.1.1998,4.0.1381sp6
-AppCopyright=Copyright 2007, 2008, 2009 Ian Evans
+AppCopyright=Copyright 2007 -2011 Ian Evans
 UserInfoPage=false
 ChangesAssociations=true
 VersionInfoVersion={#FileVersion}
@@ -34,13 +34,10 @@ VersionInfoDescription=Games Master NG Installation V{#AppVersion}
 ShowLanguageDialog=no
 UninstallDisplayIcon={app}\GamesMaster.exe
 UninstallDisplayName=Games Master NG Version {#AppVersion}
-AppReadmeFile=
 UsePreviousUserInfo=false
-DisableDirPage=false
-DisableProgramGroupPage=false
 AllowRootDirectory=true
 AllowUNCPath=false
-VersionInfoCopyright=Copyright 2007, 2008 Ian Evans
+VersionInfoCopyright=Copyright 2007 - 2011 Ian Evans
 AlwaysShowDirOnReadyPage=true
 AlwaysShowGroupOnReadyPage=true
 
@@ -93,8 +90,8 @@ Name: {app}\statistics
 Filename: {app}\GamesMaster.exe; Parameters: -showoptions; WorkingDir: {app}; Flags: postinstall unchecked
 Filename: {app}\Changes.txt; Description: View Changes included in this version; Flags: shellexec postinstall; WorkingDir: {app}
 
-[_ISToolPreCompile]
-Name: {#Source}\Package\signcode.exe; Parameters: " -cn ""Ian Evans"" -s ""TrustedPeople"" -n ""Games Master NG Version {#AppVersion} ({#AppDate})"" -sp chain -t http://timestamp.verisign.com/scripts/timstamp.dll ""{#Source}\GamesMaster.exe"" -i {#HomePage}"
+[InnoIDE_PreCompile]
+Name: {#Source}\Package\signcode.exe; Parameters: " -cn ""Ian Evans"" -s ""TrustedPeople"" -n ""Games Master NG Version {#AppVersion} ({#AppDate})"" -sp chain -t http://timestamp.verisign.com/scripts/timstamp.dll ""{#Source}\GamesMaster.exe"" -i {#HomePage}"; Flags: AbortOnError; 
 
-[_ISToolPostCompile]
-Name: {#Source}\Package\signcode.exe; Parameters: " -cn ""Ian Evans"" -s ""TrustedPeople"" -n ""Games Master NG Setup Version {#AppVersion} ({#AppDate})"" -sp chain -t http://timestamp.verisign.com/scripts/timstamp.dll ""{#Source}\Distributions\GamesMasterNG_SetupV{#AppVersion}.exe"" -i {#HomePage}"; Flags: abortonerror
+[InnoIDE_PostCompile]
+Name: {#Source}\Package\signcode.exe; Parameters: " -cn ""Ian Evans"" -s ""TrustedPeople"" -n ""Games Master NG Setup Version {#AppVersion} ({#AppDate})"" -sp chain -t http://timestamp.verisign.com/scripts/timstamp.dll ""{#Source}\Distributions\GamesMasterNG_SetupV{#AppVersion}.exe"" -i {#HomePage}"; Flags: abortonerror; 

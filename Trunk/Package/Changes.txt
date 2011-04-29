@@ -1,6 +1,7 @@
 Games Master Version 0.0.7
 --------------------------
 Correct decoding of EMails when From: is followed by a tab instead of a space.
+Modified RunCommandFile to generate a unique name is it already exists and log an message.
 
 Games Master Version 0.0.5
 --------------------------

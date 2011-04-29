@@ -113,21 +113,34 @@ End Function
 Public Function RunCommandFile(ByVal strCommands) As Boolean
     Dim Ret As Long
     Dim intFN As Integer
+    Dim strCommandFilename As String
+    Dim intSuffix As Integer
+    
+    'Create a batch file with a unique name
+    intSuffix = 0
+    Do
+        intSuffix = intSuffix + 1
+        strCommandFilename = Replace(Options.CommandFileName, "XX", CStr(intSuffix))
+        If Dir(Options.CommandFileName) = "" Then
+            Exit Do
+        Else
+            Call WriteLogFile("RunCommandFile > " & strCommandFilename & " Exists.")
+        End If
+    Loop
     
     ' Write a command file with the commands wanted
     intFN = FreeFile
-    If Dir(Options.CommandFileName) <> "" Then
-        Kill Options.CommandFileName
-    End If
-    Open Options.CommandFileName For Output As intFN
+    Open strCommandFilename For Output As intFN
     Print #intFN, strCommands;
     Close intFN
     
     'Run the command file and wait for completion
-    Call ShellWait(Options.CommandFileName, SW_HIDE)
+    Call ShellWait(strCommandFilename, SW_HIDE)
+    
     
     'Delete the command file
-    Kill Options.CommandFileName
+    On Error Resume Next
+    Kill strCommandFilename
 End Function
 
 Public Function GetAddress(ByVal strEMail As String) As String
